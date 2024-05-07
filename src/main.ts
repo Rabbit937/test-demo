@@ -2,9 +2,9 @@ import { createApp } from "vue";
 import App from "./App.vue";
 
 import router from "./router";
-import store from './stores'
+import store from "./stores";
 
-import './styles/main.css'
+import "./styles/main.css";
 
 import "virtual:uno.css";
 import "@unocss/reset/normalize.css";

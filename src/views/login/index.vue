@@ -5,6 +5,5 @@
 </template>
 
 <script setup lang="ts">
-import Form from './components/form.vue'
-
+import Form from "./components/form.vue";
 </script>

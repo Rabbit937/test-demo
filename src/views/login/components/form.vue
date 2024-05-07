@@ -36,19 +36,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
-import type { FormInstance, FormRules } from 'element-plus'
-import { loginApi } from '@/api/modules/login';
-import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/modules/user';
+import { ref, reactive } from "vue";
+import type { FormInstance, FormRules } from "element-plus";
+import { loginApi } from "@/api/modules/login";
+import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/modules/user";
 
 const router = useRouter();
 const userStore = useUserStore();
 
 const loginForm = reactive({
-    username: '',
-    password: ''
-})
+	username: "",
+	password: "",
+});
 
 const loginFormRef = ref<FormInstance>();
 
@@ -58,66 +58,66 @@ const loading = ref(false);
 
 // 验证username函数
 function validateUsername(rules: any, value: string, callback: any) {
-    if (value === '') {
-        callback(new Error("帐号不能为空！"));
-    } else {
-        callback();
-    }
+	if (value === "") {
+		callback(new Error("帐号不能为空！"));
+	} else {
+		callback();
+	}
 }
 
 // 验证password函数
 function validatePassword(rules: any, value: string, callback: any) {
-    if (value === '') {
-        return callback(new Error("密码不能为空！"));
-    }
+	if (value === "") {
+		return callback(new Error("密码不能为空！"));
+	}
 
-    setTimeout(() => {
-        if (value.length < 6) {
-            callback(new Error("请输入不小于6位的密码！"));
-        } else {
-            if (value.length > 18) {
-                callback(new Error("请输入不大于18位的密码！"));
-            } else {
-                callback();
-            }
-        }
-    }, 1000);
+	setTimeout(() => {
+		if (value.length < 6) {
+			callback(new Error("请输入不小于6位的密码！"));
+		} else {
+			if (value.length > 18) {
+				callback(new Error("请输入不大于18位的密码！"));
+			} else {
+				callback();
+			}
+		}
+	}, 1000);
 }
 
 // 表单校验规则
 const loginRules = reactive<FormRules<typeof loginForm>>({
-    username: [{ validator: validateUsername, trigger: "blur" }],
-    password: [{ validator: validatePassword, trigger: "blur" }],
+	username: [{ validator: validateUsername, trigger: "blur" }],
+	password: [{ validator: validatePassword, trigger: "blur" }],
 });
 
 // 检查大小写函数
 const checkCapslock = (e: KeyboardEvent) => {
-    const { key } = e;
-    capsTooltip.value = Boolean(
-        key && key.length === 1 && key >= "A" && key <= "Z",
-    );
+	const { key } = e;
+	capsTooltip.value = Boolean(
+		key && key.length === 1 && key >= "A" && key <= "Z",
+	);
 };
 
 // 提交表单函数
 const submitForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return;
-    formEl.validate(async (valid) => {
-        if (!valid) return;
-        loading.value = true;
+	if (!formEl) return;
+	formEl.validate(async (valid) => {
+		if (!valid) return;
+		loading.value = true;
 
-        try {
-            const { data } = await loginApi({ ...loginForm });
-            userStore.setToken(data.access_token);
-            userStore.setUserInfo({
-                id: data.id,
-                frid: data.frid,
-                rname: data.rname,
-                uname: data.uname,
-            });
-            router.push("/");
-        } finally {
-            loading.value = false;
-        }
-    });
+		try {
+			const { data } = await loginApi({ ...loginForm });
+			userStore.setToken(data.access_token);
+			userStore.setUserInfo({
+				id: data.id,
+				frid: data.frid,
+				rname: data.rname,
+				uname: data.uname,
+			});
+			router.push("/");
+		} finally {
+			loading.value = false;
+		}
+	});
 };
 </script>

@@ -7,21 +7,18 @@
 </template>
 
 <script setup lang="ts">
-
 interface INav {
-    path: string
-    title: string
-    disabled?: boolean
+	path: string;
+	title: string;
+	disabled?: boolean;
 }
 
 interface Props {
-    navList: INav[]
-    activeIndex: string
+	navList: INav[];
+	activeIndex: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {})
-
-
+const props = withDefaults(defineProps<Props>(), {});
 </script>
 
 <style scoped>

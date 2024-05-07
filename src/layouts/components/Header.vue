@@ -10,33 +10,35 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import HeaderNav from './HeaderNav.vue';
+import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
+import HeaderNav from "./HeaderNav.vue";
 
+const route = useRoute();
+console.log(route.meta);
 
 interface INav {
-    path: string
-    title: string
-    disabled?: boolean
+	path: string;
+	title: string;
+	disabled?: boolean;
 }
 
 const navList = ref<INav[]>([
-    {
-        path: '/home',
-        title: '首页'
-    },
-    {
-        path: '/promotion',
-        title: '推广'
-    },
-    {
-        path: '/material',
-        title: '素材'
-    },
-])
+	{
+		path: "/home",
+		title: "首页",
+	},
+	{
+		path: "/promotion",
+		title: "推广",
+	},
+	{
+		path: "/material",
+		title: "素材",
+	},
+]);
 
-const activeIndex = ref()
-
-
-
+const activeIndex = computed(() =>
+	String(route.meta.activeIndex ? route.meta.activeIndex : route.path),
+);
 </script>

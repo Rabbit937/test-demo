@@ -1,10 +1,10 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
-import homeRoute from './routes/homeRoute'
-import promotionRoute from './routes/promotionRoute'
-import materialRoute from './routes/materialRoute'
+import homeRoute from "./routes/homeRoute";
+import promotionRoute from "./routes/promotionRoute";
+import materialRoute from "./routes/materialRoute";
 
-export const Layout = () => import('@/layouts/index.vue')
+export const Layout = () => import("@/layouts/index.vue");
 
 const router = createRouter({
 	history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -15,10 +15,10 @@ const router = createRouter({
 			component: () => import("@/views/login/index.vue"),
 		},
 		{
-			path: '/',
+			path: "/",
 			component: Layout,
-			redirect: '/promotion',
-			children: [...[homeRoute], ...[promotionRoute], ...[materialRoute]]
+			redirect: "/promotion",
+			children: [...[homeRoute], ...[promotionRoute], ...[materialRoute]],
 		},
 	],
 });
