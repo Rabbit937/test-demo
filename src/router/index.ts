@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import homeRoute from './routes/homeRoute'
-// import promotionRoute from './routes/promotionRoute'
-// import materialRoute from './routes/materialRoute'
+import promotionRoute from './routes/promotionRoute'
+import materialRoute from './routes/materialRoute'
 
 export const Layout = () => import('@/layouts/index.vue')
 
@@ -17,9 +17,8 @@ const router = createRouter({
 		{
 			path: '/',
 			component: Layout,
-			redirect: '/home',
-			children: [...[homeRoute]]
-			// children: [...[homeRoute], ...[promotionRoute], ...[materialRoute]]
+			redirect: '/promotion',
+			children: [...[homeRoute], ...[promotionRoute], ...[materialRoute]]
 		},
 	],
 });

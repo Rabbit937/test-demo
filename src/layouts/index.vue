@@ -6,7 +6,7 @@
             </el-header>
             <el-container style="background-color: #f8f8f9">
                 <el-aside width="160px" v-if="showSidebar">
-                    <Sidebar :default-active="defaultActive" :menu-items="menuIten"></Sidebar>
+                    <Sidebar :default-active="defaultActive" :menu-items="sidebarList"></Sidebar>
                 </el-aside>
                 <el-main>
                     <RouterView></RouterView>
@@ -27,22 +27,23 @@ import homeRoute from '@/router/routes/homeRoute'
 import materialRoute from '@/router/routes/materialRoute'
 import promotionRoute from '@/router/routes/promotionRoute'
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const hasRoutes: Record<string, any> = {
     home: homeRoute,
-    // material: materialRoute,
-    // promotion: promotionRoute
+    material: materialRoute,
+    promotion: promotionRoute
 }
 
 const route = useRoute()
 const routeTitle = computed(() => (route.meta.title ? route.meta.title : route.path) as string)
 const showSidebar = ref(false)
 const defaultActive = ref('')
-const menuIten = ref()
+const sidebarList = ref()
 
 watchEffect(() => {
-    // showSidebar.value = hasRoutes[routeTitle.value]?.children.length > 0 ? true : false
-    // defaultActive.value = route.path
-    // menuIten.value = hasRoutes[routeTitle.value]?.children
+    showSidebar.value = Boolean(hasRoutes[routeTitle.value]?.children.length > 0)
+    defaultActive.value = route.path
+    sidebarList.value = hasRoutes[routeTitle.value]?.children
 })
 </script>
 
