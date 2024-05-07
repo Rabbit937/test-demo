@@ -1,0 +1,30 @@
+@import './reset.css';
+@import './base.css';
+
+body {
+    min-height: 100vh;
+}
+
+#app {
+    height: 100vh;
+}
+
+.login-bg {
+    background-color: #2d3a4b;
+}
+
+.p-160px-35px-0 {
+    padding: 160px 35px 0;
+}
+
+.m-0-a {
+    margin: 0 auto;
+}
+
+.light_gray {
+    color: #eee;
+}
+
+.m-0px-auto-40px-auto {
+    margin: 0px auto 40px auto;
+}
