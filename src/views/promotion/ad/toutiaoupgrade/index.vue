@@ -2,7 +2,8 @@
     <el-row class="flex grid-justify-between flex-items-center pl-12px pr-12px"
         style="background-color: #fff;border-bottom: 1px solid #dcdfe6;">
         <el-col :span="6">
-            <el-menu :default-active="activeIndex" mode="horizontal" style="border-bottom: 0 !important;">
+            <el-menu :default-active="activeIndex" mode="horizontal" style="border-bottom: 0 !important;"
+                @select="selectMenu">
                 <el-menu-item :index="item.path" v-for="(item, index) in navList" :key="index"
                     :disabled="item.disabled">
                     {{ item.title }}
@@ -30,10 +31,10 @@
 
 
 <script lang="ts" setup>
-import { ref, shallowRef, watchEffect } from 'vue'
-import account from './components/account.vue';
-import project from './components/project.vue';
-import advertising from './components/advertising.vue';
+import { ComponentCustomOptions, onMounted, ref, shallowRef } from 'vue'
+import AccountVue from './components/account.vue';
+import ProjectVue from './components/project.vue';
+import AdvertisingVue from './components/advertising.vue';
 import type { INav } from '@/layouts/interface/header.type'
 
 const navList = ref<INav[]>([
@@ -51,13 +52,25 @@ const navList = ref<INav[]>([
     },
 ]);
 
-const activeIndex = ref('account')
-const activeComponent = shallowRef(account)
+type Key = 'account' | 'project' | 'advertising'
 
-watchEffect(() => {
-    console.log(activeIndex.value)
-    // activeComponent.value = project;
+const componentList: Record<Key, ComponentCustomOptions> = {
+    account: AccountVue,
+    project: ProjectVue,
+    advertising: AdvertisingVue
+}
+
+const activeIndex = ref<Key>('account')
+const activeComponent = shallowRef()
+
+onMounted(() => {
+    activeComponent.value = componentList[activeIndex.value];
 })
+
+const selectMenu = (key: Key) => {
+    const component = componentList[key]
+    activeComponent.value = component;
+}
 
 </script>
 
