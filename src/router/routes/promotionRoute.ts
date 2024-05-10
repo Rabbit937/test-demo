@@ -24,19 +24,7 @@ const promotionRoute = {
 						index: "/promotion/ad/toutiaoupgrade",
 					},
 					component: () =>
-						import("@/views/promotion/ad/toutiaoupgrade/index.vue"),
-					// children: [
-					// 	{
-					// 		path: 'media',
-					// 		component: () => import('@/views/promotion/ad/toutiaoupgrade/media.vue'),
-					// 		meta: {
-					// 			title: 'promotion',
-					// 			name: '账户',
-					// 			index: '/promotion/ad/toutiaoupgrade/media'
-					// 		}
-					// 	},
-
-					// ]
+						import("@/views/promotion/ad/toutiaoupgrade/index.vue")
 				},
 			],
 		},

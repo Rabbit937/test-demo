@@ -12,12 +12,13 @@
         </el-col>
 
         <el-col :span="1.5">
-            <el-button>
+            <el-button @click="OpenBatch">
                 批量新建
             </el-button>
-            <el-button>
+            <el-button class="mr-12px">
                 使用已有策略新建
             </el-button>
+            <DatePicker v-model:date-value="dateValue" />
         </el-col>
     </el-row>
 
@@ -31,11 +32,13 @@
 
 
 <script lang="ts" setup>
-import { ComponentCustomOptions, onMounted, ref, shallowRef } from 'vue'
+import { ComponentCustomOptions, onMounted, ref, shallowRef, watch } from 'vue'
 import AccountVue from './components/account.vue';
 import ProjectVue from './components/project.vue';
 import AdvertisingVue from './components/advertising.vue';
 import type { INav } from '@/layouts/interface/header.type'
+import DatePicker from '@/components/DatePicker.vue';
+import { useRouter } from 'vue-router';
 
 const navList = ref<INav[]>([
     {
@@ -72,6 +75,20 @@ const selectMenu = (key: Key) => {
     activeComponent.value = component;
 }
 
+const dateValue = ref([new Date(), new Date()])
+console.log(dateValue)
+
+watch(dateValue, (newDateValue, oldDateValue) => {
+    console.log(newDateValue, oldDateValue)
+})
+
+
+const router = useRouter();
+
+const OpenBatch = () => {
+    const routeData = router.resolve({ path: '/batch' });
+    window.open(routeData.href, '_blank');
+}
 </script>
 
 <style></style>

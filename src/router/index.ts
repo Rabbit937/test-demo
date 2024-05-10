@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import homeRoute from "./routes/homeRoute";
 import promotionRoute from "./routes/promotionRoute";
 import materialRoute from "./routes/materialRoute";
+import batchRoute from './routes/batchRoute'
 import { useUserStore } from "@/stores/modules/user";
 import NProgress from "@/config/nprogress";
 
@@ -20,7 +21,7 @@ const router = createRouter({
 			path: "/",
 			component: Layout,
 			redirect: "/promotion",
-			children: [...[homeRoute], ...[promotionRoute], ...[materialRoute]],
+			children: [...[homeRoute], ...[promotionRoute], ...[batchRoute], ...[materialRoute]],
 		},
 	],
 });

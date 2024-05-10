@@ -64,9 +64,9 @@
         <!-- 表格 -->
         <el-col style="background-color: #fff;">
             <el-table :data="tableData" height="600" style="width: 100%">
-                <el-table-column prop="date" label="Date" width="180" />
-                <el-table-column prop="name" label="Name" width="180" />
-                <el-table-column prop="address" label="Address" />
+                <el-table-column prop="advertiser_nick" label="账户名称" />
+                <el-table-column prop="advertiser_id" label="账户ID" />
+                <el-table-column prop="address" label="备注" />
             </el-table>
         </el-col>
         <!-- 分页 -->
@@ -81,62 +81,16 @@
 
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue';
 import { Search } from '@element-plus/icons-vue'
+import listJson from '@/mocks/list.json'
 
-const tableData = [
-    {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-        date: '2016-05-04',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-        date: '2016-05-01',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-        date: '2016-05-08',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-        date: '2016-05-06',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-    },
-    {
-        date: '2016-05-07',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-    },
-]
 
-const currentPage1 = ref(5)
-const currentPage2 = ref(5)
-const currentPage3 = ref(5)
-const currentPage4 = ref(4)
-const pageSize2 = ref(100)
-const pageSize3 = ref(100)
-const pageSize4 = ref(100)
-const small = ref(false)
-const background = ref(false)
-const disabled = ref(false)
+const tableData = ref()
 
-const handleSizeChange = (val: number) => {
-    console.log(`${val} items per page`)
-}
-const handleCurrentChange = (val: number) => {
-    console.log(`current page: ${val}`)
-}
+onMounted(() => {
+    tableData.value = listJson.data.list;
+})
+
+
 </script>
