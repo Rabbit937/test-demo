@@ -226,7 +226,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import Drawer from '@/components/Drawer.vue'
 
 
@@ -239,9 +239,7 @@ const handleDrawerClose = () => {
     drawerOptions.visible = false
 }
 
-const handleShowDrawer = () => {
-    drawerOptions.visible = true
-}
+
 
 const boxCardItem = ref([
     {
@@ -278,4 +276,5 @@ const handleBoxCardItem = (id: number) => {
         }
     })
 }
+
 </script>
