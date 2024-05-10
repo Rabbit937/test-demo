@@ -40,7 +40,7 @@
       </el-row>
       <el-row class="flex">
         <el-col :span="1.5">
-          <SelectVue :prefix-title="'媒体账户'" @handle-change="handleChangeAccount">
+          <SelectAccountVue :prefix-title="'媒体账户'" @handle-change="handleChangeAccount">
             <span v-if="true" class="color-[#c6c6c6]"
               @click="showSelectPopover({ title: '选择媒体账户', type: 1 })">请选择媒体账户</span>
             <!-- 显示账户信息 -->
@@ -83,10 +83,10 @@
                 </template>
               </el-popover>
             </template>
-          </SelectVue>
+          </SelectAccountVue>
         </el-col>
         <el-col :span="1.5" class="ml-16px">
-          <SelectVue :prefix-title="'规则配置'" @handle-change="handleChangeRuleConfiguration">
+          <SelectAccountVue :prefix-title="'规则配置'" @handle-change="handleChangeRuleConfiguration">
             <span class="inline-block w-110px">
               <label class="color-[#c6c6c6]">项目规则:</label>
               指定数量
@@ -95,7 +95,7 @@
               <label class="color-[#c6c6c6]">项目规则:</label>
               指定数量
             </span>
-          </SelectVue>
+          </SelectAccountVue>
         </el-col>
       </el-row>
     </el-col>
@@ -348,6 +348,7 @@
 
 <script setup lang="ts">
 import { computed, ref, reactive } from 'vue'
+import SelectAccountVue from './components/SelectAccount.vue';
 
 const transform = ref('')
 const dynamicStyles = computed(() => ({
@@ -365,7 +366,7 @@ const hidePopover = () => {
 const gridData: any[] = []
 
 const selectPopover = reactive({
-  title: 'nihao',
+  title: '',
   visable: false,
   width: 0,
   type: 1
