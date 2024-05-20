@@ -1,6 +1,6 @@
 <template>
     <div class="flex grid-items-center font-size-12px b-1px b-[#e8eaec] border-style-solid">
-        <label class="w-75px color-[#333] line-height-30px text-center b-r-1px b-[#e8eaec] border-style-solid">{{
+        <label class="w-75px color-[#333] line-height-30px text-center" style="border-right: 1px solid #e8eaec;">{{
             props.prefixTitle }}</label>
         <div class="flex flex-nowrap grid-items-center min-w-200px max-w-280px h-100% pr-8px pl-8px cursor-pointer">
             <slot></slot>
@@ -8,6 +8,7 @@
         <el-button type="primary" link class="ml-8px mr-8px" size="small" @click="handleChange">
             更改
         </el-button>
+
     </div>
 </template>
 
