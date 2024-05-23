@@ -9,7 +9,9 @@
                     <Sidebar :default-active="defaultActive" :menu-items="sidebarList"></Sidebar>
                 </el-aside>
                 <el-main>
-                    <RouterView></RouterView>
+                    <el-scrollbar :height="elMainHeight">
+                        <RouterView></RouterView>
+                    </el-scrollbar>
                 </el-main>
             </el-container>
         </el-container>
@@ -47,6 +49,11 @@ watchEffect(() => {
     defaultActive.value = route.path;
     sidebarList.value = hasRoutes[routeTitle.value]?.children;
 });
+
+
+// 计算页面高度
+const elMainHeight = computed(() => document.body.clientHeight - 64);
+
 </script>
 
 <style scoped>

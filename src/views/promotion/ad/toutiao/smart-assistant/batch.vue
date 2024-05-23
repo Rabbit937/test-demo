@@ -1,21 +1,27 @@
 <template>
-  <el-row class="flex grid-justify-between line-height-48px shadow-[0_2px_4px_0px_rgba(0,0,0,.08)]">
+  <!-- 标题 -->
+  <el-row class="flex grid-justify-between line-height-48px shadow-[0_2px_4px_0px_rgba(0,0,0,.08)]"
+    style="background-color: #fff;">
     <el-col :span="1.5" class="ml-16px">
-      <span class="text-black font-size-14px font-700">程序化批量/巨量广告</span>
+      <el-text class="text-black font-size-14px font-700">程序化批量/巨量广告</el-text>
     </el-col>
     <el-col :span="1.5" class="flex flex-items-center mr-16px">
-      <img
-        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCI+PHBhdGggZmlsbD0iIzE5N2FmYiIgZD0iTTgzMS44MjUgNjMuOTRIMTkxLjk0Yy03MC42OTIgMC0xMjggNTcuMzA4LTEyOCAxMjh2NjM5Ljg4NWMwIDcwLjY5MiA1Ny4zMDggMTI4IDEyOCAxMjhoNjM5Ljg4NWM3MC42OTIgMCAxMjgtNTcuMzA4IDEyOC0xMjhWMTkxLjk0YzAtNzAuNjkyLTU3LjMwOC0xMjgtMTI4LTEyOHpNODk1Ljg4NSA4MzJhNjMuODM1IDYzLjgzNSAwIDAgMS02My45NzMgNjMuODg2SDE5Mi4wODhjLTE3LjExMiAwLTMzLjI3LTYuNTc1LTQ1LjM3Mi0xOC42NzZzLTE4LjgzNi0yOC4wOTgtMTguODM2LTQ1LjIxVjE5MmE2NC4yMzYgNjQuMjM2IDAgMCAxIDY0LjIwOC02NC4xMmg2MzkuODI0QTY0LjAzOCA2NC4wMzggMCAwIDEgODk1Ljg4NSAxOTJWODMyeiIvPjxwYXRoIGZpbGw9IiMxOTdhZmIiIGQ9Ik03OTEuOTk4IDM1MS44NTJINTM2YTMxLjk3IDMxLjk3IDAgMCAwIDAgNjMuOTRoMjU2YTMxLjk3IDMxLjk3IDAgMCAwIDAtNjMuOTR6bTAgMjU2LjEyMUg1MzZhMzEuOTcgMzEuOTcgMCAwIDAgMCA2My45NGgyNTZhMzEuOTcgMzEuOTcgMCAwIDAgMC02My45NHptLTQ0Ny45OTYtNzkuOTc1Yy02MS44NTYgMC0xMTEuOTg2IDUwLjE0NC0xMTEuOTg2IDExMS45ODVTMjgyLjE2IDc1MS45NyAzNDQuMDAyIDc1MS45N3MxMTEuOTg1LTUwLjE0NCAxMTEuOTg1LTExMS45ODYtNTAuMTMtMTExLjk4NS0xMTEuOTg1LTExMS45ODV6bTMzLjk4MiAxNDUuOTgyYTQ4LjA0NSA0OC4wNDUgMCAxIDEgMTQuMDg4LTMzLjk4MiA0Ny43NDYgNDcuNzQ2IDAgMCAxLTE0LjA4OCAzMy45ODZ6bTM5LjQxMi0zNzYuNTg2TDMxMS45OTkgNDAyLjc4N2wtNDEuMzkxLTQxLjM5NWEzMS45NyAzMS45NyAwIDEgMC00NS4yMTMgNDUuMjEzbDYzLjk5NyA2NC4wMDJhMzEuOTcgMzEuOTcgMCAwIDAgNDUuMjE0IDBsMTI4LTEyOGEzMS45NyAzMS45NyAwIDAgMC00NS4yMS00NS4yMTN6Ii8+PC9zdmc+"
-        class="w-18px h-18px mr-8px" />
-      <span class="text-blue font-size-12px font-600">查看任务管理</span>
+      <el-button text class="font-size-12px font-600" type="primary">
+        <img
+          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCI+PHBhdGggZmlsbD0iIzE5N2FmYiIgZD0iTTgzMS44MjUgNjMuOTRIMTkxLjk0Yy03MC42OTIgMC0xMjggNTcuMzA4LTEyOCAxMjh2NjM5Ljg4NWMwIDcwLjY5MiA1Ny4zMDggMTI4IDEyOCAxMjhoNjM5Ljg4NWM3MC42OTIgMCAxMjgtNTcuMzA4IDEyOC0xMjhWMTkxLjk0YzAtNzAuNjkyLTU3LjMwOC0xMjgtMTI4LTEyOHpNODk1Ljg4NSA4MzJhNjMuODM1IDYzLjgzNSAwIDAgMS02My45NzMgNjMuODg2SDE5Mi4wODhjLTE3LjExMiAwLTMzLjI3LTYuNTc1LTQ1LjM3Mi0xOC42NzZzLTE4LjgzNi0yOC4wOTgtMTguODM2LTQ1LjIxVjE5MmE2NC4yMzYgNjQuMjM2IDAgMCAxIDY0LjIwOC02NC4xMmg2MzkuODI0QTY0LjAzOCA2NC4wMzggMCAwIDEgODk1Ljg4NSAxOTJWODMyeiIvPjxwYXRoIGZpbGw9IiMxOTdhZmIiIGQ9Ik03OTEuOTk4IDM1MS44NTJINTM2YTMxLjk3IDMxLjk3IDAgMCAwIDAgNjMuOTRoMjU2YTMxLjk3IDMxLjk3IDAgMCAwIDAtNjMuOTR6bTAgMjU2LjEyMUg1MzZhMzEuOTcgMzEuOTcgMCAwIDAgMCA2My45NGgyNTZhMzEuOTcgMzEuOTcgMCAwIDAgMC02My45NHptLTQ0Ny45OTYtNzkuOTc1Yy02MS44NTYgMC0xMTEuOTg2IDUwLjE0NC0xMTEuOTg2IDExMS45ODVTMjgyLjE2IDc1MS45NyAzNDQuMDAyIDc1MS45N3MxMTEuOTg1LTUwLjE0NCAxMTEuOTg1LTExMS45ODYtNTAuMTMtMTExLjk4NS0xMTEuOTg1LTExMS45ODV6bTMzLjk4MiAxNDUuOTgyYTQ4LjA0NSA0OC4wNDUgMCAxIDEgMTQuMDg4LTMzLjk4MiA0Ny43NDYgNDcuNzQ2IDAgMCAxLTE0LjA4OCAzMy45ODZ6bTM5LjQxMi0zNzYuNTg2TDMxMS45OTkgNDAyLjc4N2wtNDEuMzkxLTQxLjM5NWEzMS45NyAzMS45NyAwIDEgMC00NS4yMTMgNDUuMjEzbDYzLjk5NyA2NC4wMDJhMzEuOTcgMzEuOTcgMCAwIDAgNDUuMjE0IDBsMTI4LTEyOGEzMS45NyAzMS45NyAwIDAgMC00NS4yMS00NS4yMTN6Ii8+PC9zdmc+"
+          class="w-18px h-18px mr-8px" />
+        查看任务管理
+      </el-button>
     </el-col>
   </el-row>
 
+  <!-- 功能区 -->
   <el-row class="pl-20px pr-20px mt-16px mb-24px">
-    <el-col style="background-color: #fbfcfd">
+    <el-col class="pb-16px bg-#fbfcfd"
+      style="border: solid #e8eaec;border-width: 1px 1px 0;border-radius: 4px 4px 0 0;">
       <el-row class="flex grid-justify-between line-height-48px pl-16px pr-16px">
         <el-col :span="1.5">
-          <el-button type="primary" class="w-160px h-32px">选择策略</el-button>
+          <el-button type="primary" class="w-160px h-32px" @click="selectStrategy">选择策略</el-button>
         </el-col>
         <el-col :span="1.5" class="flex flex-items-center font-size-12px font-400 cursor-pointer">
           <el-popover :width="528" trigger="click" @show="showPopover" @hide="hidePopover">
@@ -38,7 +44,7 @@
           </el-popover>
         </el-col>
       </el-row>
-      <el-row class="flex">
+      <el-row class="flex p-16px pb-0px">
         <el-col :span="1.5">
           <SelectAccountVue :prefix-title="'媒体账户'" @handle-change="handleChangeAccount">
             <span v-if="true" class="color-[#c6c6c6]"
@@ -99,7 +105,7 @@
         </el-col>
       </el-row>
     </el-col>
-    <el-col>
+    <el-col class="bg-#fff">
       <table class="font-size-12px w-100%">
         <colgroup>
           <col style="width: 25%" />
@@ -315,16 +321,9 @@
         </tfoot>
       </table>
     </el-col>
-    <el-col class="h-49px" style="
-          padding: 8px 16px;
-          background-color: #fff;
-          border: 1px solid #e8eaec;
-          border-top: none;
-          border-radius: 0 0 4px 4px;
-        ">
-    </el-col>
   </el-row>
 
+  <!-- 功能按钮 -->
   <el-row class="pl-20px pr-20px mt-16px mb-24px">
     <el-col class="flex grid-justify-center p-24px" style="border: 1px solid #e8eaec">
       <el-button type="primary" class="w-120px">保存策略组</el-button>
@@ -344,11 +343,17 @@
       </el-empty>
     </el-col>
   </el-row>
+
+
+  <!-- 选择策略 -->
+  <SelectStrategyDialog :visible="selectStrategyState.visible" />
 </template>
 
 <script setup lang="ts">
 import { computed, ref, reactive } from 'vue'
 import SelectAccountVue from './components/SelectAccount.vue';
+import SelectStrategyDialog from './components/SelectStrategyDialog.vue';
+
 
 const transform = ref('')
 const dynamicStyles = computed(() => ({
@@ -387,11 +392,22 @@ const handleChangeAccount = () => {
 const handleChangeRuleConfiguration = () => {
   showSelectPopover({ title: '规则配置', type: 2 })
 }
+
 const infoOrNew = ref('new')
 
 // 新建项目和项目信息切换
 const handleChangeInfoOrNew = () => (infoOrNew.value === 'new' ? 'new' : 'info')
 
+
+
+const selectStrategyState = reactive({
+  visible: false
+})
+
+// 选择策略
+const selectStrategy = () => {
+  selectStrategyState.visible = true
+}
 </script>
 
 <style scoped>

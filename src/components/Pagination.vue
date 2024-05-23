@@ -1,18 +1,9 @@
 <template>
   <el-config-provider :locale="zhCn">
-    <div class="pt-18px pb-14px" style="border-top: 1px solid #e8eaec">
-      <el-pagination
-        class="pl-16px"
-        :current-page="currentPage"
-        :page-size="pageSize"
-        :total="total"
-        layout="total, sizes, prev, pager, next, jumper"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :page-sizes="props.pageSizes"
-      >
-      </el-pagination>
-    </div>
+    <el-pagination class="pl-16px" :current-page="currentPage" :page-size="pageSize" :total="total"
+      layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange" :page-sizes="props.pageSizes">
+    </el-pagination>
   </el-config-provider>
 </template>
 

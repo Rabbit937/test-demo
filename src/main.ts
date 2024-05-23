@@ -5,7 +5,6 @@ import router from "./router";
 import store from "./stores";
 
 import "./styles/main.css";
-
 import "virtual:uno.css";
 import "@unocss/reset/normalize.css";
 
