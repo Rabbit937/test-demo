@@ -2,7 +2,7 @@
     <el-drawer :model-value="props.visible" :append-to-body="true" :open-delay="100" :show-close="true"
         :close-on-click-modal="true" :before-close="handleClose" :size="props.size" :with-header="false" lock-scroll
         style="background-color: rgb(240, 242, 245)">
-        <slot name="footer">
+        <slot name="header">
             <header style="
           position: relative;
           padding: 0 16px;
@@ -12,10 +12,7 @@
                 <div class="font-size-16px font-700 line-height-48px color-[#333]">新建项目</div>
             </header>
         </slot>
-
-
         <slot></slot>
-
         <slot name="footer">
             <footer class="pos-absolute bottom-0px left-0px w-100% h-70px pl-12px pt-16px pr-24px pb-16px"
                 style="background-color: #fff; border-top: 1px solid #e8eaec">
@@ -52,6 +49,7 @@ const handleClose = (done: () => void) => {
         })
         .catch(() => {
             // catch error
+            console.error('drawer component: fail')
         })
 }
 </script>

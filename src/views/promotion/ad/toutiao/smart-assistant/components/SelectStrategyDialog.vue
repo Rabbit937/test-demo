@@ -1,5 +1,5 @@
 <template>
-    <Dialog :visible="props.visible" :title="'选择已有策略'" @handleClose="handleDialogClose">
+    <Dialog :visible="visible" :title="'选择已有策略'" @handleClose="handleDialogClose">
         <el-row class="flex pl-16px pr-16px pt-12px pb-12px" style="border-bottom:2px solid #f8f8f9;">
             <el-col :span="1.5" class="mr-8px mb-8px">
                 <el-select clearable placeholder="全部" style="width: 240px" size="small">
@@ -58,8 +58,8 @@
                 <el-table-column property="address" label="投放类型" />
                 <el-table-column property="address" label="描述" />
                 <el-table-column property="address" label="操作">
-                    <el-button>复制</el-button>
-                    <el-button>删除</el-button>
+                    <el-button text type="primary" size="small">复制</el-button>
+                    <el-button text type="primary" size="small">删除</el-button>
                 </el-table-column>
             </el-table>
         </section>
@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { ref, watchEffect } from 'vue';
 import Dialog from '@/components/Dialog.vue';
 import { Search } from '@element-plus/icons-vue';
 import PaginationVue from '@/components/Pagination.vue'
@@ -80,11 +80,12 @@ interface IProps {
 }
 
 const props = withDefaults(defineProps<IProps>(), {})
+const emtis = defineEmits(['handleClose'])
+const visible = ref(props.visible)
 
-const StrategyState = reactive({
-    promotionalPurpose: ''
+watchEffect(() => {
+    visible.value = props.visible
 })
-
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const tableData: any[] = [
@@ -96,7 +97,12 @@ const tableData: any[] = [
 ]
 
 
-const handleDialogClose =    {
-
+const handleDialogClose = (done: string) => {
+    visible.value = false;
+    if (done === 'confirm') {
+        emtis("handleClose", 1);
+    } else {
+        emtis("handleClose", 0);
+    }
 }
 </script>

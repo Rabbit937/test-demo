@@ -346,13 +346,22 @@
 
 
   <!-- 选择策略 -->
-  <SelectStrategyDialog :visible="selectStrategyState.visible" />
+  <SelectStrategyDialog :visible="selectStrategyState.visible" @handleClose="handleSelectStrategyDialogClose" />
+
+  <!-- 选择媒体账户 -->
+  <SelectMediaAccountDialog :visible="true" />
+
+
+  <!-- 新建项目 -->
+  <NewProject />
 </template>
 
 <script setup lang="ts">
 import { computed, ref, reactive } from 'vue'
+import NewProject from './components/NewProject.vue';
 import SelectAccountVue from './components/SelectAccount.vue';
 import SelectStrategyDialog from './components/SelectStrategyDialog.vue';
+import SelectMediaAccountDialog from './components/SelectMediaAccountDialog.vue';
 
 
 const transform = ref('')
@@ -407,6 +416,14 @@ const selectStrategyState = reactive({
 // 选择策略
 const selectStrategy = () => {
   selectStrategyState.visible = true
+}
+
+const handleSelectStrategyDialogClose = (state: number) => {
+  if (state === 1) {
+    // 做弹窗确认的处理
+    console.log("收到确认")
+  }
+  selectStrategyState.visible = false;
 }
 </script>
 
