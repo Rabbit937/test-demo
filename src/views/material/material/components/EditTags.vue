@@ -44,94 +44,94 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch } from "vue";
 
-import { getTagsList, operateTag } from '@/api/modules/material'
-import Dialog from '@/components/DialogGG.vue'
-import Tags from './Tags.vue'
-import { ElMessage } from 'element-plus'
+import { getTagsList, operateTag } from "@/api/modules/material";
+import Dialog from "@/components/DialogGG.vue";
+import Tags from "./Tags.vue";
+import { ElMessage } from "element-plus";
 
 interface Props {
-  visable?: boolean
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  materialItem?: any
+	visable?: boolean;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	materialItem?: any;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  visable: false
-})
+	visable: false,
+});
 
-const emits = defineEmits(['handleClose'])
+const emits = defineEmits(["handleClose"]);
 
 const updateLabelState = reactive({
-  cascaderValue: [],
-  radioValue: '',
-  visable: props.visable,
-  title: '修改标签'
-})
+	cascaderValue: [],
+	radioValue: "",
+	visable: props.visable,
+	title: "修改标签",
+});
 
-const labelStateOptionsRef = ref()
+const labelStateOptionsRef = ref();
 
 // 获取标签列表
 const getTagsListFunc = async () => {
-  const res = await getTagsList({ type: 2 })
-  console.log(res)
+	const res = await getTagsList({ type: 2 });
+	console.log(res);
 
-  if (Number(res.state) === 1) {
-    labelStateOptionsRef.value = res.data
-  } else {
-    console.log(res.msg)
-  }
-}
+	if (Number(res.state) === 1) {
+		labelStateOptionsRef.value = res.data;
+	} else {
+		console.log(res.msg);
+	}
+};
 
 watch(
-  () => props.visable,
-  () => {
-    updateLabelState.visable = props.visable
-  }
-)
+	() => props.visable,
+	() => {
+		updateLabelState.visable = props.visable;
+	},
+);
 
 onMounted(() => {
-  getTagsListFunc()
-})
+	getTagsListFunc();
+});
 
-const newLabelVisable = ref(false)
+const newLabelVisable = ref(false);
 
 const showNewLabel = () => {
-  newLabelVisable.value = true
-}
+	newLabelVisable.value = true;
+};
 
 const handleTagClose = async () => {
-  getTagsListFunc()
-  newLabelVisable.value = false
-}
+	getTagsListFunc();
+	newLabelVisable.value = false;
+};
 
 const handleNewLabelClose = async (type: string) => {
-  if (type === 'confirm') {
-    console.log(updateLabelState.radioValue)
-    console.log(updateLabelState.cascaderValue)
+	if (type === "confirm") {
+		console.log(updateLabelState.radioValue);
+		console.log(updateLabelState.cascaderValue);
 
-    if (updateLabelState.radioValue === '') {
-      ElMessage.warning('请选择修改规则')
-      return
-    }
+		if (updateLabelState.radioValue === "") {
+			ElMessage.warning("请选择修改规则");
+			return;
+		}
 
-    if (updateLabelState.cascaderValue.length === 0) {
-      ElMessage.warning('请选择标签')
-      return
-    }
+		if (updateLabelState.cascaderValue.length === 0) {
+			ElMessage.warning("请选择标签");
+			return;
+		}
 
-    const res = await operateTag({
-      tag_id: updateLabelState.cascaderValue.map((item) => item[1]),
-      type: updateLabelState.radioValue,
-      mat_id: props.materialItem.material_id
-    })
+		const res = await operateTag({
+			tag_id: updateLabelState.cascaderValue.map((item) => item[1]),
+			type: updateLabelState.radioValue,
+			mat_id: props.materialItem.material_id,
+		});
 
-    updateLabelState.visable = false
-    emits('handleClose', { status: 'success', tagsList: res.data })
-  } else {
-    emits('handleClose', { status: 'fail' })
-    updateLabelState.visable = false
-  }
-}
+		updateLabelState.visable = false;
+		emits("handleClose", { status: "success", tagsList: res.data });
+	} else {
+		emits("handleClose", { status: "fail" });
+		updateLabelState.visable = false;
+	}
+};
 </script>

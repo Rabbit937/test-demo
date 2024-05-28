@@ -18,42 +18,46 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect } from "vue";
 
 interface Props {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  breadList: any
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  searchParams: any
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	breadList: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	searchParams: any;
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {});
 
-const emit = defineEmits(['handleClick'])
+const emit = defineEmits(["handleClick"]);
 
-const breadListRef = ref(props.breadList)
-const searchParams = ref(props.searchParams)
-const text = ref()
+const breadListRef = ref(props.breadList);
+const searchParams = ref(props.searchParams);
+const text = ref();
 
 watchEffect(() => {
-  breadListRef.value = props.breadList
-  searchParams.value = props.searchParams
-  console.log(searchParams.value)
+	breadListRef.value = props.breadList;
+	searchParams.value = props.searchParams;
+	console.log(searchParams.value);
 
-  if (searchParams.value) {
-    if (Number(searchParams.value.search_type) === 1) {
-      text.value = `搜索「专辑」： ${searchParams.value.keyword ? searchParams.value.keyword : '全部'}`
-    } else {
-      text.value = `搜索「文件夹」： ${searchParams.value.keyword ? searchParams.value.keyword : '全部'}`
-    }
-  } else {
-    text.value = ''
-  }
-})
+	if (searchParams.value) {
+		if (Number(searchParams.value.search_type) === 1) {
+			text.value = `搜索「专辑」： ${
+				searchParams.value.keyword ? searchParams.value.keyword : "全部"
+			}`;
+		} else {
+			text.value = `搜索「文件夹」： ${
+				searchParams.value.keyword ? searchParams.value.keyword : "全部"
+			}`;
+		}
+	} else {
+		text.value = "";
+	}
+});
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleBreadcrumbItem = (item: any, index: number) => {
-  breadListRef.value.splice(index + 1)
-  emit('handleClick', { type: 'breadcrumb', action: '', item })
-}
+	breadListRef.value.splice(index + 1);
+	emit("handleClick", { type: "breadcrumb", action: "", item });
+};
 </script>

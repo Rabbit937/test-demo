@@ -17,11 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import type { menuItem } from '../interface/header.type';
+import type { menuItem } from "../interface/header.type";
 
 interface Props {
-  menuItems?: menuItem[]
+	menuItems?: menuItem[];
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {});
 </script>

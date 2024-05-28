@@ -24,7 +24,7 @@ const promotionRoute = {
 						index: "/promotion/ad/toutiaoupgrade",
 					},
 					component: () =>
-						import("@/views/promotion/ad/toutiaoupgrade/index.vue")
+						import("@/views/promotion/ad/toutiaoupgrade/index.vue"),
 				},
 			],
 		},

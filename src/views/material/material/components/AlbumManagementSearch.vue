@@ -18,33 +18,33 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-import { Search } from '@element-plus/icons-vue'
+import { reactive } from "vue";
+import { Search } from "@element-plus/icons-vue";
 
-const emit = defineEmits(['handleClick'])
+const emit = defineEmits(["handleClick"]);
 
 const state = reactive({
-  keyword: '',
-  search_type: 1
-})
+	keyword: "",
+	search_type: 1,
+});
 
 const searchSelectList = [
-  {
-    label: '搜专辑',
-    value: 1
-  },
-  {
-    label: '搜文件夹',
-    value: 2
-  }
-]
+	{
+		label: "搜专辑",
+		value: 1,
+	},
+	{
+		label: "搜文件夹",
+		value: 2,
+	},
+];
 
 const handleSearch = () => {
-  emit('handleClick', state)
-}
+	emit("handleClick", state);
+};
 
 const clearSeacrhParamsFunc = () => {
-  state.keyword = ''
-  emit('handleClick', state)
-}
+	state.keyword = "";
+	emit("handleClick", state);
+};
 </script>

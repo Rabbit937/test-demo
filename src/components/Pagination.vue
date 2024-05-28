@@ -8,46 +8,46 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watchEffect } from 'vue'
-import { zhCn } from 'element-plus/es/locales.mjs'
+import { ref, watchEffect } from "vue";
+import { zhCn } from "element-plus/es/locales.mjs";
 
 export interface Props {
-  currentPage: number
-  pageSize: number
-  // pageSizes?: number[],
-  total: number
+	currentPage: number;
+	pageSize: number;
+	// pageSizes?: number[],
+	total: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  currentPage: 1,
-  pageSize: 10,
-  pageSizes: [10, 20, 30, 50, 100],
-  total: 0
-})
+	currentPage: 1,
+	pageSize: 10,
+	pageSizes: [10, 20, 30, 50, 100],
+	total: 0,
+});
 
-const emit = defineEmits(['handleClick'])
+const emit = defineEmits(["handleClick"]);
 
-const currentPage = ref(props.currentPage)
-const pageSize = ref(props.pageSize)
+const currentPage = ref(props.currentPage);
+const pageSize = ref(props.pageSize);
 watchEffect(() => {
-  pageSize.value = props.pageSize
-})
+	pageSize.value = props.pageSize;
+});
 
 const handleSizeChange = (size: number) => {
-  pageSize.value = size
-  emit('handleClick', {
-    type: 'pagination',
-    action: 'sizeChange',
-    item: { currentPage: currentPage.value, limit: pageSize.value }
-  })
-}
+	pageSize.value = size;
+	emit("handleClick", {
+		type: "pagination",
+		action: "sizeChange",
+		item: { currentPage: currentPage.value, limit: pageSize.value },
+	});
+};
 
 const handleCurrentChange = (page: number) => {
-  currentPage.value = page
-  emit('handleClick', {
-    type: 'pagination',
-    action: 'currentChange',
-    item: { currentPage: currentPage.value, limit: pageSize.value }
-  })
-}
+	currentPage.value = page;
+	emit("handleClick", {
+		type: "pagination",
+		action: "currentChange",
+		item: { currentPage: currentPage.value, limit: pageSize.value },
+	});
+};
 </script>

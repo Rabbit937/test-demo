@@ -60,12 +60,10 @@
 
 
 <script setup lang="ts">
-import {reactive} from 'vue'
+import { reactive } from "vue";
 const ruleConfiguration = reactive({
-    generateRuleValue: 1,
-    allocationRuleValue: 1,
-    NumberOfAdvertisements: 100
-})
-
-
+	generateRuleValue: 1,
+	allocationRuleValue: 1,
+	NumberOfAdvertisements: 100,
+});
 </script>

@@ -14,8 +14,7 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import HeaderNav from "./HeaderNav.vue";
 
-import type { INav } from '../interface/header.type'
-
+import type { INav } from "../interface/header.type";
 
 const route = useRoute();
 

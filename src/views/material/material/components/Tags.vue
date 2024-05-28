@@ -26,89 +26,89 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch } from "vue";
 
-import { addTag, addTagGroup, getTagsList } from '@/api/modules/material'
-import Dialog from '@/components/DialogGG.vue'
+import { addTag, addTagGroup, getTagsList } from "@/api/modules/material";
+import Dialog from "@/components/DialogGG.vue";
 
 interface Props {
-  visable: boolean
+	visable: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  visable: false
-})
+	visable: false,
+});
 
-const emits = defineEmits(['handleClose'])
+const emits = defineEmits(["handleClose"]);
 
-const newLabelStateOptionsRef = ref()
+const newLabelStateOptionsRef = ref();
 
 const newLabelState = reactive({
-  selectValue: '',
-  inputValue: '',
-  visable: props.visable,
-  title: '新建标签'
-})
+	selectValue: "",
+	inputValue: "",
+	visable: props.visable,
+	title: "新建标签",
+});
 
 watch(
-  () => props.visable,
-  (newVisable, oldVisable) => {
-    console.log(newVisable, oldVisable)
-    newLabelState.visable = props.visable
-  }
-)
+	() => props.visable,
+	(newVisable, oldVisable) => {
+		console.log(newVisable, oldVisable);
+		newLabelState.visable = props.visable;
+	},
+);
 
 const handleTagClose = async (type: string) => {
-  console.log(type)
+	console.log(type);
 
-  if (type === 'confirm') {
-    await addTag({
-      name: newLabelState.inputValue,
-      pid: Number(newLabelState.selectValue)
-    })
-    newLabelState.visable = false
-    emits('handleClose')
-  } else {
-    newLabelState.visable = false
-  }
-}
+	if (type === "confirm") {
+		await addTag({
+			name: newLabelState.inputValue,
+			pid: Number(newLabelState.selectValue),
+		});
+		newLabelState.visable = false;
+		emits("handleClose");
+	} else {
+		newLabelState.visable = false;
+	}
+};
 
 const newlabelGroupState = reactive({
-  title: '新建标签组',
-  visable: false,
-  inputValue: ''
-})
+	title: "新建标签组",
+	visable: false,
+	inputValue: "",
+});
 
 const showNewLabelGroup = () => {
-  newlabelGroupState.visable = true
-}
+	newlabelGroupState.visable = true;
+};
 
 const handleTagsGroupClose = async (type: string) => {
-  console.log(type)
+	console.log(type);
 
-  if (type === 'confirm') {
-    await addTagGroup({
-      name: newlabelGroupState.inputValue
-    })
-    newlabelGroupState.visable = false
-    getTagsListFunc()
-  } else {
-    newlabelGroupState.visable = false
-  }
-}
+	if (type === "confirm") {
+		await addTagGroup({
+			name: newlabelGroupState.inputValue,
+		});
+		newlabelGroupState.visable = false;
+		getTagsListFunc();
+	} else {
+		newlabelGroupState.visable = false;
+	}
+};
 
 const getTagsListFunc = async () => {
-  const res = await getTagsList({ type: 1 })
-  console.log(res)
+	const res = await getTagsList({ type: 1 });
+	console.log(res);
 
-  if (Number(res.state) === 1) {
-    newLabelStateOptionsRef.value = res.data
-  } else {
-    console.log(res.msg)
-  }
-}
+	if (Number(res.state) === 1) {
+		newLabelStateOptionsRef.value = res.data;
+	} else {
+		console.log(res.msg);
+	}
+};
 
 onMounted(() => {
-  getTagsListFunc()
-})
+	getTagsListFunc();
+});
 </script>

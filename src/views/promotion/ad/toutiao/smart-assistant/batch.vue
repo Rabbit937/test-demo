@@ -357,74 +357,72 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive } from 'vue'
-import NewProject from './components/NewProject.vue';
-import SelectAccountVue from './components/SelectAccount.vue';
-import SelectStrategyDialog from './components/SelectStrategyDialog.vue';
-import SelectMediaAccountDialog from './components/SelectMediaAccountDialog.vue';
+import { computed, ref, reactive } from "vue";
+import NewProject from "./components/NewProject.vue";
+import SelectAccountVue from "./components/SelectAccount.vue";
+import SelectStrategyDialog from "./components/SelectStrategyDialog.vue";
+import SelectMediaAccountDialog from "./components/SelectMediaAccountDialog.vue";
 
-
-const transform = ref('')
+const transform = ref("");
 const dynamicStyles = computed(() => ({
-  transform: transform.value,
-  transition: 'all .3s'
-}))
+	transform: transform.value,
+	transition: "all .3s",
+}));
 const showPopover = () => {
-  transform.value = 'rotate(-180deg)'
-}
+	transform.value = "rotate(-180deg)";
+};
 const hidePopover = () => {
-  transform.value = 'rotate(0deg)'
-}
+	transform.value = "rotate(0deg)";
+};
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const gridData: any[] = []
+const gridData: any[] = [];
 
 const selectPopover = reactive({
-  title: '',
-  visable: false,
-  width: 0,
-  type: 1
-})
+	title: "",
+	visable: false,
+	width: 0,
+	type: 1,
+});
 
 const showSelectPopover = (option: { title: string; type: number }) => {
-  selectPopover.title = option.title
-  selectPopover.type = option.type
-  selectPopover.visable = true
-}
+	selectPopover.title = option.title;
+	selectPopover.type = option.type;
+	selectPopover.visable = true;
+};
 
 // 更改账户
 const handleChangeAccount = () => {
-  showSelectPopover({ title: '选择媒体账户', type: 1 })
-}
+	showSelectPopover({ title: "选择媒体账户", type: 1 });
+};
 
 // 更改规则配置
 const handleChangeRuleConfiguration = () => {
-  showSelectPopover({ title: '规则配置', type: 2 })
-}
+	showSelectPopover({ title: "规则配置", type: 2 });
+};
 
-const infoOrNew = ref('new')
+const infoOrNew = ref("new");
 
 // 新建项目和项目信息切换
-const handleChangeInfoOrNew = () => (infoOrNew.value === 'new' ? 'new' : 'info')
-
-
+const handleChangeInfoOrNew = () =>
+	infoOrNew.value === "new" ? "new" : "info";
 
 const selectStrategyState = reactive({
-  visible: false
-})
+	visible: false,
+});
 
 // 选择策略
 const selectStrategy = () => {
-  selectStrategyState.visible = true
-}
+	selectStrategyState.visible = true;
+};
 
 const handleSelectStrategyDialogClose = (state: number) => {
-  if (state === 1) {
-    // 做弹窗确认的处理
-    console.log("收到确认")
-  }
-  selectStrategyState.visible = false;
-}
+	if (state === 1) {
+		// 做弹窗确认的处理
+		console.log("收到确认");
+	}
+	selectStrategyState.visible = false;
+};
 </script>
 
 <style scoped>

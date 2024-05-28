@@ -127,204 +127,213 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
-import { ElMessage, type UploadRequestOptions } from 'element-plus'
+import { onMounted, reactive, ref } from "vue";
+import { ElMessage, type UploadRequestOptions } from "element-plus";
 
 import {
-  createAlbum,
-  createFolder,
-  getMaterialDesignList,
-  uploadMaterial,
-  getTagsList
-} from '@/api/modules/material'
+	createAlbum,
+	createFolder,
+	getMaterialDesignList,
+	uploadMaterial,
+	getTagsList,
+} from "@/api/modules/material";
 
-import Dialog from '@/components/DialogGG.vue'
-import Tags from './Tags.vue'
+import Dialog from "@/components/DialogGG.vue";
+import Tags from "./Tags.vue";
 
 interface Props {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  treeClickNode: any
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  treeState: any
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	treeClickNode: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	treeState: any;
 }
 
-const props = withDefaults(defineProps<Props>(), {})
-const emit = defineEmits(['handleClick'])
+const props = withDefaults(defineProps<Props>(), {});
+const emit = defineEmits(["handleClick"]);
 
-const formLabelWidth = ref('140px')
-const labelPosition = ref('right')
+const formLabelWidth = ref("140px");
+const labelPosition = ref("right");
 
 const newState = reactive({
-  title: '',
-  visable: false,
-  form: {
-    name: '',
-    textarea: '',
-    sort: 0
-  }
-})
+	title: "",
+	visable: false,
+	form: {
+		name: "",
+		textarea: "",
+		sort: 0,
+	},
+});
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-let handleClose: ((...args: any[]) => any) | undefined
-const handleClickHeader = (options: { type: 'album' | 'folder' | 'upload' }) => {
-  if (options.type === 'album') {
-    newState.visable = true
-    newState.title = '新建专辑'
-    newState.form.name = ''
-    newState.form.textarea = ''
-    newState.form.sort = 0
-    handleClose = createNewAlbum
-  } else if (options.type === 'folder') {
-    newState.visable = true
-    newState.title = '新建文件夹'
+let handleClose: ((...args: any[]) => any) | undefined;
+const handleClickHeader = (options: {
+	type: "album" | "folder" | "upload";
+}) => {
+	if (options.type === "album") {
+		newState.visable = true;
+		newState.title = "新建专辑";
+		newState.form.name = "";
+		newState.form.textarea = "";
+		newState.form.sort = 0;
+		handleClose = createNewAlbum;
+	} else if (options.type === "folder") {
+		newState.visable = true;
+		newState.title = "新建文件夹";
 
-    newState.form.name = ''
-    newState.form.textarea = ''
-    newState.form.sort = 0
-    handleClose = createNewFolder
-  } else if (options.type === 'upload') {
-    // emit('handleClick', { type: 'header', action: 'uploadMaterial' })
-    uploadState.visable = true
+		newState.form.name = "";
+		newState.form.textarea = "";
+		newState.form.sort = 0;
+		handleClose = createNewFolder;
+	} else if (options.type === "upload") {
+		// emit('handleClick', { type: 'header', action: 'uploadMaterial' })
+		uploadState.visable = true;
 
-    getMaterialDesignListFunc()
-  } else {
-    console.log('点击头部什么也没有干')
-    emit('handleClick', { type: 'header', action: '' })
-  }
-}
+		getMaterialDesignListFunc();
+	} else {
+		console.log("点击头部什么也没有干");
+		emit("handleClick", { type: "header", action: "" });
+	}
+};
 
 const createNewAlbum = async (type: string) => {
-  newState.visable = false
+	newState.visable = false;
 
-  if (type === 'confirm') {
-    if (newState.form.name === '') {
-      ElMessage.warning('请填写专辑名称')
-    } else {
-      const res = await createAlbum({
-        album_name: newState.form.name,
-        note: newState.form.textarea,
-        sort: newState.form.sort
-      })
+	if (type === "confirm") {
+		if (newState.form.name === "") {
+			ElMessage.warning("请填写专辑名称");
+		} else {
+			const res = await createAlbum({
+				album_name: newState.form.name,
+				note: newState.form.textarea,
+				sort: newState.form.sort,
+			});
 
-      if (Number(res.state) === 1) {
-        emit('handleClick', { type: 'header', action: 'createNewAlbum' })
-      } else {
-        console.log('创建专辑接口调用失败', res.msg)
-      }
-    }
-  } else {
-    console.log('取消或者关闭')
-  }
-}
+			if (Number(res.state) === 1) {
+				emit("handleClick", { type: "header", action: "createNewAlbum" });
+			} else {
+				console.log("创建专辑接口调用失败", res.msg);
+			}
+		}
+	} else {
+		console.log("取消或者关闭");
+	}
+};
 
 const createNewFolder = async (type: string) => {
-  newState.visable = false
-  if (type === 'confirm') {
-    if (Number(props.treeClickNode.AL_ID) === 0) {
-      await createFolder({
-        album_id: props.treeClickNode.ID,
-        note: newState.form.textarea,
-        sort: newState.form.sort,
-        dir_name: newState.form.name,
-        // pid
-        parent_id: props.treeClickNode.ID,
-        // 父文件夹的level
-        level: props.treeClickNode.LEVEL
-      })
-    } else {
-      await createFolder({
-        album_id: props.treeClickNode.AL_ID,
-        note: newState.form.textarea,
-        sort: newState.form.sort,
-        dir_name: newState.form.name,
-        // pid
-        parent_id: props.treeClickNode.ID,
-        // 父文件夹的level
-        level: props.treeClickNode.LEVEL
-      })
-    }
-    emit('handleClick', { type: 'header', action: 'createNewFolder', item: props.treeClickNode })
-  }
-}
+	newState.visable = false;
+	if (type === "confirm") {
+		if (Number(props.treeClickNode.AL_ID) === 0) {
+			await createFolder({
+				album_id: props.treeClickNode.ID,
+				note: newState.form.textarea,
+				sort: newState.form.sort,
+				dir_name: newState.form.name,
+				// pid
+				parent_id: props.treeClickNode.ID,
+				// 父文件夹的level
+				level: props.treeClickNode.LEVEL,
+			});
+		} else {
+			await createFolder({
+				album_id: props.treeClickNode.AL_ID,
+				note: newState.form.textarea,
+				sort: newState.form.sort,
+				dir_name: newState.form.name,
+				// pid
+				parent_id: props.treeClickNode.ID,
+				// 父文件夹的level
+				level: props.treeClickNode.LEVEL,
+			});
+		}
+		emit("handleClick", {
+			type: "header",
+			action: "createNewFolder",
+			item: props.treeClickNode,
+		});
+	}
+};
 
 // 上传素材
 const uploadState = reactive({
-  title: '上传素材',
-  visable: false,
-  form: {
-    cascaderValue: [],
-    tag_id: [],
-    creativePerson: '',
-    designer: '',
-    note: '',
-    sort: 0
-  }
-})
+	title: "上传素材",
+	visable: false,
+	form: {
+		cascaderValue: [],
+		tag_id: [],
+		creativePerson: "",
+		designer: "",
+		note: "",
+		sort: 0,
+	},
+});
 
 const uploadMaterialFunc = () => {
-  emit('handleClick', { type: 'header', action: 'uploadMaterial' })
-  uploadState.visable = false
-}
+	emit("handleClick", { type: "header", action: "uploadMaterial" });
+	uploadState.visable = false;
+};
 
 const upload = async (options: UploadRequestOptions) => {
-  console.log('上传')
-  console.log(options)
+	console.log("上传");
+	console.log(options);
 
-  console.log(uploadState.form.cascaderValue)
+	console.log(uploadState.form.cascaderValue);
 
-  if (uploadState.form.cascaderValue.length > 1) {
-    await uploadMaterial({
-      album_id: uploadState.form.cascaderValue[0],
-      dir_id: uploadState.form.cascaderValue[uploadState.form.cascaderValue.length - 1],
-      creative_id: uploadState.form.creativePerson,
-      editor_id: uploadState.form.designer,
-      relative_dir_id: uploadState.form.cascaderValue.slice(1),
-      tag_id: uploadState.form.tag_id.map((item) => item[1]),
-      note: uploadState.form.note,
-      sort: uploadState.form.sort,
-      'files[]': [options.file]
-    })
-  } else {
-    ElMessage('请选择文件夹，而不是专辑')
-  }
-}
+	if (uploadState.form.cascaderValue.length > 1) {
+		await uploadMaterial({
+			album_id: uploadState.form.cascaderValue[0],
+			dir_id:
+				uploadState.form.cascaderValue[
+					uploadState.form.cascaderValue.length - 1
+				],
+			creative_id: uploadState.form.creativePerson,
+			editor_id: uploadState.form.designer,
+			relative_dir_id: uploadState.form.cascaderValue.slice(1),
+			tag_id: uploadState.form.tag_id.map((item) => item[1]),
+			note: uploadState.form.note,
+			sort: uploadState.form.sort,
+			"files[]": [options.file],
+		});
+	} else {
+		ElMessage("请选择文件夹，而不是专辑");
+	}
+};
 
-const DesignerAndCreativePersonList = ref()
+const DesignerAndCreativePersonList = ref();
 
 // 获取素材设计者列表
 const getMaterialDesignListFunc = async () => {
-  const res = await getMaterialDesignList()
-  console.log(res)
+	const res = await getMaterialDesignList();
+	console.log(res);
 
-  if (Number(res.state) === 1) {
-    DesignerAndCreativePersonList.value = res.data
-  }
-}
+	if (Number(res.state) === 1) {
+		DesignerAndCreativePersonList.value = res.data;
+	}
+};
 
-const labelStateOptionsRef = ref()
+const labelStateOptionsRef = ref();
 // 获取标签列表
 const getTagsListFunc = async () => {
-  const res = await getTagsList({ type: 2 })
-  console.log(res)
+	const res = await getTagsList({ type: 2 });
+	console.log(res);
 
-  if (Number(res.state) === 1) {
-    labelStateOptionsRef.value = res.data
-  } else {
-    console.log(res.msg)
-  }
-}
+	if (Number(res.state) === 1) {
+		labelStateOptionsRef.value = res.data;
+	} else {
+		console.log(res.msg);
+	}
+};
 
 onMounted(() => {
-  getTagsListFunc()
-})
+	getTagsListFunc();
+});
 
-const tagsState = ref(false)
+const tagsState = ref(false);
 const showTagsVue = () => {
-  console.log(123123213)
-  tagsState.value = true
-}
+	console.log(123123213);
+	tagsState.value = true;
+};
 
 const handleUpdateTagsList = () => {
-  getTagsListFunc()
-}
+	getTagsListFunc();
+};
 </script>

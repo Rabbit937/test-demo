@@ -40,42 +40,42 @@
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/lib/components/tree/src/model/node.js'
+import type Node from "element-plus/lib/components/tree/src/model/node.js";
 
 interface Props {
-  treeData: any
+	treeData: any;
 }
 
 const defaultProps = {
-  children: 'CHILD'
-}
+	children: "CHILD",
+};
 
-const props = withDefaults(defineProps<Props>(), {})
-const emit = defineEmits(['handleNodeClick', 'removeSelectedClass'])
+const props = withDefaults(defineProps<Props>(), {});
+const emit = defineEmits(["handleNodeClick", "removeSelectedClass"]);
 
 const handleNodeClick = (data: any, node: Node) => {
-  // console.log(data)
-  removeSelectedClass()
+	// console.log(data)
+	removeSelectedClass();
 
-  const el = document.querySelector(
-    `.el-tree-node[data-key="${data.$treeNodeId}"] > .el-tree-node__content > .custom-tree-node`
-  )
+	const el = document.querySelector(
+		`.el-tree-node[data-key="${data.$treeNodeId}"] > .el-tree-node__content > .custom-tree-node`,
+	);
 
-  el?.classList.add('active')
-  emit('handleNodeClick', {
-    data: data,
-    removeSelectedClass
-  })
-}
+	el?.classList.add("active");
+	emit("handleNodeClick", {
+		data: data,
+		removeSelectedClass,
+	});
+};
 
 const removeSelectedClass = () => {
-  const selectedNodes = document.querySelectorAll(
-    '.el-tree-node > .el-tree-node__content > .custom-tree-node'
-  )
-  selectedNodes.forEach((node) => {
-    node.classList.remove('active')
-  })
-}
+	const selectedNodes = document.querySelectorAll(
+		".el-tree-node > .el-tree-node__content > .custom-tree-node",
+	);
+	selectedNodes.forEach((node) => {
+		node.classList.remove("active");
+	});
+};
 </script>
 
 <style lang="scss" scoped>

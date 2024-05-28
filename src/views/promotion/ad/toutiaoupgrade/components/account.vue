@@ -81,16 +81,13 @@
 
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { Search } from '@element-plus/icons-vue'
-import listJson from '@/mocks/list.json'
+import { onMounted, ref } from "vue";
+import { Search } from "@element-plus/icons-vue";
+import listJson from "@/mocks/list.json";
 
-
-const tableData = ref()
+const tableData = ref();
 
 onMounted(() => {
-    tableData.value = listJson.data.list;
-})
-
-
+	tableData.value = listJson.data.list;
+});
 </script>

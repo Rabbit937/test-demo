@@ -29,29 +29,29 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessageBox } from 'element-plus';
+import { ElMessageBox } from "element-plus";
 
 interface Props {
-    visible: boolean
-    size?: number
+	visible: boolean;
+	size?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    size: 1016,
-})
+	size: 1016,
+});
 
-const emits = defineEmits()
+const emits = defineEmits();
 
 const handleClose = (done: () => void) => {
-    ElMessageBox.confirm('您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存')
-        .then(() => {
-            done()
-        })
-        .catch(() => {
-            // catch error
-            console.error('drawer component: fail')
-        })
-}
+	ElMessageBox.confirm("您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存")
+		.then(() => {
+			done();
+		})
+		.catch(() => {
+			// catch error
+			console.error("drawer component: fail");
+		});
+};
 </script>
 
 <style>

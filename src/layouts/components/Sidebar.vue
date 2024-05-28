@@ -5,17 +5,16 @@
 </template>
 
 <script lang="ts" setup>
-import SidebarItem from './SidebarItem.vue'
+import SidebarItem from "./SidebarItem.vue";
 
-import type { menuItem } from '../interface/header.type'
-
+import type { menuItem } from "../interface/header.type";
 
 interface Props {
-    menuItems: menuItem[]
-    defaultActive?: string
+	menuItems: menuItem[];
+	defaultActive?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {});
 </script>
 
 <style>

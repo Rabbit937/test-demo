@@ -70,39 +70,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
-import Dialog from '@/components/Dialog.vue';
-import { Search } from '@element-plus/icons-vue';
-import PaginationVue from '@/components/Pagination.vue'
+import { ref, watchEffect } from "vue";
+import Dialog from "@/components/Dialog.vue";
+import { Search } from "@element-plus/icons-vue";
+import PaginationVue from "@/components/Pagination.vue";
 
 interface IProps {
-    visible: boolean,
+	visible: boolean;
 }
 
-const props = withDefaults(defineProps<IProps>(), {})
-const emtis = defineEmits(['handleClose'])
-const visible = ref(props.visible)
+const props = withDefaults(defineProps<IProps>(), {});
+const emtis = defineEmits(["handleClose"]);
+const visible = ref(props.visible);
 
 watchEffect(() => {
-    visible.value = props.visible
-})
+	visible.value = props.visible;
+});
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const tableData: any[] = [
-    {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles',
-    },
-]
-
+	{
+		date: "2016-05-03",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
+];
 
 const handleDialogClose = (done: string) => {
-    visible.value = false;
-    if (done === 'confirm') {
-        emtis("handleClose", 1);
-    } else {
-        emtis("handleClose", 0);
-    }
-}
+	visible.value = false;
+	if (done === "confirm") {
+		emtis("handleClose", 1);
+	} else {
+		emtis("handleClose", 0);
+	}
+};
 </script>

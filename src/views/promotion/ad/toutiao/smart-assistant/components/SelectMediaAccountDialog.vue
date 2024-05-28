@@ -70,77 +70,68 @@
 
 
 <script setup lang="ts">
-import { ref, reactive, watchEffect } from 'vue'
-import { Search } from '@element-plus/icons-vue'
-
+import { ref, reactive, watchEffect } from "vue";
+import { Search } from "@element-plus/icons-vue";
 
 interface IProps {
-    visible: boolean,
+	visible: boolean;
 }
 
-const props = withDefaults(defineProps<IProps>(), {})
-const emtis = defineEmits(['handleClose'])
+const props = withDefaults(defineProps<IProps>(), {});
+const emtis = defineEmits(["handleClose"]);
 
 const selectPopover = reactive({
-    title: '',
-    visible: false,
-    width: 0,
-    type: 1
-})
-
-
+	title: "",
+	visible: false,
+	width: 0,
+	type: 1,
+});
 
 watchEffect(() => {
-    selectPopover.visible = props.visible;
-    console.log(props.visible)
-})
+	selectPopover.visible = props.visible;
+	console.log(props.visible);
+});
 
-
-const handleDialogClose = (done: 'confirm' | 'cancel') => {
-    selectPopover.visible = false
-    if (done === 'confirm') {
-        console.log('confirm')
-    } else {
-        console.log('cancel')
-    }
-}
+const handleDialogClose = (done: "confirm" | "cancel") => {
+	selectPopover.visible = false;
+	if (done === "confirm") {
+		console.log("confirm");
+	} else {
+		console.log("cancel");
+	}
+};
 
 interface IOption {
-    value: string
-    label: string
+	value: string;
+	label: string;
 }
 
 const mediaAccountState = reactive<{
-    project: string
-    mainBody: string
-    searchValue: string
+	project: string;
+	mainBody: string;
+	searchValue: string;
 }>({
-    project: '',
-    mainBody: '',
-    searchValue: ''
-})
+	project: "",
+	mainBody: "",
+	searchValue: "",
+});
 
-const projectOptions = ref<IOption[]>()
-const mainBodyOptions = ref<IOption[]>()
+const projectOptions = ref<IOption[]>();
+const mainBodyOptions = ref<IOption[]>();
 
-const loading = ref(false)
-
+const loading = ref(false);
 
 const tableData = [
-    {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-    },
-]
+	{
+		date: "2016-05-03",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
+];
 
 const paginationState = reactive({
-    currentPage: 1,
-    pageSize: 10,
-    total: 10
-})
-
-
-
-
+	currentPage: 1,
+	pageSize: 10,
+	total: 10,
+});
 </script>

@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import homeRoute from "./routes/homeRoute";
 import promotionRoute from "./routes/promotionRoute";
 import materialRoute from "./routes/materialRoute";
-import batchRoute from './routes/batchRoute'
+import batchRoute from "./routes/batchRoute";
 import { useUserStore } from "@/stores/modules/user";
 import NProgress from "@/config/nprogress";
 
@@ -21,7 +21,12 @@ const router = createRouter({
 			path: "/",
 			component: Layout,
 			redirect: "/promotion",
-			children: [...[homeRoute], ...[promotionRoute], ...[batchRoute], ...[materialRoute]],
+			children: [
+				...[homeRoute],
+				...[promotionRoute],
+				...[batchRoute],
+				...[materialRoute],
+			],
 		},
 	],
 });
@@ -34,21 +39,18 @@ router.beforeEach((to, from, next) => {
 	const title = import.meta.env.VITE_APP_TITLE;
 	document.title = to.meta.title ? `${to.meta.title} - ${title}` : title;
 
-	if (to.path.toLocaleLowerCase() === '/login') {
-		if (userStore.token) return next(from.fullPath)
+	if (to.path.toLocaleLowerCase() === "/login") {
+		if (userStore.token) return next(from.fullPath);
 		return next();
 	}
 
-	if (!userStore.token) return next({ path: "/login", replace: true })
+	if (!userStore.token) return next({ path: "/login", replace: true });
 
 	next();
-
-})
-
+});
 
 router.afterEach(() => {
 	NProgress.done();
-})
-
+});
 
 export default router;

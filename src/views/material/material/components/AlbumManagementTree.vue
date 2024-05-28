@@ -11,36 +11,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
 interface Props {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  treeState: any
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	treeState: any;
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {});
 
-const emit = defineEmits(['handleClick'])
+const emit = defineEmits(["handleClick"]);
 
-const activeClass = ref(true)
+const activeClass = ref(true);
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
 let removeSelectedClass: Function;
 
 // 点击全部专辑
 const handleAllClick = () => {
-  if (removeSelectedClass) removeSelectedClass()
-  activeClass.value = true
-  emit('handleClick')
-}
+	if (removeSelectedClass) removeSelectedClass();
+	activeClass.value = true;
+	emit("handleClick");
+};
 
 // 点击树节点
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleTreeClick = (options: any) => {
-  activeClass.value = false
-  removeSelectedClass = options.removeSelectedClass
+	activeClass.value = false;
+	removeSelectedClass = options.removeSelectedClass;
 
-  emit('handleClick', options.data)
-}
+	emit("handleClick", options.data);
+};
 </script>
 
 <style scoped>

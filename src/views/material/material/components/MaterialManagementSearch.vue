@@ -45,148 +45,148 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watchEffect, watch, onMounted } from 'vue'
-import { Search } from '@element-plus/icons-vue'
-import { zhCn } from 'element-plus/es/locales.mjs'
-import { getAlbumTree } from '@/api/modules/material'
+import { reactive, ref, watchEffect, watch, onMounted } from "vue";
+import { Search } from "@element-plus/icons-vue";
+import { zhCn } from "element-plus/es/locales.mjs";
+import { getAlbumTree } from "@/api/modules/material";
 
-const emit = defineEmits(['handleClick'])
+const emit = defineEmits(["handleClick"]);
 
 const state = reactive({
-  keyword: '',
-  search_type: 2,
-  materialType: '',
-  materialStatus: '',
-  dateValue: null,
-  cascaderValue: ''
-})
+	keyword: "",
+	search_type: 2,
+	materialType: "",
+	materialStatus: "",
+	dateValue: null,
+	cascaderValue: "",
+});
 
 const searchSelectList = [
-  {
-    label: '素材ID',
-    value: 1
-  },
-  {
-    label: '素材名称',
-    value: 2
-  }
-]
+	{
+		label: "素材ID",
+		value: 1,
+	},
+	{
+		label: "素材名称",
+		value: 2,
+	},
+];
 
 const shortcuts = [
-  {
-    text: '今天',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      return [start, end]
-    }
-  },
-  {
-    text: '昨天',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
+	{
+		text: "今天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			return [start, end];
+		},
+	},
+	{
+		text: "昨天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
 
-      end.setDate(end.getDate() - 1)
-      start.setDate(start.getDate() - 1)
+			end.setDate(end.getDate() - 1);
+			start.setDate(start.getDate() - 1);
 
-      return [start, end]
-    }
-  },
-  {
-    text: '近三天',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
+			return [start, end];
+		},
+	},
+	{
+		text: "近三天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
 
-      start.setDate(start.getDate() - 3)
+			start.setDate(start.getDate() - 3);
 
-      return [start, end]
-    }
-  },
-  {
-    text: '近7天',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setDate(start.getDate() - 7)
-      return [start, end]
-    }
-  },
-  {
-    text: '近30天',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setMonth(start.getMonth() - 1)
-      return [start, end]
-    }
-  },
-  {
-    text: '近60天',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setMonth(start.getMonth() - 2)
-      return [start, end]
-    }
-  },
-  {
-    text: '近90天',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setMonth(start.getMonth() - 3)
-      return [start, end]
-    }
-  },
+			return [start, end];
+		},
+	},
+	{
+		text: "近7天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setDate(start.getDate() - 7);
+			return [start, end];
+		},
+	},
+	{
+		text: "近30天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setMonth(start.getMonth() - 1);
+			return [start, end];
+		},
+	},
+	{
+		text: "近60天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setMonth(start.getMonth() - 2);
+			return [start, end];
+		},
+	},
+	{
+		text: "近90天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setMonth(start.getMonth() - 3);
+			return [start, end];
+		},
+	},
 
-  {
-    text: '近一年',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
+	{
+		text: "近一年",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
 
-      start.setMonth(start.getMonth() - 12)
-      return [start, end]
-    }
-  }
-]
+			start.setMonth(start.getMonth() - 12);
+			return [start, end];
+		},
+	},
+];
 
 const materialTypeOptions = [
-  { label: '视频', value: 1 },
-  {
-    label: '图片',
-    value: 2
-  }
-]
+	{ label: "视频", value: 1 },
+	{
+		label: "图片",
+		value: 2,
+	},
+];
 
 const materialStatusOptions = [
-  { label: '停用', value: 1 },
-  {
-    label: '启用',
-    value: 0
-  }
-]
+	{ label: "停用", value: 1 },
+	{
+		label: "启用",
+		value: 0,
+	},
+];
 
-const placeholderText = ref('请输入素材名称')
+const placeholderText = ref("请输入素材名称");
 
-const cascaderOptions = ref()
+const cascaderOptions = ref();
 const cascaderProps = {
-  checkStrictly: true,
-  value: 'ID',
-  label: 'ANAME',
-  children: 'CHILD'
-}
+	checkStrictly: true,
+	value: "ID",
+	label: "ANAME",
+	children: "CHILD",
+};
 
 onMounted(async () => {
-  const { data } = await getAlbumTree()
-  cascaderOptions.value = data
-})
+	const { data } = await getAlbumTree();
+	cascaderOptions.value = data;
+});
 
 const handleSearch = () => {
-  emit('handleClick', { type: 'search', action: 'search', item: state })
-}
+	emit("handleClick", { type: "search", action: "search", item: state });
+};
 
 // const clearSeacrhParamsFunc = () => {
 //   state.keyword = ''
@@ -194,32 +194,37 @@ const handleSearch = () => {
 // }
 
 watchEffect(() => {
-  console.log(state.search_type)
+	console.log(state.search_type);
 
-  if (Number(state.search_type) === 2) {
-    placeholderText.value = '请输入素材名称'
-  } else {
-    placeholderText.value = '请输入素材ID，多个以英文逗号隔开'
-  }
-})
+	if (Number(state.search_type) === 2) {
+		placeholderText.value = "请输入素材名称";
+	} else {
+		placeholderText.value = "请输入素材ID，多个以英文逗号隔开";
+	}
+});
 
 // 使用watch函数观察多个值的变化
 watch(
-  () => [state.dateValue, state.materialStatus, state.materialType, state.cascaderValue],
-  () => {
-    console.log(state.cascaderValue)
+	() => [
+		state.dateValue,
+		state.materialStatus,
+		state.materialType,
+		state.cascaderValue,
+	],
+	() => {
+		console.log(state.cascaderValue);
 
-    handleSearch()
-  }
-)
+		handleSearch();
+	},
+);
 
 const clearState = () => {
-  state.keyword = ''
-  state.search_type = 2
-  state.materialStatus = ''
-  state.dateValue = null
-  state.cascaderValue = ''
-  state.materialType = ''
-  handleSearch()
-}
+	state.keyword = "";
+	state.search_type = 2;
+	state.materialStatus = "";
+	state.dateValue = null;
+	state.cascaderValue = "";
+	state.materialType = "";
+	handleSearch();
+};
 </script>

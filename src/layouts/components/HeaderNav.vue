@@ -7,11 +7,11 @@
 </template>
 
 <script setup lang="ts">
-import type { INav } from '../interface/header.type';
+import type { INav } from "../interface/header.type";
 
 interface Props {
-    navList: INav[];
-    activeIndex: string;
+	navList: INav[];
+	activeIndex: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {});

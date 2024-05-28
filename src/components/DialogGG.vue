@@ -24,35 +24,35 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect } from "vue";
 
 interface Props {
-  title: string
-  visable: boolean
-  width?: number
+	title: string;
+	visable: boolean;
+	width?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  visable: false,
-  width: 992
-})
+	visable: false,
+	width: 992,
+});
 
-const emit = defineEmits(['handleClose'])
+const emit = defineEmits(["handleClose"]);
 
-const dialogFormVisible = ref(props.visable)
+const dialogFormVisible = ref(props.visable);
 
 watchEffect(() => {
-  dialogFormVisible.value = props.visable
-})
+	dialogFormVisible.value = props.visable;
+});
 
 const handleClose = (done: string) => {
-  if (typeof done === 'string' && done === 'confirm') {
-    emit('handleClose', 'confirm')
-  } else {
-    dialogFormVisible.value = false
-    emit('handleClose', 'cancel')
-  }
-}
+	if (typeof done === "string" && done === "confirm") {
+		emit("handleClose", "confirm");
+	} else {
+		dialogFormVisible.value = false;
+		emit("handleClose", "cancel");
+	}
+};
 </script>
 
 <style lang="scss">
