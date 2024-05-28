@@ -29,7 +29,7 @@
 import { onMounted, reactive, ref, watch } from 'vue'
 
 import { addTag, addTagGroup, getTagsList } from '@/api/modules/material'
-import Dialog from '@/components/Dialog.vue'
+import Dialog from '@/components/DialogGG.vue'
 
 interface Props {
   visable: boolean

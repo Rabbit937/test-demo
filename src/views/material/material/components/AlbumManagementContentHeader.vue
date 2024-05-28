@@ -138,7 +138,7 @@ import {
   getTagsList
 } from '@/api/modules/material'
 
-import Dialog from '@/components/Dialog.vue'
+import Dialog from '@/components/DialogGG.vue'
 import Tags from './Tags.vue'
 
 interface Props {

@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     DatePicker: typeof import('./src/components/DatePicker.vue')['default']
     Dialog: typeof import('./src/components/Dialog.vue')['default']
+    DialogGG: typeof import('./src/components/DialogGG.vue')['default']
     Drawer: typeof import('./src/components/Drawer.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']

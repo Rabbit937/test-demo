@@ -372,7 +372,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import Drawer from '@/components/Drawer.vue'
-import Dialog from '@/components/Dialog.vue'
+import Dialog from '@/components/DialogGG.vue'
 import EditTags from './EditTags.vue'
 
 import {

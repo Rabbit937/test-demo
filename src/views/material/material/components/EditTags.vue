@@ -47,7 +47,7 @@
 import { onMounted, reactive, ref, watch } from 'vue'
 
 import { getTagsList, operateTag } from '@/api/modules/material'
-import Dialog from '@/components/Dialog.vue'
+import Dialog from '@/components/DialogGG.vue'
 import Tags from './Tags.vue'
 import { ElMessage } from 'element-plus'
 
