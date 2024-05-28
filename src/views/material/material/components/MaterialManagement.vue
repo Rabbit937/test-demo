@@ -249,7 +249,7 @@ import { reactive, onMounted, ref } from "vue";
 
 import MaterialManagementSearch from "./MaterialManagementSearch.vue";
 import Pagination from "@/components/Pagination.vue";
-import Drawer from "@/components/Drawer.vue";
+import Drawer from "@/components/DrawerGG.vue";
 import Dialog from "@/components/DialogGG.vue";
 import EditTags from "./EditTags.vue";
 

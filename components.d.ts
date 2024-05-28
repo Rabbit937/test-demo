@@ -11,6 +11,7 @@ declare module 'vue' {
     Dialog: typeof import('./src/components/Dialog.vue')['default']
     DialogGG: typeof import('./src/components/DialogGG.vue')['default']
     Drawer: typeof import('./src/components/Drawer.vue')['default']
+    DrawerGG: typeof import('./src/components/DrawerGG.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
