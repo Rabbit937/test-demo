@@ -53,13 +53,13 @@ const newLabelState = reactive({
 watch(
 	() => props.visable,
 	(newVisable, oldVisable) => {
-		console.log(newVisable, oldVisable);
+		// console.log(newVisable, oldVisable);
 		newLabelState.visable = props.visable;
 	},
 );
 
 const handleTagClose = async (type: string) => {
-	console.log(type);
+	// console.log(type);
 
 	if (type === "confirm") {
 		await addTag({
@@ -84,7 +84,7 @@ const showNewLabelGroup = () => {
 };
 
 const handleTagsGroupClose = async (type: string) => {
-	console.log(type);
+	// console.log(type);
 
 	if (type === "confirm") {
 		await addTagGroup({
@@ -99,12 +99,12 @@ const handleTagsGroupClose = async (type: string) => {
 
 const getTagsListFunc = async () => {
 	const res = await getTagsList({ type: 1 });
-	console.log(res);
+	// console.log(res);
 
 	if (Number(res.state) === 1) {
 		newLabelStateOptionsRef.value = res.data;
 	} else {
-		console.log(res.msg);
+		// console.log(res.msg);
 	}
 };
 

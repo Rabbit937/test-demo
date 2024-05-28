@@ -400,7 +400,7 @@ type clickType = "click" | "edit" | "delete" | "move";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleClick = (item: any, action: clickType = "click") => {
-	// console.log(item)
+	// // console.log(item)
 	if (action === "click") {
 		emit("handleClick", { item, type: "materialItem", action: action });
 	} else if (action === "edit") {
@@ -453,7 +453,7 @@ const handleItemEdit = (item: any) => {
 };
 
 const editAlbumOrFolderFunc = async (type: string) => {
-	console.log(itemRef.value);
+	// console.log(itemRef.value);
 
 	if (type === "confirm") {
 		editAlbumOrFolderState.visble = false;
@@ -486,7 +486,7 @@ const tagsState = ref();
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const jumpToDetails = (item: any) => {
-	console.log(item);
+	// console.log(item);
 	drawerVisible.value = true;
 
 	if (Number(item.type) === 3) {
@@ -552,7 +552,7 @@ const treeDataRef = ref();
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleTreeClick = (treeNode: any) => {
-	console.log(treeNode);
+	// console.log(treeNode);
 	treeDataRef.value = treeNode.data;
 };
 
@@ -583,8 +583,8 @@ const findParentNodes = (tree: any, ID: string, parents: any[] = []): any => {
 };
 
 const handleMoveConfirm = () => {
-	console.log(moveItemRef.value);
-	console.log(treeDataRef.value);
+	// console.log(moveItemRef.value);
+	// console.log(treeDataRef.value);
 
 	if (Number(moveItemRef.value.type) === 3) {
 		if (treeDataRef.value) {
@@ -651,7 +651,7 @@ interface IMoveFolder {
 
 const moveFolderFunc = async (params: IMoveFolder) => {
 	const res = await moveFolder(params);
-	console.log(res);
+	// console.log(res);
 };
 
 interface IMoveMaterial {
@@ -686,7 +686,7 @@ const dialogState = reactive({
 // 编辑素材名称
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditMaterialName = (state: any) => {
-	console.log("state", state);
+	// console.log("state", state);
 	stateRef.value = state;
 	dialogState.name.visable = true;
 	dialogState.name.title = "编辑文件名";
@@ -695,7 +695,7 @@ const handleEditMaterialName = (state: any) => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const deactivateTheMaterial = (state: any, disable: string) => {
-	console.log(state);
+	// console.log(state);
 
 	drawerState.value.disable = Number(disable);
 
@@ -709,7 +709,7 @@ const deactivateTheMaterial = (state: any, disable: string) => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const updateMaterialNote = (state: any) => {
-	console.log("state", state);
+	// console.log("state", state);
 	stateRef.value = state;
 	dialogState.note.visable = true;
 	dialogState.note.title = "修改素材备注";
@@ -720,7 +720,7 @@ const updateMaterialNote = (state: any) => {
 const handleEditClose = (type: string) => {
 	// dialogState.visable = false
 
-	console.log(type);
+	// console.log(type);
 
 	if (type === "confirm") {
 		updateMaterial({
@@ -738,7 +738,7 @@ const handleEditClose = (type: string) => {
 };
 
 const handleEditNoteClose = (type: string) => {
-	console.log(type);
+	// console.log(type);
 
 	if (type === "confirm") {
 		updateMaterial({
@@ -770,7 +770,7 @@ const handleEditTags = (material: any) => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditTagsClose = (tagsParams: any) => {
-	console.log(tagsParams);
+	// console.log(tagsParams);
 	EditTagsState.visable = false;
 	tagsState.value = tagsParams.tagsList;
 	emit("handleClick", {

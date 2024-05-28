@@ -194,7 +194,7 @@ const handleSearch = () => {
 // }
 
 watchEffect(() => {
-	console.log(state.search_type);
+	// console.log(state.search_type);
 
 	if (Number(state.search_type) === 2) {
 		placeholderText.value = "请输入素材名称";
@@ -212,7 +212,7 @@ watch(
 		state.cascaderValue,
 	],
 	() => {
-		console.log(state.cascaderValue);
+		// console.log(state.cascaderValue);
 
 		handleSearch();
 	},

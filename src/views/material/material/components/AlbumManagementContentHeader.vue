@@ -190,7 +190,7 @@ const handleClickHeader = (options: {
 
 		getMaterialDesignListFunc();
 	} else {
-		console.log("点击头部什么也没有干");
+		// console.log("点击头部什么也没有干");
 		emit("handleClick", { type: "header", action: "" });
 	}
 };
@@ -211,11 +211,11 @@ const createNewAlbum = async (type: string) => {
 			if (Number(res.state) === 1) {
 				emit("handleClick", { type: "header", action: "createNewAlbum" });
 			} else {
-				console.log("创建专辑接口调用失败", res.msg);
+				// console.log("创建专辑接口调用失败", res.msg);
 			}
 		}
 	} else {
-		console.log("取消或者关闭");
+		// console.log("取消或者关闭");
 	}
 };
 
@@ -273,10 +273,10 @@ const uploadMaterialFunc = () => {
 };
 
 const upload = async (options: UploadRequestOptions) => {
-	console.log("上传");
-	console.log(options);
+	// console.log("上传");
+	// console.log(options);
 
-	console.log(uploadState.form.cascaderValue);
+	// console.log(uploadState.form.cascaderValue);
 
 	if (uploadState.form.cascaderValue.length > 1) {
 		await uploadMaterial({
@@ -303,7 +303,7 @@ const DesignerAndCreativePersonList = ref();
 // 获取素材设计者列表
 const getMaterialDesignListFunc = async () => {
 	const res = await getMaterialDesignList();
-	console.log(res);
+	// console.log(res);
 
 	if (Number(res.state) === 1) {
 		DesignerAndCreativePersonList.value = res.data;
@@ -314,12 +314,12 @@ const labelStateOptionsRef = ref();
 // 获取标签列表
 const getTagsListFunc = async () => {
 	const res = await getTagsList({ type: 2 });
-	console.log(res);
+	// console.log(res);
 
 	if (Number(res.state) === 1) {
 		labelStateOptionsRef.value = res.data;
 	} else {
-		console.log(res.msg);
+		// console.log(res.msg);
 	}
 };
 
@@ -329,7 +329,7 @@ onMounted(() => {
 
 const tagsState = ref(false);
 const showTagsVue = () => {
-	console.log(123123213);
+	// console.log(123123213);
 	tagsState.value = true;
 };
 

@@ -1,12 +1,12 @@
 <template>
-  <el-row class="pl-16px pt-12px pb-28px" style="background-color: #fff">
-    <AlbumManagementSearch @handleClick="handleSearchFunc" />
-  </el-row>
-  <el-row class="m-16px" style="border: 1px solid #e8eaec; height: calc(100% - 146px)">
-    <AlbumManagementTree :treeState="treeState" @handleClick="handleTreeFunc" />
-    <AlbumManagementContent :materialState="materialState" :treeClickNode="treeClickNode" :treeState="treeState"
-      :breadList="breadList" :searchParams="searchParams" @handleClick="handleContentFunc" />
-  </el-row>
+	<el-row class="pl-16px pt-12px pb-28px" style="background-color: #fff">
+		<AlbumManagementSearch @handleClick="handleSearchFunc" />
+	</el-row>
+	<el-row class="m-16px" style="border: 1px solid #e8eaec; ">
+		<AlbumManagementTree :treeState="treeState" @handleClick="handleTreeFunc" />
+		<AlbumManagementContent :materialState="materialState" :treeClickNode="treeClickNode" :treeState="treeState"
+			:breadList="breadList" :searchParams="searchParams" @handleClick="handleContentFunc" />
+	</el-row>
 </template>
 
 <script setup lang="ts">
@@ -146,13 +146,13 @@ const handleTreeFunc = (options: any) => {
 	}
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleContentFunc = (content: {
 	type: string;
 	action: string;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	item?: any;
 }) => {
-	// console.log(content)
+	// // console.log(content)
 
 	const { type, action, item } = content;
 
@@ -161,7 +161,7 @@ const handleContentFunc = (content: {
 			getAlbumTreeFunc();
 			getAlbumListFunc();
 		} else if (action === "createNewFolder") {
-			console.log(item);
+			// console.log(item);
 
 			if (Number(item.AL_ID) === 0) {
 				getAlbumTreeFunc();
@@ -228,7 +228,7 @@ const getBreadcrumb = (ID?: string) => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const findParentNodes = (tree: any, ID: string, parents: any[] = []): any => {
-	console.log(ID);
+	// console.log(ID);
 	for (const node of tree) {
 		if (Number(node.ID) === Number(ID)) {
 			// 找到匹配的节点，将其父级节点推入数组
@@ -247,7 +247,7 @@ const findParentNodes = (tree: any, ID: string, parents: any[] = []): any => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleBreadcrumbItem = (item: any) => {
-	console.log(item);
+	// console.log(item);
 
 	if (item.ID === "" && item.ANAME === "全部专辑") {
 		getAlbumListFunc();
@@ -293,7 +293,7 @@ const deleteMaterialFunc = async (params: IDeleteMaterial) => {
 // item删除
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleItemDelete = async (item: any) => {
-	console.log(item);
+	// console.log(item);
 
 	if (Number(item.type) === 1) {
 		const res = (await deleteAlbumOrFolderFunc({
@@ -305,7 +305,7 @@ const handleItemDelete = async (item: any) => {
 		getAlbumListFunc();
 		getAlbumTreeFunc();
 
-		console.log(res);
+		// console.log(res);
 
 		if (Number(res.state) === 1) {
 			ElMessage({
@@ -319,7 +319,7 @@ const handleItemDelete = async (item: any) => {
 			});
 		}
 	} else if (Number(item.type) === 2) {
-		console.log(item);
+		// console.log(item);
 		const res = await deleteAlbumOrFolderFunc({
 			al_dir_id: item.dir.dir_id,
 			type: item.type,
@@ -342,7 +342,7 @@ const handleItemDelete = async (item: any) => {
 			});
 		}
 	} else if (Number(item.type) === 3) {
-		console.log(item);
+		// console.log(item);
 
 		deleteMaterialFunc({
 			mat_id: item.material.material_id,
@@ -397,18 +397,18 @@ const handleItemMove = () => {
 
 <style scoped>
 .dark {
-  color: #333;
+	color: #333;
 }
 
 .active {
-  color: #197afb;
+	color: #197afb;
 }
 
 .input-with-select :deep(.el-input-group__prepend) {
-  background-color: var(--el-fill-color-blank);
+	background-color: var(--el-fill-color-blank);
 }
 
 .input-with-select :deep(.el-input-group__append) {
-  background-color: var(--el-fill-color-blank);
+	background-color: var(--el-fill-color-blank);
 }
 </style>
