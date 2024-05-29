@@ -25,14 +25,8 @@
     <component :is="activeComponent"></component>
 </template>
 
-
-<script>
-
-</script>
-
-
 <script lang="ts" setup>
-import { ComponentCustomOptions, onMounted, ref, shallowRef, watch } from 'vue'
+import { type ComponentCustomOptions, onMounted, ref, shallowRef } from 'vue'
 import AccountVue from './components/account.vue';
 import ProjectVue from './components/project.vue';
 import AdvertisingVue from './components/advertising.vue';
@@ -76,15 +70,7 @@ const selectMenu = (key: Key) => {
 }
 
 const dateValue = ref([new Date(), new Date()])
-console.log(dateValue)
-
-watch(dateValue, (newDateValue, oldDateValue) => {
-    console.log(newDateValue, oldDateValue)
-})
-
-
 const router = useRouter();
-
 const OpenBatch = () => {
     const routeData = router.resolve({ path: '/batch' });
     window.open(routeData.href, '_blank');
