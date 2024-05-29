@@ -1,5 +1,5 @@
 <template>
-    <Dialog>
+    <Dialog :visible="visible" :title="'规则配置'" @handleClose="handleDialogClose">
         <section class="font-size-12px color-[#666]">
             <el-form label-width="144" label-position="left">
                 <el-form-item label="广告生成规则">
@@ -60,10 +60,33 @@
 
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { ref, reactive, watchEffect } from "vue";
+
+interface IProps {
+    visible: boolean;
+}
+
+const props = withDefaults(defineProps<IProps>(), {});
+const emtis = defineEmits(["handleClose"]);
+const visible = ref(props.visible);
+
+watchEffect(() => {
+    visible.value = props.visible;
+});
+
+const handleDialogClose = (done: string) => {
+    visible.value = false;
+    if (done === "confirm") {
+        emtis("handleClose", 1);
+    } else {
+        emtis("handleClose", 0);
+    }
+};
+
+
 const ruleConfiguration = reactive({
-	generateRuleValue: 1,
-	allocationRuleValue: 1,
-	NumberOfAdvertisements: 100,
+    generateRuleValue: 1,
+    allocationRuleValue: 1,
+    NumberOfAdvertisements: 100,
 });
 </script>

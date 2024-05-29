@@ -24,31 +24,13 @@
           <el-button type="primary" class="w-160px h-32px" @click="selectStrategy">选择策略</el-button>
         </el-col>
         <el-col :span="1.5" class="flex flex-items-center font-size-12px font-400 cursor-pointer">
-          <el-popover :width="528" trigger="click" @show="showPopover" @hide="hidePopover">
-            <template #reference>
-              <div>
-                <span class="mr-8px">预估生成<span class="color-[#197afb] ml-4px mr-4px">0</span>条广告</span>
-                <el-icon :style="dynamicStyles">
-                  <ArrowDown />
-                </el-icon>
-              </div>
-            </template>
-            <el-table :data="gridData" max-height="500px" :header-row-style="{ fontSize: '12px', fontWeight: 700 }"
-              empty-text="没有数据">
-              <el-table-column width="200" property="date" label="账户" />
-              <el-table-column width="64" property="name" label="项目数" />
-              <el-table-column width="80" property="address" label="创意组数" />
-              <el-table-column width="80" property="address" label="标题包数" />
-              <el-table-column width="64" property="address" label="广告数" />
-            </el-table>
-          </el-popover>
+          <EstimatedAdCount />
         </el-col>
       </el-row>
       <el-row class="flex p-16px pb-0px">
         <el-col :span="1.5">
-          <SelectAccountVue :prefix-title="'媒体账户'" @handle-change="handleChangeAccount">
-            <span v-if="true" class="color-[#c6c6c6]"
-              @click="showSelectPopover({ title: '选择媒体账户', type: 1 })">请选择媒体账户</span>
+          <SelectAccountVue :prefix-title="'媒体账户'" @handle-change="handleMediaAccount">
+            <span v-if="true" class="color-[#c6c6c6]" @click="handleMediaAccount">请选择媒体账户</span>
             <!-- 显示账户信息 -->
             <template v-else>
               <el-popover placement="bottom" trigger="click" width="502">
@@ -118,10 +100,10 @@
           <tr class="pt-8px pb-8px">
             <th style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5">
               <div class="flex grid-justify-between !font-normal p-[5px_16px]">
-                <div class="font-size-14px color-[#333]" v-if="infoOrNew === 'new'">项目信息</div>
+                <div class="font-size-14px color-[#333]" v-if="infoOrNew === 'info'">项目信息</div>
                 <div class="font-size-14px color-[#333]" v-else>新建项目</div>
                 <div class="color-[#999]">
-                  <el-text size="small" v-if="infoOrNew === 'new'">从新项目创建</el-text>
+                  <el-text size="small" v-if="infoOrNew === 'info'">从新项目创建</el-text>
                   <el-text size="small" v-else>从已有项目创建</el-text>
                   <el-button link size="small" type="primary" class="ml-8px" @click="handleChangeInfoOrNew">
                     切换
@@ -174,7 +156,6 @@
             </th>
           </tr>
         </thead>
-
         <tbody>
           <tr>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
@@ -344,85 +325,96 @@
     </el-col>
   </el-row>
 
-
   <!-- 选择策略 -->
   <SelectStrategyDialog :visible="selectStrategyState.visible" @handleClose="handleSelectStrategyDialogClose" />
 
   <!-- 选择媒体账户 -->
-  <SelectMediaAccountDialog :visible="true" />
+  <SelectMediaAccountDialog :visible="SelectMediaAccountState.visible" @handleClose="handleMediaAccountDialogClose" />
 
+  <!-- 选择规则配置 -->
+  <RuleConfigurationDialog :visible="RuleConfigurationState.visible"
+    @handleClose="handleRuleConfigurationDialogClose" />
 
   <!-- 新建项目 -->
-  <NewProject />
+  <NewProject :visible="false" />
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive } from "vue";
+import { ref, reactive } from "vue";
+import RuleConfigurationDialog from "./components/RuleConfigurationDialog.vue";
 import NewProject from "./components/NewProject.vue";
 import SelectAccountVue from "./components/SelectAccount.vue";
 import SelectStrategyDialog from "./components/SelectStrategyDialog.vue";
 import SelectMediaAccountDialog from "./components/SelectMediaAccountDialog.vue";
-
-const transform = ref("");
-const dynamicStyles = computed(() => ({
-	transform: transform.value,
-	transition: "all .3s",
-}));
-const showPopover = () => {
-	transform.value = "rotate(-180deg)";
-};
-const hidePopover = () => {
-	transform.value = "rotate(0deg)";
-};
-
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const gridData: any[] = [];
-
-const selectPopover = reactive({
-	title: "",
-	visable: false,
-	width: 0,
-	type: 1,
-});
-
-const showSelectPopover = (option: { title: string; type: number }) => {
-	selectPopover.title = option.title;
-	selectPopover.type = option.type;
-	selectPopover.visable = true;
-};
-
-// 更改账户
-const handleChangeAccount = () => {
-	showSelectPopover({ title: "选择媒体账户", type: 1 });
-};
-
-// 更改规则配置
-const handleChangeRuleConfiguration = () => {
-	showSelectPopover({ title: "规则配置", type: 2 });
-};
-
-const infoOrNew = ref("new");
-
-// 新建项目和项目信息切换
-const handleChangeInfoOrNew = () =>
-	infoOrNew.value === "new" ? "new" : "info";
-
-const selectStrategyState = reactive({
-	visible: false,
-});
+import EstimatedAdCount from './components/EstimatedAdCount.vue'
 
 // 选择策略
+const selectStrategyState = reactive({
+  visible: false,
+});
+
 const selectStrategy = () => {
-	selectStrategyState.visible = true;
+  selectStrategyState.visible = true;
 };
 
 const handleSelectStrategyDialogClose = (state: number) => {
-	if (state === 1) {
-		// 做弹窗确认的处理
-		console.log("收到确认");
-	}
-	selectStrategyState.visible = false;
+  if (state === 1) {
+    // 做弹窗确认的处理
+    console.log("收到确认");
+  }
+  selectStrategyState.visible = false;
 };
+
+
+// 选择媒体账户
+const SelectMediaAccountState = reactive({
+  visible: false,
+})
+
+const handleMediaAccount = () => {
+  SelectMediaAccountState.visible = true;
+};
+
+const handleMediaAccountDialogClose = (state: number) => {
+  if (state === 1) {
+    // 做弹窗确认的处理
+    console.log("收到确认");
+  }
+  SelectMediaAccountState.visible = false;
+}
+
+// 更改规则配置
+const RuleConfigurationState = reactive({
+  visible: false
+})
+
+const handleChangeRuleConfiguration = () => {
+  RuleConfigurationState.visible = true;
+  console.log("更改规则配置");
+};
+
+const handleRuleConfigurationDialogClose = (state: number) => {
+  if (state === 1) {
+    // 做弹窗确认的处理
+    console.log("收到确认");
+  }
+  RuleConfigurationState.visible = false;
+}
+
+// 切换项目
+const infoOrNew = ref("new");
+
+// 新建项目和项目信息切换
+const handleChangeInfoOrNew = () => {
+  infoOrNew.value = (infoOrNew.value === "new") ? "info" : "new";
+}
+
+
+// 新建项目
+const openNewProjectDrawer = () => {
+
+}
+
 </script>
 
 <style scoped>
