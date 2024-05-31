@@ -242,7 +242,7 @@
                   </div>
                 </template>
                 <template #reference>
-                  <el-button link size="small">编辑</el-button>
+                  <el-button link size="small" @click="openNewProjectDrawer">编辑</el-button>
                 </template>
               </el-popover>
             </td>
@@ -336,7 +336,7 @@
     @handleClose="handleRuleConfigurationDialogClose" />
 
   <!-- 新建项目 -->
-  <NewProject :visible="false" />
+  <NewProject :visible="NewProjectState.visible" />
 </template>
 
 <script setup lang="ts">
@@ -410,9 +410,14 @@ const handleChangeInfoOrNew = () => {
 }
 
 
+const NewProjectState = reactive({
+  visible: false
+})
+
 // 新建项目
 const openNewProjectDrawer = () => {
-
+  console.log('open')
+  NewProjectState.visible = true;
 }
 
 </script>

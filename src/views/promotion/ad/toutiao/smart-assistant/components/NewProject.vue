@@ -418,7 +418,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, markRaw } from "vue";
+import { ref, reactive, markRaw, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
@@ -440,6 +440,11 @@ const drawerOptions = reactive({
 const handleDrawerClose = () => {
     drawerOptions.visible = false;
 };
+
+watchEffect(() => {
+    console.log(props.visible)
+    drawerOptions.visible = props.visible;
+});
 
 const boxCardItem = ref([
     {
