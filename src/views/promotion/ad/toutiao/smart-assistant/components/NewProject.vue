@@ -442,7 +442,6 @@ const handleDrawerClose = () => {
 };
 
 watchEffect(() => {
-    console.log(props.visible)
     drawerOptions.visible = props.visible;
 });
 

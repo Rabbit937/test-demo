@@ -376,14 +376,10 @@ const SelectMediaAccountState = reactive({
 })
 
 const handleMediaAccount = () => {
-  console.log('更改')
   SelectMediaAccountState.visible = true;
 };
 
 const handleMediaAccountDialogClose = (state: number) => {
-
-  console.log(state)
-
   SelectMediaAccountState.visible = false;
   if (state === 1) {
     // 做弹窗确认的处理
@@ -398,7 +394,6 @@ const RuleConfigurationState = reactive({
 
 const handleChangeRuleConfiguration = () => {
   RuleConfigurationState.visible = true;
-  console.log("更改规则配置");
 };
 
 const handleRuleConfigurationDialogClose = (state: number) => {
@@ -424,7 +419,6 @@ const NewProjectState = reactive({
 
 // 新建项目
 const openNewProjectDrawer = () => {
-  console.log('open')
   NewProjectState.visible = true;
 }
 

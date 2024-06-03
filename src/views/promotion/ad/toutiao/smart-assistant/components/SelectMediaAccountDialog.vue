@@ -99,11 +99,23 @@ watchEffect(() => {
 });
 
 const handleDialogClose = (type: 1 | 0) => {
-    selectPopover.visible = false;
+
+    console.log()
+
     if (type === 1) {
-        emtis("handleClose", 1);
+        if (multipleSelection.value.length === 1) {
+            emtis("handleClose", 1, multipleSelection.value);
+            selectPopover.visible = false;
+        } else {
+            ElMessage({
+                showClose: true,
+                message: '请选择一条媒体账户信息',
+                type: 'warning',
+            })
+        }
     } else {
         emtis("handleClose", 0);
+        selectPopover.visible = false;
     }
 };
 
@@ -190,3 +202,4 @@ const handlePaginationEvent = (val: IPaginationEvent) => {
 }
 
 </script>
+

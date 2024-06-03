@@ -51,7 +51,6 @@ const handleClose = () => {
 }
 
 const handleButtonClick = (type: 1 | 0) => {
-  dialogVisible.value = false;
   if (type === 1) {
     emit("handleClose", 1);
   } else {
