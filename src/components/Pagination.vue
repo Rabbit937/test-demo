@@ -1,10 +1,10 @@
 <template>
-  <el-config-provider :locale="zhCn">
-    <el-pagination class="pl-16px" :current-page="currentPage" :page-size="pageSize" :total="total"
-      layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
-      @current-change="handleCurrentChange" :page-sizes="props.pageSizes">
-    </el-pagination>
-  </el-config-provider>
+	<el-config-provider :locale="zhCn">
+		<el-pagination class="pl-16px" :current-page="currentPage" :page-size="pageSize" :total="total"
+			layout="total, sizes, prev, pager, next, jumper" @size-change="handleSizeChange"
+			@current-change="handleCurrentChange" :page-sizes="props.pageSizes">
+		</el-pagination>
+	</el-config-provider>
 </template>
 
 <script lang="ts" setup>

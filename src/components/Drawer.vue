@@ -2,16 +2,16 @@
     <el-drawer :model-value="props.visible" :append-to-body="true" :open-delay="100" :show-close="true"
         :close-on-click-modal="true" :before-close="handleClose" :size="props.size" :with-header="false" lock-scroll
         style="background-color: rgb(240, 242, 245)">
-        <slot name="header">
-            <header style="
+        <header style="
           position: relative;
           padding: 0 16px;
           background-color: #fff;
           border-bottom: 1px solid #e8eaec;
-        ">
+          ">
+            <slot name="header">
                 <div class="font-size-16px font-700 line-height-48px color-[#333]">新建项目</div>
-            </header>
-        </slot>
+            </slot>
+        </header>
         <slot></slot>
         <slot name="footer">
             <footer class="pos-absolute bottom-0px left-0px w-100% h-70px pl-12px pt-16px pr-24px pb-16px"

@@ -29,7 +29,7 @@
       </el-row>
       <el-row class="flex p-16px pb-0px">
         <el-col :span="1.5">
-          <SelectAccountVue :prefix-title="'媒体账户'" @handle-change="handleMediaAccount">
+          <SelectAccountVue :prefix-title="'媒体账户'" @handleChange="handleMediaAccount">
             <span v-if="true" class="color-[#c6c6c6]" @click="handleMediaAccount">请选择媒体账户</span>
             <!-- 显示账户信息 -->
             <template v-else>
@@ -337,6 +337,9 @@
 
   <!-- 新建项目 -->
   <NewProject :visible="NewProjectState.visible" />
+
+  <!-- 广告基本信息 -->
+  <BasicInformationOfAd :visible="BasicInformationOfAdState.visible" />
 </template>
 
 <script setup lang="ts">
@@ -347,6 +350,7 @@ import SelectAccountVue from "./components/SelectAccount.vue";
 import SelectStrategyDialog from "./components/SelectStrategyDialog.vue";
 import SelectMediaAccountDialog from "./components/SelectMediaAccountDialog.vue";
 import EstimatedAdCount from './components/EstimatedAdCount.vue'
+import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 
 // 选择策略
 const selectStrategyState = reactive({
@@ -372,15 +376,19 @@ const SelectMediaAccountState = reactive({
 })
 
 const handleMediaAccount = () => {
+  console.log('更改')
   SelectMediaAccountState.visible = true;
 };
 
 const handleMediaAccountDialogClose = (state: number) => {
+
+  console.log(state)
+
+  SelectMediaAccountState.visible = false;
   if (state === 1) {
     // 做弹窗确认的处理
     console.log("收到确认");
   }
-  SelectMediaAccountState.visible = false;
 }
 
 // 更改规则配置
@@ -419,6 +427,12 @@ const openNewProjectDrawer = () => {
   console.log('open')
   NewProjectState.visible = true;
 }
+
+
+// 广告基本信息
+const BasicInformationOfAdState = reactive({
+  visible: false
+})
 
 </script>
 
