@@ -63,7 +63,7 @@
 import { ref, reactive, watchEffect } from "vue";
 
 interface IProps {
-    visible: boolean;
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
@@ -71,22 +71,21 @@ const emtis = defineEmits(["handleClose"]);
 const visible = ref(props.visible);
 
 watchEffect(() => {
-    visible.value = props.visible;
+	visible.value = props.visible;
 });
 
 const handleDialogClose = (done: string) => {
-    visible.value = false;
-    if (done === "confirm") {
-        emtis("handleClose", 1);
-    } else {
-        emtis("handleClose", 0);
-    }
+	visible.value = false;
+	if (done === "confirm") {
+		emtis("handleClose", 1);
+	} else {
+		emtis("handleClose", 0);
+	}
 };
 
-
 const ruleConfiguration = reactive({
-    generateRuleValue: 1,
-    allocationRuleValue: 1,
-    NumberOfAdvertisements: 100,
+	generateRuleValue: 1,
+	allocationRuleValue: 1,
+	NumberOfAdvertisements: 100,
 });
 </script>

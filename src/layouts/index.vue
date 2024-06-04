@@ -31,23 +31,23 @@ import promotionRoute from "@/router/routes/promotionRoute";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const hasRoutes: Record<string, any> = {
-    home: homeRoute,
-    material: materialRoute,
-    promotion: promotionRoute,
+	home: homeRoute,
+	material: materialRoute,
+	promotion: promotionRoute,
 };
 
 const route = useRoute();
 const routeTitle = computed(
-    () => (route.meta.title ? route.meta.title : route.path) as string,
+	() => (route.meta.title ? route.meta.title : route.path) as string,
 );
 const showSidebar = ref(false);
 const defaultActive = ref("");
 const sidebarList = ref();
 
 watchEffect(() => {
-    showSidebar.value = Boolean(hasRoutes[routeTitle.value]?.children.length > 0);
-    defaultActive.value = route.path;
-    sidebarList.value = hasRoutes[routeTitle.value]?.children;
+	showSidebar.value = Boolean(hasRoutes[routeTitle.value]?.children.length > 0);
+	defaultActive.value = route.path;
+	sidebarList.value = hasRoutes[routeTitle.value]?.children;
 });
 
 // 计算页面高度

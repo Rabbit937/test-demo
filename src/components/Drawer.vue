@@ -1,5 +1,5 @@
 <template>
-    <el-drawer :model-value="props.visible" :append-to-body="true" :open-delay="100" :show-close="true"
+    <el-drawer :model-value="drawer" :append-to-body="true" :open-delay="100" :show-close="true"
         :close-on-click-modal="true" :before-close="handleClose" :size="props.size" :with-header="false" lock-scroll
         style="background-color: rgb(240, 242, 245)">
         <header style="
@@ -18,8 +18,8 @@
                 style="background-color: #fff; border-top: 1px solid #e8eaec">
                 <div class="flex flex-items-start h-70px pt-12px">
                     <div class="pos-absolute right-16px">
-                        <el-button class="w-88px">取消</el-button>
-                        <el-button class="w-88px" type="primary">确认</el-button>
+                        <el-button class="w-88px" @click="cancelClick">取消</el-button>
+                        <el-button class="w-88px" type="primary" @click="confirmClick">确认</el-button>
                     </div>
                 </div>
             </footer>
@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watchEffect } from "vue";
 import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 
@@ -41,18 +42,46 @@ const props = withDefaults(defineProps<Props>(), {
     size: 1016,
 });
 
-const emits = defineEmits();
+const emits = defineEmits(['handleDrawerClose']);
+
+const drawer = ref(props.visible);
+
+watchEffect(() => {
+    drawer.value = props.visible;
+})
+
+
 
 const handleClose = (done: () => void) => {
-    ElMessageBox.confirm("您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存")
+    ElMessageBox.confirm(
+        "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+        "提示",
+        {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    )
         .then(() => {
             done();
+
         })
         .catch(() => {
             // catch error
             console.error("drawer component: fail");
         });
 };
+
+
+function cancelClick() {
+    // drawer.value = false
+    emits('handleDrawerClose', 0)
+}
+
+function confirmClick() {
+    // drawer.value = false
+    emits('handleDrawerClose', 1)
+}
 </script>
 
 <style>

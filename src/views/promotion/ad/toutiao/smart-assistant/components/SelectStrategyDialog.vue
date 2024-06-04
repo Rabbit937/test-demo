@@ -78,7 +78,7 @@ import { Search } from "@element-plus/icons-vue";
 import PaginationVue from "@/components/Pagination.vue";
 
 interface IProps {
-    visible: boolean;
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
@@ -86,31 +86,30 @@ const emtis = defineEmits(["handleClose"]);
 const visible = ref(props.visible);
 
 watchEffect(() => {
-    visible.value = props.visible;
+	visible.value = props.visible;
 });
 
 const paginationState = reactive({
-    currentPage: 1,
-    pageSize: 10,
-    total: 10,
+	currentPage: 1,
+	pageSize: 10,
+	total: 10,
 });
-
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const tableData: any[] = [
-    {
-        date: "2016-05-03",
-        name: "Tom",
-        address: "No. 189, Grove St, Los Angeles",
-    },
+	{
+		date: "2016-05-03",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
 ];
 
 const handleDialogClose = (done: string) => {
-    visible.value = false;
-    if (done === "confirm") {
-        emtis("handleClose", 1);
-    } else {
-        emtis("handleClose", 0);
-    }
+	visible.value = false;
+	if (done === "confirm") {
+		emtis("handleClose", 1);
+	} else {
+		emtis("handleClose", 0);
+	}
 };
 </script>

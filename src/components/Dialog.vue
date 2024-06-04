@@ -27,15 +27,15 @@
 import { ref, watchEffect } from "vue";
 
 interface Props {
-  title: string;
-  visible: boolean;
-  width?: number;
+	title: string;
+	visible: boolean;
+	width?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: "标题",
-  visible: false,
-  width: 992,
+	title: "标题",
+	visible: false,
+	width: 992,
 });
 
 const emit = defineEmits(["handleClose"]);
@@ -43,19 +43,19 @@ const emit = defineEmits(["handleClose"]);
 const dialogVisible = ref(props.visible);
 
 watchEffect(() => {
-  dialogVisible.value = props.visible;
+	dialogVisible.value = props.visible;
 });
 
 const handleClose = () => {
-  emit("handleClose", 0);
-}
+	emit("handleClose", 0);
+};
 
 const handleButtonClick = (type: 1 | 0) => {
-  if (type === 1) {
-    emit("handleClose", 1);
-  } else {
-    emit("handleClose", 0);
-  }
+	if (type === 1) {
+		emit("handleClose", 1);
+	} else {
+		emit("handleClose", 0);
+	}
 };
 </script>
 

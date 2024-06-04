@@ -20,22 +20,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { computed } from 'vue';
+import { ref } from "vue";
+import { computed } from "vue";
 
 const transform = ref("");
 const dynamicStyles = computed(() => ({
-    transform: transform.value,
-    transition: "all .3s",
+	transform: transform.value,
+	transition: "all .3s",
 }));
 const showPopover = () => {
-    transform.value = "rotate(-180deg)";
+	transform.value = "rotate(-180deg)";
 };
 const hidePopover = () => {
-    transform.value = "rotate(0deg)";
+	transform.value = "rotate(0deg)";
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const gridData: any[] = [];
-
 </script>

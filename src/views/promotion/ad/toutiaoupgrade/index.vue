@@ -26,55 +26,55 @@
 </template>
 
 <script lang="ts" setup>
-import { type ComponentCustomOptions, onMounted, ref, shallowRef } from 'vue'
-import AccountVue from './components/account.vue';
-import ProjectVue from './components/project.vue';
-import AdvertisingVue from './components/advertising.vue';
-import type { INav } from '@/layouts/interface/header.type'
-import DatePicker from '@/components/DatePicker.vue';
-import { useRouter } from 'vue-router';
+import { type ComponentCustomOptions, onMounted, ref, shallowRef } from "vue";
+import AccountVue from "./components/account.vue";
+import ProjectVue from "./components/project.vue";
+import AdvertisingVue from "./components/advertising.vue";
+import type { INav } from "@/layouts/interface/header.type";
+import DatePicker from "@/components/DatePicker.vue";
+import { useRouter } from "vue-router";
 
 const navList = ref<INav[]>([
-    {
-        path: "account",
-        title: "账户",
-    },
-    {
-        path: "project",
-        title: "项目",
-    },
-    {
-        path: "advertising",
-        title: "广告",
-    },
+	{
+		path: "account",
+		title: "账户",
+	},
+	{
+		path: "project",
+		title: "项目",
+	},
+	{
+		path: "advertising",
+		title: "广告",
+	},
 ]);
 
-type Key = 'account' | 'project' | 'advertising'
+type Key = "account" | "project" | "advertising";
 
 const componentList: Record<Key, ComponentCustomOptions> = {
-    account: AccountVue,
-    project: ProjectVue,
-    advertising: AdvertisingVue
-}
+	account: AccountVue,
+	project: ProjectVue,
+	advertising: AdvertisingVue,
+};
 
-const activeIndex = ref<Key>('account')
-const activeComponent = shallowRef()
+const activeIndex = ref<Key>("account");
+const activeComponent = shallowRef();
 
 onMounted(() => {
-    activeComponent.value = componentList[activeIndex.value];
-})
+	activeComponent.value = componentList[activeIndex.value];
+});
 
 const selectMenu = (key: Key) => {
-    const component = componentList[key]
-    activeComponent.value = component;
-}
+	const component = componentList[key];
+	activeComponent.value = component;
+};
 
-const dateValue = ref([new Date(), new Date()])
+const dateValue = ref([new Date(), new Date()]);
 const router = useRouter();
 const OpenBatch = () => {
-    const routeData = router.resolve({ path: '/batch' });
-    window.open(routeData.href, '_blank');
-}
+	const routeData = router.resolve({ path: "/batch" });
+	window.open(routeData.href, "_blank");
+};
 </script>
 
 <style></style>

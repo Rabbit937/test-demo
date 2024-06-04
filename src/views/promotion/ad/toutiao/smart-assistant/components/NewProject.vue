@@ -424,157 +424,155 @@ import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 import { WarningFilled } from "@element-plus/icons-vue";
 
-
-
 interface IProps {
-    visible: boolean
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 
 const drawerOptions = reactive({
-    visible: props.visible ?? false,
-    size: 1016,
+	visible: props.visible ?? false,
+	size: 1016,
 });
 
 const handleDrawerClose = () => {
-    drawerOptions.visible = false;
+	drawerOptions.visible = false;
 };
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
+	drawerOptions.visible = props.visible;
 });
 
 const boxCardItem = ref([
-    {
-        id: 0,
-        title: "应用推广",
-        content: "推广您的线上APP",
-        active: true,
-    },
-    {
-        id: 1,
-        title: "小程序",
-        content: "吸引更多用户进入小程序",
-        active: false,
-    },
-    {
-        id: 2,
-        title: "快应用",
-        content: "吸引更多用户进入快应用",
-        active: false,
-    },
+	{
+		id: 0,
+		title: "应用推广",
+		content: "推广您的线上APP",
+		active: true,
+	},
+	{
+		id: 1,
+		title: "小程序",
+		content: "吸引更多用户进入小程序",
+		active: false,
+	},
+	{
+		id: 2,
+		title: "快应用",
+		content: "吸引更多用户进入快应用",
+		active: false,
+	},
 ]);
 
 const handleBoxCardItem = (id: number) => {
-    ElMessageBox.confirm(
-        "切换推广目的将会清空您已填写的所有内容，是否继续切换？",
-        "提示",
-        {
-            confirmButtonText: "确认",
-            cancelButtonText: "取消",
-            type: "warning",
-            icon: markRaw(WarningFilled),
-        },
-    ).then(() => {
-        boxCardItem.value = boxCardItem.value.map((item) => {
-            item.active = false;
-            if (item.id === id) {
-                item.active = true;
-            }
-            return {
-                id: item.id,
-                title: item.title,
-                content: item.content,
-                active: item.active,
-            };
-        });
-    });
+	ElMessageBox.confirm(
+		"切换推广目的将会清空您已填写的所有内容，是否继续切换？",
+		"提示",
+		{
+			confirmButtonText: "确认",
+			cancelButtonText: "取消",
+			type: "warning",
+			icon: markRaw(WarningFilled),
+		},
+	).then(() => {
+		boxCardItem.value = boxCardItem.value.map((item) => {
+			item.active = false;
+			if (item.id === id) {
+				item.active = true;
+			}
+			return {
+				id: item.id,
+				title: item.title,
+				content: item.content,
+				active: item.active,
+			};
+		});
+	});
 };
 
 const boxCardBiddingStrategy = ref([
-    {
-        id: 0,
-        title: "稳定成本-常规版",
-        content: "成本稳定在出价附近",
-        active: true,
-    },
-    {
-        id: 1,
-        title: "稳定成本-升级版",
-        content: "广告潜力探索",
-        active: false,
-    },
-    {
-        id: 2,
-        title: "放量投放",
-        content: "成本上浮，获取更多跑量",
-        active: false,
-    },
-    {
-        id: 3,
-        title: "最优成本",
-        content: "均匀消耗预算，成本不超过出价",
-        active: false,
-    },
-    {
-        id: 4,
-        title: "最大转化",
-        content: "花完预算，拿到最大转化（价值）",
-        active: false,
-    },
+	{
+		id: 0,
+		title: "稳定成本-常规版",
+		content: "成本稳定在出价附近",
+		active: true,
+	},
+	{
+		id: 1,
+		title: "稳定成本-升级版",
+		content: "广告潜力探索",
+		active: false,
+	},
+	{
+		id: 2,
+		title: "放量投放",
+		content: "成本上浮，获取更多跑量",
+		active: false,
+	},
+	{
+		id: 3,
+		title: "最优成本",
+		content: "均匀消耗预算，成本不超过出价",
+		active: false,
+	},
+	{
+		id: 4,
+		title: "最大转化",
+		content: "花完预算，拿到最大转化（价值）",
+		active: false,
+	},
 ]);
 
 const globalState = reactive({
-    applicationPromotionMethods: 1,
-    deliveryMode: 1,
-    marketingScenario: 1,
-    advertisementType: 1,
-    relatedProducts: 2,
-    numberOfProductsConfiguredPerProject: 1,
-    productVersion: 1,
-    matchingMethod: 1,
-    platformType: 0,
-    advertisingPosition: 1, // 广告位置
+	applicationPromotionMethods: 1,
+	deliveryMode: 1,
+	marketingScenario: 1,
+	advertisementType: 1,
+	relatedProducts: 2,
+	numberOfProductsConfiguredPerProject: 1,
+	productVersion: 1,
+	matchingMethod: 1,
+	platformType: 0,
+	advertisingPosition: 1, // 广告位置
 });
 
 // 用户定向
 const userTargeting = reactive({
-    targetedPackageSource: 1, // 定向包来源
-    matchingMethod: 1, // 匹配方式
+	targetedPackageSource: 1, // 定向包来源
+	matchingMethod: 1, // 匹配方式
 });
 
 // 项目排期与预算
 const projectScheduleAndBudget = reactive({
-    deliveryTime: 1, // 投放时间
-    deliveryPeriod: 1, // 投放时段
-    biddingStrategy: 1, // 竞价策略
-    projectBudget: 1, // 项目预算
-    paymentMethod: 1, // 付费方式
+	deliveryTime: 1, // 投放时间
+	deliveryPeriod: 1, // 投放时段
+	biddingStrategy: 1, // 竞价策略
+	projectBudget: 1, // 项目预算
+	paymentMethod: 1, // 付费方式
 });
 
 const handleBoxCardBiddingStrategy = (id: number) => {
-    boxCardBiddingStrategy.value = boxCardBiddingStrategy.value.map((item) => {
-        item.active = false;
-        if (item.id === id) {
-            item.active = true;
-            projectScheduleAndBudget.biddingStrategy = id;
-        }
-        return {
-            id: item.id,
-            title: item.title,
-            content: item.content,
-            active: item.active,
-        };
-    });
+	boxCardBiddingStrategy.value = boxCardBiddingStrategy.value.map((item) => {
+		item.active = false;
+		if (item.id === id) {
+			item.active = true;
+			projectScheduleAndBudget.biddingStrategy = id;
+		}
+		return {
+			id: item.id,
+			title: item.title,
+			content: item.content,
+			active: item.active,
+		};
+	});
 };
 
 // 投放模式切换
 const handleDeliveryModeChange = (value: string | number | boolean) => {
-    if (value === 1) {
-        globalState.relatedProducts = 2;
-    } else {
-        globalState.relatedProducts = 1;
-    }
+	if (value === 1) {
+		globalState.relatedProducts = 2;
+	} else {
+		globalState.relatedProducts = 1;
+	}
 };
 </script>

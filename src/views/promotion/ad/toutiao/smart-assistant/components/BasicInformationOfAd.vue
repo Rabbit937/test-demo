@@ -226,30 +226,25 @@
 </template>
 
 <script setup lang="ts">
-import {  reactive, watchEffect } from "vue";
+import { reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
 
 interface IProps {
-    visible: boolean
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 
 const drawerOptions = reactive({
-    visible: props.visible ?? false,
-    size: 1016,
+	visible: props.visible ?? false,
+	size: 1016,
 });
 
 const handleDrawerClose = () => {
-    drawerOptions.visible = false;
+	drawerOptions.visible = false;
 };
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
+	drawerOptions.visible = props.visible;
 });
-
-
-
-
-
 </script>

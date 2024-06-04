@@ -234,15 +234,17 @@
         <tfoot>
           <tr>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
-              <el-popover placement="top" trigger="hover" width="170">
+              <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
                 <template #default>
                   <div class="flex">
                     <el-text>请选择媒体账户</el-text>
-                    <el-button link size="small" type="primary" class="ml-8px"> 编辑 </el-button>
+                    <el-button link size="small" type="primary" class="ml-8px" @click="handleMediaAccount"> 编辑
+                    </el-button>
                   </div>
                 </template>
                 <template #reference>
-                  <el-button link size="small" @click="openNewProjectDrawer">编辑</el-button>
+                  <el-button link size="small" :type="(multipleSelectionLength !== 0) ? 'primary' : ''"
+                    :disabled="multipleSelectionLength === 0" @click="openNewProjectDrawer">编辑</el-button>
                 </template>
               </el-popover>
             </td>
@@ -251,20 +253,8 @@
                 <template #default>
                   <div class="flex">
                     <el-text>请选择媒体账户</el-text>
-                    <el-button link size="small" type="primary" class="ml-8px"> 编辑 </el-button>
-                  </div>
-                </template>
-                <template #reference>
-                  <el-button link size="small" disabled>编辑</el-button>
-                </template>
-              </el-popover>
-            </td>
-            <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
-              <el-popover placement="top" trigger="hover" width="170">
-                <template #default>
-                  <div class="flex">
-                    <el-text>请选择媒体账户</el-text>
-                    <el-button link size="small" type="primary" class="ml-8px"> 编辑 </el-button>
+                    <el-button link size="small" type="primary" class="ml-8px" @click="handleMediaAccount"> 编辑
+                    </el-button>
                   </div>
                 </template>
                 <template #reference>
@@ -273,15 +263,32 @@
               </el-popover>
             </td>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
-              <el-popover placement="top" trigger="hover" width="170">
+              <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
                 <template #default>
                   <div class="flex">
                     <el-text>请选择媒体账户</el-text>
-                    <el-button link size="small" type="primary" class="ml-8px"> 编辑 </el-button>
+                    <el-button link size="small" type="primary" class="ml-8px" @click="handleMediaAccount"> 编辑
+                    </el-button>
                   </div>
                 </template>
                 <template #reference>
-                  <el-button link size="small" disabled>编辑</el-button>
+                  <el-button link size="small" :type="(multipleSelectionLength !== 0) ? 'primary' : ''"
+                    :disabled="multipleSelectionLength === 0" @click="openNewProjectDrawer">编辑</el-button>
+                </template>
+              </el-popover>
+            </td>
+            <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
+              <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
+                <template #default>
+                  <div class="flex">
+                    <el-text>请选择媒体账户</el-text>
+                    <el-button link size="small" type="primary" class="ml-8px" @click="handleMediaAccount"> 编辑
+                    </el-button>
+                  </div>
+                </template>
+                <template #reference>
+                  <el-button link size="small" :type="(multipleSelectionLength !== 0) ? 'primary' : ''"
+                    :disabled="multipleSelectionLength === 0" @click="openNewProjectDrawer">编辑</el-button>
                 </template>
               </el-popover>
             </td>
@@ -290,7 +297,8 @@
                 <template #default>
                   <div class="flex">
                     <el-text>请选择媒体账户</el-text>
-                    <el-button link size="small" type="primary" class="ml-8px"> 编辑 </el-button>
+                    <el-button link size="small" type="primary" class="ml-8px" @click="handleMediaAccount"> 编辑
+                    </el-button>
                   </div>
                 </template>
                 <template #reference>
@@ -343,13 +351,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import RuleConfigurationDialog from "./components/RuleConfigurationDialog.vue";
 import NewProject from "./components/NewProject.vue";
 import SelectAccountVue from "./components/SelectAccount.vue";
 import SelectStrategyDialog from "./components/SelectStrategyDialog.vue";
 import SelectMediaAccountDialog from "./components/SelectMediaAccountDialog.vue";
-import EstimatedAdCount from './components/EstimatedAdCount.vue'
+import EstimatedAdCount from "./components/EstimatedAdCount.vue";
 import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 
 // 选择策略
@@ -369,28 +377,39 @@ const handleSelectStrategyDialogClose = (state: number) => {
   selectStrategyState.visible = false;
 };
 
-
 // 选择媒体账户
 const SelectMediaAccountState = reactive({
   visible: false,
-})
+});
 
 const handleMediaAccount = () => {
   SelectMediaAccountState.visible = true;
 };
 
-const handleMediaAccountDialogClose = (state: number) => {
+const multipleSelectionState = ref([]);
+
+const handleMediaAccountDialogClose = (
+  state: number,
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  multipleSelection: any,
+) => {
   SelectMediaAccountState.visible = false;
   if (state === 1) {
     // 做弹窗确认的处理
     console.log("收到确认");
+    console.log(multipleSelection);
+    multipleSelectionState.value = multipleSelection;
   }
-}
+};
+
+const multipleSelectionLength = computed(() => {
+  return multipleSelectionState.value.length;
+});
 
 // 更改规则配置
 const RuleConfigurationState = reactive({
-  visible: false
-})
+  visible: false,
+});
 
 const handleChangeRuleConfiguration = () => {
   RuleConfigurationState.visible = true;
@@ -402,32 +421,29 @@ const handleRuleConfigurationDialogClose = (state: number) => {
     console.log("收到确认");
   }
   RuleConfigurationState.visible = false;
-}
+};
 
 // 切换项目
 const infoOrNew = ref("new");
 
 // 新建项目和项目信息切换
 const handleChangeInfoOrNew = () => {
-  infoOrNew.value = (infoOrNew.value === "new") ? "info" : "new";
-}
-
+  infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
+};
 
 const NewProjectState = reactive({
-  visible: false
-})
+  visible: false,
+});
 
 // 新建项目
 const openNewProjectDrawer = () => {
   NewProjectState.visible = true;
-}
-
+};
 
 // 广告基本信息
 const BasicInformationOfAdState = reactive({
-  visible: false
-})
-
+  visible: false,
+});
 </script>
 
 <style scoped>
