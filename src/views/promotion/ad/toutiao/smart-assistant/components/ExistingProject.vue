@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="flex ">
-                    <div style="border: 1px solid #ebeef5;flex : 1;">
+                    <div style="border: 1px solid #ebeef5;flex : 1;border-right:none;">
                         <ul class="w-200px">
                             <li>疯狂星期一-天拓-17...</li>
                         </ul>
@@ -84,10 +84,11 @@
                                 <el-table v-loading="loading" :data="tableData" :border="true"
                                     style="width: 100%; height: 300px" fixed @selection-change="">
                                     <el-table-column type="selection" width="55" />
-                                    <el-table-column prop="ADVERTISER_ID" label="账户ID" width="180" />
-                                    <el-table-column prop="ALIAS" label="账户名称" width="180" />
-                                    <el-table-column prop="COMPANY" label="账户主体" sortable />
-                                    <el-table-column prop="REMARK" label="账户备注" />
+                                    <el-table-column prop="name" label="项目名称和ID" />
+                                    <el-table-column prop="landing_type" label="推广目的" />
+                                    <el-table-column prop="app_promotion_type" label="子目标" />
+                                    <el-table-column prop="delivery_mode" label="投放模式" />
+                                    <el-table-column prop="marketing_goal" label="营销场景" />
                                 </el-table>
                             </el-col>
                         </el-row>
@@ -106,8 +107,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, markRaw, watchEffect } from "vue";
+import { ref, reactive, watchEffect, onMounted } from "vue";
+import { ElMessage } from 'element-plus'
+// import 'element-plus/es/components/message/css'
 import Drawer from "@/components/Drawer.vue";
+import { queryProjectList } from '@/api/modules/promotion'
 
 interface IProps {
     visible: boolean;
@@ -202,8 +206,6 @@ const MarketingGoalOptions = [
 // 名称
 const name = ref();
 
-
-
 const loading = ref(false);
 
 const tableData = ref();
@@ -213,6 +215,58 @@ const paginationState = reactive({
     pageSize: 20,
     total: 10,
 });
+
+interface IQueryProjectList {
+    advertiser_id: string;
+    delivery_mode: string;
+    landing_type: string;
+    app_promotion_type: string;
+    marketing_goal: string;
+    name: string;
+}
+
+const requestParams: IQueryProjectList = reactive({
+    advertiser_id: "1787695788195915",
+    delivery_mode: "",
+    landing_type: "",
+    app_promotion_type: "",
+    marketing_goal: "",
+    name: "",
+})
+
+
+// 已有项目列表数据请求
+const queryProjectListFunc = async () => {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const res: any = await queryProjectList(requestParams);
+    console.log(res);
+
+    loading.value = true;
+
+    if (res.state === 1) {
+        tableData.value = res.data.list;
+        paginationState.currentPage = Number(res.data.page_info.cur_page);
+        paginationState.pageSize = Number(res.data.page_info.page_limit);
+        paginationState.total = Number(res.data.page_info.total);
+
+        loading.value = false;
+
+    } else {
+        ElMessage({
+            showClose: true,
+            message: res.msg,
+            type: "error",
+        });
+
+        loading.value = false;
+    }
+
+}
+
+
+onMounted(() => {
+    queryProjectListFunc();
+})
 </script>
 
 

@@ -443,7 +443,7 @@ watchEffect(() => {
 
 const handleDrawerClose = (type: number) => {
     console.log(321321312321);
-    emits('handleNewProjectClose',type)
+    emits('handleNewProjectClose', type)
 };
 
 const boxCardItem = ref([
