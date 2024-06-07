@@ -9,5 +9,5 @@ interface IGetAlbumList {
 }
 
 export const getAlbumList = (params: IGetAlbumList) => {
-	return http.get("/api/Mk_Account/_queryAccountList", params);
+	return http.get("/api/Mk_Commonapi/_queryAccountList", params);
 };

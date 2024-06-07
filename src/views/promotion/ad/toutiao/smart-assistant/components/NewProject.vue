@@ -441,21 +441,10 @@ watchEffect(() => {
     drawerOptions.visible = props.visible;
 });
 
-const handleDrawerClose = () => {
+const handleDrawerClose = (type: number) => {
     console.log(321321312321);
-    emits('handleNewProjectClose',)
+    emits('handleNewProjectClose',type)
 };
-
-
-
-
-
-
-
-
-
-
-
 
 const boxCardItem = ref([
     {

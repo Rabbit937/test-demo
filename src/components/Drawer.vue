@@ -1,6 +1,6 @@
 <template>
     <el-drawer :model-value="drawer" :append-to-body="true" :open-delay="100" :show-close="true"
-        :close-on-click-modal="true" :before-close="handleClose" :size="props.size" :with-header="false" lock-scroll
+        :close-on-click-modal="false" :close-on-press-escape="false" :before-close="handleClose" :size="props.size" :with-header="false" lock-scroll
         style="background-color: rgb(240, 242, 245)">
         <header style="
           position: relative;

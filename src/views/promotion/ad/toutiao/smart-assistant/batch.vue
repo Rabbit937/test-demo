@@ -21,7 +21,7 @@
       style="border: solid #e8eaec;border-width: 1px 1px 0;border-radius: 4px 4px 0 0;">
       <el-row class="flex grid-justify-between line-height-48px pl-16px pr-16px">
         <el-col :span="1.5">
-          <el-button type="primary" class="w-160px h-32px" @click="selectStrategy">选择策略</el-button>
+          <!-- <el-button type="primary" class="w-160px h-32px" @click="selectStrategy">选择策略</el-button> -->
         </el-col>
         <el-col :span="1.5" class="flex flex-items-center font-size-12px font-400 cursor-pointer">
           <EstimatedAdCount />
@@ -30,7 +30,8 @@
       <el-row class="flex p-16px pb-0px">
         <el-col :span="1.5">
           <SelectAccountVue :prefix-title="'媒体账户'" @handleChange="handleMediaAccount">
-            <span v-if="true" class="color-[#c6c6c6]" @click="handleMediaAccount">请选择媒体账户</span>
+            <span v-if="multipleSelectionLength === 0" class="color-[#c6c6c6]"
+              @click="handleMediaAccount">请选择媒体账户</span>
             <!-- 显示账户信息 -->
             <template v-else>
               <el-popover placement="bottom" trigger="click" width="502">
@@ -47,16 +48,17 @@
                   </el-row>
                   <div class="w-100% overflow-x-hidden overflow-y-auto" style="max-height: 320px">
                     <div class="flex grid-justify-start p-6px m-auto mt-8px mb-8px pos-relative"
-                      style="background-color: #f2f2f2; border-radius: 4px">
+                      style="background-color: #f2f2f2; border-radius: 4px"
+                      v-for="(item, index) in multipleSelectionState">
                       <img
                         src="data:image/png;base64,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"
                         alt="加载失败" class="w-32px h-32px mr-8px" />
                       <div class="overflow-hidden font-size-12px color-[#999]">
                         <div>
-                          <el-text size="small" class="!color-[#999]">疯狂星期一-天拓-141</el-text>
+                          <el-text size="small" class="!color-[#999]">{{ item.ALIAS }}</el-text>
                         </div>
                         <div>
-                          <el-text size="small" class="!color-[#999]">1794187978880266</el-text>
+                          <el-text size="small" class="!color-[#999]">{{ item.ADVERTISER_ID }}</el-text>
                         </div>
                       </div>
                       <el-icon class="!pos-absolute right-10px cursor-pointer">
@@ -66,8 +68,7 @@
                   </div>
                 </template>
                 <template #reference>
-                  <div>账户名称</div>
-                  <div>已选10个</div>
+                  <div>{{ multipleSelectionState[0].ALIAS }}</div>
                 </template>
               </el-popover>
             </template>
@@ -244,7 +245,7 @@
                 </template>
                 <template #reference>
                   <el-button link size="small" :type="(multipleSelectionLength !== 0) ? 'primary' : ''"
-                    :disabled="multipleSelectionLength === 0" @click="openNewProjectDrawer">编辑</el-button>
+                    :disabled="multipleSelectionLength === 0" @click="openProjectEdit">编辑</el-button>
                 </template>
               </el-popover>
             </td>
@@ -344,7 +345,9 @@
     @handleClose="handleRuleConfigurationDialogClose" />
 
   <!-- 新建项目 -->
-  <NewProject :visible="NewProjectState.visible" />
+  <NewProject :visible="NewProjectState.visible" @handleNewProjectClose="handleNewProjectClose" />
+
+  <ExistingProject :visible="ExistingProjectState.visible" @handleNewProjectClose="openExistingProjectDrawer" />
 
   <!-- 广告基本信息 -->
   <BasicInformationOfAd :visible="BasicInformationOfAdState.visible" />
@@ -352,8 +355,11 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed } from "vue";
+import { ElMessageBox } from "element-plus";
+import "element-plus/es/components/message-box/style/css";
 import RuleConfigurationDialog from "./components/RuleConfigurationDialog.vue";
 import NewProject from "./components/NewProject.vue";
+import ExistingProject from './components/ExistingProject.vue'
 import SelectAccountVue from "./components/SelectAccount.vue";
 import SelectStrategyDialog from "./components/SelectStrategyDialog.vue";
 import SelectMediaAccountDialog from "./components/SelectMediaAccountDialog.vue";
@@ -440,10 +446,54 @@ const openNewProjectDrawer = () => {
   NewProjectState.visible = true;
 };
 
+
+// 已有项目
+const ExistingProjectState = reactive({
+  visible: false,
+});
+
+// 选择已有项目
+const openExistingProjectDrawer = () => {
+  ExistingProjectState.visible = true;
+};
+
+
+const openProjectEdit = () => {
+  if (infoOrNew.value === 'new') {
+    openNewProjectDrawer();
+  } else {
+    openExistingProjectDrawer();
+  }
+}
+
 // 广告基本信息
 const BasicInformationOfAdState = reactive({
   visible: false,
 });
+
+const handleNewProjectClose = (type: number) => {
+  if (type === 1) {
+    NewProjectState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+    )
+      .then(() => {
+        NewProjectState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
+}
+
 </script>
 
 <style scoped>

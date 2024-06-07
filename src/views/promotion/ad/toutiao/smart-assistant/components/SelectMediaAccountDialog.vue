@@ -1,70 +1,70 @@
 <template>
-    <Dialog :title="selectPopover.title" :visible="selectPopover.visible" @handleClose="handleDialogClose">
-        <!-- 选择媒体账户 -->
-        <section class="font-size-12px color-[#666]" v-if="selectPopover.type === 1">
-            <el-row class="flex mt-16px mb-16px">
-                <!-- <el-col :span="1.5" class="mr-8px">
+	<Dialog :title="selectPopover.title" :visible="selectPopover.visible" @handleClose="handleDialogClose">
+		<!-- 选择媒体账户 -->
+		<section class="font-size-12px color-[#666]" v-if="selectPopover.type === 1">
+			<el-row class="flex mt-16px mb-16px">
+				<!-- <el-col :span="1.5" class="mr-8px">
                     <el-select v-model="mediaAccountState.project" clearable placeholder="全部" style="width: 240px">
                         <template #prefix>创量项目:</template>
 <el-option v-for="item in projectOptions" :key="item.value" :label="item.label" :value="item.value" />
 </el-select>
 </el-col> -->
-                <el-col :span="1.5" class="mr-8px">
-                    <el-select v-model="mediaAccountState.mainBody" clearable placeholder="全部" style="width: 240px">
-                        <template #prefix>账户主体:</template>
-                        <el-option v-for="item in mainBodyOptions" :key="item.value" :label="item.label"
-                            :value="item.value" />
-                    </el-select>
-                </el-col>
-                <el-col :span="1.5" class="mr-8px">
-                    <el-input v-model="mediaAccountState.searchValue" style="max-width: 600px" placeholder="搜索媒体账户">
-                        <template #append>
-                            <el-button :icon="Search" size="small" />
-                        </template>
-                    </el-input>
-                </el-col>
-                <el-col :span="1.5" class="flex mr-8px">
-                    <el-button link size="small" type="primary">清空</el-button>
-                </el-col>
-            </el-row>
-            <el-row class="mb-8px">
-                <el-col>
-                    <el-text size="small">
-                        <el-icon color="#ff9b48">
-                            <InfoFilled />
-                        </el-icon>
-                        仅支持同个主体账户
-                    </el-text>
-                </el-col>
-            </el-row>
-            <el-row class="mb-8px">
-                <el-col>
-                    <el-text size="small">
-                        已选<el-text size="small" type="primary" class="!mr-4px !ml-4px">0</el-text>个账户
-                    </el-text>
-                    <el-text size="small" type="primary" class="!ml-8px"> 清空已选 </el-text>
-                </el-col>
-            </el-row>
-            <el-row class="mb-8px">
-                <el-col>
-                    <el-table v-loading="loading" :data="tableData" :border="true" style="width: 100%; height: 300px"
-                        fixed @selection-change="handleSelectionChange">
-                        <el-table-column type="selection" width="55" />
-                        <el-table-column prop="ADVERTISER_ID" label="账户ID" width="180" />
-                        <el-table-column prop="ALIAS" label="账户名称" width="180" />
-                        <el-table-column prop="COMPANY" label="账户主体" sortable />
-                        <el-table-column prop="REMARK" label="账户备注" />
-                    </el-table>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col>
-                    <Pagination :currentPage="paginationState.currentPage" :pageSize="paginationState.pageSize"
-                        :total="paginationState.total" @handleClick="handlePaginationEvent"></Pagination>
-                </el-col>
-            </el-row>
-        </section>
-    </Dialog>
+				<el-col :span="1.5" class="mr-8px">
+					<el-select v-model="mediaAccountState.mainBody" clearable placeholder="全部" style="width: 240px">
+						<template #prefix>账户主体:</template>
+						<el-option v-for="item in mainBodyOptions" :key="item.value" :label="item.label"
+							:value="item.value" />
+					</el-select>
+				</el-col>
+				<el-col :span="1.5" class="mr-8px">
+					<el-input v-model="mediaAccountState.searchValue" style="max-width: 600px" placeholder="搜索媒体账户">
+						<template #append>
+							<el-button :icon="Search" size="small" />
+						</template>
+					</el-input>
+				</el-col>
+				<el-col :span="1.5" class="flex mr-8px">
+					<el-button link size="small" type="primary">清空</el-button>
+				</el-col>
+			</el-row>
+			<el-row class="mb-8px">
+				<el-col>
+					<el-text size="small">
+						<el-icon color="#ff9b48">
+							<InfoFilled />
+						</el-icon>
+						仅支持同个主体账户
+					</el-text>
+				</el-col>
+			</el-row>
+			<el-row class="mb-8px">
+				<el-col>
+					<el-text size="small">
+						已选<el-text size="small" type="primary" class="!mr-4px !ml-4px">0</el-text>个账户
+					</el-text>
+					<el-text size="small" type="primary" class="!ml-8px"> 清空已选 </el-text>
+				</el-col>
+			</el-row>
+			<el-row class="mb-8px">
+				<el-col>
+					<el-table v-loading="loading" :data="tableData" :border="true" style="width: 100%; height: 300px"
+						fixed @selection-change="handleSelectionChange">
+						<el-table-column type="selection" width="55" />
+						<el-table-column prop="ADVERTISER_ID" label="账户ID" width="180" />
+						<el-table-column prop="ALIAS" label="账户名称" width="180" />
+						<el-table-column prop="COMPANY" label="账户主体" sortable />
+						<el-table-column prop="REMARK" label="账户备注" />
+					</el-table>
+				</el-col>
+			</el-row>
+			<el-row>
+				<el-col>
+					<Pagination :currentPage="paginationState.currentPage" :pageSize="paginationState.pageSize"
+						:total="paginationState.total" @handleClick="handlePaginationEvent"></Pagination>
+				</el-col>
+			</el-row>
+		</section>
+	</Dialog>
 </template>
 
 
