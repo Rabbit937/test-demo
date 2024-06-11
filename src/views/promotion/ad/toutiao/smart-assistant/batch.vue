@@ -347,7 +347,7 @@
   <!-- 新建项目 -->
   <NewProject :visible="NewProjectState.visible" @handleNewProjectClose="handleNewProjectClose" />
 
-  <ExistingProject :visible="ExistingProjectState.visible" @handleNewProjectClose="openExistingProjectDrawer" />
+  <ExistingProject :visible="ExistingProjectState.visible" @handleNewProjectClose="handleExistingProjectClose" />
 
   <!-- 广告基本信息 -->
   <BasicInformationOfAd :visible="BasicInformationOfAdState.visible" />
@@ -465,6 +465,12 @@ const openProjectEdit = () => {
     openExistingProjectDrawer();
   }
 }
+
+
+const handleExistingProjectClose = () => {
+
+}
+
 
 // 广告基本信息
 const BasicInformationOfAdState = reactive({
