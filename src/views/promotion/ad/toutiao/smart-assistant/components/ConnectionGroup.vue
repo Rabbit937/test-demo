@@ -17,17 +17,18 @@
                             <el-table-column prop="active_track_url" label="激活链接" /> -->
                         </el-table>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="12" style="border: 1px solid black;">
                         <el-row>
                             <el-col>
                                 <el-text>已有链接</el-text>
                             </el-col>
                             <el-col>
                                 <el-form>
-                                    <el-form-item label="展示">
-
+                                    <el-form-item label="展示" :label-width="144" label-position="left"
+                                        style="margin-bottom: 0px">
+                                        --
                                     </el-form-item>
-                                    <el-form-item label="有效触点"></el-form-item>
+                                    <el-form-item label=" 有效触点"></el-form-item>
                                     <el-form-item label="视频播放"></el-form-item>
                                     <el-form-item label="视频播完"></el-form-item>
                                     <el-form-item label="视频有效播放"></el-form-item>
