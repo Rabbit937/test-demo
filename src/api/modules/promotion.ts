@@ -36,18 +36,17 @@ export const queryProjectList = (params: IQueryProjectList) => {
 /**
  * @name 创建项目
  */
-
 export interface ICreateProject {
-	"ac[]": string[];
+	ac: string[];
 	ad_type: string;
-	advertiser_id: string;
-	"age[]": string[];
+	advertiser_id: number;
+	age: string[];
 	android_osv: string;
 	app_name: string;
 	app_promotion_type: string;
-	"asset_ids[]": string;
+	asset_ids: number[];
 	audience_extend?: string;
-	"auto_extend_targets[]": string;
+	auto_extend_targets: string[];
 	bid_type: string;
 	budget: string;
 	budget_mode: string;
@@ -56,8 +55,8 @@ export interface ICreateProject {
 	deep_external_action?: string;
 	delivery_mode: string;
 	delivery_type: string;
-	"device_brand[]"?: string;
-	"device_type[]": string[];
+	device_brand: string[];
+	device_type: string[];
 	district: string;
 	download_mode: string;
 	download_type: string;
@@ -71,28 +70,26 @@ export interface ICreateProject {
 	hide_if_exists: string;
 	interest_action_mode: string;
 	inventory_catalog: string;
-	"inventory_type[]": string;
+	inventory_type: string[];
 	keywords?: string;
 	landing_type: string;
-	"launch_price[]"?: string;
 	marketing_goal: string;
 	name: string;
 	operation: string;
-	"platform[]": string;
+	platform: string[];
 	pricing: string;
 	schedule_type: string;
-	search_bid_ratio?: string;
 	superior_popularity_type: string;
 	track_url_group_id: string;
 	track_url_type: string;
 	union_video_type: string;
 	value_optimized_type: string;
+	app_type: string;
 }
 
 
-
 export const createProject = (params: ICreateProject) => {
-	return http.get("/api/Mk_Tt_Project/_createProject", params)
+	return http.post("/api/Mk_Tt_Project/_createProject", params)
 }
 
 /**
@@ -123,3 +120,35 @@ export const queryMonitorGroupList = (params: IQueryMonitorGroupList) => {
 
 
 
+export interface IQueryPreferenceList {
+	/**
+	 * 广告类型
+	 */
+	ad_type?: string;
+	advertiser_id: number;
+	/**
+	 * 定向包id
+	 */
+	audience_package_id?: string;
+	/**
+	 * 广告投放范围
+	 */
+	delivery_range?: string;
+	/**
+	 * 推广类型
+	 */
+	landing_type?: string;
+	/**
+	 * 营销场景
+	 */
+	marketing_goal?: string;
+	/**
+	 * 定向包名称
+	 */
+	name?: string;
+}
+
+
+export const queryPreferenceList = (params: IQueryPreferenceList) => {
+	return http.get('/api/Mk_Tt_Preference/_queryPreferenceList', params)
+}

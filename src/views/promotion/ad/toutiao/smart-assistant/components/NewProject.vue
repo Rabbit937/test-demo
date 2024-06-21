@@ -35,7 +35,7 @@
 
                     <el-col class="pl-16px pr-16px mb-24px">
                         <el-radio-group v-model="globalState.app_promotion_type">
-                            <el-radio-button v-for="(item, index) in app_promotion_type_radio" :value="item.value">
+                            <el-radio-button v-for="(item) in app_promotion_type_radio" :value="item.value">
                                 {{ item.label }}
                             </el-radio-button>
                         </el-radio-group>
@@ -48,21 +48,21 @@
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="投放模式">
                                 <el-radio-group v-model="globalState.delivery_mode">
-                                    <el-radio-button v-for="(item, index) in delivery_mode_radio" :value="item.value">
+                                    <el-radio-button v-for="(item) in delivery_mode_radio" :value="item.value">
                                         {{ item.label }}
                                     </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item label="营销场景">
                                 <el-radio-group v-model="globalState.marketing_goal">
-                                    <el-radio-button v-for="(item, index) in marketing_goal_radio" :value="item.value">
+                                    <el-radio-button v-for="(item) in marketing_goal_radio" :value="item.value">
                                         {{ item.label }}
                                     </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item label="广告类型">
                                 <el-radio-group v-model="globalState.ad_type">
-                                    <el-radio-button v-for="(item, index) in ad_type_radio" :value="item.value">
+                                    <el-radio-button v-for="(item) in ad_type_radio" :value="item.value">
                                         {{ item.label }}
                                     </el-radio-button>
                                 </el-radio-group>
@@ -212,7 +212,7 @@
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item label="选择定向包">
-                                <el-button type="primary">选择定向包</el-button>
+                                <el-button @click="selectAudiencePackage" type="primary">选择定向包</el-button>
                             </el-form-item>
                         </el-form>
                     </el-col>
@@ -383,20 +383,29 @@
         </el-scrollbar>
     </Drawer>
 
+
+    <!-- 定向包 -->
+    <AudiencePackage :visible="AudiencePackageState.visible" :size="AudiencePackageState.size" />
+
+
     <ConnectionGroup :visible="ConnectionGroupState.visible" :type="ConnectionGroupState.type"
         :title="ConnectionGroupState.title" />
+
+
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, markRaw, watchEffect, onMounted } from "vue";
 import Drawer from "@/components/Drawer.vue";
-import ConnectionGroup from './ConnectionGroup.vue'
+import AudiencePackage from './AudiencePackage.vue';
+import ConnectionGroup from './ConnectionGroup.vue';
 
 import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 import { WarningFilled } from "@element-plus/icons-vue";
 
-import { queryAndroidAppList } from '@/api/modules/promotion'
+import { createProject, queryAndroidAppList } from '@/api/modules/promotion'
+
 
 interface IProps {
     visible: boolean;
@@ -415,13 +424,83 @@ watchEffect(() => {
 });
 
 const handleDrawerClose = (type: number) => {
-    emits('handleNewProjectClose', type)
+    if (type === 1) {
+        createProjectFunc(globalState);
+    }
+
+
+    // emits('handleNewProjectClose', type)
 };
 
 
+export interface ICreateProject {
+    ac: string[];
+    ad_type: string;
+    advertiser_id: number;
+    age: string[];
+    android_osv: string;
+    app_name: string;
+    app_promotion_type: string;
+    asset_ids: number[];
+    audience_extend?: string;
+    auto_extend_targets: string[];
+    bid_type: string;
+    budget: string;
+    budget_mode: string;
+    deep_bid_type?: string;
+    deep_cpabid?: string;
+    deep_external_action?: string;
+    delivery_mode: string;
+    delivery_type: string;
+    device_brand: string[];
+    device_type: string[];
+    district: string;
+    download_mode: string;
+    download_type: string;
+    download_url: string;
+    external_action: string;
+    filter_aweme_abnormal_active?: string;
+    filter_aweme_fans_count?: string;
+    filter_own_aweme_fans?: string;
+    gender: string;
+    hide_if_converted: string;
+    hide_if_exists: string;
+    interest_action_mode: string;
+    inventory_catalog: string;
+    inventory_type: string[];
+    keywords?: string;
+    landing_type: string;
+    marketing_goal: string;
+    name: string;
+    operation: string;
+    platform: string[];
+    pricing: string;
+    schedule_type: string;
+    search_bid_ratio: string;
+    superior_popularity_type: string;
+    track_url_group_id: string;
+    track_url_type: string;
+    union_video_type: string;
+    value_optimized_type: string;
 
-const globalState = reactive({
-    advertiser_id: '',
+
+    // 接口没写，头条需要参数
+    schedule_time: string;
+    data_docking_mode: string;
+    app_type: string;
+
+    // 页面参数
+    search_bid_ratio_type: number;
+    schedule_time_type: number;
+    matchingMethod: number;
+    targetedPackageSource: number;
+    detect_link_source: number;
+    platform_type: string;
+}
+
+
+const globalState: ICreateProject = reactive({
+    advertiser_id: 1787695788195915,
     delivery_mode: 'MANUAL',
     app_promotion_type: 'DOWNLOAD',
     landing_type: 'APP',
@@ -460,8 +539,33 @@ const globalState = reactive({
 
 
     // 项目名称
-    name: '<日期>-<时分秒>-<当日标号>',
+    name: '20240621-16:09:26-1',
     operation: 'ENABLE', // DISABLE
+
+
+    ac: [],
+    age: [],
+    android_osv: '',
+    asset_ids: [1791972146324483],
+    auto_extend_targets: [],
+    budget: '',
+    device_brand: [],
+    device_type: [],
+    district: '',
+    download_url: 'https://apps.bytesfield.com/download/basic/cur/c1e4f76f2c6608cf2ce4f1d00684d6be37439fc5',
+    external_action: 'AD_CONVERT_TYPE_ACTIVE',
+    gender: 'NONE',
+    hide_if_converted: 'PROMOTION',
+    hide_if_exists: 'UNLIMITED',
+    interest_action_mode: 'RECOMMEND',
+    inventory_type: [],
+    platform: [],
+    superior_popularity_type: '',
+    track_url_group_id: '1797289111929028',
+    track_url_type: 'GROUP_ID',
+    union_video_type: '',
+    value_optimized_type: '',
+    app_type: ''
 });
 
 // 子目标
@@ -681,21 +785,7 @@ const handleBoxCardItem = (id: number) => {
     });
 };
 
-// ConnectionGroup
-const ConnectionGroupState = reactive({
-    visible: false,
-    type: 0,
-    title: ''
-})
 
-const selectConnectionGroup = () => {
-    console.log(globalState.detect_link_source)
-
-    ConnectionGroupState.visible = true;
-    ConnectionGroupState.type = globalState.detect_link_source;
-    ConnectionGroupState.title = '选择巨量后台监测连接组';
-
-}
 
 // 头条应用
 const AndroidAppList = ref();
@@ -722,8 +812,41 @@ onMounted(() => {
 })
 
 
+const createProjectFunc = async (params: ICreateProject) => {
+    const res = await createProject(params);
+
+    console.log(res);
+}
 
 
+// ConnectionGroup
+const ConnectionGroupState = reactive({
+    visible: false,
+    type: 0,
+    title: ''
+})
+
+const selectConnectionGroup = () => {
+    console.log(globalState.detect_link_source)
+
+    ConnectionGroupState.visible = true;
+    ConnectionGroupState.type = globalState.detect_link_source;
+    ConnectionGroupState.title = '选择巨量后台监测连接组';
+
+}
+
+
+const AudiencePackageState = reactive({
+    visible: false,
+    size: 1016,
+})
+
+
+// 选择定向包
+const selectAudiencePackage = () => {
+    console.log(123213)
+    AudiencePackageState.visible = true;
+}
 
 
 </script>
