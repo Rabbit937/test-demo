@@ -37,7 +37,7 @@ export const queryProjectList = (params: IQueryProjectList) => {
  * @name 创建项目
  */
 
-export interface Request {
+export interface ICreateProject {
 	"ac[]": string[];
 	ad_type: string;
 	advertiser_id: string;
@@ -91,7 +91,9 @@ export interface Request {
 
 
 
-
+export const createProject = (params: ICreateProject) => {
+	return http.get("/api/Mk_Tt_Project/_createProject", params)
+}
 
 /**
  * @name 查询应用列表

@@ -468,9 +468,8 @@ const openProjectEdit = () => {
 
 
 const handleExistingProjectClose = () => {
-
+  
 }
-
 
 // 广告基本信息
 const BasicInformationOfAdState = reactive({

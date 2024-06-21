@@ -121,27 +121,27 @@
                             </el-form-item>
 
                             <el-form-item label="下载方式">
-                                <el-radio-group>
-                                    <el-radio-button :value="1"> 直接下载 </el-radio-button>
-                                    <el-radio-button :value="2"> 落地页下载 </el-radio-button>
+                                <el-radio-group v-model="globalState.download_type">
+                                    <el-radio-button v-for="(item) in download_type_radio" :value="item.value"
+                                        :key="item.value">
+                                        {{ item.label }}
+                                    </el-radio-button>
+                                </el-radio-group>
+                            </el-form-item>
+                            <el-form-item label="优先应用商店下载">
+                                <el-radio-group v-model="globalState.download_mode">
+                                    <el-radio-button value="APP_STORE_DELIVERY">启用</el-radio-button>
+                                    <el-radio-button value="DEFAULT">不启用</el-radio-button>
+                                </el-radio-group>
+                            </el-form-item>
+                            <el-form-item label="数据对接方式">
+                                <el-radio-group v-model="globalState.data_docking_mode">
+                                    <el-radio-button :value="'EVENT'"> 事件管理 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
 
-                            <!-- <el-form-item label="优先应用商店下载" v-if="globalState.platformType !== 1">
-                                <el-radio-group>
-                                    <el-radio-button>直接下载</el-radio-button>
-                                    <el-radio-button>落地页下载</el-radio-button>
-                                </el-radio-group>
-                            </el-form-item> -->
-                            <!-- 
-                            <el-form-item label="数据对接方式">
-                                <el-radio-group>
-                                    <el-radio-button :value="1"> 事件管理 </el-radio-button>
-                                </el-radio-group>
-                            </el-form-item> -->
 
-
-                            <!--           <el-form-item label="优化目标">
+                            <el-form-item label="优化目标">
                                 <el-form :label-width="144" label-position="left" class="p-16px pr-40px"
                                     style="border: 1px solid #e8eaec">
                                     <el-form-item label="事件回传方式" style="margin-bottom: 16px">
@@ -157,7 +157,7 @@
                                         <el-select style="width: 360px"></el-select>
                                     </el-form-item>
                                 </el-form>
-                            </el-form-item> -->
+                            </el-form-item>
                         </el-form>
                     </el-col>
                 </el-row>
@@ -174,9 +174,11 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="广告位置" style="margin-bottom:0px;">
-                                <el-radio-group v-model="globalState.advertisingPosition">
-                                    <el-radio-button :value="1"> 通选智选 </el-radio-button>
-                                    <el-radio-button :value="2"> 首选媒体 </el-radio-button>
+                                <el-radio-group v-model="globalState.inventory_catalog">
+                                    <el-radio-button v-for="(item) in inventory_catalog_radio" :value="item.value"
+                                        :key="item.value">
+                                        {{ item.label }}
+                                    </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item>
@@ -188,7 +190,7 @@
 
 
                 <!-- 用户定向 -->
-                <!--         <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
+                <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
                     <el-col class="h-48px pl-16px font-700 line-height-48px color-[#333]" style="
                   background-color: #fbfcfd;
                   border-bottom: 1px solid #e8eaec;
@@ -198,13 +200,13 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="定向包来源">
-                                <el-radio-group v-model="userTargeting.targetedPackageSource">
+                                <el-radio-group v-model="globalState.targetedPackageSource">
                                     <el-radio-button :value="1"> 账户已有定向包 </el-radio-button>
                                     <el-radio-button :value="2"> 创量定向包 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item label="匹配方式">
-                                <el-radio-group v-model="userTargeting.matchingMethod">
+                                <el-radio-group v-model="globalState.matchingMethod">
                                     <el-radio-button :value="1"> 每个账户选择一个定向包 </el-radio-button>
                                     <el-radio-button :value="2"> 每个项目选择一个定向包 </el-radio-button>
                                 </el-radio-group>
@@ -214,10 +216,13 @@
                             </el-form-item>
                         </el-form>
                     </el-col>
-                </el-row> -->
+                </el-row>
+
+
+
 
                 <!-- 项目排期与预算 -->
-                <!--              <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
+                <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
                     <el-col class="h-48px pl-16px font-700 line-height-48px color-[#333]" style="
                   background-color: #fbfcfd;
                   border-bottom: 1px solid #e8eaec;
@@ -227,56 +232,56 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="投放时间">
-                                <el-radio-group v-model="projectScheduleAndBudget.deliveryTime">
-                                    <el-radio-button :value="1"> 从今天到长期投放 </el-radio-button>
-                                    <el-radio-button :value="2"> 设置开始和结束日期 </el-radio-button>
+                                <el-radio-group v-model="globalState.schedule_type">
+                                    <el-radio-button v-for="(item) in schedule_type_radio" :value="item.value"
+                                        :key="item.value">
+                                        {{ item.label }}
+                                    </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item label="投放时段">
-                                <el-radio-group v-model="projectScheduleAndBudget.deliveryPeriod">
+                                <el-radio-group v-model="globalState.schedule_time_type">
                                     <el-radio-button :value="1"> 不限 </el-radio-button>
                                     <el-radio-button :value="2"> 指定时间段 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
+
+
+
                             <el-form-item label="竞价策略">
-                                <div class="w-110px flex flex-col mr-10px p-12px cursor-pointer"
-                                    v-for="item in boxCardBiddingStrategy" :key="item.id"
-                                    @click="handleBoxCardBiddingStrategy(item.id)"
-                                    style="border: 1px solid #e8eaec;border-radius: 4px;"
-                                    :style="item.active ? { borderColor: '#197afb' } : ''">
-                                    <div class="font-size-14px font-700 color-[#333]"
-                                        :style="item.active ? { color: '#197afb' } : ''">
-                                        {{ item.title }}</div>
-                                    <div class="color-[#999] font-size-12px h-32px line-height-16px"
-                                        :style="item.active ? { color: '#197afb' } : ''">
-                                        {{ item.content }}
-                                    </div>
-                                </div>
+                                <el-radio-group v-model="globalState.bid_type">
+                                    <el-radio-button v-for="(item) in bid_type_radio" :value="item.value"
+                                        :key="item.value">
+                                        {{ item.label }}
+                                    </el-radio-button>
+                                </el-radio-group>
                             </el-form-item>
                             <el-form-item>
                                 <el-text> 巨量广告媒体加白功能，确认账户拥有权限再启用</el-text>
                             </el-form-item>
 
                             <el-form-item label="项目预算">
-                                <el-radio-group v-model="projectScheduleAndBudget.projectBudget">
-                                    <el-radio-button :value="1"> 不限 </el-radio-button>
-                                    <el-radio-button :value="2"> 日预算 </el-radio-button>
+                                <el-radio-group v-model="globalState.budget_mode">
+                                    <el-radio-button v-for="(item) in budget_mode_radio" :value="item.value"
+                                        :key="item.value">
+                                        {{ item.label }}
+                                    </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
 
                             <el-form-item label="付费方式">
-                                <el-radio-group v-model="projectScheduleAndBudget.paymentMethod">
-                                    <el-radio-button :value="1"> 目标转化出价-按展示付费 </el-radio-button>
+                                <el-radio-group v-model="globalState.pricing">
+                                    <el-radio-button :value="'PRICING_OCPM'"> 目标转化出价-按展示付费 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                         </el-form>
                     </el-col>
-                </el-row> -->
+                </el-row>
 
 
 
                 <!-- 搜索快投 -->
-                <!--          <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
+                <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
                     <el-col class="h-48px pl-16px font-700 line-height-48px color-[#333]" style="
                   background-color: #fbfcfd;
                   border-bottom: 1px solid #e8eaec;
@@ -289,7 +294,7 @@
 
                             </el-form-item>
                             <el-form-item label="出价系数" style="margin-bottom: 0px;">
-                                <el-radio-group>
+                                <el-radio-group v-model="globalState.search_bid_ratio_type">
                                     <el-radio-button :value="1"> 不启用 </el-radio-button>
                                     <el-radio-button :value="2"> 启用 </el-radio-button>
                                 </el-radio-group>
@@ -297,31 +302,31 @@
                             <el-form-item>
                                 <el-text>不启用出价系数时默认出价系数为1（仅针对可设置出价系数的账户生效）</el-text>
                             </el-form-item>
-
                             <el-form-item>
-                                <el-input placeholder="请输入出价系数" />
+                                <el-input clearable style="width: 160px" v-if="globalState.search_bid_ratio_type === 2"
+                                    v-model="globalState.search_bid_ratio" placeholder="请输入出价系数" />
                             </el-form-item>
-
-                            <el-form-item label="定向扩展">
-                                <el-radio-group>
-                                    <el-radio-button :value="1"> 不启用 </el-radio-button>
-                                    <el-radio-button :value="2"> 启用 </el-radio-button>
+                            <el-form-item label="定向扩展" style="margin-bottom: 0px;">
+                                <el-radio-group v-model="globalState.audience_extend">
+                                    <el-radio-button v-for="item in audience_extend_radio" :key="item.value"
+                                        :value="item.value">
+                                        {{ item.label }}
+                                    </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
-
-                            <el-form-item>
+                            <!-- <el-form-item>
                                 <el-checkbox>
                                     <el-text>搜索快投豁免（仅支持媒体平台申请了搜索快投豁免账户，否则“出价系数”和“定向拓展”媒体API将默认开启)</el-text>
                                 </el-checkbox>
-                            </el-form-item>
+                            </el-form-item> -->
                         </el-form>
                     </el-col>
-                </el-row> -->
+                </el-row>
 
 
 
                 <!-- 项目名称 -->
-                <!--         <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
+                <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
                     <el-col class="h-48px pl-16px font-700 line-height-48px color-[#333]" style="
                   background-color: #fbfcfd;
                   border-bottom: 1px solid #e8eaec;
@@ -331,17 +336,49 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="项目名称">
+                                <el-row>
+                                    <el-col>
+                                        <el-input v-model="globalState.name" style="width: 360px;" :maxlength="100"
+                                            show-word-limit></el-input>
+                                    </el-col>
+                                    <el-col class="flex">
+                                        <el-text style="margin-right: 8px;">通配符:</el-text>
+                                        <el-text class="cursor-pointer" style="margin-right: 8px;"
+                                            type="primary">+渠道包名</el-text>
+                                        <el-text class="cursor-pointer" style="margin-right: 8px;"
+                                            type="primary">+检测活动名</el-text>
+                                        <el-text class="cursor-pointer" style="margin-right: 8px;"
+                                            type="primary">+已有检测链接组名</el-text>
+                                        <el-text class="cursor-pointer" style="margin-right: 8px;"
+                                            type="primary"><el-icon>
+                                                <Document />
+                                            </el-icon>插入更多</el-text>
+                                    </el-col>
 
+                                    <el-col>
+                                        <el-text type="warning"><el-icon>
+                                                <WarningFilled />
+                                            </el-icon> 取消<时间>或<标号>类通配符可能会导致名称重复，无法提交计划</el-text>
+                                    </el-col>
+
+                                    <el-col>
+                                        <el-text type="warning"><el-icon>
+                                                <WarningFilled />
+                                            </el-icon>名称长度最多100字符（1汉字=2字符），使用通配符时，请注意控制自定义内容长度</el-text>
+                                    </el-col>
+                                </el-row>
                             </el-form-item>
                             <el-form-item label="项目默认状态">
-                                <el-radio-group>
-                                    <el-radio-button :value="1"> 暂停 </el-radio-button>
-                                    <el-radio-button :value="2"> 开启 </el-radio-button>
+                                <el-radio-group v-model="globalState.operation">
+                                    <el-radio-button v-for="item in operation_radio" :key="item.value"
+                                        :value="item.value">
+                                        {{ item.label }}
+                                    </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                         </el-form>
                     </el-col>
-                </el-row> -->
+                </el-row>
             </main>
         </el-scrollbar>
     </Drawer>
@@ -351,7 +388,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, markRaw, watchEffect, onMounted, nextTick } from "vue";
+import { ref, reactive, markRaw, watchEffect, onMounted } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import ConnectionGroup from './ConnectionGroup.vue'
 
@@ -385,21 +422,46 @@ const handleDrawerClose = (type: number) => {
 
 const globalState = reactive({
     advertiser_id: '',
-    operation: 'ENABLE', // DISABLE
     delivery_mode: 'MANUAL',
     app_promotion_type: 'DOWNLOAD',
     landing_type: 'APP',
     marketing_goal: 'VIDEO_AND_IMAGE',
     ad_type: "ALL",
     delivery_type: 'NORMAL',
-    name: '',
     platform_type: '',
     app_name: '',
 
     // 检测链接来源
     detect_link_source: 1,
+    // 下载方式
+    download_type: '',
+    download_mode: "DEFAULT",
+    data_docking_mode: 'EVENT',
+
+    inventory_catalog: "UNIVERSAL_SMART",
+
+    targetedPackageSource: 1,
+    matchingMethod: 2,
+
+    // 项目排期与预算
+    schedule_type: 'SCHEDULE_FROM_NOW',
+    schedule_time_type: 1,
+    schedule_time: '',
+
+    bid_type: 'CUSTOM',
+    budget_mode: 'BUDGET_MODE_INFINITE',
+
+    pricing: "PRICING_OCPM",
+
+    search_bid_ratio_type: 2,
+    search_bid_ratio: "",
+
+    audience_extend: 'ON',
 
 
+    // 项目名称
+    name: '<日期>-<时分秒>-<当日标号>',
+    operation: 'ENABLE', // DISABLE
 });
 
 // 子目标
@@ -476,52 +538,96 @@ const platform_type_radio = [
     },
 ]
 
-// 头条应用
-const AndroidAppList = ref();
-const headline_application_options = ref();
+// 下载方式
+const download_type_radio = [
+    {
+        value: "DOWNLOAD_URL",
+        label: "直接下载"
+    }, {
+        value: "EXTERNAL_URL",
+        label: "落地页下载"
+    }
+]
 
-interface IQueryAndroidAppList {
-    advertiser_id: string;
-    page_limit: number
-}
+// 广告位置按钮
+const inventory_catalog_radio = [
+    {
+        value: "UNIVERSAL_SMART",
+        label: "通投智选"
+    },
+    {
+        value: "MANUAL",
+        label: "首选媒体"
+    }
+]
 
-const queryAndroidAppListFunc = async (params: IQueryAndroidAppList) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await queryAndroidAppList(params)
-    AndroidAppList.value = res.data.list;
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    headline_application_options.value = res.data.list.map((item: any) => ({
-        value: `${item.app_name}-${item.package_name}`,
-        label: `${item.app_name}(${item.package_name})`,
-    }))
-}
+const schedule_type_radio = [
+    {
+        value: 'SCHEDULE_FROM_NOW',
+        label: '从今天起长期投放'
+    },
+    {
+        value: 'SCHEDULE_START_END',
+        label: "设置开始和结束日期"
+    }
+]
 
-onMounted(() => {
-    queryAndroidAppListFunc({ advertiser_id: "1787695788195915", page_limit: 1000 });
-})
+// 竞价策略按钮
+const bid_type_radio = [
+    {
+        value: 'CUSTOM',
+        label: '稳定成本'
+    },
+    {
+        value: 'NO_BID',
+        label: '最大转化投放'
+    },
+    {
+        value: 'UPPER_CONTROL',
+        label: '最优成本'
+    },
+    {
+        value: 'EXPLORE_UPGRADE',
+        label: '广告潜力探索-升级版'
+    },
+]
+
+// 项目预算
+const budget_mode_radio = [
+    {
+        value: "BUDGET_MODE_INFINITE",
+        label: '不限'
+    },
+    {
+        value: "BUDGET_MODE_DAY",
+        label: '日预算'
+    },
+]
+
+// 定向扩展
+const audience_extend_radio = [
+    {
+        value: 'OFF',
+        label: '不启用'
+    },
+    {
+        value: 'ON',
+        label: '启用'
+    },
+]
 
 
-// ConnectionGroup
-const ConnectionGroupState = reactive({
-    visible: false,
-    type: 0,
-    title: ''
-})
-
-const selectConnectionGroup = () => {
-    console.log(globalState.detect_link_source)
-
-    ConnectionGroupState.visible = true;
-    ConnectionGroupState.type = globalState.detect_link_source;
-    ConnectionGroupState.title = '选择巨量后台监测连接组';
-
-}
-
-
-
-
-
-
+// 操作状态
+const operation_radio = [
+    {
+        label: '关闭',
+        value: 'DISABLE',
+    },
+    {
+        label: '开启',
+        value: 'ENABLE'
+    }
+]
 
 const boxCardItem = ref([
     {
@@ -575,88 +681,49 @@ const handleBoxCardItem = (id: number) => {
     });
 };
 
+// ConnectionGroup
+const ConnectionGroupState = reactive({
+    visible: false,
+    type: 0,
+    title: ''
+})
+
+const selectConnectionGroup = () => {
+    console.log(globalState.detect_link_source)
+
+    ConnectionGroupState.visible = true;
+    ConnectionGroupState.type = globalState.detect_link_source;
+    ConnectionGroupState.title = '选择巨量后台监测连接组';
+
+}
+
+// 头条应用
+const AndroidAppList = ref();
+const headline_application_options = ref();
+
+interface IQueryAndroidAppList {
+    advertiser_id: string;
+    page_limit: number
+}
+
+const queryAndroidAppListFunc = async (params: IQueryAndroidAppList) => {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const res: any = await queryAndroidAppList(params)
+    AndroidAppList.value = res.data.list;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    headline_application_options.value = res.data.list.map((item: any) => ({
+        value: `${item.app_name}-${item.package_name}`,
+        label: `${item.app_name}(${item.package_name})`,
+    }))
+}
+
+onMounted(() => {
+    queryAndroidAppListFunc({ advertiser_id: "1787695788195915", page_limit: 1000 });
+})
 
 
 
 
-// const boxCardBiddingStrategy = ref([
-//     {
-//         id: 0,
-//         title: "稳定成本-常规版",
-//         content: "成本稳定在出价附近",
-//         active: true,
-//     },
-//     {
-//         id: 1,
-//         title: "稳定成本-升级版",
-//         content: "广告潜力探索",
-//         active: false,
-//     },
-//     {
-//         id: 2,
-//         title: "放量投放",
-//         content: "成本上浮，获取更多跑量",
-//         active: false,
-//     },
-//     {
-//         id: 3,
-//         title: "最优成本",
-//         content: "均匀消耗预算，成本不超过出价",
-//         active: false,
-//     },
-//     {
-//         id: 4,
-//         title: "最大转化",
-//         content: "花完预算，拿到最大转化（价值）",
-//         active: false,
-//     },
-// ]);
 
-
-
-// // 用户定向
-// const userTargeting = reactive({
-//     targetedPackageSource: 1, // 定向包来源
-//     matchingMethod: 1, // 匹配方式
-// });
-
-// // 项目排期与预算
-// const projectScheduleAndBudget = reactive({
-//     deliveryTime: 1, // 投放时间
-//     deliveryPeriod: 1, // 投放时段
-//     biddingStrategy: 1, // 竞价策略
-//     projectBudget: 1, // 项目预算
-//     paymentMethod: 1, // 付费方式
-// });
-
-// const handleBoxCardBiddingStrategy = (id: number) => {
-//     boxCardBiddingStrategy.value = boxCardBiddingStrategy.value.map((item) => {
-//         item.active = false;
-//         if (item.id === id) {
-//             item.active = true;
-//             projectScheduleAndBudget.biddingStrategy = id;
-//         }
-//         return {
-//             id: item.id,
-//             title: item.title,
-//             content: item.content,
-//             active: item.active,
-//         };
-//     });
-// };
-
-// 投放模式切换
-// const handleDeliveryModeChange = (value: string | number | boolean) => {
-// if (value === 1) {
-// globalState.relatedProducts = 2;
-// } else {
-// globalState.relatedProducts = 1;
-// }
-// };
-
-// // 选择产品
-// const selectProduct = () => {
-
-// }
 
 </script>
