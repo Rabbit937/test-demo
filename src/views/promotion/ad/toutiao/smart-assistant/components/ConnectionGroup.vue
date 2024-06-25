@@ -53,53 +53,45 @@
 
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 import Dialog from "@/components/Dialog.vue";
-import { queryMonitorGroupList } from '@/api/modules/promotion'
+import { queryMonitorGroupList } from "@/api/modules/promotion";
 
 interface IProps {
-    visible: boolean;
-    type: number;
-    title: string;
+	visible: boolean;
+	type: number;
+	title: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emtis = defineEmits(["handleClose"]);
 
-
-const handleDialogClose = () => {
-
-}
+const handleDialogClose = () => {};
 
 // 表格数据
 const tableData = ref();
 const loading = ref(false);
 
-const handleSelectionChange = () => {
-
-}
-
+const handleSelectionChange = () => {};
 
 interface IQueryMonitorGroupList {
-    advertiser_id: string
-    download_url: string
+	advertiser_id: string;
+	download_url: string;
 }
 
 const queryMonitorGroupListFunc = async (params: IQueryMonitorGroupList) => {
-    const res = await queryMonitorGroupList(params)
+	const res = await queryMonitorGroupList(params);
 
+	tableData.value = res.data.list;
 
-    tableData.value = res.data.list;
-
-    console.log(res);
-}
-
+	console.log(res);
+};
 
 onMounted(() => {
-    queryMonitorGroupListFunc({
-        advertiser_id: "1787695788195915",
-        download_url: "https://apps.bytesfield.com/download/basic/cur/c1e4f76f2c6608cf2ce4f1d00684d6be37439fc5"
-    })
-})
-
+	queryMonitorGroupListFunc({
+		advertiser_id: "1787695788195915",
+		download_url:
+			"https://apps.bytesfield.com/download/basic/cur/c1e4f76f2c6608cf2ce4f1d00684d6be37439fc5",
+	});
+});
 </script>

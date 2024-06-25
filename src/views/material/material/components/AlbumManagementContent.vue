@@ -32,16 +32,16 @@ import Pagination from "@/components/Pagination.vue";
 import MaterialItem from "./MaterialItem.vue";
 
 interface Props {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  materialState: any;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  treeClickNode: any;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  treeState: any;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  breadList: any;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  searchParams: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	materialState: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	treeClickNode: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	treeState: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	breadList: any;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	searchParams: any;
 }
 
 const props = withDefaults(defineProps<Props>(), {});
@@ -50,19 +50,19 @@ const emit = defineEmits(["handleClick"]);
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleClick = (params: { type: string; action: string; item: any }) => {
-  emit("handleClick", params);
+	emit("handleClick", params);
 };
 
 const showState = ref(true);
 
 watch(
-  () => props.materialState,
-  () => {
-    if (props.materialState.materialItemList.length > 0) {
-      showState.value = true;
-    } else {
-      showState.value = false;
-    }
-  },
+	() => props.materialState,
+	() => {
+		if (props.materialState.materialItemList.length > 0) {
+			showState.value = true;
+		} else {
+			showState.value = false;
+		}
+	},
 );
 </script>

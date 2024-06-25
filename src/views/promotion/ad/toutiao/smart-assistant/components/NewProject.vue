@@ -397,456 +397,444 @@
 <script setup lang="ts">
 import { ref, reactive, markRaw, watchEffect, onMounted } from "vue";
 import Drawer from "@/components/Drawer.vue";
-import AudiencePackage from './AudiencePackage.vue';
-import ConnectionGroup from './ConnectionGroup.vue';
+import AudiencePackage from "./AudiencePackage.vue";
+import ConnectionGroup from "./ConnectionGroup.vue";
 
 import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 import { WarningFilled } from "@element-plus/icons-vue";
 
-import { createProject, queryAndroidAppList } from '@/api/modules/promotion'
-
+import { createProject, queryAndroidAppList } from "@/api/modules/promotion";
 
 interface IProps {
-    visible: boolean;
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
-const emits = defineEmits(['handleNewProjectClose'])
+const emits = defineEmits(["handleNewProjectClose"]);
 
 const drawerOptions = reactive({
-    visible: props.visible,
-    size: 1016,
+	visible: props.visible,
+	size: 1016,
 });
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
+	drawerOptions.visible = props.visible;
 });
 
 const handleDrawerClose = (type: number) => {
-    if (type === 1) {
-        createProjectFunc(globalState);
-    }
+	if (type === 1) {
+		createProjectFunc(globalState);
+	}
 
-
-    // emits('handleNewProjectClose', type)
+	// emits('handleNewProjectClose', type)
 };
 
-
 export interface ICreateProject {
-    ac: string[];
-    ad_type: string;
-    advertiser_id: number;
-    age: string[];
-    android_osv: string;
-    app_name: string;
-    app_promotion_type: string;
-    asset_ids: number[];
-    audience_extend?: string;
-    auto_extend_targets: string[];
-    bid_type: string;
-    budget: string;
-    budget_mode: string;
-    deep_bid_type?: string;
-    deep_cpabid?: string;
-    deep_external_action?: string;
-    delivery_mode: string;
-    delivery_type: string;
-    device_brand: string[];
-    device_type: string[];
-    district: string;
-    download_mode: string;
-    download_type: string;
-    download_url: string;
-    external_action: string;
-    filter_aweme_abnormal_active?: string;
-    filter_aweme_fans_count?: string;
-    filter_own_aweme_fans?: string;
-    gender: string;
-    hide_if_converted: string;
-    hide_if_exists: string;
-    interest_action_mode: string;
-    inventory_catalog: string;
-    inventory_type: string[];
-    keywords?: string;
-    landing_type: string;
-    marketing_goal: string;
-    name: string;
-    operation: string;
-    platform: string[];
-    pricing: string;
-    schedule_type: string;
-    search_bid_ratio: string;
-    superior_popularity_type: string;
-    track_url_group_id: string;
-    track_url_type: string;
-    union_video_type: string;
-    value_optimized_type: string;
+	ac: string[];
+	ad_type: string;
+	advertiser_id: number;
+	age: string[];
+	android_osv: string;
+	app_name: string;
+	app_promotion_type: string;
+	asset_ids: number[];
+	audience_extend?: string;
+	auto_extend_targets: string[];
+	bid_type: string;
+	budget: string;
+	budget_mode: string;
+	deep_bid_type?: string;
+	deep_cpabid?: string;
+	deep_external_action?: string;
+	delivery_mode: string;
+	delivery_type: string;
+	device_brand: string[];
+	device_type: string[];
+	district: string;
+	download_mode: string;
+	download_type: string;
+	download_url: string;
+	external_action: string;
+	filter_aweme_abnormal_active?: string;
+	filter_aweme_fans_count?: string;
+	filter_own_aweme_fans?: string;
+	gender: string;
+	hide_if_converted: string;
+	hide_if_exists: string;
+	interest_action_mode: string;
+	inventory_catalog: string;
+	inventory_type: string[];
+	keywords?: string;
+	landing_type: string;
+	marketing_goal: string;
+	name: string;
+	operation: string;
+	platform: string[];
+	pricing: string;
+	schedule_type: string;
+	search_bid_ratio: string;
+	superior_popularity_type: string;
+	track_url_group_id: string;
+	track_url_type: string;
+	union_video_type: string;
+	value_optimized_type: string;
 
+	// 接口没写，头条需要参数
+	schedule_time: string;
+	data_docking_mode: string;
+	app_type: string;
 
-    // 接口没写，头条需要参数
-    schedule_time: string;
-    data_docking_mode: string;
-    app_type: string;
-
-    // 页面参数
-    search_bid_ratio_type: number;
-    schedule_time_type: number;
-    matchingMethod: number;
-    targetedPackageSource: number;
-    detect_link_source: number;
-    platform_type: string;
+	// 页面参数
+	search_bid_ratio_type: number;
+	schedule_time_type: number;
+	matchingMethod: number;
+	targetedPackageSource: number;
+	detect_link_source: number;
+	platform_type: string;
 }
 
-
 const globalState: ICreateProject = reactive({
-    advertiser_id: 1787695788195915,
-    delivery_mode: 'MANUAL',
-    app_promotion_type: 'DOWNLOAD',
-    landing_type: 'APP',
-    marketing_goal: 'VIDEO_AND_IMAGE',
-    ad_type: "ALL",
-    delivery_type: 'NORMAL',
-    platform_type: '',
-    app_name: '',
+	advertiser_id: 1787695788195915,
+	delivery_mode: "MANUAL",
+	app_promotion_type: "DOWNLOAD",
+	landing_type: "APP",
+	marketing_goal: "VIDEO_AND_IMAGE",
+	ad_type: "ALL",
+	delivery_type: "NORMAL",
+	platform_type: "",
+	app_name: "",
 
-    // 检测链接来源
-    detect_link_source: 1,
-    // 下载方式
-    download_type: '',
-    download_mode: "DEFAULT",
-    data_docking_mode: 'EVENT',
+	// 检测链接来源
+	detect_link_source: 1,
+	// 下载方式
+	download_type: "",
+	download_mode: "DEFAULT",
+	data_docking_mode: "EVENT",
 
-    inventory_catalog: "UNIVERSAL_SMART",
+	inventory_catalog: "UNIVERSAL_SMART",
 
-    targetedPackageSource: 1,
-    matchingMethod: 2,
+	targetedPackageSource: 1,
+	matchingMethod: 2,
 
-    // 项目排期与预算
-    schedule_type: 'SCHEDULE_FROM_NOW',
-    schedule_time_type: 1,
-    schedule_time: '',
+	// 项目排期与预算
+	schedule_type: "SCHEDULE_FROM_NOW",
+	schedule_time_type: 1,
+	schedule_time: "",
 
-    bid_type: 'CUSTOM',
-    budget_mode: 'BUDGET_MODE_INFINITE',
+	bid_type: "CUSTOM",
+	budget_mode: "BUDGET_MODE_INFINITE",
 
-    pricing: "PRICING_OCPM",
+	pricing: "PRICING_OCPM",
 
-    search_bid_ratio_type: 2,
-    search_bid_ratio: "",
+	search_bid_ratio_type: 2,
+	search_bid_ratio: "",
 
-    audience_extend: 'ON',
+	audience_extend: "ON",
 
+	// 项目名称
+	name: "20240621-16:09:26-1",
+	operation: "ENABLE", // DISABLE
 
-    // 项目名称
-    name: '20240621-16:09:26-1',
-    operation: 'ENABLE', // DISABLE
-
-
-    ac: [],
-    age: [],
-    android_osv: '',
-    asset_ids: [1791972146324483],
-    auto_extend_targets: [],
-    budget: '',
-    device_brand: [],
-    device_type: [],
-    district: '',
-    download_url: 'https://apps.bytesfield.com/download/basic/cur/c1e4f76f2c6608cf2ce4f1d00684d6be37439fc5',
-    external_action: 'AD_CONVERT_TYPE_ACTIVE',
-    gender: 'NONE',
-    hide_if_converted: 'PROMOTION',
-    hide_if_exists: 'UNLIMITED',
-    interest_action_mode: 'RECOMMEND',
-    inventory_type: [],
-    platform: [],
-    superior_popularity_type: '',
-    track_url_group_id: '1797289111929028',
-    track_url_type: 'GROUP_ID',
-    union_video_type: '',
-    value_optimized_type: '',
-    app_type: ''
+	ac: [],
+	age: [],
+	android_osv: "",
+	asset_ids: [1791972146324483],
+	auto_extend_targets: [],
+	budget: "",
+	device_brand: [],
+	device_type: [],
+	district: "",
+	download_url:
+		"https://apps.bytesfield.com/download/basic/cur/c1e4f76f2c6608cf2ce4f1d00684d6be37439fc5",
+	external_action: "AD_CONVERT_TYPE_ACTIVE",
+	gender: "NONE",
+	hide_if_converted: "PROMOTION",
+	hide_if_exists: "UNLIMITED",
+	interest_action_mode: "RECOMMEND",
+	inventory_type: [],
+	platform: [],
+	superior_popularity_type: "",
+	track_url_group_id: "1797289111929028",
+	track_url_type: "GROUP_ID",
+	union_video_type: "",
+	value_optimized_type: "",
+	app_type: "",
 });
 
 // 子目标
 const app_promotion_type_radio = [
-    {
-        value: "DOWNLOAD",
-        label: "应用下载"
-    },
-    {
-        value: "LAUNCH",
-        label: "应用调起"
-    },
-    {
-        value: "RESERVE",
-        label: "预约下载"
-    },
-]
+	{
+		value: "DOWNLOAD",
+		label: "应用下载",
+	},
+	{
+		value: "LAUNCH",
+		label: "应用调起",
+	},
+	{
+		value: "RESERVE",
+		label: "预约下载",
+	},
+];
 
 //  投放模式
 const delivery_mode_radio = [
-    {
-        value: "MANUAL",
-        label: "手动投放"
-    },
-    {
-        value: "PROCEDURAL",
-        label: "自动投放(UBMax)"
-    },
-]
+	{
+		value: "MANUAL",
+		label: "手动投放",
+	},
+	{
+		value: "PROCEDURAL",
+		label: "自动投放(UBMax)",
+	},
+];
 
 // 营销场景
 const marketing_goal_radio = [
-    {
-        value: "VIDEO_AND_IMAGE",
-        label: "短视频/图片"
-    },
-    {
-        value: "LIVE",
-        label: "直播"
-    },
-]
+	{
+		value: "VIDEO_AND_IMAGE",
+		label: "短视频/图片",
+	},
+	{
+		value: "LIVE",
+		label: "直播",
+	},
+];
 
 // 广告类型
 const ad_type_radio = [
-    {
-        value: "ALL",
-        label: "通投广告"
-    },
-    {
-        value: "SEARCH",
-        label: "搜索广告"
-    },
-]
+	{
+		value: "ALL",
+		label: "通投广告",
+	},
+	{
+		value: "SEARCH",
+		label: "搜索广告",
+	},
+];
 
 // 投放类型
 const delivery_type_radio = [
-    {
-        value: 'NORMAL',
-        label: '常规投放'
-    },
-    {
-        value: 'DURATION',
-        label: '周期稳投'
-    },
-]
+	{
+		value: "NORMAL",
+		label: "常规投放",
+	},
+	{
+		value: "DURATION",
+		label: "周期稳投",
+	},
+];
 
 // 平台类型
 const platform_type_radio = [
-    {
-        value: 'Android',
-    },
-    {
-        value: 'IOS',
-    },
-]
+	{
+		value: "Android",
+	},
+	{
+		value: "IOS",
+	},
+];
 
 // 下载方式
 const download_type_radio = [
-    {
-        value: "DOWNLOAD_URL",
-        label: "直接下载"
-    }, {
-        value: "EXTERNAL_URL",
-        label: "落地页下载"
-    }
-]
+	{
+		value: "DOWNLOAD_URL",
+		label: "直接下载",
+	},
+	{
+		value: "EXTERNAL_URL",
+		label: "落地页下载",
+	},
+];
 
 // 广告位置按钮
 const inventory_catalog_radio = [
-    {
-        value: "UNIVERSAL_SMART",
-        label: "通投智选"
-    },
-    {
-        value: "MANUAL",
-        label: "首选媒体"
-    }
-]
+	{
+		value: "UNIVERSAL_SMART",
+		label: "通投智选",
+	},
+	{
+		value: "MANUAL",
+		label: "首选媒体",
+	},
+];
 
 const schedule_type_radio = [
-    {
-        value: 'SCHEDULE_FROM_NOW',
-        label: '从今天起长期投放'
-    },
-    {
-        value: 'SCHEDULE_START_END',
-        label: "设置开始和结束日期"
-    }
-]
+	{
+		value: "SCHEDULE_FROM_NOW",
+		label: "从今天起长期投放",
+	},
+	{
+		value: "SCHEDULE_START_END",
+		label: "设置开始和结束日期",
+	},
+];
 
 // 竞价策略按钮
 const bid_type_radio = [
-    {
-        value: 'CUSTOM',
-        label: '稳定成本'
-    },
-    {
-        value: 'NO_BID',
-        label: '最大转化投放'
-    },
-    {
-        value: 'UPPER_CONTROL',
-        label: '最优成本'
-    },
-    {
-        value: 'EXPLORE_UPGRADE',
-        label: '广告潜力探索-升级版'
-    },
-]
+	{
+		value: "CUSTOM",
+		label: "稳定成本",
+	},
+	{
+		value: "NO_BID",
+		label: "最大转化投放",
+	},
+	{
+		value: "UPPER_CONTROL",
+		label: "最优成本",
+	},
+	{
+		value: "EXPLORE_UPGRADE",
+		label: "广告潜力探索-升级版",
+	},
+];
 
 // 项目预算
 const budget_mode_radio = [
-    {
-        value: "BUDGET_MODE_INFINITE",
-        label: '不限'
-    },
-    {
-        value: "BUDGET_MODE_DAY",
-        label: '日预算'
-    },
-]
+	{
+		value: "BUDGET_MODE_INFINITE",
+		label: "不限",
+	},
+	{
+		value: "BUDGET_MODE_DAY",
+		label: "日预算",
+	},
+];
 
 // 定向扩展
 const audience_extend_radio = [
-    {
-        value: 'OFF',
-        label: '不启用'
-    },
-    {
-        value: 'ON',
-        label: '启用'
-    },
-]
-
+	{
+		value: "OFF",
+		label: "不启用",
+	},
+	{
+		value: "ON",
+		label: "启用",
+	},
+];
 
 // 操作状态
 const operation_radio = [
-    {
-        label: '关闭',
-        value: 'DISABLE',
-    },
-    {
-        label: '开启',
-        value: 'ENABLE'
-    }
-]
+	{
+		label: "关闭",
+		value: "DISABLE",
+	},
+	{
+		label: "开启",
+		value: "ENABLE",
+	},
+];
 
 const boxCardItem = ref([
-    {
-        id: 0,
-        title: "应用推广",
-        content: "推广您的线上APP",
-        active: true,
-        value: 'APP'
-    },
-    {
-        id: 1,
-        title: "小程序",
-        content: "吸引更多用户进入小程序",
-        active: false,
-        value: 'MICRO_GAME'
-    },
-    {
-        id: 2,
-        title: "快应用",
-        content: "吸引更多用户进入快应用",
-        active: false,
-        value: 'QUICK_APP'
-    },
+	{
+		id: 0,
+		title: "应用推广",
+		content: "推广您的线上APP",
+		active: true,
+		value: "APP",
+	},
+	{
+		id: 1,
+		title: "小程序",
+		content: "吸引更多用户进入小程序",
+		active: false,
+		value: "MICRO_GAME",
+	},
+	{
+		id: 2,
+		title: "快应用",
+		content: "吸引更多用户进入快应用",
+		active: false,
+		value: "QUICK_APP",
+	},
 ]);
 
 const handleBoxCardItem = (id: number) => {
-    ElMessageBox.confirm(
-        "切换推广目的将会清空您已填写的所有内容，是否继续切换？",
-        "提示",
-        {
-            confirmButtonText: "确认",
-            cancelButtonText: "取消",
-            type: "warning",
-            icon: markRaw(WarningFilled),
-        },
-    ).then(() => {
-        boxCardItem.value = boxCardItem.value.map((item) => {
-            item.active = false;
-            if (item.id === id) {
-                item.active = true;
-                globalState.landing_type = item.value;
-            }
-            return {
-                id: item.id,
-                title: item.title,
-                content: item.content,
-                active: item.active,
-                value: item.value
-            };
-        });
-    });
+	ElMessageBox.confirm(
+		"切换推广目的将会清空您已填写的所有内容，是否继续切换？",
+		"提示",
+		{
+			confirmButtonText: "确认",
+			cancelButtonText: "取消",
+			type: "warning",
+			icon: markRaw(WarningFilled),
+		},
+	).then(() => {
+		boxCardItem.value = boxCardItem.value.map((item) => {
+			item.active = false;
+			if (item.id === id) {
+				item.active = true;
+				globalState.landing_type = item.value;
+			}
+			return {
+				id: item.id,
+				title: item.title,
+				content: item.content,
+				active: item.active,
+				value: item.value,
+			};
+		});
+	});
 };
-
-
 
 // 头条应用
 const AndroidAppList = ref();
 const headline_application_options = ref();
 
 interface IQueryAndroidAppList {
-    advertiser_id: string;
-    page_limit: number
+	advertiser_id: string;
+	page_limit: number;
 }
 
 const queryAndroidAppListFunc = async (params: IQueryAndroidAppList) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await queryAndroidAppList(params)
-    AndroidAppList.value = res.data.list;
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    headline_application_options.value = res.data.list.map((item: any) => ({
-        value: `${item.app_name}-${item.package_name}`,
-        label: `${item.app_name}(${item.package_name})`,
-    }))
-}
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await queryAndroidAppList(params);
+	AndroidAppList.value = res.data.list;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	headline_application_options.value = res.data.list.map((item: any) => ({
+		value: `${item.app_name}-${item.package_name}`,
+		label: `${item.app_name}(${item.package_name})`,
+	}));
+};
 
 onMounted(() => {
-    queryAndroidAppListFunc({ advertiser_id: "1787695788195915", page_limit: 1000 });
-})
-
+	queryAndroidAppListFunc({
+		advertiser_id: "1787695788195915",
+		page_limit: 1000,
+	});
+});
 
 const createProjectFunc = async (params: ICreateProject) => {
-    const res = await createProject(params);
+	const res = await createProject(params);
 
-    console.log(res);
-}
-
+	console.log(res);
+};
 
 // ConnectionGroup
 const ConnectionGroupState = reactive({
-    visible: false,
-    type: 0,
-    title: ''
-})
+	visible: false,
+	type: 0,
+	title: "",
+});
 
 const selectConnectionGroup = () => {
-    console.log(globalState.detect_link_source)
+	console.log(globalState.detect_link_source);
 
-    ConnectionGroupState.visible = true;
-    ConnectionGroupState.type = globalState.detect_link_source;
-    ConnectionGroupState.title = '选择巨量后台监测连接组';
-
-}
-
+	ConnectionGroupState.visible = true;
+	ConnectionGroupState.type = globalState.detect_link_source;
+	ConnectionGroupState.title = "选择巨量后台监测连接组";
+};
 
 const AudiencePackageState = reactive({
-    visible: false,
-    size: 1016,
-})
-
+	visible: false,
+	size: 1016,
+});
 
 // 选择定向包
 const selectAudiencePackage = () => {
-    console.log(123213)
-    AudiencePackageState.visible = true;
-}
-
-
+	console.log(123213);
+	AudiencePackageState.visible = true;
+};
 </script>

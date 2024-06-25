@@ -34,53 +34,49 @@ import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 
 interface Props {
-    visible: boolean;
-    size?: number;
+	visible: boolean;
+	size?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    size: 1016,
+	size: 1016,
 });
 
-const emits = defineEmits(['handleDrawerClose']);
+const emits = defineEmits(["handleDrawerClose"]);
 
 const drawer = ref(props.visible);
 
 watchEffect(() => {
-    drawer.value = props.visible;
-})
-
-
+	drawer.value = props.visible;
+});
 
 const handleClose = (done: () => void) => {
-    ElMessageBox.confirm(
-        "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-        "提示",
-        {
-            confirmButtonText: '确认',
-            cancelButtonText: '取消',
-            type: 'warning',
-        }
-    )
-        .then(() => {
-            done();
-
-        })
-        .catch(() => {
-            // catch error
-            console.error("drawer component: fail");
-        });
+	ElMessageBox.confirm(
+		"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+		"提示",
+		{
+			confirmButtonText: "确认",
+			cancelButtonText: "取消",
+			type: "warning",
+		},
+	)
+		.then(() => {
+			done();
+		})
+		.catch(() => {
+			// catch error
+			console.error("drawer component: fail");
+		});
 };
 
-
 function cancelClick() {
-    // drawer.value = false
-    emits('handleDrawerClose', 0)
+	// drawer.value = false
+	emits("handleDrawerClose", 0);
 }
 
 function confirmClick() {
-    // drawer.value = false
-    emits('handleDrawerClose', 1)
+	// drawer.value = false
+	emits("handleDrawerClose", 1);
 }
 </script>
 

@@ -12,9 +12,8 @@ export const queryAccountList = (params: IQueryAccountList) => {
 	return http.get("/api/Mk_Commonapi/_queryAccountList", params);
 };
 
-
 /**
- * @name 查询已创建项目 
+ * @name 查询已创建项目
  */
 
 interface IQueryProjectList {
@@ -24,14 +23,13 @@ interface IQueryProjectList {
 	app_promotion_type: string;
 	marketing_goal: string;
 	name: string;
-	page_no?: number,
-	page_limit?: number,
+	page_no?: number;
+	page_limit?: number;
 }
 
 export const queryProjectList = (params: IQueryProjectList) => {
 	return http.get("/api/Mk_Tt_Project/_queryProjectList", params);
 };
-
 
 /**
  * @name 创建项目
@@ -87,10 +85,9 @@ export interface ICreateProject {
 	app_type: string;
 }
 
-
 export const createProject = (params: ICreateProject) => {
-	return http.post("/api/Mk_Tt_Project/_createProject", params)
-}
+	return http.post("/api/Mk_Tt_Project/_createProject", params);
+};
 
 /**
  * @name 查询应用列表
@@ -102,23 +99,20 @@ interface IQueryAndroidAppList {
 
 export const queryAndroidAppList = (params: IQueryAndroidAppList) => {
 	return http.get("/api/Mk_Tt_Assets/_queryAndroidAppList", params);
-}
-
+};
 
 /**
  * @name 查询头条监测链接
  */
 
 interface IQueryMonitorGroupList {
-	advertiser_id: string
-	download_url: string
+	advertiser_id: string;
+	download_url: string;
 }
 
 export const queryMonitorGroupList = (params: IQueryMonitorGroupList) => {
-	return http.get('/api/Mk_Tt_Assets/_queryMonitorGroupList', params);
-}
-
-
+	return http.get("/api/Mk_Tt_Assets/_queryMonitorGroupList", params);
+};
 
 export interface IQueryPreferenceList {
 	/**
@@ -154,11 +148,9 @@ export interface IQueryPreferenceList {
 	cur_page?: number;
 }
 
-
 export const queryPreferenceList = (params: IQueryPreferenceList) => {
-	return http.get('/api/Mk_Tt_Preference/_queryPreferenceList', params)
-}
-
+	return http.get("/api/Mk_Tt_Preference/_queryPreferenceList", params);
+};
 
 /**
  * @name 创建定向包
@@ -180,20 +172,16 @@ export interface ICreatePreference {
 	marketing_goal: string;
 	name: string;
 	superior_popularity_type: string;
-
-
 }
-
 
 export const createPreference = (params: ICreatePreference) => {
-	return http.post('/api/Mk_Tt_Preference/_createPreference', params)
-}
-
+	return http.post("/api/Mk_Tt_Preference/_createPreference", params);
+};
 
 /**
  * @name 创建广告
  */
-export interface Request {
+export interface ICreatePromotion {
 	ad_download_status: string;
 	advertiser_id: string;
 	anchor_related_type: string;
@@ -201,7 +189,7 @@ export interface Request {
 	aweme_id: string;
 	budget: string;
 	budget_mode: string;
-	"call_to_action_buttons[]": string[];
+	call_to_action_buttons: string[];
 	cpa_bid: string;
 	deep_cpabid: string;
 	intelligent_generation: string;
@@ -211,9 +199,11 @@ export interface Request {
 	operation: string;
 	product_info: string;
 	project_id: string;
-	"text_abstract_list[]": string;
-	"title_material_list[]": string[];
-	"video_material_list[]": string;
-	"web_url_material_list[]": string;
-	[property: string]: any;
+	text_abstract_list: string[];
+	title_material_list: string[];
+	video_material_list: string[];
+	web_url_material_list: string[];
 }
+export const createPromotion = (params: ICreatePromotion) => {
+	return http.post("/api/Mk_Tt_Promotion/_createPromotion", params);
+};
