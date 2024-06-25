@@ -73,7 +73,7 @@ import { ref, reactive, watchEffect, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import "element-plus/es/components/message/style/css";
 import { Search } from "@element-plus/icons-vue";
-import { getAlbumList } from "@/api/modules/promotion";
+import { queryAccountList } from "@/api/modules/promotion";
 import Dialog from "@/components/Dialog.vue";
 
 interface IProps {
@@ -146,20 +146,20 @@ const paginationState = reactive({
 });
 
 onMounted(() => {
-	getAlbumListFunc({ PID: "11" });
+	queryAccountListFunc({ PID: "11" });
 });
 
-interface IGetAlbumListFuncParams {
+interface IQueryAccountListFuncParams {
 	PID: string;
 	page_no?: number;
 	page_limit?: number;
 }
 
-const getAlbumListFunc = async (params: IGetAlbumListFuncParams) => {
+const queryAccountListFunc = async (params: IQueryAccountListFuncParams) => {
 	loading.value = true;
 
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const res: any = await getAlbumList({
+	const res: any = await queryAccountList({
 		PID: params.PID,
 		page_no: params.page_no ?? 0,
 		page_limit: params.page_limit ?? 20,
@@ -198,7 +198,7 @@ interface IPaginationEvent {
 
 // 分页
 const handlePaginationEvent = (val: IPaginationEvent) => {
-	getAlbumListFunc({
+	queryAccountListFunc({
 		PID: "11",
 		page_no: val.item.currentPage,
 		page_limit: val.item.limit,

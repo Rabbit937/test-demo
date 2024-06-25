@@ -351,6 +351,9 @@
 
   <!-- 广告基本信息 -->
   <BasicInformationOfAd :visible="BasicInformationOfAdState.visible" />
+
+  <!-- 新建广告 -->
+  <NewAdvertisement :visible="true" />
 </template>
 
 <script setup lang="ts">
@@ -365,6 +368,7 @@ import SelectStrategyDialog from "./components/SelectStrategyDialog.vue";
 import SelectMediaAccountDialog from "./components/SelectMediaAccountDialog.vue";
 import EstimatedAdCount from "./components/EstimatedAdCount.vue";
 import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
+import NewAdvertisement from './components/NewAdvertisement.vue'
 
 // 选择策略
 const selectStrategyState = reactive({
@@ -468,7 +472,7 @@ const openProjectEdit = () => {
 
 
 const handleExistingProjectClose = () => {
-  
+
 }
 
 // 广告基本信息

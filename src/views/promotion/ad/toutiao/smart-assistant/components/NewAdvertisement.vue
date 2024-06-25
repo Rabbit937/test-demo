@@ -130,12 +130,6 @@
             </main>
         </el-scrollbar>
     </Drawer>
-
-
-    <NewTargetingPackage :visible="NewTargetingPackageState.visible" />
-
-
-
 </template>
 
 <script setup lang="ts">

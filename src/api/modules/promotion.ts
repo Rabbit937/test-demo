@@ -2,13 +2,13 @@ import http from "@/api";
 /**
  * @name 查询媒体帐号
  */
-interface IGetAlbumList {
+interface IQueryAccountList {
 	PID: string;
-	page_no: number;
-	page_limit: number;
+	page_no?: number;
+	page_limit?: number;
 }
 
-export const getAlbumList = (params: IGetAlbumList) => {
+export const queryAccountList = (params: IQueryAccountList) => {
 	return http.get("/api/Mk_Commonapi/_queryAccountList", params);
 };
 
@@ -146,9 +146,74 @@ export interface IQueryPreferenceList {
 	 * 定向包名称
 	 */
 	name?: string;
+
+	/**
+	 * 分页
+	 */
+	page_limit?: number;
+	cur_page?: number;
 }
 
 
 export const queryPreferenceList = (params: IQueryPreferenceList) => {
 	return http.get('/api/Mk_Tt_Preference/_queryPreferenceList', params)
+}
+
+
+/**
+ * @name 创建定向包
+ */
+
+export interface ICreatePreference {
+	ac: string[];
+	ad_type: string;
+	advertiser_id: string;
+	age: string[];
+	android_osv?: string;
+	auto_extend_targets: string[];
+	delivery_range: string;
+	description: string;
+	district: string;
+	gender: string;
+	interest_action_mode: string;
+	landing_type: string;
+	marketing_goal: string;
+	name: string;
+	superior_popularity_type: string;
+
+
+}
+
+
+export const createPreference = (params: ICreatePreference) => {
+	return http.post('/api/Mk_Tt_Preference/_createPreference', params)
+}
+
+
+/**
+ * @name 创建广告
+ */
+export interface Request {
+	ad_download_status: string;
+	advertiser_id: string;
+	anchor_related_type: string;
+	auth_type: string;
+	aweme_id: string;
+	budget: string;
+	budget_mode: string;
+	"call_to_action_buttons[]": string[];
+	cpa_bid: string;
+	deep_cpabid: string;
+	intelligent_generation: string;
+	is_comment_disable: string;
+	materials_type?: string;
+	name: string;
+	operation: string;
+	product_info: string;
+	project_id: string;
+	"text_abstract_list[]": string;
+	"title_material_list[]": string[];
+	"video_material_list[]": string;
+	"web_url_material_list[]": string;
+	[property: string]: any;
 }
