@@ -49,7 +49,7 @@
                                             <el-text>加速星期二-天拓-4(1787695788195915)</el-text>
                                         </div>
                                         <div>
-                                            <el-icon>
+                                            <el-icon :color="MonitorGroupSelected ? 'green' : ''">
                                                 <CircleCheck />
                                             </el-icon>
                                         </div>

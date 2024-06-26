@@ -7,8 +7,8 @@ export default defineConfig({
         ['align-items-center', { 'align-items': 'center' }],
         // border
         ['border-[#e8eaec]', { border: '1px solid #e8eaec' }],
-
-
+        ['border-bottom-[#e8eaec]', { 'border-bottom': '1px solid #e8eaec' }],
+        ['border-top-[#e8eaec]', { 'border-top': '1px solid #e8eaec' }],
         // text
         ['ellipsis', {
             overflow: 'hidden',
@@ -23,4 +23,4 @@ export default defineConfig({
             '-webkit-line-clamp': '3',
         }],
     ]
-})  
+})      
