@@ -99,7 +99,7 @@ watchEffect(() => {
 });
 
 const handleDialogClose = (type: 1 | 0) => {
-	console.log();
+	// console.log();
 
 	if (type === 1) {
 		if (multipleSelection.value.length === 1) {

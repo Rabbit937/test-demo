@@ -201,11 +201,11 @@ const total = ref();
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleSelectionChange = (row: any) => {
-	console.log(row);
+	// console.log(row);
 };
 
 const handleSizeChange = (size: number) => {
-	console.log(size);
+	// console.log(size);
 
 	queryPreferenceListFunc({
 		advertiser_id: 1787695788195915,
@@ -214,8 +214,7 @@ const handleSizeChange = (size: number) => {
 };
 
 const handlePageChange = (page: number) => {
-	console.log(page);
-
+	// console.log(page);
 	queryPreferenceListFunc({
 		advertiser_id: 1787695788195915,
 		page_limit: pageSize.value,
@@ -226,11 +225,9 @@ const loading = ref(false);
 
 const queryPreferenceListFunc = async (params: IQueryPreferenceList) => {
 	loading.value = true;
-
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const res: any = await queryPreferenceList(params);
-	console.log("queryPreferenceListFunc ---> ", res);
-
+	// console.log("queryPreferenceListFunc ---> ", res);
 	if (res.state === 1) {
 		tableData.value = res.data.list;
 		total.value = res.data.page_info.total;
@@ -272,8 +269,7 @@ onMounted(() => {
 });
 
 const handleDeliveryModeChange = (value: string | number) => {
-	console.log(value);
-
+	// console.log(value);
 	if (value) {
 		queryPreferenceListFunc({
 			advertiser_id: 1787695788195915,

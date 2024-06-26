@@ -336,7 +336,7 @@ const handlePaginationFunc = (options: {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleSearchFunc = (item: any) => {
-	// console.log(item);
+	// // console.log(item);
 
 	let dir_id = "";
 	let album_id = "";
@@ -387,7 +387,7 @@ const updateVisible = () => {
 // 点击item
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleItemClick = (item: any) => {
-	// console.log(item);
+	// // console.log(item);
 	drawerVisible.value = true;
 	drawerState.value = item;
 	tagsState.value = item.tagid;
@@ -415,7 +415,7 @@ const stateRef = ref();
 // 编辑素材名称
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditMaterialName = (state: any) => {
-	// console.log("state", state);
+	// // console.log("state", state);
 	stateRef.value = state;
 	dialogState.name.visable = true;
 	dialogState.name.title = "编辑文件名";
@@ -426,7 +426,7 @@ const handleEditMaterialName = (state: any) => {
 const handleEditClose = (type: string) => {
 	// dialogState.visable = false
 
-	// console.log(type);
+	// // console.log(type);
 
 	if (type === "confirm") {
 		updateMaterial({
@@ -453,7 +453,7 @@ const handleEditClose = (type: string) => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const updateMaterialNote = (state: any) => {
-	// console.log("state", state);
+	// // console.log("state", state);
 	stateRef.value = state;
 	dialogState.note.visable = true;
 	dialogState.note.title = "修改素材备注";
@@ -461,7 +461,7 @@ const updateMaterialNote = (state: any) => {
 };
 
 const handleEditNoteClose = (type: string) => {
-	// console.log(type);
+	// // console.log(type);
 
 	if (type === "confirm") {
 		updateMaterial({
@@ -480,7 +480,7 @@ const handleEditNoteClose = (type: string) => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const deactivateTheMaterial = (state: any, disable: string) => {
-	// console.log(state);
+	// // console.log(state);
 
 	drawerState.value.disable = Number(disable);
 
@@ -509,7 +509,7 @@ const handleEditTags = (material: any) => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditTagsClose = (tagsParams: any) => {
-	// console.log(tagsParams);
+	// // console.log(tagsParams);
 	EditTagsState.visable = false;
 	tagsState.value = tagsParams.tagsList;
 

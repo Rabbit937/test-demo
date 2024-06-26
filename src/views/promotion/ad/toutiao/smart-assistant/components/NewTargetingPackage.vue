@@ -198,7 +198,7 @@ watchEffect(() => {
 });
 
 const handleDialogClose = (type: number) => {
-	console.log(type);
+	// console.log(type);
 
 	if (type === 1) {
 		createPreferenceFunc(form);
@@ -239,7 +239,7 @@ const queryAccountListFunc = async () => {
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const res: any = await queryAccountList({ PID: "11" });
 
-	console.log(res);
+	// console.log(res);
 
 	if (res.state === 1) {
 		account_list_options.value = res.data.list;
@@ -835,6 +835,6 @@ const auto_extend_targets_options = [
 const createPreferenceFunc = async (params: ICreatePreference) => {
 	const res = await createPreference(params);
 
-	console.log(res);
+	// console.log(res);
 };
 </script>

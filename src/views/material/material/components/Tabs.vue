@@ -27,8 +27,8 @@ const tabs = ref([
 ]);
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-	// console.log(tab);
-	// console.log(event);
+	// // console.log(tab);
+	// // console.log(event);
 };
 </script>
 

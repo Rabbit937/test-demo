@@ -38,7 +38,7 @@ const text = ref();
 watchEffect(() => {
 	breadListRef.value = props.breadList;
 	searchParams.value = props.searchParams;
-	// console.log(searchParams.value);
+	// // console.log(searchParams.value);
 
 	if (searchParams.value) {
 		if (Number(searchParams.value.search_type) === 1) {

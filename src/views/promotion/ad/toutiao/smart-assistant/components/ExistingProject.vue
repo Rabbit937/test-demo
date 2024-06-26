@@ -130,7 +130,7 @@ watchEffect(() => {
 });
 
 const handleDrawerClose = (type: number) => {
-	console.log(321321312321);
+	// console.log(321321312321);
 	emits("handleNewProjectClose", type);
 };
 
@@ -233,7 +233,7 @@ const requestParams: IQueryProjectList = reactive({
 const queryProjectListFunc = async () => {
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const res: any = await queryProjectList(requestParams);
-	console.log(res);
+	// console.log(res);
 
 	loading.value = true;
 

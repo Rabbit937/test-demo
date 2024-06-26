@@ -134,9 +134,9 @@ const background = ref(false);
 const disabled = ref(false);
 
 const handleSizeChange = (val: number) => {
-	console.log(`${val} items per page`);
+	// console.log(`${val} items per page`);
 };
 const handleCurrentChange = (val: number) => {
-	console.log(`current page: ${val}`);
+	// console.log(`current page: ${val}`);
 };
 </script>

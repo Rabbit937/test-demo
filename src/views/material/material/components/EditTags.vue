@@ -75,12 +75,12 @@ const labelStateOptionsRef = ref();
 // 获取标签列表
 const getTagsListFunc = async () => {
 	const res = await getTagsList({ type: 2 });
-	// console.log(res);
+	// // console.log(res);
 
 	if (Number(res.state) === 1) {
 		labelStateOptionsRef.value = res.data;
 	} else {
-		// console.log(res.msg);
+		// // console.log(res.msg);
 	}
 };
 
@@ -108,8 +108,8 @@ const handleTagClose = async () => {
 
 const handleNewLabelClose = async (type: string) => {
 	if (type === "confirm") {
-		// console.log(updateLabelState.radioValue);
-		// console.log(updateLabelState.cascaderValue);
+		// // console.log(updateLabelState.radioValue);
+		// // console.log(updateLabelState.cascaderValue);
 
 		if (updateLabelState.radioValue === "") {
 			ElMessage.warning("请选择修改规则");

@@ -138,9 +138,9 @@ const selectPopover = reactive({
 const handleDialogClose = (done: "confirm" | "cancel") => {
 	selectPopover.visible = false;
 	if (done === "confirm") {
-		console.log("confirm");
+		// console.log("confirm");
 	} else {
-		console.log("cancel");
+		// console.log("cancel");
 	}
 };
 

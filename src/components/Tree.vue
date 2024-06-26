@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(["handleNodeClick", "removeSelectedClass"]);
 
 const handleNodeClick = (data: any, node: Node) => {
-	// console.log(data)
+	// // console.log(data)
 	removeSelectedClass();
 
 	const el = document.querySelector(

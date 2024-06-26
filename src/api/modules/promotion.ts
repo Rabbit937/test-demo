@@ -105,7 +105,7 @@ export const queryAndroidAppList = (params: IQueryAndroidAppList) => {
  * @name 查询头条监测链接
  */
 
-interface IQueryMonitorGroupList {
+export interface IQueryMonitorGroupList {
 	advertiser_id: string;
 	download_url: string;
 }
@@ -200,7 +200,7 @@ export interface ICreatePromotion {
 	product_info: string;
 	project_id: string;
 	text_abstract_list: string[];
-	title_material_list: string[];
+	title_material_list: Record<string, string>[];
 	video_material_list: string[];
 	web_url_material_list: string[];
 }

@@ -353,7 +353,7 @@
   <BasicInformationOfAd :visible="BasicInformationOfAdState.visible" />
 
   <!-- 新建广告 -->
-  <NewAdvertisement :visible="true" />
+  <!-- <NewAdvertisement :visible="true" /> -->
 </template>
 
 <script setup lang="ts">
@@ -370,6 +370,18 @@ import EstimatedAdCount from "./components/EstimatedAdCount.vue";
 import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 import NewAdvertisement from "./components/NewAdvertisement.vue";
 
+
+
+
+
+
+
+
+
+
+
+
+
 // 选择策略
 const selectStrategyState = reactive({
 	visible: false,
@@ -382,7 +394,7 @@ const selectStrategy = () => {
 const handleSelectStrategyDialogClose = (state: number) => {
 	if (state === 1) {
 		// 做弹窗确认的处理
-		console.log("收到确认");
+		// console.log("收到确认");
 	}
 	selectStrategyState.visible = false;
 };
@@ -406,8 +418,8 @@ const handleMediaAccountDialogClose = (
 	SelectMediaAccountState.visible = false;
 	if (state === 1) {
 		// 做弹窗确认的处理
-		console.log("收到确认");
-		console.log(multipleSelection);
+		// console.log("收到确认");
+		// console.log(multipleSelection);
 		multipleSelectionState.value = multipleSelection;
 	}
 };
@@ -428,7 +440,7 @@ const handleChangeRuleConfiguration = () => {
 const handleRuleConfigurationDialogClose = (state: number) => {
 	if (state === 1) {
 		// 做弹窗确认的处理
-		console.log("收到确认");
+		// console.log("收到确认");
 	}
 	RuleConfigurationState.visible = false;
 };
@@ -442,7 +454,7 @@ const handleChangeInfoOrNew = () => {
 };
 
 const NewProjectState = reactive({
-	visible: false,
+	visible: true,
 });
 
 // 新建项目
