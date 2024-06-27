@@ -50,18 +50,7 @@ watchEffect(() => {
 });
 
 const handleClose = () => {
-    ElMessageBox.confirm(
-        "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-        "提示",
-        {
-            confirmButtonText: "确认",
-            cancelButtonText: "取消",
-            type: "warning",
-        },
-    )
-        .then(() => {
-            emits("handleDrawerClose", 0);
-        })
+    emits("handleDrawerClose", 0);
 };
 
 function cancelClick() {

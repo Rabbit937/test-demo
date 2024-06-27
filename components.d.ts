@@ -61,6 +61,7 @@ declare module 'vue' {
     Pagination: typeof import('./src/components/Pagination.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Select: typeof import('./src/components/Select.vue')['default']
     Tree: typeof import('./src/components/Tree.vue')['default']
   }
   export interface ComponentCustomProperties {

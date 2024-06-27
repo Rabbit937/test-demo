@@ -83,6 +83,12 @@ export interface ICreateProject {
 	union_video_type: string;
 	value_optimized_type: string;
 	app_type: string;
+
+
+	schedule_time?: string,
+	schedule_date?: string[],
+	start_time?: string,
+	end_time?: string,
 }
 
 export const createProject = (params: ICreateProject) => {
@@ -207,3 +213,36 @@ export interface ICreatePromotion {
 export const createPromotion = (params: ICreatePromotion) => {
 	return http.post("/api/Mk_Tt_Promotion/_createPromotion", params);
 };
+
+
+/**
+ * @name 查询可用优化目标
+ */
+export interface IGetOptimizeGoal {
+	ad_type: string;
+	advertiser_id: string;
+	asset_type: string;
+	landing_type: string;
+}
+
+export const getOptimizeGoal = (params: IGetOptimizeGoal) => {
+	return http.get('/api/Mk_Tt_Tool/_getOptimizeGoal', params);
+}
+
+
+/**
+ * @name 查询可用深度优化方式
+ */
+
+export interface IGetDeepOptimizeType {
+	advertiser_id: string;
+	deep_external_action?: string;
+	delivery_mode: string;
+	external_action: string;
+	landing_type: string;
+}
+
+
+export const getDeepOptimizeType = (params: IGetDeepOptimizeType) => {
+	return http.get('/api/Mk_Tt_Tool/_getDeepOptimizeType', params);
+}
