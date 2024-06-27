@@ -89,6 +89,10 @@ export interface ICreateProject {
 	schedule_date?: string[],
 	start_time?: string,
 	end_time?: string,
+	budget_optimize_switch: string;
+	budget_bidding_configuration_mode: string;
+	search_bid_ratio: string;
+	
 }
 
 export const createProject = (params: ICreateProject) => {

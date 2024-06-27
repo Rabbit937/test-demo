@@ -343,9 +343,9 @@
                     </el-col>
 
                     <el-col :span="1.5" class="w-100% m-16px border-[#e8eaec]">
-                        <div class="h-64px p-16px text-right">
+                        <!-- <div class="h-64px p-16px text-right">
                             <el-text>全部收起</el-text>
-                        </div>
+                        </div> -->
                         <div
                             class="font-size-12px color-[#999] flex justify-between p-12px bg-[#f2f2f2] border-top-[#e8eaec] border-bottom-[#e8eaec]">
                             <div>
@@ -376,14 +376,17 @@
                                         </div>
 
                                         <div>
-                                            <span>收起</span>
+                                            <!-- <span>收起</span> -->
                                         </div>
                                     </div>
                                     <div class="p-16px">
                                         <el-form>
                                             <el-form-item :label="'日预算'" :label-width="200">
                                                 <el-input placeholder="请输入预算金额" style="width: 160px"></el-input>
-                                                <el-text class="!ml-16px">300</el-text>|<el-text class="!ml-16px">500</el-text>|<el-text class="!ml-16px">1000</el-text>|<el-text class="!ml-16px">2000</el-text>|
+                                                <el-button type="primary" link class="!mx-8px">300</el-button> |
+                                                <el-button type="primary" link class="!mx-8px">500</el-button> |
+                                                <el-button type="primary" link class="!mx-8px">1000</el-button> |
+                                                <el-button type="primary" link class="!mx-8px">2000</el-button> |
                                             </el-form-item>
                                         </el-form>
                                     </div>
@@ -406,7 +409,7 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="关键词">
-
+                                <el-input></el-input>
                             </el-form-item>
                             <el-form-item label="出价系数" style="margin-bottom: 0px;">
                                 <el-radio-group v-model="search_bid_ratio_type">
@@ -419,7 +422,7 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-input clearable style="width: 160px" v-if="search_bid_ratio_type === 2"
-                                    v-model="search_bid_ratio" placeholder="请输入出价系数" />
+                                    v-model="form.search_bid_ratio" placeholder="请输入出价系数" />
                             </el-form-item>
                             <el-form-item label="定向扩展" style="margin-bottom: 0px;">
                                 <el-radio-group v-model="form.audience_extend">
@@ -454,7 +457,7 @@
                                         <el-input v-model="form.name" style="width: 360px;" :maxlength="100"
                                             show-word-limit></el-input>
                                     </el-col>
-                                    <el-col class="flex">
+                                    <!-- <el-col class="flex">
                                         <el-text style="margin-right: 8px;">通配符:</el-text>
                                         <el-text class="cursor-pointer" style="margin-right: 8px;"
                                             type="primary">+渠道包名</el-text>
@@ -466,9 +469,8 @@
                                             type="primary"><el-icon>
                                                 <Document />
                                             </el-icon>插入更多</el-text>
-                                    </el-col>
-
-                                    <el-col>
+                                    </el-col> -->
+                                    <!-- <el-col>
                                         <el-text type="warning"><el-icon>
                                                 <WarningFilled />
                                             </el-icon> 取消<时间>或<标号>类通配符可能会导致名称重复，无法提交计划</el-text>
@@ -478,7 +480,7 @@
                                         <el-text type="warning"><el-icon>
                                                 <WarningFilled />
                                             </el-icon>名称长度最多100字符（1汉字=2字符），使用通配符时，请注意控制自定义内容长度</el-text>
-                                    </el-col>
+                                    </el-col> -->
                                 </el-row>
                             </el-form-item>
                             <el-form-item label="项目默认状态">
@@ -595,7 +597,7 @@ const form: ICreateProject = reactive({
     audience_extend: "ON",
 
     // 项目名称
-    name: "20240621-16:09:26-1",
+    name: "<日期>-<时分秒>-<当日标号>",
     operation: "ENABLE", // DISABLE
 
     ac: [],
@@ -629,6 +631,7 @@ const form: ICreateProject = reactive({
     // 可选参数，接口不需要，界面需要
     budget_bidding_configuration_mode: "unified_configuration",
 
+
 });
 
 
@@ -638,7 +641,6 @@ const platform_type = ref();
 // const matchingMethod = ref();
 const schedule_time_type = ref(1);
 const search_bid_ratio_type = ref();
-const search_bid_ratio = ref();
 // const data_tracking_method = ref(1);
 
 // 事件回传方式
