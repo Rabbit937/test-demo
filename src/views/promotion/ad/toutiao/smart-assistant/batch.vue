@@ -259,7 +259,7 @@
                   </div>
                 </template>
                 <template #reference>
-                  <el-button link size="small" disabled>编辑</el-button>
+                  <el-button link size="small" type="primary" @click="showBasicInformationOfAd">编辑</el-button>
                 </template>
               </el-popover>
             </td>
@@ -371,17 +371,6 @@ import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 import NewAdvertisement from "./components/NewAdvertisement.vue";
 
 
-
-
-
-
-
-
-
-
-
-
-
 // 选择策略
 const selectStrategyState = reactive({
   visible: false,
@@ -454,7 +443,7 @@ const handleChangeInfoOrNew = () => {
 };
 
 const NewProjectState = reactive({
-  visible: true,
+  visible: false,
 });
 
 // 新建项目
@@ -482,10 +471,7 @@ const openProjectEdit = () => {
 
 const handleExistingProjectClose = () => { };
 
-// 广告基本信息
-const BasicInformationOfAdState = reactive({
-  visible: false,
-});
+
 
 const handleNewProjectClose = (type: number) => {
   if (type === 1) {
@@ -509,6 +495,24 @@ const handleNewProjectClose = (type: number) => {
       });
   }
 };
+
+
+
+
+
+
+
+
+
+
+// 广告基本信息
+const BasicInformationOfAdState = reactive({
+  visible: false,
+});
+
+const showBasicInformationOfAd = () => {
+  BasicInformationOfAdState.visible = true;
+}
 </script>
 
 <style scoped>
@@ -518,4 +522,3 @@ table {
   border-collapse: collapse;
 }
 </style>
-

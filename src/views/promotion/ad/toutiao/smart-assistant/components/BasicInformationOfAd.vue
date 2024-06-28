@@ -21,21 +21,12 @@
                                     <el-radio-button :value="2"> 账户信息 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
-                            <el-form-item label="抖音号来源">
-                                <el-radio-group>
-                                    <el-radio-button :value="1"> 手动选择 </el-radio-button>
-                                    <el-radio-button :value="2"> 从创意组匹配 </el-radio-button>
-                                </el-radio-group>
-                            </el-form-item>
                             <el-form-item label="匹配方式">
                                 <el-radio-group>
                                     <el-radio-button :value="1"> 所有广告选择同一抖音号 </el-radio-button>
                                     <el-radio-button :value="2"> 每个账户选择一个抖音号 </el-radio-button>
-                                    <el-radio-button :value="3"> 每个项目选择一个抖音号 </el-radio-button>
-                                    <el-radio-button :value="4"> 每个广告选择一个抖音号 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
-
                             <el-form-item label="选择抖音号">
                                 <el-radio-group>
                                     <el-button type="primary">选择抖音号</el-button>
@@ -59,8 +50,6 @@
                                 <el-radio-group>
                                     <el-radio-button :value="1"> 不启用 </el-radio-button>
                                     <el-radio-button :value="2"> 自动生成 </el-radio-button>
-                                    <el-radio-button :value="3"> 选择已有 </el-radio-button>
-                                    <el-radio-button :value="4"> 模板生成 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                         </el-form>
@@ -230,21 +219,21 @@ import { reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
 
 interface IProps {
-	visible: boolean;
+    visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 
 const drawerOptions = reactive({
-	visible: props.visible ?? false,
-	size: 1016,
+    visible: props.visible ?? false,
+    size: 1016,
 });
 
 const handleDrawerClose = () => {
-	drawerOptions.visible = false;
+    drawerOptions.visible = false;
 };
 
 watchEffect(() => {
-	drawerOptions.visible = props.visible;
+    drawerOptions.visible = props.visible;
 });
 </script>
