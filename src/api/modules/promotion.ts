@@ -92,7 +92,7 @@ export interface ICreateProject {
 	budget_optimize_switch: string;
 	budget_bidding_configuration_mode: string;
 	search_bid_ratio: string;
-	
+
 }
 
 export const createProject = (params: ICreateProject) => {
@@ -246,7 +246,18 @@ export interface IGetDeepOptimizeType {
 	landing_type: string;
 }
 
-
 export const getDeepOptimizeType = (params: IGetDeepOptimizeType) => {
 	return http.get('/api/Mk_Tt_Tool/_getDeepOptimizeType', params);
+}
+
+/**
+ * @name 查询抖音号
+ */
+
+export interface IQueryAwemeList {
+	advertiser_id: string;
+}
+
+export const queryAwemeList = (params: IQueryAwemeList) => {
+	return http.get('/api/Mk_Tt_Tool/_queryAwemeList', params);
 }

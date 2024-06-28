@@ -1,17 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>flex</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            /* 创建三等分列 */
+            gap: 10px;
+            /* 设置列间距 */
+            padding: 10px;
+        }
+
+        .grid-item {
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    <div style="width:100%;height:300px;display:flex;">
-        <div style="width: 300px;height:300px;background-color: red;"></div>
-        <div style="flex:auto;height: 300px;background-color: blue;"> </div>
+
+    <div class="grid-container">
+        <div class="grid-item">Item 1</div>
+        <div class="grid-item">Item 2</div>
+        <div class="grid-item">Item 3</div>
+        <div class="grid-item">Item 4</div>
+        <div class="grid-item">Item 5</div>
+        <div class="grid-item">Item 6</div>
     </div>
+
 </body>
 
 </html>
