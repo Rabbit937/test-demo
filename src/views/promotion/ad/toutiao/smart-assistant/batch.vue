@@ -235,6 +235,7 @@
         <tfoot>
           <tr>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
+              <!-- 新建项目 -->
               <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
                 <template #default>
                   <div class="flex">
@@ -244,12 +245,12 @@
                   </div>
                 </template>
                 <template #reference>
-                  <el-button link size="small" :type="(multipleSelectionLength !== 0) ? 'primary' : ''"
-                    :disabled="multipleSelectionLength === 0" @click="openProjectEdit">编辑</el-button>
+                  <el-button link size="small" type="primary" @click="openProjectEdit">编辑</el-button>
                 </template>
               </el-popover>
             </td>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
+              <!-- 广告信息 -->
               <el-popover placement="top" trigger="hover" width="170">
                 <template #default>
                   <div class="flex">
@@ -264,6 +265,21 @@
               </el-popover>
             </td>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
+              <!-- 创意素材 -->
+              <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
+                <template #default>
+                  <div class="flex">
+                    <el-text>请选择媒体账户</el-text>
+                    <el-button link size="small" type="primary" class="ml-8px"> 编辑</el-button>
+                  </div>
+                </template>
+                <template #reference>
+                  <el-button link size="small" type="primary" @click="showCreativeMaterialsState">编辑</el-button>
+                </template>
+              </el-popover>
+            </td>
+            <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
+              <!-- 标题包 -->
               <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
                 <template #default>
                   <div class="flex">
@@ -273,27 +289,12 @@
                   </div>
                 </template>
                 <template #reference>
-                  <el-button link size="small" :type="(multipleSelectionLength !== 0) ? 'primary' : ''"
-                    :disabled="multipleSelectionLength === 0" @click="openNewProjectDrawer">编辑</el-button>
+                  <el-button link size="small" type="primary" @click="showTitlePackState">编辑</el-button>
                 </template>
               </el-popover>
             </td>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
-              <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
-                <template #default>
-                  <div class="flex">
-                    <el-text>请选择媒体账户</el-text>
-                    <el-button link size="small" type="primary" class="ml-8px" @click="handleMediaAccount"> 编辑
-                    </el-button>
-                  </div>
-                </template>
-                <template #reference>
-                  <el-button link size="small" :type="(multipleSelectionLength !== 0) ? 'primary' : ''"
-                    :disabled="multipleSelectionLength === 0" @click="openNewProjectDrawer">编辑</el-button>
-                </template>
-              </el-popover>
-            </td>
-            <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
+              <!-- 落地页 -->
               <el-popover placement="top" trigger="hover" width="170">
                 <template #default>
                   <div class="flex">
@@ -303,7 +304,7 @@
                   </div>
                 </template>
                 <template #reference>
-                  <el-button link size="small" disabled>编辑</el-button>
+                  <el-button link size="small" type="primary" @click="showLandingPageState">编辑</el-button>
                 </template>
               </el-popover>
             </td>
@@ -335,7 +336,7 @@
   </el-row>
 
   <!-- 选择策略 -->
-  <SelectStrategyDialog :visible="selectStrategyState.visible" @handleClose="handleSelectStrategyDialogClose" />
+  <!-- <SelectStrategyDialog :visible="selectStrategyState.visible" @handleClose="handleSelectStrategyDialogClose" /> -->
 
   <!-- 选择媒体账户 -->
   <SelectMediaAccountDialog :visible="SelectMediaAccountState.visible" @handleClose="handleMediaAccountDialogClose" />
@@ -350,10 +351,18 @@
   <ExistingProject :visible="ExistingProjectState.visible" @handleNewProjectClose="handleExistingProjectClose" />
 
   <!-- 广告基本信息 -->
-  <BasicInformationOfAd :visible="BasicInformationOfAdState.visible" />
+  <BasicInformationOfAd :visible="BasicInformationOfAdState.visible"
+    @handleDrawerClose="handleBasicInformationOfAdClose" />
 
-  <!-- 新建广告 -->
-  <!-- <NewAdvertisement :visible="true" /> -->
+
+  <!-- 创意素材 -->
+  <CreativeMaterials :visible="CreativeMaterialsState.visible" @handleDrawerClose="handleCreativeMaterialsStateClose" />
+
+  <!-- 标题包 -->
+  <TitlePack :visible="TitlePackState.visible" @handleDrawerClose="handleTitlePackStateClose" />
+
+  <!-- 落地页 -->
+  <LandingPage :visible="LandingPageState.visible" @handleDrawerClose="handleLandingPageStateClose" />
 </template>
 
 <script setup lang="ts">
@@ -364,29 +373,30 @@ import RuleConfigurationDialog from "./components/RuleConfigurationDialog.vue";
 import NewProject from "./components/NewProject.vue";
 import ExistingProject from "./components/ExistingProject.vue";
 import SelectAccountVue from "./components/SelectAccount.vue";
-import SelectStrategyDialog from "./components/SelectStrategyDialog.vue";
+// import SelectStrategyDialog from "./components/SelectStrategyDialog.vue";
 import SelectMediaAccountDialog from "./components/SelectMediaAccountDialog.vue";
 import EstimatedAdCount from "./components/EstimatedAdCount.vue";
 import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
-import NewAdvertisement from "./components/NewAdvertisement.vue";
-
+import CreativeMaterials from './components/CreativeMaterials.vue'
+import TitlePack from './components/TitlePack.vue'
+import LandingPage from './components/LandingPage.vue'
 
 // 选择策略
-const selectStrategyState = reactive({
-  visible: false,
-});
+// const selectStrategyState = reactive({
+//   visible: false,
+// });
 
-const selectStrategy = () => {
-  selectStrategyState.visible = true;
-};
+// const selectStrategy = () => {
+//   selectStrategyState.visible = true;
+// };
 
-const handleSelectStrategyDialogClose = (state: number) => {
-  if (state === 1) {
-    // 做弹窗确认的处理
-    // console.log("收到确认");
-  }
-  selectStrategyState.visible = false;
-};
+// const handleSelectStrategyDialogClose = (state: number) => {
+// if (state === 1) {
+// 做弹窗确认的处理
+// console.log("收到确认");
+// }
+// selectStrategyState.visible = false;
+// };
 
 // 选择媒体账户
 const SelectMediaAccountState = reactive({
@@ -513,6 +523,150 @@ const BasicInformationOfAdState = reactive({
 const showBasicInformationOfAd = () => {
   BasicInformationOfAdState.visible = true;
 }
+
+
+const handleBasicInformationOfAdClose = (type: number) => {
+
+  console.log(type)
+
+  if (type === 1) {
+    BasicInformationOfAdState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        BasicInformationOfAdState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
+};
+
+
+// 创意素材
+
+const CreativeMaterialsState = reactive({
+  visible: false,
+})
+
+
+const showCreativeMaterialsState = () => {
+  CreativeMaterialsState.visible = true;
+}
+
+
+const handleCreativeMaterialsStateClose = (type: number) => {
+
+  console.log(type)
+
+  if (type === 1) {
+    CreativeMaterialsState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        CreativeMaterialsState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
+};
+
+
+// 标题包
+const TitlePackState = reactive({
+  visible: false,
+})
+
+
+const showTitlePackState = () => {
+  TitlePackState.visible = true;
+}
+
+
+const handleTitlePackStateClose = (type: number) => {
+
+  console.log(type)
+
+  if (type === 1) {
+    TitlePackState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        TitlePackState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
+};
+
+
+
+// 选择落地页
+const LandingPageState = reactive({
+  visible: false,
+})
+
+
+const showLandingPageState = () => {
+  LandingPageState.visible = true;
+}
+
+
+const handleLandingPageStateClose = (type: number) => {
+
+  console.log(type)
+
+  if (type === 1) {
+    LandingPageState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        LandingPageState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
+};
+
 </script>
 
 <style scoped>
