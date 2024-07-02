@@ -2,8 +2,27 @@ import http from "@/api";
 /**
  * @name 查询媒体帐号
  */
-interface IQueryAccountList {
+export interface IQueryAccountList {
+	/**
+	 * 投放账号id
+	 */
+	ADVERTISER_ID?: string;
+	/**
+	 * 账号别名
+	 */
+	ALIAS: string;
+	/**
+	 * 主体id
+	 */
+	CPNID?: string;
+	/**
+	 * 必填
+	 */
 	PID: string;
+	/**
+	 * 投放人员
+	 */
+	PITID?: string;
 	page_no?: number;
 	page_limit?: number;
 }
@@ -260,4 +279,72 @@ export interface IQueryAwemeList {
 
 export const queryAwemeList = (params: IQueryAwemeList) => {
 	return http.get('/api/Mk_Tt_Tool/_queryAwemeList', params);
+}
+
+/**
+ * @name 查询橙子落地页
+ */
+
+export interface IQueryLandingPage {
+	advertiser_id: string;
+	page_limit?: number;
+}
+
+export const queryLandingPage = (params: IQueryLandingPage) => {
+	return http.get('/api/Mk_Tt_Assets/_queryLandingPage', params)
+}
+
+
+/**
+ * @name 查询标题库
+ */
+
+export interface IQueryTitleBag {
+	/**
+	 * 1-标题包2-标题
+	 */
+	type: string;
+	user_id?: string;
+}
+
+
+
+export const queryTitleBag = (params: IQueryTitleBag) => {
+	return http.get('/api/Mk_Tt_Assets/_queryTitleBag', params)
+}
+
+/**
+ * @name 获取素材设计者列表
+ */
+
+
+export const staffInfo = () => {
+	return http.get('/api/Mk_Material/_staffInfo')
+}
+
+
+/**
+ * @name 创建标题包
+ */
+export interface ICreateTitleBag {
+	advertiser_id: string;
+	/**
+	 * 标题内容多个用\n换行隔开
+	 */
+	name: string;
+	/**
+	 * 标题包名称
+	 */
+	tag_name?: string;
+	/**
+	 * 类型1-标题包2-标题
+	 */
+	type: string;
+
+
+	classification?: string;
+}
+
+export const createTitleBag = (params: ICreateTitleBag) => {
+	return http.post('/api/Mk_Tt_Assets/_createTitleBag', params);
 }

@@ -5,6 +5,14 @@
             <div class="font-size-16px font-700 line-height-48px color-[#333]">选择素材</div>
         </template>
 
+
+        <main class="m-16px bg-[#fff]" style="height: calc(100vh - 150px)">
+            <el-scrollbar style="height: 100%">
+
+            </el-scrollbar>
+
+        </main>
+
     </Drawer>
 </template>
 

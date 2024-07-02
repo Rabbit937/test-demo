@@ -9,6 +9,8 @@ export default defineConfig({
         ['border-[#e8eaec]', { border: '1px solid #e8eaec' }],
         ['border-bottom-[#e8eaec]', { 'border-bottom': '1px solid #e8eaec' }],
         ['border-top-[#e8eaec]', { 'border-top': '1px solid #e8eaec' }],
+        ['border-right-[#e8eaec]', { 'border-right': '1px solid #e8eaec' }],
+        ['border-left-[#e8eaec]', { 'border-left': '1px solid #e8eaec' }],
 
         ['border-radius-6px', { 'border-radius': '6px' }],
         // text
