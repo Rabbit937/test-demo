@@ -1,36 +1,67 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <style>
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            /* 创建三等分列 */
-            gap: 10px;
-            /* 设置列间距 */
-            padding: 10px;
-        }
-
-        .grid-item {
-            background-color: #f0f0f0;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="grid-container">
-        <div class="grid-item">Item 1</div>
-        <div class="grid-item">Item 2</div>
-        <div class="grid-item">Item 3</div>
-        <div class="grid-item">Item 4</div>
-        <div class="grid-item">Item 5</div>
-        <div class="grid-item">Item 6</div>
+<div class="creative-content">
+    <div class="creative-material">
+        <div class="creative-group">
+            <div class="creative-group-header flex">
+                <span class="creative-group-name">
+                    创意组01 <i class="el-icon-edit-outline"></i>
+                </span><i class="el-icon-caret el-icon-caret-bottom"></i>
+            </div>
+            <div class="creative-group-body">
+                <div class="button-wrap btn-batch-add">
+                    <button type="button"
+                        class="el-button el-button--border el-button--default el-button--small is-plain">
+                        <!---->
+                        <i class="mg-icon-plus"></i><span>添加素材 </span>
+                    </button>
+                    <button type="button"
+                        class="el-button el-button--border el-button--default el-button--small is-plain"
+                        style="display: none;"><!----><i class="mg-icon-plus"></i>
+                        <span>自动新建 </span>
+                    </button>
+                </div>
+                <div class="creative-tabs el-tabs el-tabs--card el-tabs--top">
+                    <div class="el-tabs__header is-top">
+                        <div class="el-tabs__nav-wrap is-top">
+                            <div class="el-tabs__nav-scroll">
+                                <div role="tablist" class="el-tabs__nav is-top" style="transform: translateX(0px);">
+                                    <div id="tab-video" aria-controls="pane-video" role="tab" tabindex="0"
+                                        class="el-tabs__item is-top is-active" aria-selected="true">视频(0/10)</div>
+                                    <div id="tab-image" aria-controls="pane-image" role="tab" tabindex="-1"
+                                        class="el-tabs__item is-top">图片(0/10)</div>
+                                    <div id="tab-carouselMaterial" aria-controls="pane-carouselMaterial" role="tab"
+                                        tabindex="-1" class="el-tabs__item is-top">图文(0/5)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="el-tabs__content">
+                        <div role="tabpanel" id="pane-video" aria-labelledby="tab-video" class="el-tab-pane" style="">
+                            <div class="upload-container upload-video">
+                                <div class="upload-block upload-flex upload-add">
+                                    <div class="upload-flex"><i class="el-icon-plus"></i></div>
+                                </div>
+                            </div>
+                            <div class="error-text"></div>
+                        </div><!----><!---->
+                        <div role="tabpanel" id="pane-image" aria-labelledby="tab-image" class="el-tab-pane"
+                            style="display: none;" aria-hidden="true">
+                            <div class="upload-container upload-image">
+                                <div class="upload-wrapper upload-flex upload-add"><i class="el-icon-plus"></i></div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" id="pane-carouselMaterial" aria-labelledby="tab-carouselMaterial"
+                            class="el-tab-pane" style="display: none;" aria-hidden="true">
+                            <div class="upload-container upload-image">
+                                <div class="upload-wrapper upload-flex upload-add"><i class="el-icon-plus"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="operate-group">
+            <div title="复制创意组" class="mg-icon-copy-wrap"><i class="el-icon-document-copy"></i></div>
+            <div title="删除创意组" class="mg-icon-delete-wrap"><i class="mg-icon-mobgi_ic_app_unchecked"></i></div>
+        </div>
     </div>
-
-</body>
-
-</html>
+</div>
