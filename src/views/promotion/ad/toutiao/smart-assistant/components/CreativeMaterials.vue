@@ -2,6 +2,7 @@
 import { ref, reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import CreateMaterial from './CreativeMaterial.vue'
+import MaterialSelector from './MaterialSelector.vue'
 
 interface IProps {
     visible: boolean;
@@ -9,7 +10,6 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
-
 
 const drawerOptions = reactive({
     visible: props.visible ?? false,
@@ -24,7 +24,6 @@ const handleDrawerClose = (type: number) => {
 watchEffect(() => {
     drawerOptions.visible = props.visible;
 });
-
 
 const multiple_account_allocation_rules = ref(1);
 
@@ -101,4 +100,7 @@ const multiple_account_allocation_rules = ref(1);
         </main>
 
     </Drawer>
+
+
+    <MaterialSelector :visible="true" />
 </template>
