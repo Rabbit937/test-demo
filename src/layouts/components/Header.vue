@@ -1,7 +1,7 @@
 <template>
 	<el-row class="h-100%">
 		<el-col :span="2" class="flex self-center">
-			<img src="@/assets/images/logo.png" alt="logo" class="w-104px" />
+			<img src="@/assets/images/logo.png" alt="logo" class="w-100%" />
 		</el-col>
 		<el-col :span="20">
 			<HeaderNav :nav-list="navList" :active-index="activeIndex"></HeaderNav>

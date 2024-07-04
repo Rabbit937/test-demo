@@ -20,12 +20,12 @@ const router = createRouter({
 		{
 			path: "/",
 			component: Layout,
-			redirect: "/promotion",
+			redirect: "/home",
 			children: [
 				...[homeRoute],
 				...[promotionRoute],
-				...[batchRoute],
 				...[materialRoute],
+				...[batchRoute],
 			],
 		},
 	],

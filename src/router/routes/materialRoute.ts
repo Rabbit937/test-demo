@@ -7,7 +7,7 @@ const materialRoute = {
 		// 本地素材
 		{
 			path: "material",
-			name: "Material",
+			name: "material",
 			component: () => import("@/views/material/material/index.vue"),
 			meta: {
 				title: "material",
