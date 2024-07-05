@@ -348,3 +348,86 @@ export interface ICreateTitleBag {
 export const createTitleBag = (params: ICreateTitleBag) => {
 	return http.post('/api/Mk_Tt_Assets/_createTitleBag', params);
 }
+
+
+/**
+ * @name 查询素材列表
+ */
+
+export interface IMatList {
+	/**
+	 * 专辑id
+	 */
+	album_id?: number;
+	/**
+	 * 类型1-视频2-图片
+	 */
+	category?: number;
+	/**
+	 * 时间范围
+	 */
+	create_date?: string;
+	/**
+	 * 文件夹id
+	 */
+	dir_id?: number;
+	/**
+	 * 搜索关键词
+	 */
+	keyword?: string;
+	/**
+	 * 1-ID2-名称
+	 */
+	search_type?: number;
+	/**
+	 * 是否停用1-是0-否
+	 */
+	status?: number;
+	/**
+	 * 分页
+	 */
+	page_limit?: number;
+	cur_page?: number;
+}
+
+
+export const matList = (params: IMatList) => {
+	return http.get('/api/Mk_Material/_matList', params);
+}
+
+
+/**
+ * @name 上传素材到媒体
+ */
+
+export interface Request {
+	advertiser_id: string;
+	/**
+	 * 主体id必填
+	 */
+	cpnid: string;
+
+
+	/**
+	 * 文件名
+	 */
+	filename: string;
+	/**
+	 * 本地素材id必填
+	 */
+	mat_id: string;
+	/**
+	 * 类型1-视频2-图片必填
+	 */
+	mime: string;
+	/**
+	 * 文件下载地址
+	 */
+	url: string;
+}
+
+
+export const uploadMaterial2Media = (params: Request) => {
+	return http.post('/api/Mk_Material/_uploadMat', params);
+}
+

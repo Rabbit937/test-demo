@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { ref, reactive, watchEffect } from "vue";
+import { ref, reactive, watchEffect, onMounted } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { zhCn } from "element-plus/es/locales.mjs";
 import "element-plus/es/components/message/style/css";
+import { type IMatList, matList } from "@/api/modules/promotion";
 
 interface IProps {
     visible: boolean;
@@ -23,7 +24,18 @@ watchEffect(() => {
 });
 
 const handleClose = () => {
+    console.log('handleClose')
+}
 
+
+const handleCancelButton = () => {
+    dialogState.visible = false;
+    console.log('cancel')
+}
+
+const handleConfirmButton = () => {
+    console.log('confirm')
+    dialogState.visible = false;
 }
 
 const activeName = ref('first')
@@ -160,7 +172,6 @@ const cascaderProps = {
 };
 
 
-
 const handleSearch = () => {
 };
 
@@ -169,43 +180,42 @@ const checked1 = ref();
 
 
 const selectedVideos = ref([])
-const videos = [
-    {
-        id: 1,
-        name: '20240702亿游海贼-720P.mp4',
-        uploadTime: '2024-07-02',
-        totalRelatedAds: 0,
-        todayRelatedAds: 1,
-        consumption: '无消耗'
-    },
-    // {
-    //     id: 2,
-    //     name: '20240703原神-1080P.mp4',
-    //     uploadTime: '2024-07-03',
-    //     totalRelatedAds: 0,
-    //     todayRelatedAds: 0,
-    //     consumption: '无消耗'
-    // },
-    // {
-    //     id: 3,
-    //     name: '20240704王者荣耀-720P.mp4',
-    //     uploadTime: '2024-07-04',
-    //     totalRelatedAds: 0,
-    //     todayRelatedAds: 0,
-    //     consumption: '无消耗'
-    // }
-]
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+const videos = ref<any[]>([])
 
 const handleChange = () => {
-
+    console.log(selectedVideos.value)
 }
+
+const matListFunc = async (param: IMatList) => {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const res: any = await matList(param);
+
+    console.log(res)
+
+    if (res.state === 1) {
+        videos.value = res.data.list
+    }
+}
+
+
+onMounted(() => {
+    matListFunc({
+        create_date: "2024-04-01 - 2024-06-30",
+        category: 1
+    })
+})
+
+
+
+
 
 </script>
 
 <template>
     <el-dialog v-model="dialogState.visible" :width="dialogState.width" :append-to-body="true"
-        :close-on-click-modal="false" :show-close="false" @close="handleClose">
-        <div class="position-absolute right-16px">
+        :close-on-click-modal="false" :show-close="false" @close="handleClose" :top="'6vh'">
+        <div class="position-absolute right-16px z-100">
             <el-button>管理素材</el-button>
         </div>
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handletabsClick">
@@ -325,36 +335,68 @@ const handleChange = () => {
                         <el-button type="primary" link>刷新</el-button>
                     </div>
                 </div>
-
-                <div class="px-16px py-24px overflow-auto bg-[#f0f2f5] min-h-150px min-h-300px">
-
+                <el-scrollbar height="320px" class="!bg-[#f0f2f5] p-16px">
                     <el-checkbox-group v-model="selectedVideos" @change="handleChange">
-                        <div class="w-216px position-relative mb--16px font-size-12px cursor-pointer bg-[#fff] border-radius-3px"
-                            v-for="video in videos" :key="video.id">
-                            <div class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden"
-                                style="background:no-repeat 50%; background-image: url(&quot;https://tos.mobgi.com/tos_beijing/material_cover/material_1/12000013178/12000021420/26b28268e71e53808c37978d030e9d0c253753.jpg&quot;);background-size: contain;border-top-left-radius: 3px;border-top-right-radius: 3px;">
-                                <el-checkbox :value="video.id"
-                                    class="!position-absolute !top-8px !left-8px"></el-checkbox>
-                                <video
-                                    src="https://tos.mobgi.com/tos_beijing/material_1/12000013178/12000021420/3e4c52e4505ce5290216d84701958bf7.mp4?uid=12400042387"
-                                    poster="https://tos.mobgi.com/tos_beijing/material_cover/material_1/12000013178/12000021420/26b28268e71e53808c37978d030e9d0c253753.jpg"
-                                    controls controlslist="nodownload noremoteplayback"
-                                    class="w-100% h-100% outline-none">
-                                </video>
+                        <div class=" bg-[#f0f2f5] min-h-150px  flex flex-wrap p-2px">
+                            <div class="w-216px position-relative mb-8px mr-8px font-size-12px cursor-pointer bg-[#fff] border-radius-3px checkbox-item"
+                                v-for="video in videos" :key="video.id">
+                                <div class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden"
+                                    style="background:no-repeat 50%; background-image: url(&quot;https://tos.mobgi.com/tos_beijing/material_cover/material_1/12000013178/12000021420/26b28268e71e53808c37978d030e9d0c253753.jpg&quot;);background-size: contain;border-top-left-radius: 3px;border-top-right-radius: 3px;">
+                                    <el-checkbox :value="video.id" class="!position-absolute  !left-8px"></el-checkbox>
+                                    <video :src="video.upload_dir" :poster="video.info.preview" controls
+                                        controlslist="nodownload noremoteplayback"
+                                        class="w-100% h-100% outline-none bg-[#e8eaec]">
+                                    </video>
+                                    <div class="position-absolute right-8px bottom-8px left-8px text-center">
+                                        <div class="flex justify-between">
+                                            <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
+                                                style="border-radius: 2px">
+                                                <span>{{ video.info.dimension }}</span>
+                                            </div>
+                                            <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
+                                                style="border-radius: 2px">
+                                                <span>{{ video.info.duration }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col justify-around px-8px pt-8px pb-10px font-size-12px line-height-20px"
+                                    style="border: 1px solid #dcdee2;border-top: 0px;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;">
+                                    <div class="flex">
+                                        <span title="20240704-乌拉口袋-720×1280-路卡利欧序列帧图鉴展示-QQ（74）"
+                                            class="h-20px overflow-hidden font-600 color-[#333] ellipsis">20240704-乌拉口袋-720×1280-路卡利欧序列帧图鉴展示-QQ（74）</span>
+                                        <span class="ml-4px flex-shrink-0">32.90MB</span>
+                                    </div>
+
+                                    <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
+                                    <div class="font-400 color-[#666]"> 累计关联广告数<span>：0</span></div>
+
+                                    <div class="flex flex-row w-100%">
+                                        <div class="flex flex-wrap" style="height: 48px;">
+                                            <!-- <div class="font-400 color-[#666]">
+                                                <span class="px-8px mt-2px mb-6px font-size-12px ellipsis"
+                                                    style="border-style: solid;border-width: 1px;border-radius:3px;"
+                                                    :style="{ borderColor: '#a5a5a5', color: '#a5a5a5' }">未使用</span>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-
                         </div>
                     </el-checkbox-group>
-                </div>
+                </el-scrollbar>
             </el-tab-pane>
-            <el-tab-pane label="媒体素材" name="second">Config</el-tab-pane>
+            <el-tab-pane label="媒体素材" name="second">
+                <span>
+                    媒体素材
+                </span>
+            </el-tab-pane>
         </el-tabs>
 
         <template #footer>
             <div class="dialog-footer">
-                <el-button class="w-120px">取消</el-button>
-                <el-button type="primary" class="w-120px">
+                <el-button class="w-120px" @click="handleCancelButton">取消</el-button>
+                <el-button type="primary" @click="handleConfirmButton" class="w-120px">
                     确认
                 </el-button>
             </div>
@@ -373,13 +415,16 @@ const handleChange = () => {
 }
 
 
-video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+.checkbox-item:hover {
+    box-shadow: 0 0 6px 0 hsla(0, 0%, 47.5%, .5)
 }
+</style>
 
-video:focus {
-    outline: none;
+
+<style>
+.el-dialog__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

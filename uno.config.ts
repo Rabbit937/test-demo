@@ -27,5 +27,8 @@ export default defineConfig({
             'text-overflow': 'ellipsis',
             '-webkit-line-clamp': '3',
         }],
+
+
+        ["hover-box-shadow", { "box-shadow": "0 0 6px 0 hsla(0, 0 %, 47.5 %,.5)" }]
     ]
 })      

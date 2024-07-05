@@ -30,20 +30,24 @@ body {
 }
 
 /* 设置视频控件背景颜色为透明 */
-video::-webkit-media-controls-enclosure {
+/* video::-webkit-media-controls-enclosure {
     background-color: transparent !important;
-}
+} */
 
-video::-webkit-media-controls-panel {
+/* video::-webkit-media-controls-panel {
     background-color: transparent !important;
-}
+} */
 
 /* 设置进度条颜色为白色 */
-video::-webkit-media-controls-timeline {
+/* video::-webkit-media-controls-timeline {
     background-color: #fff !important;
-}
+} */
 
 /* 设置音量控制颜色为白色 */
-video::-webkit-media-controls-volume-slider {
+/* video::-webkit-media-controls-volume-slider {
     background-color: #fff !important;
+} */
+
+video::-webkit-media-controls-panel {
+    background: transparent
 }
