@@ -3,7 +3,8 @@ import { ref, reactive, watchEffect, onMounted } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { zhCn } from "element-plus/es/locales.mjs";
 import "element-plus/es/components/message/style/css";
-import { type IMatList, matList } from "@/api/modules/promotion";
+import { type IMatList, type IUploadMaterial2Media, matList, uploadMaterial2Media } from "@/api/modules/promotion";
+import { ElMessage } from "element-plus";
 
 interface IProps {
     visible: boolean;
@@ -35,7 +36,44 @@ const handleCancelButton = () => {
 
 const handleConfirmButton = () => {
     console.log('confirm')
-    dialogState.visible = false;
+    // dialogState.visible = false;
+
+    if (selectedVideos.value.length > 0) {
+
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        const material_info = selectedVideos.value.map((video: any) => {
+            if (video.mime === "1") {
+                return {
+                    filename: video.material_name,
+                    mime: video.mime,
+                    mat_id: video.material_id
+                }
+            }
+            return {
+                filename: video.material_name,
+                mime: video.mime,
+                mat_id: video.material_id,
+                url: video.upload_dir,
+                post_url: video.info.preview
+            }
+        })
+
+        uploadMaterial2MediaFunc({
+            advertiser_id: "1787695788195915",
+            cpnid: '1',
+            material_info: material_info
+        })
+
+    } else {
+        ElMessage.warning({
+            message: '请选择素材',
+            type: 'warning',
+            duration: 2000
+        })
+    }
+
+
+
 }
 
 const activeName = ref('first')
@@ -209,6 +247,14 @@ onMounted(() => {
 
 
 
+const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
+    const res = await uploadMaterial2Media(params);
+    console.log(res)
+}
+
+
+
+
 
 </script>
 
@@ -342,7 +388,7 @@ onMounted(() => {
                                 v-for="video in videos" :key="video.id">
                                 <div class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden"
                                     style="background:no-repeat 50%; background-image: url(&quot;https://tos.mobgi.com/tos_beijing/material_cover/material_1/12000013178/12000021420/26b28268e71e53808c37978d030e9d0c253753.jpg&quot;);background-size: contain;border-top-left-radius: 3px;border-top-right-radius: 3px;">
-                                    <el-checkbox :value="video.id" class="!position-absolute  !left-8px"></el-checkbox>
+                                    <el-checkbox :value="video" class="!position-absolute  !left-8px"></el-checkbox>
                                     <video :src="video.upload_dir" :poster="video.info.preview" controls
                                         controlslist="nodownload noremoteplayback"
                                         class="w-100% h-100% outline-none bg-[#e8eaec]">
@@ -362,10 +408,14 @@ onMounted(() => {
                                 </div>
                                 <div class="flex flex-col justify-around px-8px pt-8px pb-10px font-size-12px line-height-20px"
                                     style="border: 1px solid #dcdee2;border-top: 0px;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;">
-                                    <div class="flex">
-                                        <span title="20240704-乌拉口袋-720×1280-路卡利欧序列帧图鉴展示-QQ（74）"
-                                            class="h-20px overflow-hidden font-600 color-[#333] ellipsis">20240704-乌拉口袋-720×1280-路卡利欧序列帧图鉴展示-QQ（74）</span>
-                                        <span class="ml-4px flex-shrink-0">32.90MB</span>
+                                    <div class="flex justify-between">
+                                        <span :title="video.material_name"
+                                            class="h-20px overflow-hidden font-600 color-[#333] ellipsis">{{
+                                                video.material_name
+                                            }}</span>
+                                        <span class="ml-4px flex-shrink-0">{{
+                                            video.info.size
+                                        }}</span>
                                     </div>
 
                                     <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>

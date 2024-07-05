@@ -400,7 +400,7 @@ export const matList = (params: IMatList) => {
  * @name 上传素材到媒体
  */
 
-export interface Request {
+export interface IUploadMaterial2Media {
 	advertiser_id: string;
 	/**
 	 * 主体id必填
@@ -408,26 +408,28 @@ export interface Request {
 	cpnid: string;
 
 
-	/**
-	 * 文件名
-	 */
-	filename: string;
-	/**
-	 * 本地素材id必填
-	 */
-	mat_id: string;
-	/**
-	 * 类型1-视频2-图片必填
-	 */
-	mime: string;
-	/**
-	 * 文件下载地址
-	 */
-	url: string;
+	material_info: {	/**
+		* 文件名
+		*/
+		filename: string;
+		/**
+		 * 本地素材id必填
+		 */
+		mat_id: string;
+		/**
+		 * 类型1-视频2-图片必填
+		 */
+		mime: string;
+		/**
+		 * 文件下载地址
+		 */
+		url?: string;
+	}[]
+
 }
 
 
-export const uploadMaterial2Media = (params: Request) => {
-	return http.post('/api/Mk_Material/_uploadMat', params);
+export const uploadMaterial2Media = (params: IUploadMaterial2Media) => {
+	return http.post('/api/Mk_Tt_Promotion/_uploadMaterial2Media', params);
 }
 
