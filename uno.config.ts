@@ -13,6 +13,7 @@ export default defineConfig({
         ['border-left-[#e8eaec]', { 'border-left': '1px solid #e8eaec' }],
 
         ['border-radius-6px', { 'border-radius': '6px' }],
+        ['border-radius-3px', { 'border-radius': '3px' }],
         // text
         ['ellipsis', {
             overflow: 'hidden',

@@ -1,67 +1,51 @@
-<div class="creative-content">
-    <div class="creative-material">
-        <div class="creative-group">
-            <div class="creative-group-header flex">
-                <span class="creative-group-name">
-                    创意组01 <i class="el-icon-edit-outline"></i>
-                </span><i class="el-icon-caret el-icon-caret-bottom"></i>
-            </div>
-            <div class="creative-group-body">
-                <div class="button-wrap btn-batch-add">
-                    <button type="button"
-                        class="el-button el-button--border el-button--default el-button--small is-plain">
-                        <!---->
-                        <i class="mg-icon-plus"></i><span>添加素材 </span>
-                    </button>
-                    <button type="button"
-                        class="el-button el-button--border el-button--default el-button--small is-plain"
-                        style="display: none;"><!----><i class="mg-icon-plus"></i>
-                        <span>自动新建 </span>
-                    </button>
-                </div>
-                <div class="creative-tabs el-tabs el-tabs--card el-tabs--top">
-                    <div class="el-tabs__header is-top">
-                        <div class="el-tabs__nav-wrap is-top">
-                            <div class="el-tabs__nav-scroll">
-                                <div role="tablist" class="el-tabs__nav is-top" style="transform: translateX(0px);">
-                                    <div id="tab-video" aria-controls="pane-video" role="tab" tabindex="0"
-                                        class="el-tabs__item is-top is-active" aria-selected="true">视频(0/10)</div>
-                                    <div id="tab-image" aria-controls="pane-image" role="tab" tabindex="-1"
-                                        class="el-tabs__item is-top">图片(0/10)</div>
-                                    <div id="tab-carouselMaterial" aria-controls="pane-carouselMaterial" role="tab"
-                                        tabindex="-1" class="el-tabs__item is-top">图文(0/5)</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="el-tabs__content">
-                        <div role="tabpanel" id="pane-video" aria-labelledby="tab-video" class="el-tab-pane" style="">
-                            <div class="upload-container upload-video">
-                                <div class="upload-block upload-flex upload-add">
-                                    <div class="upload-flex"><i class="el-icon-plus"></i></div>
-                                </div>
-                            </div>
-                            <div class="error-text"></div>
-                        </div><!----><!---->
-                        <div role="tabpanel" id="pane-image" aria-labelledby="tab-image" class="el-tab-pane"
-                            style="display: none;" aria-hidden="true">
-                            <div class="upload-container upload-image">
-                                <div class="upload-wrapper upload-flex upload-add"><i class="el-icon-plus"></i></div>
-                            </div>
-                        </div>
-                        <div role="tabpanel" id="pane-carouselMaterial" aria-labelledby="tab-carouselMaterial"
-                            class="el-tab-pane" style="display: none;" aria-hidden="true">
-                            <div class="upload-container upload-image">
-                                <div class="upload-wrapper upload-flex upload-add"><i class="el-icon-plus"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="operate-group">
-            <div title="复制创意组" class="mg-icon-copy-wrap"><i class="el-icon-document-copy"></i></div>
-            <div title="删除创意组" class="mg-icon-delete-wrap"><i class="mg-icon-mobgi_ic_app_unchecked"></i></div>
-        </div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>透明视频控件 Demo</title>
+    <style>
+        /* 设置视频容器样式 */
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 设置视频控件背景颜色为透明 */
+        video::-webkit-media-controls-enclosure {
+            background-color: transparent !important;
+        }
+
+        video::-webkit-media-controls-panel {
+            background-color: transparent !important;
+        }
+
+        /* 设置进度条颜色为白色 */
+        video::-webkit-media-controls-timeline {
+            background-color: #fff !important;
+        }
+
+        /* 设置音量控制颜色为白色 */
+        video::-webkit-media-controls-volume-slider {
+            background-color: #fff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="video-container">
+        <video width="100%" height="auto" controls>
+            <source
+                src="https://tos.mobgi.com/tos_beijing/material_1/12000013178/12000021420/3e4c52e4505ce5290216d84701958bf7.mp4?uid=12400042387"
+                type="video/mp4">
+            您的浏览器不支持 HTML5 视频播放。
+        </video>
     </div>
-</div>
+
+    <script>
+        // 可以在这里添加一些 JavaScript 交互功能
+    </script>
+</body>
+
+</html>

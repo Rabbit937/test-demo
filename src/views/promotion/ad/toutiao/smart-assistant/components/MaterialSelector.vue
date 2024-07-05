@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { ref, onMounted, reactive, watchEffect, watch } from "vue";
+import { ref, reactive, watchEffect } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { zhCn } from "element-plus/es/locales.mjs";
 import "element-plus/es/components/message/style/css";
-import { type IQueryAwemeList, queryAwemeList } from "@/api/modules/promotion";
 
 interface IProps {
     visible: boolean;
@@ -179,26 +178,26 @@ const videos = [
         todayRelatedAds: 1,
         consumption: '无消耗'
     },
-    {
-        id: 2,
-        name: '20240703原神-1080P.mp4',
-        uploadTime: '2024-07-03',
-        totalRelatedAds: 0,
-        todayRelatedAds: 0,
-        consumption: '无消耗'
-    },
-    {
-        id: 3,
-        name: '20240704王者荣耀-720P.mp4',
-        uploadTime: '2024-07-04',
-        totalRelatedAds: 0,
-        todayRelatedAds: 0,
-        consumption: '无消耗'
-    }
+    // {
+    //     id: 2,
+    //     name: '20240703原神-1080P.mp4',
+    //     uploadTime: '2024-07-03',
+    //     totalRelatedAds: 0,
+    //     todayRelatedAds: 0,
+    //     consumption: '无消耗'
+    // },
+    // {
+    //     id: 3,
+    //     name: '20240704王者荣耀-720P.mp4',
+    //     uploadTime: '2024-07-04',
+    //     totalRelatedAds: 0,
+    //     todayRelatedAds: 0,
+    //     consumption: '无消耗'
+    // }
 ]
 
 const handleChange = () => {
-    
+
 }
 
 </script>
@@ -330,16 +329,22 @@ const handleChange = () => {
                 <div class="px-16px py-24px overflow-auto bg-[#f0f2f5] min-h-150px min-h-300px">
 
                     <el-checkbox-group v-model="selectedVideos" @change="handleChange">
-                        <el-checkbox-group v-for="video in videos" :key="video.id">
-                            <el-checkbox :label="video.name" :value="video.id"></el-checkbox>
-                            <div class="video-info">
-                                <p>{{ video.name }}</p>
-                                <p>上传时间：{{ video.uploadTime }}</p>
-                                <p>累计关联广告数：{{ video.totalRelatedAds }}</p>
-                                <p>今日创量关联广告数：{{ video.todayRelatedAds }}</p>
-                                <p>消耗情况：{{ video.consumption }}</p>
+                        <div class="w-216px position-relative mb--16px font-size-12px cursor-pointer bg-[#fff] border-radius-3px"
+                            v-for="video in videos" :key="video.id">
+                            <div class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden"
+                                style="background:no-repeat 50%; background-image: url(&quot;https://tos.mobgi.com/tos_beijing/material_cover/material_1/12000013178/12000021420/26b28268e71e53808c37978d030e9d0c253753.jpg&quot;);background-size: contain;border-top-left-radius: 3px;border-top-right-radius: 3px;">
+                                <el-checkbox :value="video.id"
+                                    class="!position-absolute !top-8px !left-8px"></el-checkbox>
+                                <video
+                                    src="https://tos.mobgi.com/tos_beijing/material_1/12000013178/12000021420/3e4c52e4505ce5290216d84701958bf7.mp4?uid=12400042387"
+                                    poster="https://tos.mobgi.com/tos_beijing/material_cover/material_1/12000013178/12000021420/26b28268e71e53808c37978d030e9d0c253753.jpg"
+                                    controls controlslist="nodownload noremoteplayback"
+                                    class="w-100% h-100% outline-none">
+                                </video>
                             </div>
-                        </el-checkbox-group>
+
+
+                        </div>
                     </el-checkbox-group>
                 </div>
             </el-tab-pane>
@@ -356,3 +361,25 @@ const handleChange = () => {
         </template>
     </el-dialog>
 </template>
+
+
+<style scoped>
+.no-hover {
+    pointer-events: none;
+}
+
+.no-hover:hover {
+    cursor: default
+}
+
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+video:focus {
+    outline: none;
+}
+</style>
