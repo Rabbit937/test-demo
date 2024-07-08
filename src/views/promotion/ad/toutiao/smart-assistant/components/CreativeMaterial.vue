@@ -76,7 +76,14 @@
                         </el-tab-pane>
                         <el-tab-pane label="图片(0/10)" class="p-16px min-h-256px">
                             <el-scrollbar height="256px">
-                                <h1>图片</h1>
+                                <div class="flex flex-wrap">
+                                    <div class="min-h-140px mr-23px flex align-items-center justify-center position-relative w-200px "
+                                        style="border:1px solid #dcdee2; border-style: dashed;">
+                                        <el-icon class="el-icon-plus" size="32" color="#d4d5d7">
+                                            <Plus />
+                                        </el-icon>
+                                    </div>
+                                </div>
                             </el-scrollbar>
                         </el-tab-pane>
 
@@ -89,17 +96,27 @@
                     </el-tabs>
                 </div>
             </div>
-            <div class="operate-group">
+            <!-- <div class="operate-group">
                 <div title="复制创意组" class="mg-icon-copy-wrap"><i class="el-icon-document-copy"></i></div>
                 <div title="删除创意组" class="mg-icon-delete-wrap"><i class="mg-icon-mobgi_ic_app_unchecked"></i></div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
 
 
-<script setup lang="ts">
+<script lang="ts" setup>
+import { defineProps, defineEmits, ref } from 'vue';
 
+const props = defineProps<{ initialState: string }>();
+const emit = defineEmits<(e: 'updateState', newState: string) => void>();
+
+const state = ref(props.initialState);
+
+const updateState = () => {
+    state.value = '已更新';
+    emit('updateState', state.value);
+};
 </script>
 
 <style lang="scss" scoped>

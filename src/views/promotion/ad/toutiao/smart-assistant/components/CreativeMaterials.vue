@@ -5,32 +5,50 @@ import CreateMaterial from "./CreativeMaterial.vue";
 import MaterialSelector from "./MaterialSelector.vue";
 
 interface IProps {
-	visible: boolean;
+    visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
 const drawerOptions = reactive({
-	visible: props.visible ?? false,
-	size: 1016,
+    visible: props.visible ?? false,
+    size: 1016,
 });
 
 const handleDrawerClose = (type: number) => {
-	console.log(type);
-	emits("handleDrawerClose", type);
+    console.log(type);
+    emits("handleDrawerClose", type);
 };
 
 watchEffect(() => {
-	drawerOptions.visible = props.visible;
+    drawerOptions.visible = props.visible;
 });
 
 const multiple_account_allocation_rules = ref(1);
 
 // 素材选择器
 const MaterialSelectorState = reactive({
-	visible: false,
+    visible: false,
 });
+
+// 创意组
+interface ComponentState {
+    state: string;
+}
+
+const components = ref<ComponentState[]>([{ state: '初始状态' }]);
+
+const addComponent = () => {
+    components.value.push({ state: '初始状态' });
+};
+
+// 处理更新状态的函数
+const handleUpdateState = (index: number, newState: string) => {
+    console.log(index, newState)
+    components.value[index].state = newState;
+};
+
 </script>
 
 <template>
@@ -86,12 +104,15 @@ const MaterialSelectorState = reactive({
                     </div>
                 </div>
 
-                <div class="min-h-300px max-h-497px pr-16px overflow-auto">
-                    <CreateMaterial />
-                </div>
+                <el-scrollbar height="500px" class="min-h-300px max-h-500px pr-16px">
+                    <div v-for="(component, index) in components" :key="index">
+                        <CreateMaterial :initialState="component.state"
+                            @updateState="handleUpdateState(index, $event)" />
+                    </div>
+                </el-scrollbar>
 
                 <div class="mt-16px">
-                    <el-button type="primary">
+                    <el-button type="primary" @click="addComponent">
                         <el-icon style="color: #fff;">
                             <Plus />
                         </el-icon>
