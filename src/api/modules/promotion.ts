@@ -103,15 +103,13 @@ export interface ICreateProject {
 	value_optimized_type: string;
 	app_type: string;
 
-
-	schedule_time?: string,
-	schedule_date?: string[],
-	start_time?: string,
-	end_time?: string,
+	schedule_time?: string;
+	schedule_date?: string[];
+	start_time?: string;
+	end_time?: string;
 	budget_optimize_switch: string;
 	budget_bidding_configuration_mode: string;
 	search_bid_ratio: string;
-
 }
 
 export const createProject = (params: ICreateProject) => {
@@ -237,7 +235,6 @@ export const createPromotion = (params: ICreatePromotion) => {
 	return http.post("/api/Mk_Tt_Promotion/_createPromotion", params);
 };
 
-
 /**
  * @name 查询可用优化目标
  */
@@ -249,9 +246,8 @@ export interface IGetOptimizeGoal {
 }
 
 export const getOptimizeGoal = (params: IGetOptimizeGoal) => {
-	return http.get('/api/Mk_Tt_Tool/_getOptimizeGoal', params);
-}
-
+	return http.get("/api/Mk_Tt_Tool/_getOptimizeGoal", params);
+};
 
 /**
  * @name 查询可用深度优化方式
@@ -266,8 +262,8 @@ export interface IGetDeepOptimizeType {
 }
 
 export const getDeepOptimizeType = (params: IGetDeepOptimizeType) => {
-	return http.get('/api/Mk_Tt_Tool/_getDeepOptimizeType', params);
-}
+	return http.get("/api/Mk_Tt_Tool/_getDeepOptimizeType", params);
+};
 
 /**
  * @name 查询抖音号
@@ -278,8 +274,8 @@ export interface IQueryAwemeList {
 }
 
 export const queryAwemeList = (params: IQueryAwemeList) => {
-	return http.get('/api/Mk_Tt_Tool/_queryAwemeList', params);
-}
+	return http.get("/api/Mk_Tt_Tool/_queryAwemeList", params);
+};
 
 /**
  * @name 查询橙子落地页
@@ -291,9 +287,8 @@ export interface IQueryLandingPage {
 }
 
 export const queryLandingPage = (params: IQueryLandingPage) => {
-	return http.get('/api/Mk_Tt_Assets/_queryLandingPage', params)
-}
-
+	return http.get("/api/Mk_Tt_Assets/_queryLandingPage", params);
+};
 
 /**
  * @name 查询标题库
@@ -307,21 +302,17 @@ export interface IQueryTitleBag {
 	user_id?: string;
 }
 
-
-
 export const queryTitleBag = (params: IQueryTitleBag) => {
-	return http.get('/api/Mk_Tt_Assets/_queryTitleBag', params)
-}
+	return http.get("/api/Mk_Tt_Assets/_queryTitleBag", params);
+};
 
 /**
  * @name 获取素材设计者列表
  */
 
-
 export const staffInfo = () => {
-	return http.get('/api/Mk_Material/_staffInfo')
-}
-
+	return http.get("/api/Mk_Material/_staffInfo");
+};
 
 /**
  * @name 创建标题包
@@ -341,14 +332,12 @@ export interface ICreateTitleBag {
 	 */
 	type: string;
 
-
 	classification?: string;
 }
 
 export const createTitleBag = (params: ICreateTitleBag) => {
-	return http.post('/api/Mk_Tt_Assets/_createTitleBag', params);
-}
-
+	return http.post("/api/Mk_Tt_Assets/_createTitleBag", params);
+};
 
 /**
  * @name 查询素材列表
@@ -390,11 +379,9 @@ export interface IMatList {
 	cur_page?: number;
 }
 
-
 export const matList = (params: IMatList) => {
-	return http.get('/api/Mk_Material/_matList', params);
-}
-
+	return http.get("/api/Mk_Material/_matList", params);
+};
 
 /**
  * @name 上传素材到媒体
@@ -407,10 +394,10 @@ export interface IUploadMaterial2Media {
 	 */
 	cpnid: string;
 
-
-	material_info: {	/**
-		* 文件名
-		*/
+	material_info: {
+		/**
+		 * 文件名
+		 */
 		filename: string;
 		/**
 		 * 本地素材id必填
@@ -424,12 +411,9 @@ export interface IUploadMaterial2Media {
 		 * 文件下载地址
 		 */
 		url?: string;
-	}[]
-
+	}[];
 }
-
 
 export const uploadMaterial2Media = (params: IUploadMaterial2Media) => {
-	return http.post('/api/Mk_Tt_Promotion/_uploadMaterial2Media', params);
-}
-
+	return http.post("/api/Mk_Tt_Promotion/_uploadMaterial2Media", params);
+};

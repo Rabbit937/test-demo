@@ -1,86 +1,86 @@
 <script setup lang="ts">
-import { ref, reactive, watchEffect, onMounted, } from "vue";
+import { ref, reactive, watchEffect, onMounted } from "vue";
 // import { Search } from '@element-plus/icons-vue'
 import Drawer from "@/components/Drawer.vue";
-import { type IQueryTitleBag, queryTitleBag, staffInfo } from "@/api/modules/promotion";
-import AddTitlePack from './AddTitlePack.vue'
+import {
+	type IQueryTitleBag,
+	queryTitleBag,
+	staffInfo,
+} from "@/api/modules/promotion";
+import AddTitlePack from "./AddTitlePack.vue";
 
 interface IProps {
-    visible: boolean;
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
 const drawerOptions = reactive({
-    visible: props.visible ?? false,
-    size: 1016,
+	visible: props.visible ?? false,
+	size: 1016,
 });
 
 const handleDrawerClose = (type: number) => {
-    console.log(type)
-    // emits('handleDrawerClose', type);
+	console.log(type);
+	// emits('handleDrawerClose', type);
 
-    if (type === 1) {
-        // if (checkedLandingPage.value) {
-        //     emits('handleDrawerClose', type, checkedLandingPage.value);
-        // } else {
-        //     ElMessage({
-        //         message: 'Warning, this is a warning message.',
-        //         type: 'warning',
-        //     })
-        // }
-
-    } else {
-        emits('handleDrawerClose', type);
-    }
-
+	if (type === 1) {
+		// if (checkedLandingPage.value) {
+		//     emits('handleDrawerClose', type, checkedLandingPage.value);
+		// } else {
+		//     ElMessage({
+		//         message: 'Warning, this is a warning message.',
+		//         type: 'warning',
+		//     })
+		// }
+	} else {
+		emits("handleDrawerClose", type);
+	}
 };
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
+	drawerOptions.visible = props.visible;
 });
-
 
 // 标题来源
 const title_source = ref(1);
 
 const title_source_radio = [
-    {
-        label: "标题包",
-        value: 1,
-    },
-    {
-        label: "标题库",
-        value: 2
-    }
-]
+	{
+		label: "标题包",
+		value: 1,
+	},
+	{
+		label: "标题库",
+		value: 2,
+	},
+];
 
 const handleTitleSourceChange = (value: string | number | boolean) => {
-    console.log(value)
+	console.log(value);
 
-    queryTitleBagFunc({
-        type: String(title_source.value),
-        user_id: staffInfoSelected.value
-    })
-
-}
+	queryTitleBagFunc({
+		type: String(title_source.value),
+		user_id: staffInfoSelected.value,
+	});
+};
 
 // 标题分配方式
 const title_distribution_method = ref(1);
 const title_distribution_method_radio = [
-    {
-        label: "全账户复用",
-        value: 1,
-    },
-    {
-        label: "平均分配",
-        value: 2
-    },
-    {
-        label: "分账户选择",
-        value: 3
-    }
+	{
+		label: "全账户复用",
+		value: 1,
+	},
+	{
+		label: "平均分配",
+		value: 2,
+	},
+	{
+		label: "分账户选择",
+		value: 3,
+	},
 ];
 
 // 创意内标题数
@@ -88,89 +88,79 @@ const creative_title_number = ref(10);
 const title_pack_table_data = ref();
 
 const title_pack_table_props = {
-    tag_name: "标题包名称",
-    user_name: "创建用户",
-    titles: '标题数',
-    atime: '创建时间'
-}
+	tag_name: "标题包名称",
+	user_name: "创建用户",
+	titles: "标题数",
+	atime: "创建时间",
+};
 
-
-
-const tableLoading = ref(false)
+const tableLoading = ref(false);
 const queryTitleBagFunc = async (params: IQueryTitleBag) => {
-    tableLoading.value = true;
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await queryTitleBag(params)
-    console.log("queryTitleBagFunc---------->", res);
+	tableLoading.value = true;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await queryTitleBag(params);
+	console.log("queryTitleBagFunc---------->", res);
 
-    if (res.state === 1) {
-        title_pack_table_data.value = res.data.list;
-        tableLoading.value = false;
-    }
-
-}
+	if (res.state === 1) {
+		title_pack_table_data.value = res.data.list;
+		tableLoading.value = false;
+	}
+};
 
 onMounted(() => {
-    queryTitleBagFunc({
-        type: String(title_source.value)
-    })
-})
-
+	queryTitleBagFunc({
+		type: String(title_source.value),
+	});
+});
 
 const staffInfoList = ref();
 const staffInfoSelected = ref();
 
 const staffInfoFunc = async () => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await staffInfo();
-    console.log(res);
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await staffInfo();
+	console.log(res);
 
-    if (res.state === 1) {
-        staffInfoList.value = res.data;
-    }
-}
-
+	if (res.state === 1) {
+		staffInfoList.value = res.data;
+	}
+};
 
 onMounted(() => {
-    staffInfoFunc();
-})
-
+	staffInfoFunc();
+});
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleStaffInfoChange = (value: any) => {
-    console.log(value)
-    queryTitleBagFunc({
-        type: String(title_source.value),
-        user_id: staffInfoSelected.value
-    })
-}
+	console.log(value);
+	queryTitleBagFunc({
+		type: String(title_source.value),
+		user_id: staffInfoSelected.value,
+	});
+};
 
-
-const handleEdit = () => {
-
-}
+const handleEdit = () => {};
 
 const AddTitilePackState = reactive({
-    title: '添加标题包',
-    visible: false
-})
+	title: "添加标题包",
+	visible: false,
+});
 
 const addTitilePack = () => {
-    AddTitilePackState.visible = true;
-}
+	AddTitilePackState.visible = true;
+};
 
 const handleAddTitlePackDialogClose = (type: number) => {
-    console.log(type);
+	console.log(type);
 
-    if (type === 1) {
-        AddTitilePackState.visible = false;
-        queryTitleBagFunc({
-            type: String(title_source.value),
-            user_id: staffInfoSelected.value
-        })
-    }
-}
-
+	if (type === 1) {
+		AddTitilePackState.visible = false;
+		queryTitleBagFunc({
+			type: String(title_source.value),
+			user_id: staffInfoSelected.value,
+		});
+	}
+};
 </script>
 
 <template>

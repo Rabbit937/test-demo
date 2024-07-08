@@ -387,97 +387,91 @@
 <script setup lang="ts">
 import { ref, reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
-import SelectTikTokAccount from './SelectTikTokAccount.vue'
-import type { ICreatePromotion } from '@/api/modules/promotion'
+import SelectTikTokAccount from "./SelectTikTokAccount.vue";
+import type { ICreatePromotion } from "@/api/modules/promotion";
 import { watch } from "vue";
 
 interface IProps {
-    visible: boolean;
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
-
 const drawerOptions = reactive({
-    visible: props.visible ?? false,
-    size: 1016,
+	visible: props.visible ?? false,
+	size: 1016,
 });
 
 const handleDrawerClose = (type: number) => {
-    console.log(type)
-    emits('handleDrawerClose', type);
+	console.log(type);
+	emits("handleDrawerClose", type);
 };
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
+	drawerOptions.visible = props.visible;
 });
 
-
-
 const form: ICreatePromotion = reactive({
-    name: "<日期>-<时分秒>-<当日标号>",
+	name: "<日期>-<时分秒>-<当日标号>",
+});
 
-})
-
-const promotional_identity = ref(1)
-const matching_method = ref(1)
+const promotional_identity = ref(1);
+const matching_method = ref(1);
 const native_anchor_type = ref(1);
 // const additional_creative_components = ref(1)
 
 const SelectTikTokAccountState = reactive({
-    visible: false,
-    title: '选择抖音号'
-})
+	visible: false,
+	title: "选择抖音号",
+});
 
 const selectTikTokAccount = () => {
-    SelectTikTokAccountState.visible = true;
-}
+	SelectTikTokAccountState.visible = true;
+};
 const selectTikTokAccountDialog = () => {
-    SelectTikTokAccountState.visible = false;
-}
-
+	SelectTikTokAccountState.visible = false;
+};
 
 const callToAction = ref<string>();
-const callToActionList = ref<string[]>([])
+const callToActionList = ref<string[]>([]);
 
 const addcallToAction = () => {
-    if (callToAction.value) {
-        if (callToAction.value.length < 10) {
-            callToActionList.value.push(callToAction.value)
-        }
-    }
-}
+	if (callToAction.value) {
+		if (callToAction.value.length < 10) {
+			callToActionList.value.push(callToAction.value);
+		}
+	}
+};
 
 const recommendCallToActionList = [
-    '一键领取',
-    '了解更多',
-    '官方下载',
-    '更多精彩',
-    '极速下载',
-    '查看详情',
-    '立即下载',
-    '立即预约',
-    '领取优惠',
-    '领取卡券',
-    '马上领取'
-]
+	"一键领取",
+	"了解更多",
+	"官方下载",
+	"更多精彩",
+	"极速下载",
+	"查看详情",
+	"立即下载",
+	"立即预约",
+	"领取优惠",
+	"领取卡券",
+	"马上领取",
+];
 
-watch(() => callToActionList.value, (newVal, oldVal) => {
-    console.log(newVal, oldVal);
-})
+watch(
+	() => callToActionList.value,
+	(newVal, oldVal) => {
+		console.log(newVal, oldVal);
+	},
+);
 
 const enableSmartGenerationChecked = ref(false);
-
-
 
 // 产品信息
 const configuration_mode = ref(1);
 
-const product_selling_points_list = ref()
-const recommend_product_selling_points_list = [
-    '近期热卖商品'
-]
+const product_selling_points_list = ref();
+const recommend_product_selling_points_list = ["近期热卖商品"];
 
 // 广告预算与出价
 const budget_bidding_configuration_mode = ref(1);

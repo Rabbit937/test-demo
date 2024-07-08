@@ -46,37 +46,35 @@ import Dialog from "@/components/Dialog.vue";
 import { type ICreateTitleBag, createTitleBag } from "@/api/modules/promotion";
 
 interface IProps {
-    visible: boolean;
-    title?: string;
+	visible: boolean;
+	title?: string;
 }
 
-const props = withDefaults(defineProps<IProps>(), {
-});
+const props = withDefaults(defineProps<IProps>(), {});
 const emtis = defineEmits(["handleDialogClose"]);
 
 const dialogState = reactive({
-    title: props.title,
-    visible: false,
-    width: 800
-
+	title: props.title,
+	visible: false,
+	width: 800,
 });
 
 watchEffect(() => {
-    dialogState.visible = props.visible;
+	dialogState.visible = props.visible;
 });
 
 const handleDialogClose = (type: number) => {
-    if (type === 1) {
-        createTitleBagFunc({
-            advertiser_id: "1787695788195915",
-            tag_name: title_package_name.value,
-            type: "1",
-            name: title_package_name.value,
-            classification: classification.value
-        })
-    } else {
-        emtis('handleDialogClose', type)
-    }
+	if (type === 1) {
+		createTitleBagFunc({
+			advertiser_id: "1787695788195915",
+			tag_name: title_package_name.value,
+			type: "1",
+			name: title_package_name.value,
+			classification: classification.value,
+		});
+	} else {
+		emtis("handleDialogClose", type);
+	}
 };
 
 const textarea = ref();
@@ -84,14 +82,13 @@ const title_package_name = ref();
 const classification = ref();
 
 const createTitleBagFunc = async (params: ICreateTitleBag) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await createTitleBag(params);
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await createTitleBag(params);
 
-    console.log(res);
+	console.log(res);
 
-    if (res.state === 1) {
-        emtis('handleDialogClose', 1)
-    }
-}
-
+	if (res.state === 1) {
+		emtis("handleDialogClose", 1);
+	}
+};
 </script>

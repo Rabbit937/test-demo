@@ -1,61 +1,62 @@
 <script setup lang="ts">
 import { ref, reactive, watchEffect, onMounted } from "vue";
-import { ElMessage } from 'element-plus'
+import { ElMessage } from "element-plus";
 import Drawer from "@/components/Drawer.vue";
-import { type IQueryLandingPage, queryLandingPage, type IQueryAccountList, queryAccountList } from "@/api/modules/promotion";
+import {
+	type IQueryLandingPage,
+	queryLandingPage,
+	type IQueryAccountList,
+	queryAccountList,
+} from "@/api/modules/promotion";
 
 interface IProps {
-    visible: boolean;
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
-
 const drawerOptions = reactive({
-    visible: props.visible ?? false,
-    size: 1016,
+	visible: props.visible ?? false,
+	size: 1016,
 });
 
 const handleDrawerClose = (type: number) => {
-    console.log(type)
-    // emits('handleDrawerClose', type);
+	console.log(type);
+	// emits('handleDrawerClose', type);
 
-    if (type === 1) {
-        if (checkedLandingPage.value) {
-            emits('handleDrawerClose', type, checkedLandingPage.value);
-        } else {
-            ElMessage({
-                message: 'Warning, this is a warning message.',
-                type: 'warning',
-            })
-        }
-
-    } else {
-        emits('handleDrawerClose', type);
-    }
-
+	if (type === 1) {
+		if (checkedLandingPage.value) {
+			emits("handleDrawerClose", type, checkedLandingPage.value);
+		} else {
+			ElMessage({
+				message: "Warning, this is a warning message.",
+				type: "warning",
+			});
+		}
+	} else {
+		emits("handleDrawerClose", type);
+	}
 };
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
+	drawerOptions.visible = props.visible;
 });
 
 const each_ad_configuration = ref(1);
-const landing_page_type = ref('orange_landing_page');
+const landing_page_type = ref("orange_landing_page");
 
-const landing_page_allocation_method = ref('all');
+const landing_page_allocation_method = ref("all");
 const landing_page_allocation_method_radio = [
-    {
-        label: "全部相同",
-        value: 'all'
-    },
-    {
-        label: "按账户分配",
-        value: "account"
-    }
-]
-
+	{
+		label: "全部相同",
+		value: "all",
+	},
+	{
+		label: "按账户分配",
+		value: "account",
+	},
+];
 
 // 查询帐号
 const accountList = ref();
@@ -64,72 +65,67 @@ const accountSelected = ref();
 const accountList_loading = ref(false);
 
 const queryAccountListFunc = async (params: IQueryAccountList) => {
-    accountList_loading.value = true;
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await queryAccountList(params);
-    if (res.state === 1) {
-        accountList.value = res.data.list;
-        accountList_loading.value = false;
-    } else {
-        console.error("queryAccountListFunc request error")
-    }
-
-}
+	accountList_loading.value = true;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await queryAccountList(params);
+	if (res.state === 1) {
+		accountList.value = res.data.list;
+		accountList_loading.value = false;
+	} else {
+		console.error("queryAccountListFunc request error");
+	}
+};
 
 onMounted(() => {
-    queryAccountListFunc({
-        PID: "11",
-        ADVERTISER_ID: "1787695788195915",
-        ALIAS: "加速星期"
-    })
-})
-
+	queryAccountListFunc({
+		PID: "11",
+		ADVERTISER_ID: "1787695788195915",
+		ALIAS: "加速星期",
+	});
+});
 
 const handleAccountListRefresh = () => {
-    queryAccountListFunc({
-        PID: "11",
-        ADVERTISER_ID: "1787695788195915",
-        ALIAS: "加速星期"
-    })
-}
+	queryAccountListFunc({
+		PID: "11",
+		ADVERTISER_ID: "1787695788195915",
+		ALIAS: "加速星期",
+	});
+};
 
 const handleAccountListChange = () => {
-    queryAccountListFunc({
-        PID: "11",
-        ADVERTISER_ID: "1787695788195915",
-        ALIAS: "加速星期",
-    })
-}
-
+	queryAccountListFunc({
+		PID: "11",
+		ADVERTISER_ID: "1787695788195915",
+		ALIAS: "加速星期",
+	});
+};
 
 const LandingPageList = ref();
 const checkedLandingPage = ref();
 
 const queryLandingPageFunc = async (params: IQueryLandingPage) => {
-    console.log(params)
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await queryLandingPage(params);
-    console.log("queryLandingPageFunc------>", res)
+	console.log(params);
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await queryLandingPage(params);
+	console.log("queryLandingPageFunc------>", res);
 
-    if (res.state === 1) {
-        LandingPageList.value = res.data.list;
-    } else {
-        console.error("queryLandingPageFunc request error")
-    }
-
-}
+	if (res.state === 1) {
+		LandingPageList.value = res.data.list;
+	} else {
+		console.error("queryLandingPageFunc request error");
+	}
+};
 
 onMounted(() => {
-    queryLandingPageFunc({
-        advertiser_id: "1787695788195915",
-        page_limit: 10000,
-    })
-})
+	queryLandingPageFunc({
+		advertiser_id: "1787695788195915",
+		page_limit: 10000,
+	});
+});
 
 const handleCheckedLandingClear = () => {
-    checkedLandingPage.value = [];
-}
-
+	checkedLandingPage.value = [];
+};
 </script>
 
 <template>

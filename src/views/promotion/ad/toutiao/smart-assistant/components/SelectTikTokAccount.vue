@@ -83,51 +83,44 @@ import Dialog from "@/components/Dialog.vue";
 import { type IQueryAwemeList, queryAwemeList } from "@/api/modules/promotion";
 
 interface IProps {
-    visible: boolean;
-    title?: string;
+	visible: boolean;
+	title?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emtis = defineEmits(["handleDialogClose"]);
 
 const dialogState = reactive({
-    title: props.title,
-    visible: false
+	title: props.title,
+	visible: false,
 });
 
 watchEffect(() => {
-    dialogState.visible = props.visible;
+	dialogState.visible = props.visible;
 });
 
 const handleDialogClose = (type: number) => {
-    console.log(type)
-    emtis('handleDialogClose', type)
+	console.log(type);
+	emtis("handleDialogClose", type);
 };
-
 
 const AwemeList = ref();
 
 const queryAwemeListFunc = async (params: IQueryAwemeList) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await queryAwemeList(params);
-    console.log(res);
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await queryAwemeList(params);
+	console.log(res);
 
-    if (res.state === 1) {
-        AwemeList.value = res.data.list;
-    }
-}
-
+	if (res.state === 1) {
+		AwemeList.value = res.data.list;
+	}
+};
 
 onMounted(() => {
-    queryAwemeListFunc({
-        advertiser_id: "1787695788195915"
-    });
-})
+	queryAwemeListFunc({
+		advertiser_id: "1787695788195915",
+	});
+});
 
-
-const checkList = ref<string[]>([])
-
-
-
-
+const checkList = ref<string[]>([]);
 </script>

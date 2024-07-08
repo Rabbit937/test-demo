@@ -1,32 +1,36 @@
 <script setup lang="ts">
 import { ref, reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
-import CreateMaterial from './CreativeMaterial.vue'
-import MaterialSelector from './MaterialSelector.vue'
+import CreateMaterial from "./CreativeMaterial.vue";
+import MaterialSelector from "./MaterialSelector.vue";
 
 interface IProps {
-    visible: boolean;
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
 const drawerOptions = reactive({
-    visible: props.visible ?? false,
-    size: 1016,
+	visible: props.visible ?? false,
+	size: 1016,
 });
 
 const handleDrawerClose = (type: number) => {
-    console.log(type)
-    emits('handleDrawerClose', type);
+	console.log(type);
+	emits("handleDrawerClose", type);
 };
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
+	drawerOptions.visible = props.visible;
 });
 
 const multiple_account_allocation_rules = ref(1);
 
+// 素材选择器
+const MaterialSelectorState = reactive({
+	visible: false,
+});
 </script>
 
 <template>
@@ -102,5 +106,5 @@ const multiple_account_allocation_rules = ref(1);
     </Drawer>
 
 
-    <MaterialSelector :visible="true" />
+    <MaterialSelector :visible="MaterialSelectorState.visible" />
 </template>

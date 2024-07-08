@@ -3,259 +3,243 @@ import { ref, reactive, watchEffect, onMounted } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { zhCn } from "element-plus/es/locales.mjs";
 import "element-plus/es/components/message/style/css";
-import { type IMatList, type IUploadMaterial2Media, matList, uploadMaterial2Media } from "@/api/modules/promotion";
+import {
+	type IMatList,
+	type IUploadMaterial2Media,
+	matList,
+	uploadMaterial2Media,
+} from "@/api/modules/promotion";
 import { ElMessage } from "element-plus";
 
 interface IProps {
-    visible: boolean;
-    title?: string;
+	visible: boolean;
+	title?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emtis = defineEmits(["handleDialogClose"]);
 
 const dialogState = reactive({
-    title: props.title,
-    visible: false,
-    width: 1200
+	title: props.title,
+	visible: false,
+	width: 1200,
 });
 
 watchEffect(() => {
-    dialogState.visible = props.visible;
+	dialogState.visible = props.visible;
 });
 
 const handleClose = () => {
-    console.log('handleClose')
-}
-
+	console.log("handleClose");
+};
 
 const handleCancelButton = () => {
-    dialogState.visible = false;
-    console.log('cancel')
-}
+	dialogState.visible = false;
+	console.log("cancel");
+};
 
 const handleConfirmButton = () => {
-    console.log('confirm')
-    // dialogState.visible = false;
+	console.log("confirm");
+	// dialogState.visible = false;
 
-    if (selectedVideos.value.length > 0) {
+	if (selectedVideos.value.length > 0) {
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		const material_info = selectedVideos.value.map((video: any) => {
+			if (video.mime === "1") {
+				return {
+					filename: video.material_name,
+					mime: video.mime,
+					mat_id: video.material_id,
+					post_url: video.info.preview,
+				};
+			}
+			return {
+				filename: video.material_name,
+				mime: video.mime,
+				mat_id: video.material_id,
+				url: video.upload_dir,
+			};
+		});
 
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        const material_info = selectedVideos.value.map((video: any) => {
-            if (video.mime === "1") {
-                return {
-                    filename: video.material_name,
-                    mime: video.mime,
-                    mat_id: video.material_id
-                }
-            }
-            return {
-                filename: video.material_name,
-                mime: video.mime,
-                mat_id: video.material_id,
-                url: video.upload_dir,
-                post_url: video.info.preview
-            }
-        })
+		uploadMaterial2MediaFunc({
+			advertiser_id: "1787695788195915",
+			cpnid: "1",
+			material_info: material_info,
+		});
+	} else {
+		ElMessage.warning({
+			message: "请选择素材",
+			type: "warning",
+			duration: 2000,
+		});
+	}
+};
 
-        uploadMaterial2MediaFunc({
-            advertiser_id: "1787695788195915",
-            cpnid: '1',
-            material_info: material_info
-        })
+const activeName = ref("first");
 
-    } else {
-        ElMessage.warning({
-            message: '请选择素材',
-            type: 'warning',
-            duration: 2000
-        })
-    }
-
-
-
-}
-
-const activeName = ref('first')
-
-const handletabsClick = () => {
-
-}
+const handletabsClick = () => {};
 
 const state = reactive({
-    keyword: "",
-    search_type: 2,
-    materialType: "",
-    materialStatus: "",
-    dateValue: null,
-    cascaderValue: "",
+	keyword: "",
+	search_type: 2,
+	materialType: "",
+	materialStatus: "",
+	dateValue: null,
+	cascaderValue: "",
 });
 
 const searchSelectList = [
-    {
-        label: "素材ID",
-        value: 1,
-    },
-    {
-        label: "素材名称",
-        value: 2,
-    },
+	{
+		label: "素材ID",
+		value: 1,
+	},
+	{
+		label: "素材名称",
+		value: 2,
+	},
 ];
 
 const shortcuts = [
-    {
-        text: "今天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            return [start, end];
-        },
-    },
-    {
-        text: "昨天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
+	{
+		text: "今天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			return [start, end];
+		},
+	},
+	{
+		text: "昨天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
 
-            end.setDate(end.getDate() - 1);
-            start.setDate(start.getDate() - 1);
+			end.setDate(end.getDate() - 1);
+			start.setDate(start.getDate() - 1);
 
-            return [start, end];
-        },
-    },
-    {
-        text: "近三天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
+			return [start, end];
+		},
+	},
+	{
+		text: "近三天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
 
-            start.setDate(start.getDate() - 3);
+			start.setDate(start.getDate() - 3);
 
-            return [start, end];
-        },
-    },
-    {
-        text: "近7天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            start.setDate(start.getDate() - 7);
-            return [start, end];
-        },
-    },
-    {
-        text: "近30天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            start.setMonth(start.getMonth() - 1);
-            return [start, end];
-        },
-    },
-    {
-        text: "近60天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            start.setMonth(start.getMonth() - 2);
-            return [start, end];
-        },
-    },
-    {
-        text: "近90天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            start.setMonth(start.getMonth() - 3);
-            return [start, end];
-        },
-    },
+			return [start, end];
+		},
+	},
+	{
+		text: "近7天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setDate(start.getDate() - 7);
+			return [start, end];
+		},
+	},
+	{
+		text: "近30天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setMonth(start.getMonth() - 1);
+			return [start, end];
+		},
+	},
+	{
+		text: "近60天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setMonth(start.getMonth() - 2);
+			return [start, end];
+		},
+	},
+	{
+		text: "近90天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setMonth(start.getMonth() - 3);
+			return [start, end];
+		},
+	},
 
-    {
-        text: "近一年",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
+	{
+		text: "近一年",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
 
-            start.setMonth(start.getMonth() - 12);
-            return [start, end];
-        },
-    },
+			start.setMonth(start.getMonth() - 12);
+			return [start, end];
+		},
+	},
 ];
 
 const materialTypeOptions = [
-    { label: "视频", value: 1 },
-    {
-        label: "图片",
-        value: 2,
-    },
+	{ label: "视频", value: 1 },
+	{
+		label: "图片",
+		value: 2,
+	},
 ];
 
 const materialStatusOptions = [
-    { label: "停用", value: 1 },
-    {
-        label: "启用",
-        value: 0,
-    },
+	{ label: "停用", value: 1 },
+	{
+		label: "启用",
+		value: 0,
+	},
 ];
 
 const placeholderText = ref("请输入素材名称");
 
 const cascaderOptions = ref();
 const cascaderProps = {
-    checkStrictly: true,
-    value: "ID",
-    label: "ANAME",
-    children: "CHILD",
+	checkStrictly: true,
+	value: "ID",
+	label: "ANAME",
+	children: "CHILD",
 };
 
-
-const handleSearch = () => {
-};
-
+const handleSearch = () => {};
 
 const checked1 = ref();
 
-
-const selectedVideos = ref([])
+const selectedVideos = ref([]);
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const videos = ref<any[]>([])
+const videos = ref<any[]>([]);
 
 const handleChange = () => {
-    console.log(selectedVideos.value)
-}
+	console.log(selectedVideos.value);
+};
 
 const matListFunc = async (param: IMatList) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await matList(param);
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await matList(param);
 
-    console.log(res)
+	console.log(res);
 
-    if (res.state === 1) {
-        videos.value = res.data.list
-    }
-}
-
+	if (res.state === 1) {
+		videos.value = res.data.list;
+	}
+};
 
 onMounted(() => {
-    matListFunc({
-        create_date: "2024-04-01 - 2024-06-30",
-        category: 1
-    })
-})
-
-
-
+	matListFunc({
+		create_date: "2024-04-01 - 2024-06-30",
+		category: 1,
+	});
+});
 
 const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
-    const res = await uploadMaterial2Media(params);
-    console.log(res)
-}
-
-
-
-
-
+	const res = await uploadMaterial2Media(params);
+	console.log(res);
+};
 </script>
 
 <template>
