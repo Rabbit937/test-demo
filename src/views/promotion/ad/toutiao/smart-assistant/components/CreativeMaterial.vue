@@ -77,7 +77,7 @@
                         <el-tab-pane label="图片(0/10)" class="p-16px min-h-256px">
                             <el-scrollbar height="256px">
                                 <div class="flex flex-wrap">
-                                    <div class="min-h-140px mr-23px flex align-items-center justify-center position-relative w-200px "
+                                    <div class="min-h-140px mr-23px flex align-items-center justify-center position-relative w-200px hover:border-blue-500"
                                         style="border:1px solid #dcdee2; border-style: dashed;">
                                         <el-icon class="el-icon-plus" size="32" color="#d4d5d7">
                                             <Plus />
