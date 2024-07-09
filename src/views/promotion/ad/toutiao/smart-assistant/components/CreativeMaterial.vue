@@ -1,5 +1,5 @@
 <template>
-    <div class="creative-content min-h-400px max-h-600px pr-16px overflow-auto">
+    <div class="creative-content min-h-400px max-h-600px pr-16px overflow-auto mb-16px">
         <div class="creative-material position-relative max-w-916px">
             <div class="creative-group">
                 <div class="creative-group-header flex">
@@ -16,17 +16,17 @@
                         </el-button>
                     </div>
                     <el-tabs class="mt-16px" type="card">
-                        <el-tab-pane label="视频(0/10)" class="p-16px w-914px min-h-256px">
+                        <el-tab-pane :label="`视频(0/${props.initialState.video})`" class="p-16px w-914px min-h-256px">
                             <el-scrollbar height="256px">
                                 <div class="w-100% flex flex-wrap">
-                                    <div class="w-424px h-150px mr-0px mb-16px border-[#e8eaec] p-8px position-relative"
-                                        style="box-sizing: border-box" v-for="(n, index) in 6"
-                                        :style="(index % 2 !== 0) ? { marginRight: '0px' } : ''">
+                                    <div class="w-424px h-150px mr-16px mb-16px border-[#e8eaec] p-8px position-relative"
+                                        style="box-sizing: border-box" v-for="(n, index) in component"
+                                        :style="(n % 2 === 0) ? { marginRight: '0px' } : ''">
                                         <div class="flex  justify-between">
                                             <div
                                                 class="w-200px border-[#e8eaec] flex align-items-center justify-center">
                                                 <div class="flex flex-col justify-center align-items-center h-110px">
-                                                    <img class="w-60px h-60px"
+                                                    <img class="w-60px h-60px cursor-pointer"
                                                         src="data:image/png;base64,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"
                                                         alt="上传视频">
                                                     <div
@@ -38,7 +38,8 @@
 
                                             <div
                                                 class="w-200px border-[#e8eaec] flex align-items-center justify-center">
-                                                <div class="flex flex-col justify-center align-items-center h-110px">
+                                                <div
+                                                    class="flex flex-col justify-center align-items-center h-110px cursor-pointer">
                                                     <img src="data:image/png;base64,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"
                                                         alt="上传封面">
                                                     <div
@@ -52,7 +53,7 @@
                                         </div>
 
                                         <div>
-                                            {{ n }}
+                                            <!-- {{ n }} -->
                                         </div>
 
                                         <el-button link
@@ -62,22 +63,24 @@
                                             </el-icon>
                                         </el-button>
                                     </div>
-                                </div>
-                                <div class="upload-container upload-video" id="pane-video">
-                                    <div class="upload-block upload-flex upload-add">
-                                        <div class="upload-flex">
-                                            <el-icon class="el-icon-plus" size="32" color="#d4d5d7">
-                                                <Plus />
-                                            </el-icon>
+                                    <div class="upload-container upload-video" id="pane-video" @click="addComponent"
+                                        v-if="showAddComponent"
+                                        :style="(component.values.length % 2 !== 0) ? { marginRight: '0px' } : ''">
+                                        <div class="upload-block upload-flex upload-add" style="margin-right: 0px;">
+                                            <div class="upload-flex">
+                                                <el-icon class="el-icon-plus" size="32" color="#d4d5d7">
+                                                    <Plus />
+                                                </el-icon>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </el-scrollbar>
                         </el-tab-pane>
-                        <el-tab-pane label="图片(0/10)" class="p-16px min-h-256px">
+                        <el-tab-pane :label="`图片(0/${props.initialState.image})`" class="p-16px min-h-256px">
                             <el-scrollbar height="256px">
                                 <div class="flex flex-wrap">
-                                    <div class="min-h-140px mr-23px flex align-items-center justify-center position-relative w-200px hover:border-blue-500"
+                                    <div class="min-h-140px mr-23px flex align-items-center justify-center position-relative w-200px hover:border-"
                                         style="border:1px solid #dcdee2; border-style: dashed;">
                                         <el-icon class="el-icon-plus" size="32" color="#d4d5d7">
                                             <Plus />
@@ -86,13 +89,11 @@
                                 </div>
                             </el-scrollbar>
                         </el-tab-pane>
-
-                        <el-tab-pane label="图文(0/5)" class="p-16px min-h-256px">
+                        <el-tab-pane :label="`图文(0/${props.initialState.graphics})`" class="p-16px min-h-256px">
                             <el-scrollbar height="256px">
                                 <h1>图文</h1>
                             </el-scrollbar>
                         </el-tab-pane>
-
                     </el-tabs>
                 </div>
             </div>
@@ -106,17 +107,34 @@
 
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref } from 'vue';
+import { defineProps, defineEmits, ref, watchEffect } from 'vue';
 
-const props = defineProps<{ initialState: string }>();
+const props = defineProps<{ initialState: { state: string, video: number, image: number, graphics: number } }>();
 const emit = defineEmits<(e: 'updateState', newState: string) => void>();
 
-const state = ref(props.initialState);
+const state = ref(props.initialState.state);
 
 const updateState = () => {
     state.value = '已更新';
     emit('updateState', state.value);
 };
+
+
+const component = ref<number[]>([])
+const showAddComponent = ref(true)
+
+const addComponent = () => {
+    if (component.value.length < props.initialState.video) {
+        component.value.push(component.value.length + 1);
+    }
+}
+
+watchEffect(() => {
+    if (component.value.length === props.initialState.video) {
+        showAddComponent.value = false;
+    }
+})
+
 </script>
 
 <style lang="scss" scoped>

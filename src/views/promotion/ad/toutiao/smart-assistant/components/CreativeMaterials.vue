@@ -25,6 +25,13 @@ watchEffect(() => {
     drawerOptions.visible = props.visible;
 });
 
+// 每个创意组配置
+const video = ref(5);
+const image = ref(5);
+const graphics = ref(5);
+
+
+
 const multiple_account_allocation_rules = ref(1);
 
 // 素材选择器
@@ -33,14 +40,21 @@ const MaterialSelectorState = reactive({
 });
 
 // 创意组
+
+
+
 interface ComponentState {
     state: string;
+    video: number;
+    image: number;
+    graphics: number;
 }
 
-const components = ref<ComponentState[]>([{ state: '初始状态' }]);
+const components = ref<ComponentState[]>([{ state: '初始状态', video: video.value, image: image.value, graphics: graphics.value }]);
+
 
 const addComponent = () => {
-    components.value.push({ state: '初始状态' });
+    components.value.push({ state: '初始状态', video: video.value, image: image.value, graphics: graphics.value });
 };
 
 // 处理更新状态的函数
@@ -73,15 +87,18 @@ const handleUpdateState = (index: number, newState: string) => {
                     <el-form-item label="每个创意组配置">
                         <div class="flex">
                             <div class="flex w-160px">
-                                <el-input style="width : 60px;margin-right: 8px;"></el-input><el-text>个视频</el-text>
+                                <el-input v-model="video" style="width : 60px;margin-right: 8px;"
+                                    :min="1"></el-input><el-text>个视频</el-text>
                             </div>
 
                             <div class="flex w-160px">
-                                <el-input style="width : 60px;margin-right: 8px;"></el-input><el-text>个图片</el-text>
+                                <el-input v-model="image" style="width : 60px;margin-right: 8px;"
+                                    :min="1"></el-input><el-text>个图片</el-text>
                             </div>
 
                             <div class="flex w-160px">
-                                <el-input style="width : 60px;margin-right: 8px;"></el-input><el-text>个图文</el-text>
+                                <el-input v-model="graphics" style="width : 60px;margin-right: 8px;"
+                                    :min="1"></el-input><el-text>个图文</el-text>
                             </div>
                         </div>
                     </el-form-item>
@@ -106,8 +123,7 @@ const handleUpdateState = (index: number, newState: string) => {
 
                 <el-scrollbar height="500px" class="min-h-300px max-h-500px pr-16px">
                     <div v-for="(component, index) in components" :key="index">
-                        <CreateMaterial :initialState="component.state"
-                            @updateState="handleUpdateState(index, $event)" />
+                        <CreateMaterial :initialState="component" @updateState="handleUpdateState(index, $event)" />
                     </div>
                 </el-scrollbar>
 
