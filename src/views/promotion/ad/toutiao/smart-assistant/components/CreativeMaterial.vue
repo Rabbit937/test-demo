@@ -149,15 +149,7 @@ import { defineProps, defineEmits, ref, watchEffect, reactive } from 'vue';
 import MaterialSelector from './MaterialSelector.vue';
 
 const props = defineProps<{ initialState: { state: string, video: number, image: number, graphics: number } }>();
-const emit = defineEmits<(e: 'updateState', newState: string) => void>();
-
-const state = ref(props.initialState.state);
-
-const updateState = () => {
-    state.value = '已更新';
-    emit('updateState', state.value);
-};
-
+const emit = defineEmits(['updateState'])
 
 interface IVidoeInfo {
     id: number; // 索引id
@@ -170,7 +162,6 @@ interface IVidoeInfo {
     video_id?: number; // 视频ID
     video_cover_id?: number
 }
-
 
 const component = ref<IVidoeInfo[]>([])
 const showAddComponent = ref(true)
@@ -208,16 +199,18 @@ const handleMaterialSelectorDialog = (type: number, video?: any[]) => {
             component.value[targetComponent.value.id - 1] = { id: targetComponent.value.id, ...video[0] };
         }
         MaterialSelectorState.visible = false;
+        emit('updateState', component.value);
     } else {
         MaterialSelectorState.visible = false;
     }
 }
 
-
 // 删除
 const deleteComponent = (video: IVidoeInfo) => {
     component.value.splice(video.id - 1, 1);
+    emit('updateState', component.value);
 }
+
 </script>
 
 <style lang="scss" scoped>

@@ -40,9 +40,6 @@ const MaterialSelectorState = reactive({
 });
 
 // 创意组
-
-
-
 interface ComponentState {
     state: string;
     video: number;
@@ -57,10 +54,22 @@ const addComponent = () => {
     components.value.push({ state: '初始状态', video: video.value, image: image.value, graphics: graphics.value });
 };
 
+
+interface IVidoeInfo {
+    id: number; // 索引id
+    filename?: string; // 名称
+    jy_mat_id?: number;  // 头条素材id
+    material_id?: number; // 素材ID 
+    mime?: number; // 1 视频 2 图片 3 图文
+    post_url?: string; // 视频预览图片地址
+    state?: number;
+    video_id?: number; // 视频ID
+    video_cover_id?: number
+}
+
 // 处理更新状态的函数
-const handleUpdateState = (index: number, newState: string) => {
-    console.log(index, newState)
-    components.value[index].state = newState;
+const handleUpdateState = (videoInfo: IVidoeInfo) => {
+    console.log(videoInfo);
 };
 
 </script>
@@ -71,8 +80,6 @@ const handleUpdateState = (index: number, newState: string) => {
         <template v-slot:header>
             <div class="font-size-16px font-700 line-height-48px color-[#333]">选择素材</div>
         </template>
-
-
         <main class="m-16px bg-[#fff] p-16px" style="height: calc(100vh - 150px)">
             <el-scrollbar style="height: 100%">
                 <el-form :label-position="'left'" :label-width="'160'">
@@ -123,7 +130,7 @@ const handleUpdateState = (index: number, newState: string) => {
 
                 <el-scrollbar height="500px" class="min-h-300px max-h-500px pr-16px">
                     <div v-for="(component, index) in components" :key="index">
-                        <CreateMaterial :initialState="component" @updateState="handleUpdateState(index, $event)" />
+                        <CreateMaterial :initialState="component" @updateState="handleUpdateState" />
                     </div>
                 </el-scrollbar>
 
@@ -141,7 +148,6 @@ const handleUpdateState = (index: number, newState: string) => {
         </main>
 
     </Drawer>
-
 
     <MaterialSelector :visible="MaterialSelectorState.visible" />
 </template>
