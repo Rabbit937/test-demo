@@ -48,8 +48,7 @@
                   </el-row>
                   <div class="w-100% overflow-x-hidden overflow-y-auto" style="max-height: 320px">
                     <div class="flex grid-justify-start p-6px m-auto mt-8px mb-8px pos-relative"
-                      style="background-color: #f2f2f2; border-radius: 4px"
-                      v-for="(item, index) in multipleSelectionState">
+                      style="background-color: #f2f2f2; border-radius: 4px" v-for="(item) in multipleSelectionState">
                       <img
                         src="data:image/png;base64,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"
                         alt="加载失败" class="w-32px h-32px mr-8px" />
@@ -316,14 +315,15 @@
 
   <!-- 功能按钮 -->
   <el-row class="pl-20px pr-20px mt-16px mb-24px">
-    <el-col class="flex grid-justify-center p-24px" style="border: 1px solid #e8eaec">
-      <el-button type="primary" class="w-120px">保存策略组</el-button>
-      <el-button type="primary" class="w-120px" disabled>生成广告预览</el-button>
+    <el-col :span="24" class=" p-24px border-[#e8eaec]">
+      <div class="w-100% flex justify-center">
+        <el-button type="primary" class="w-120px">生成广告预览</el-button>
+      </div>
     </el-col>
   </el-row>
   <!-- 预览区 -->
-  <el-row class="pl-20px pr-20px mt-16px mb-24px pb-20px">
-    <el-col class="h-686px flex grid-justify-center" style="border: 1px solid #e8eaec">
+  <el-row class="pl-20px pr-20px mt-16px mb-24px pb-20px border-[#e8eaec]">
+    <el-col class="h-686px flex grid-justify-center">
       <el-empty image="https://cl.mobgi.com/img/mobgi_ic_addata_nodata.28d42792.png">
         <template #description>
           <span class="font-size-48px line-height-67px color-[#e0e3e7]">预览区</span>
@@ -353,7 +353,6 @@
   <!-- 广告基本信息 -->
   <BasicInformationOfAd :visible="BasicInformationOfAdState.visible"
     @handleDrawerClose="handleBasicInformationOfAdClose" />
-
 
   <!-- 创意素材 -->
   <CreativeMaterials :visible="CreativeMaterialsState.visible" @handleDrawerClose="handleCreativeMaterialsStateClose" />
@@ -400,48 +399,49 @@ import LandingPage from "./components/LandingPage.vue";
 
 // 选择媒体账户
 const SelectMediaAccountState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const handleMediaAccount = () => {
-	SelectMediaAccountState.visible = true;
+  SelectMediaAccountState.visible = true;
 };
 
-const multipleSelectionState = ref([]);
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+const multipleSelectionState = ref<any[]>([]);
 
 const handleMediaAccountDialogClose = (
-	state: number,
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	multipleSelection: any,
+  state: number,
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  multipleSelection: any,
 ) => {
-	SelectMediaAccountState.visible = false;
-	if (state === 1) {
-		// 做弹窗确认的处理
-		// console.log("收到确认");
-		// console.log(multipleSelection);
-		multipleSelectionState.value = multipleSelection;
-	}
+  SelectMediaAccountState.visible = false;
+  if (state === 1) {
+    // 做弹窗确认的处理
+    // console.log("收到确认");
+    // console.log(multipleSelection);
+    multipleSelectionState.value = multipleSelection;
+  }
 };
 
 const multipleSelectionLength = computed(() => {
-	return multipleSelectionState.value.length;
+  return multipleSelectionState.value.length;
 });
 
 // 更改规则配置
 const RuleConfigurationState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const handleChangeRuleConfiguration = () => {
-	RuleConfigurationState.visible = true;
+  RuleConfigurationState.visible = true;
 };
 
 const handleRuleConfigurationDialogClose = (state: number) => {
-	if (state === 1) {
-		// 做弹窗确认的处理
-		// console.log("收到确认");
-	}
-	RuleConfigurationState.visible = false;
+  if (state === 1) {
+    // 做弹窗确认的处理
+    // console.log("收到确认");
+  }
+  RuleConfigurationState.visible = false;
 };
 
 // 切换项目
@@ -449,196 +449,196 @@ const infoOrNew = ref("new");
 
 // 新建项目和项目信息切换
 const handleChangeInfoOrNew = () => {
-	infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
+  infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
 };
 
 const NewProjectState = reactive({
-	visible: false,
+  visible: false,
 });
 
 // 新建项目
 const openNewProjectDrawer = () => {
-	NewProjectState.visible = true;
+  NewProjectState.visible = true;
 };
 
 // 已有项目
 const ExistingProjectState = reactive({
-	visible: false,
+  visible: false,
 });
 
 // 选择已有项目
 const openExistingProjectDrawer = () => {
-	ExistingProjectState.visible = true;
+  ExistingProjectState.visible = true;
 };
 
 const openProjectEdit = () => {
-	if (infoOrNew.value === "new") {
-		openNewProjectDrawer();
-	} else {
-		openExistingProjectDrawer();
-	}
+  if (infoOrNew.value === "new") {
+    openNewProjectDrawer();
+  } else {
+    openExistingProjectDrawer();
+  }
 };
 
-const handleExistingProjectClose = () => {};
+const handleExistingProjectClose = () => { };
 
 const handleNewProjectClose = (type: number) => {
-	if (type === 1) {
-		NewProjectState.visible = false;
-	} else {
-		ElMessageBox.confirm(
-			"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-			"提示",
-			{
-				confirmButtonText: "确认",
-				cancelButtonText: "取消",
-				type: "warning",
-			},
-		)
-			.then(() => {
-				NewProjectState.visible = false;
-			})
-			.catch(() => {
-				// catch error
-				console.error("drawer component: fail");
-			});
-	}
+  if (type === 1) {
+    NewProjectState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        NewProjectState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
 };
 
 // 广告基本信息
 const BasicInformationOfAdState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const showBasicInformationOfAd = () => {
-	BasicInformationOfAdState.visible = true;
+  BasicInformationOfAdState.visible = true;
 };
 
 const handleBasicInformationOfAdClose = (type: number) => {
-	console.log(type);
+  console.log(type);
 
-	if (type === 1) {
-		BasicInformationOfAdState.visible = false;
-	} else {
-		ElMessageBox.confirm(
-			"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-			"提示",
-			{
-				confirmButtonText: "确认",
-				cancelButtonText: "取消",
-				type: "warning",
-			},
-		)
-			.then(() => {
-				BasicInformationOfAdState.visible = false;
-			})
-			.catch(() => {
-				// catch error
-				console.error("drawer component: fail");
-			});
-	}
+  if (type === 1) {
+    BasicInformationOfAdState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        BasicInformationOfAdState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
 };
 
 // 创意素材
 
 const CreativeMaterialsState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const showCreativeMaterialsState = () => {
-	CreativeMaterialsState.visible = true;
+  CreativeMaterialsState.visible = true;
 };
 
 const handleCreativeMaterialsStateClose = (type: number) => {
-	console.log(type);
+  console.log(type);
 
-	if (type === 1) {
-		CreativeMaterialsState.visible = false;
-	} else {
-		ElMessageBox.confirm(
-			"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-			"提示",
-			{
-				confirmButtonText: "确认",
-				cancelButtonText: "取消",
-				type: "warning",
-			},
-		)
-			.then(() => {
-				CreativeMaterialsState.visible = false;
-			})
-			.catch(() => {
-				// catch error
-				console.error("drawer component: fail");
-			});
-	}
+  if (type === 1) {
+    CreativeMaterialsState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        CreativeMaterialsState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
 };
 
 // 标题包
 const TitlePackState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const showTitlePackState = () => {
-	TitlePackState.visible = true;
+  TitlePackState.visible = true;
 };
 
 const handleTitlePackStateClose = (type: number) => {
-	console.log(type);
+  console.log(type);
 
-	if (type === 1) {
-		TitlePackState.visible = false;
-	} else {
-		ElMessageBox.confirm(
-			"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-			"提示",
-			{
-				confirmButtonText: "确认",
-				cancelButtonText: "取消",
-				type: "warning",
-			},
-		)
-			.then(() => {
-				TitlePackState.visible = false;
-			})
-			.catch(() => {
-				// catch error
-				console.error("drawer component: fail");
-			});
-	}
+  if (type === 1) {
+    TitlePackState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        TitlePackState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
 };
 
 // 选择落地页
 const LandingPageState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const showLandingPageState = () => {
-	LandingPageState.visible = true;
+  LandingPageState.visible = true;
 };
 
 const handleLandingPageStateClose = (type: number) => {
-	console.log(type);
+  console.log(type);
 
-	if (type === 1) {
-		LandingPageState.visible = false;
-	} else {
-		ElMessageBox.confirm(
-			"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-			"提示",
-			{
-				confirmButtonText: "确认",
-				cancelButtonText: "取消",
-				type: "warning",
-			},
-		)
-			.then(() => {
-				LandingPageState.visible = false;
-			})
-			.catch(() => {
-				// catch error
-				console.error("drawer component: fail");
-			});
-	}
+  if (type === 1) {
+    LandingPageState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        LandingPageState.visible = false;
+      })
+      .catch(() => {
+        // catch error
+        console.error("drawer component: fail");
+      });
+  }
 };
 </script>
 
