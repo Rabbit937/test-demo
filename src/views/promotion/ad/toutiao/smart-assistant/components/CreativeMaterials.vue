@@ -40,21 +40,6 @@ const MaterialSelectorState = reactive({
 });
 
 // 创意组
-interface ComponentState {
-    state: string;
-    video: number;
-    image: number;
-    graphics: number;
-}
-
-const components = ref<ComponentState[]>([{ state: '初始状态', video: video.value, image: image.value, graphics: graphics.value }]);
-
-
-const addComponent = () => {
-    components.value.push({ state: '初始状态', video: video.value, image: image.value, graphics: graphics.value });
-};
-
-
 interface IVidoeInfo {
     id: number; // 索引id
     filename?: string; // 名称
@@ -67,9 +52,34 @@ interface IVidoeInfo {
     video_cover_id?: number
 }
 
+interface ComponentState {
+    id: number;
+    video: number;
+    image: number;
+    graphics: number;
+    vidoeInfo?: IVidoeInfo[]
+}
+
+const components = ref<ComponentState[]>([{ id: 1, video: video.value, image: image.value, graphics: graphics.value, videoInfo: [] }]);
+
+const addComponent = () => {
+    components.value.push({ id: components.value.length + 1, video: video.value, image: image.value, graphics: graphics.value, videoInfo: [] });
+    console.log(components.value)
+};
+
 // 处理更新状态的函数
-const handleUpdateState = (videoInfo: IVidoeInfo) => {
-    console.log(videoInfo);
+const handleUpdateState = (component: { id: number, videoInfo: IVidoeInfo }) => {
+    console.log(component);
+
+    components.value.forEach((item) => {
+        if (item.id === component.id) {
+            item.videoInfo = component.videoInfo;
+        }
+    });
+
+    console.log(components.value);
+
+
 };
 
 </script>

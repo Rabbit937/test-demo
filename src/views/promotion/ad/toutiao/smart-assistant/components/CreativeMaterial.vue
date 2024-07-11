@@ -148,9 +148,6 @@
 import { defineProps, defineEmits, ref, watchEffect, reactive } from 'vue';
 import MaterialSelector from './MaterialSelector.vue';
 
-const props = defineProps<{ initialState: { state: string, video: number, image: number, graphics: number } }>();
-const emit = defineEmits(['updateState'])
-
 interface IVidoeInfo {
     id: number; // 索引id
     filename?: string; // 名称
@@ -162,6 +159,10 @@ interface IVidoeInfo {
     video_id?: number; // 视频ID
     video_cover_id?: number
 }
+
+
+const props = defineProps<{ initialState: { id: number, video: number, image: number, graphics: number, videoInfo?: IVidoeInfo[] } }>();
+const emit = defineEmits(['updateState'])
 
 const component = ref<IVidoeInfo[]>([])
 const showAddComponent = ref(true)
@@ -176,6 +177,13 @@ watchEffect(() => {
     if (component.value.length === props.initialState.video) {
         showAddComponent.value = false;
     }
+
+    console.log(component.value.length)
+
+    if (component.value.length === 0) {
+        showAddComponent.value = true;
+    }
+
 })
 
 
@@ -198,8 +206,8 @@ const handleMaterialSelectorDialog = (type: number, video?: any[]) => {
         if (video?.length) {
             component.value[targetComponent.value.id - 1] = { id: targetComponent.value.id, ...video[0] };
         }
+        emit('updateState', { id: props.initialState.id, videoInfo: component.value });
         MaterialSelectorState.visible = false;
-        emit('updateState', component.value);
     } else {
         MaterialSelectorState.visible = false;
     }
@@ -207,8 +215,8 @@ const handleMaterialSelectorDialog = (type: number, video?: any[]) => {
 
 // 删除
 const deleteComponent = (video: IVidoeInfo) => {
-    component.value.splice(video.id - 1, 1);
-    emit('updateState', component.value);
+    component.value.splice(component.value.length - 1, 1);
+    emit('updateState', { id: props.initialState.id, videoInfo: component.value });
 }
 
 </script>
