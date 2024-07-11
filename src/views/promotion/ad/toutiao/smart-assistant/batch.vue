@@ -159,7 +159,73 @@
         <tbody>
           <tr>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
-              <div class="h-300px"></div>
+              <el-scrollbar height="300px" class="p-8px" v-if="NewProjectForm">
+                <div class="color-[#333] font-size-14px mb-8px font-bold">
+                  <span>基本信息</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>项目名称：{{ NewProjectForm.name }}</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>项目预算：{{ NewProjectForm.budget_mode }}</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>推广目的：{{ NewProjectForm.landing_type }}</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>子目标：{{ NewProjectForm.app_promotion_type }}</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>营销场景：{{ NewProjectForm.marketing_goal }}</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>投放模式：{{ NewProjectForm.delivery_mode }}</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>广告类型：{{ NewProjectForm.ad_type }}</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>投放类型：{{ NewProjectForm.delivery_type }}</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>优化目标：{{ NewProjectForm.external_action }}</span>
+                </div>
+                <div class="line-height-24px">
+                  <span>深度优化目标：{{ NewProjectForm.deep_external_action }}</span>
+                </div>
+
+                <div class="line-height-24px">
+                  <span>深度优化方式：{{}}</span>
+                </div>
+
+                <div class="line-height-24px">
+                  <span>广告位置：{{ NewProjectForm.inventory_catalog }}</span>
+                </div>
+
+                <div class="line-height-24px">
+                  <span>事件回传方式：{{}}</span>
+                </div>
+
+
+                <div class="line-height-24px">
+                  <span>投放时间：{{ NewProjectForm.schedule_type }}</span>
+                </div>
+
+
+                <div class="line-height-24px">
+                  <span>投放时段：{{}}</span>
+                </div>
+
+
+                <div class="line-height-24px">
+                  <span>搜索快投：{{}}</span>
+                </div>
+
+
+                <div class="line-height-24px">
+                  <span>竞价策略：{{ NewProjectForm.bid_type }}</span>
+                </div>
+              </el-scrollbar>
             </td>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
               <div class="h-300px p-8px">
@@ -365,14 +431,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
+import { type Ref, ref, reactive, computed, } from "vue";
 import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 import RuleConfigurationDialog from "./components/RuleConfigurationDialog.vue";
 import NewProject from "./components/NewProject.vue";
 import ExistingProject from "./components/ExistingProject.vue";
 import SelectAccountVue from "./components/SelectAccount.vue";
-// import SelectStrategyDialog from "./components/SelectStrategyDialog.vue";
 import SelectMediaAccountDialog from "./components/SelectMediaAccountDialog.vue";
 import EstimatedAdCount from "./components/EstimatedAdCount.vue";
 import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
@@ -380,22 +445,115 @@ import CreativeMaterials from "./components/CreativeMaterials.vue";
 import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
 
-// 选择策略
-// const selectStrategyState = reactive({
-//   visible: false,
-// });
+// 新建项目
+const NewProjectForm = ref();
+const NewProjectState = reactive({ visible: false });
 
-// const selectStrategy = () => {
-//   selectStrategyState.visible = true;
-// };
+const openNewProjectDrawer = () => {
+  NewProjectState.visible = true;
+};
 
-// const handleSelectStrategyDialogClose = (state: number) => {
-// if (state === 1) {
-// 做弹窗确认的处理
-// console.log("收到确认");
-// }
-// selectStrategyState.visible = false;
-// };
+// 广告基本信息
+const BasicInformationOfAdForm = ref();
+const BasicInformationOfAdState = reactive({ visible: false });
+
+const showBasicInformationOfAd = () => {
+  BasicInformationOfAdState.visible = true;
+};
+
+// 提取公共逻辑函数
+const handleDrawerClose = (
+  drawerState: { visible: boolean },
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  formRef: Ref<any>,
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  options: { type: number, form?: any }) => {
+  if (options.type === 1) {
+    formRef.value = options.form;
+    drawerState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        drawerState.visible = false;
+      })
+      .catch(() => {
+        console.error("drawer component: fail");
+      });
+  }
+};
+
+
+// 接收新建项目的返回值
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+const handleNewProjectClose = (options: { type: number, form?: any }) => {
+  if (options.type === 1) {
+    NewProjectForm.value = options.form;
+    NewProjectState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        NewProjectState.visible = false;
+      })
+      .catch(() => {
+        console.error("drawer component: fail");
+      });
+  }
+};
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+const handleBasicInformationOfAdClose = (options: { type: number, form?: any }) => {
+  if (options.type === 1) {
+    BasicInformationOfAdForm.value = options.form;
+    BasicInformationOfAdState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        BasicInformationOfAdState.visible = false;
+      })
+      .catch(() => {
+        console.error("drawer component: fail");
+      });
+  }
+};
+
+
+const handleNewProjectClose = (options: { type: number, form?: any }) => {
+  handleDrawerClose(NewProjectState, NewProjectForm, options);
+};
+
+const handleBasicInformationOfAdClose = (options: { type: number, form?: any }) => {
+  handleDrawerClose(BasicInformationOfAdState, BasicInformationOfAdForm, options);
+};
+
+
+
+
+
+
 
 // 选择媒体账户
 const SelectMediaAccountState = reactive({
@@ -452,14 +610,7 @@ const handleChangeInfoOrNew = () => {
   infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
 };
 
-const NewProjectState = reactive({
-  visible: false,
-});
 
-// 新建项目
-const openNewProjectDrawer = () => {
-  NewProjectState.visible = true;
-};
 
 // 已有项目
 const ExistingProjectState = reactive({
@@ -481,62 +632,9 @@ const openProjectEdit = () => {
 
 const handleExistingProjectClose = () => { };
 
-const handleNewProjectClose = (type: number) => {
-  if (type === 1) {
-    NewProjectState.visible = false;
-  } else {
-    ElMessageBox.confirm(
-      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-      "提示",
-      {
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-        type: "warning",
-      },
-    )
-      .then(() => {
-        NewProjectState.visible = false;
-      })
-      .catch(() => {
-        // catch error
-        console.error("drawer component: fail");
-      });
-  }
-};
 
-// 广告基本信息
-const BasicInformationOfAdState = reactive({
-  visible: false,
-});
 
-const showBasicInformationOfAd = () => {
-  BasicInformationOfAdState.visible = true;
-};
 
-const handleBasicInformationOfAdClose = (type: number) => {
-  console.log(type);
-
-  if (type === 1) {
-    BasicInformationOfAdState.visible = false;
-  } else {
-    ElMessageBox.confirm(
-      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-      "提示",
-      {
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-        type: "warning",
-      },
-    )
-      .then(() => {
-        BasicInformationOfAdState.visible = false;
-      })
-      .catch(() => {
-        // catch error
-        console.error("drawer component: fail");
-      });
-  }
-};
 
 // 创意素材
 
