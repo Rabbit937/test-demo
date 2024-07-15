@@ -3,14 +3,8 @@
 		<!-- 选择媒体账户 -->
 		<section class="font-size-12px color-[#666]" v-if="selectPopover.type === 1">
 			<el-row class="flex mt-16px mb-16px">
-				<!-- <el-col :span="1.5" class="mr-8px">
-                    <el-select v-model="mediaAccountState.project" clearable placeholder="全部" style="width: 240px">
-                        <template #prefix>创量项目:</template>
-<el-option v-for="item in projectOptions" :key="item.value" :label="item.label" :value="item.value" />
-</el-select>
-</el-col> -->
 				<el-col :span="1.5" class="mr-8px">
-					<el-select v-model="mediaAccountState.mainBody" clearable placeholder="全部" style="width: 240px">
+					<el-select v-model="mediaAccountState.mainBody" style="width: 240px" @change="handleMainBodyChange">
 						<template #prefix>账户主体:</template>
 						<el-option v-for="item in mainBodyOptions" :key="item.value" :label="item.label"
 							:value="item.value" />
@@ -19,12 +13,12 @@
 				<el-col :span="1.5" class="mr-8px">
 					<el-input v-model="mediaAccountState.searchValue" style="max-width: 600px" placeholder="搜索媒体账户">
 						<template #append>
-							<el-button :icon="Search" size="small" />
+							<el-button :icon="Search" size="small" @click="handleSearchClick" />
 						</template>
 					</el-input>
 				</el-col>
 				<el-col :span="1.5" class="flex mr-8px">
-					<el-button link size="small" type="primary">清空</el-button>
+					<el-button link size="small" type="primary" @click="handleClearClick">清空</el-button>
 				</el-col>
 			</el-row>
 			<el-row class="mb-8px">
@@ -48,7 +42,7 @@
 			<el-row class="mb-8px">
 				<el-col>
 					<el-table v-loading="loading" :data="tableData" :border="true" style="width: 100%; height: 300px"
-						fixed @selection-change="handleSelectionChange">
+						fixed @selection-change="handleSelectionChange" empty-text="没有数据">
 						<el-table-column type="selection" width="55" />
 						<el-table-column prop="ADVERTISER_ID" label="账户ID" width="180" />
 						<el-table-column prop="ALIAS" label="账户名称" width="180" />
@@ -67,14 +61,18 @@
 	</Dialog>
 </template>
 
-
 <script setup lang="ts">
 import { ref, reactive, watchEffect, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import "element-plus/es/components/message/style/css";
 import { Search } from "@element-plus/icons-vue";
-import { queryAccountList } from "@/api/modules/promotion";
+import {
+	type IQueryAccountList,
+	queryCompanyInfo,
+	queryAccountList,
+} from "@/api/modules/promotion";
 import Dialog from "@/components/Dialog.vue";
+import Pagination from "@/components/Pagination.vue";
 
 interface IProps {
 	visible: boolean;
@@ -91,30 +89,23 @@ const selectPopover = reactive({
 	type: 1,
 });
 
-// 表格多选
-const multipleSelection = ref([]);
-
 watchEffect(() => {
 	selectPopover.visible = props.visible;
 });
 
 const handleDialogClose = (type: 1 | 0) => {
-	// console.log();
-
 	if (type === 1) {
-		if (multipleSelection.value.length === 1) {
-			emtis("handleClose", 1, multipleSelection.value);
-			selectPopover.visible = false;
-		} else {
+		if (multipleSelection.value.length === 0) {
 			ElMessage({
 				showClose: true,
 				message: "请选择一条媒体账户信息",
 				type: "warning",
 			});
+		} else {
+			emtis("handleClose", 1, multipleSelection.value);
 		}
 	} else {
 		emtis("handleClose", 0);
-		selectPopover.visible = false;
 	}
 };
 
@@ -123,59 +114,88 @@ interface IOption {
 	label: string;
 }
 
+
+// 账户选择查询信息
 const mediaAccountState = reactive<{
-	project: string;
 	mainBody: string;
 	searchValue: string;
 }>({
-	project: "",
-	mainBody: "",
+	mainBody: "1",
 	searchValue: "",
 });
 
-const mainBodyOptions = ref<IOption[]>();
-
+// 表格信息
 const loading = ref(false);
-
 const tableData = ref();
-
 const paginationState = reactive({
 	currentPage: 1,
 	pageSize: 20,
 	total: 10,
 });
 
+// 主体选项
+const mainBodyOptions = ref<IOption[]>();
+// 请求主体函数
+const queryCompanyInfoFunc = async () => {
+	try {
+		const res = await queryCompanyInfo();
+		console.log(res);
+
+		if (res.state === 1) {
+			mainBodyOptions.value = res.data.map(
+				(item: { id: string; text: string }) => {
+					return {
+						value: item.id,
+						label: item.text,
+					};
+				},
+			);
+		} else {
+			ElMessage({
+				showClose: true,
+				message: res.msg,
+				type: "warning",
+			});
+		}
+	} catch (error) {
+		console.error("queryAccountKvListFunc", error);
+	}
+};
+// 修改主体选项的change函数
+const handleMainBodyChange = (value: string) => {
+	mediaAccountState.mainBody = value;
+	queryAccountListFunc({ PID: "11", CPNID: mediaAccountState.mainBody });
+};
+
 onMounted(() => {
-	queryAccountListFunc({ PID: "11" });
+	queryCompanyInfoFunc();
+	queryAccountListFunc({ PID: "11", CPNID: mediaAccountState.mainBody });
 });
 
-interface IQueryAccountListFuncParams {
-	PID: string;
-	page_no?: number;
-	page_limit?: number;
-}
-
-const queryAccountListFunc = async (params: IQueryAccountListFuncParams) => {
+const queryAccountListFunc = async (params: IQueryAccountList) => {
 	loading.value = true;
 
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const res: any = await queryAccountList({
-		PID: params.PID,
-		page_no: params.page_no ?? 0,
-		page_limit: params.page_limit ?? 20,
-	});
+	try {
+		const res = await queryAccountList(params);
 
-	if (res.state === 1) {
-		tableData.value = res.data.list;
-		paginationState.currentPage = Number(res.data.page_info.cur_page);
-		paginationState.pageSize = Number(res.data.page_info.page_limit);
-		paginationState.total = Number(res.data.page_info.total);
-
+		if (res.state === 1) {
+			tableData.value = res.data.list;
+			paginationState.total = Number(res.data.page_info.total);
+			paginationState.currentPage = Number(res.data.page_info.cur_page);
+			paginationState.pageSize = Number(res.data.page_info.page_limit);
+		} else {
+			ElMessage({
+				showClose: true,
+				message: res.msg,
+				type: "warning",
+			});
+		}
 		loading.value = false;
-	} else {
+	} catch (error) {
+		console.error("queryAccountListFunc", error);
 		ElMessage({
 			showClose: true,
-			message: res.msg,
+			message: "请求失败",
 			type: "error",
 		});
 
@@ -183,9 +203,18 @@ const queryAccountListFunc = async (params: IQueryAccountListFuncParams) => {
 	}
 };
 
-const handleSelectionChange = (val: []) => {
-	multipleSelection.value = val;
-};
+
+// 搜索媒体账户
+const handleSearchClick = () => {
+	queryAccountListFunc({ PID: "11", CPNID: mediaAccountState.mainBody, ALIAS: mediaAccountState.searchValue });
+}
+
+// 清空
+const handleClearClick = () => {
+	mediaAccountState.searchValue = "";
+	queryAccountListFunc({ PID: "11", CPNID: mediaAccountState.mainBody, ALIAS: mediaAccountState.searchValue });
+}
+
 
 interface IPaginationEvent {
 	type: string;
@@ -193,15 +222,31 @@ interface IPaginationEvent {
 	item: {
 		currentPage: number;
 		limit: number;
-	};
+	}
 }
 
 // 分页
-const handlePaginationEvent = (val: IPaginationEvent) => {
+const handlePaginationEvent = (paginationInfo: IPaginationEvent) => {
 	queryAccountListFunc({
 		PID: "11",
-		page_no: val.item.currentPage,
-		page_limit: val.item.limit,
+		CPNID: mediaAccountState.mainBody,
+		ALIAS: mediaAccountState.searchValue,
+		page_no: paginationInfo.item.currentPage,
+		page_limit: paginationInfo.item.limit,
 	});
 };
+
+
+
+
+
+
+// 表格多选
+const multipleSelection = ref([]);
+
+const handleSelectionChange = (val: []) => {
+	multipleSelection.value = val;
+};
+
+
 </script>

@@ -30,10 +30,9 @@
       <el-row class="flex p-16px pb-0px">
         <el-col :span="1.5">
           <SelectAccountVue :prefix-title="'媒体账户'" @handleChange="handleMediaAccount">
-            <span v-if="multipleSelectionLength === 0" class="color-[#c6c6c6]"
-              @click="handleMediaAccount">请选择媒体账户</span>
+            <span class="color-[#c6c6c6]" @click="handleMediaAccount">请选择媒体账户</span>
             <!-- 显示账户信息 -->
-            <template v-else>
+            <!-- <template v-else>
               <el-popover placement="bottom" trigger="click" width="502">
                 <template #default>
                   <el-row class="flex grid-justify-between flex-items-center w-100% pt-8px pb-8px">
@@ -66,11 +65,11 @@
                     </div>
                   </div>
                 </template>
-                <template #reference>
-                  <div>{{ multipleSelectionState[0].ALIAS }}</div>
-                </template>
-              </el-popover>
-            </template>
+<template #reference>
+                    <div>{{ multipleSelectionState[0].ALIAS }}</div>
+                  </template>
+</el-popover>
+</template> -->
           </SelectAccountVue>
         </el-col>
         <el-col :span="1.5" class="ml-16px">
@@ -407,7 +406,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Ref, ref, reactive, computed, } from "vue";
+import { type Ref, ref, reactive, computed } from "vue";
 import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 import RuleConfigurationDialog from "./components/RuleConfigurationDialog.vue";
@@ -443,7 +442,8 @@ const handleDrawerClose = (
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   formRef: Ref<any>,
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  options: { type: number, form?: any }) => {
+  options: { type: number; form?: any },
+) => {
   if (options.type === 1) {
     formRef.value = options.form;
     drawerState.visible = false;
@@ -468,21 +468,25 @@ const handleDrawerClose = (
 
 // 接收新建项目的返回
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const handleNewProjectClose = (options: { type: number, form?: any }) => {
+const handleNewProjectClose = (options: { type: number; form?: any }) => {
   handleDrawerClose(NewProjectState, NewProjectForm, options);
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const handleBasicInformationOfAdClose = (options: { type: number, form?: any }) => {
-  handleDrawerClose(BasicInformationOfAdState, BasicInformationOfAdForm, options);
-  console.log("handleBasicInformationOfAdClose", BasicInformationOfAdForm.value)
+const handleBasicInformationOfAdClose = (options: {
+  type: number;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  form?: any;
+}) => {
+  handleDrawerClose(
+    BasicInformationOfAdState,
+    BasicInformationOfAdForm,
+    options,
+  );
+  console.log(
+    "handleBasicInformationOfAdClose",
+    BasicInformationOfAdForm.value,
+  );
 };
-
-
-
-
-
-
 
 // 选择媒体账户
 const SelectMediaAccountState = reactive({
@@ -539,8 +543,6 @@ const handleChangeInfoOrNew = () => {
   infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
 };
 
-
-
 // 已有项目
 const ExistingProjectState = reactive({
   visible: false,
@@ -560,10 +562,6 @@ const openProjectEdit = () => {
 };
 
 const handleExistingProjectClose = () => { };
-
-
-
-
 
 // 创意素材
 

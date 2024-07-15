@@ -407,7 +407,6 @@ watchEffect(() => {
     drawerOptions.visible = props.visible;
 });
 
-
 const handleDrawerClose = (type: number) => {
     if (type === 1) {
         emits("handleBasicInformationOfAdClose", { type: 1, form: form });
@@ -416,25 +415,24 @@ const handleDrawerClose = (type: number) => {
     }
 };
 
-
 const form: ICreatePromotion = reactive({
     name: "<日期>-<时分秒>-<当日标号>",
-    ad_download_status: '',
-    advertiser_id: '',
-    anchor_related_type: '',
-    auth_type: '',
-    aweme_id: '',
-    budget: '',
-    budget_mode: '',
+    ad_download_status: "",
+    advertiser_id: "",
+    anchor_related_type: "",
+    auth_type: "",
+    aweme_id: "",
+    budget: "",
+    budget_mode: "",
     call_to_action_buttons: [],
-    cpa_bid: '',
-    deep_cpabid: '',
-    intelligent_generation: '',
-    is_comment_disable: '',
-    materials_type: '',
-    operation: '',
-    product_info: '',
-    project_id: '',
+    cpa_bid: "",
+    deep_cpabid: "",
+    intelligent_generation: "",
+    is_comment_disable: "",
+    materials_type: "",
+    operation: "",
+    product_info: "",
+    project_id: "",
     text_abstract_list: [],
     title_material_list: [],
     video_material_list: [],
@@ -455,7 +453,6 @@ const selectTikTokAccount = () => {
     SelectTikTokAccountState.visible = true;
 };
 const selectTikTokAccountDialog = () => {
-    
     SelectTikTokAccountState.visible = false;
 };
 
