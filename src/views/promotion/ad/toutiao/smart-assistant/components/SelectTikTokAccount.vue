@@ -77,7 +77,7 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted, reactive, watchEffect, watch } from "vue";
+import { ref, onMounted, reactive, watchEffect } from "vue";
 import "element-plus/es/components/message/style/css";
 import Dialog from "@/components/Dialog.vue";
 import { type IQueryAwemeList, queryAwemeList } from "@/api/modules/promotion";
