@@ -259,30 +259,6 @@
                     <p class="p-0px m-0px">不启用</p>
                   </div>
                 </div>
-                <div class="flex">
-                  <div class="flex line-height-24px">
-                    <label>动态创意生成：</label>
-                    <p class="p-0px m-0px">启用</p>
-                  </div>
-                </div>
-                <div class="flex">
-                  <div class="flex line-height-24px">
-                    <label>所属类别：</label>
-                    <p class="p-0px m-0px">无</p>
-                  </div>
-                </div>
-                <div class="flex">
-                  <div class="flex line-height-24px">
-                    <label>品牌名称：</label>
-                    <p class="p-0px m-0px">无</p>
-                  </div>
-                </div>
-                <div class="flex">
-                  <div class="flex line-height-24px">
-                    <label>二级品牌名称：</label>
-                    <p class="p-0px m-0px">无</p>
-                  </div>
-                </div>
               </div>
             </td>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
@@ -414,11 +390,11 @@
   <!-- 新建项目 -->
   <NewProject :visible="NewProjectState.visible" @handleNewProjectClose="handleNewProjectClose" />
 
-  <ExistingProject :visible="ExistingProjectState.visible" @handleNewProjectClose="handleExistingProjectClose" />
+  <ExistingProject :visible="ExistingProjectState.visible" @handleExistingProjectClose="handleExistingProjectClose" />
 
   <!-- 广告基本信息 -->
   <BasicInformationOfAd :visible="BasicInformationOfAdState.visible"
-    @handleDrawerClose="handleBasicInformationOfAdClose" />
+    @handleBasicInformationOfAdClose="handleBasicInformationOfAdClose" />
 
   <!-- 创意素材 -->
   <CreativeMaterials :visible="CreativeMaterialsState.visible" @handleDrawerClose="handleCreativeMaterialsStateClose" />
@@ -490,63 +466,16 @@ const handleDrawerClose = (
   }
 };
 
-
-// 接收新建项目的返回值
+// 接收新建项目的返回
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const handleNewProjectClose = (options: { type: number, form?: any }) => {
-  if (options.type === 1) {
-    NewProjectForm.value = options.form;
-    NewProjectState.visible = false;
-  } else {
-    ElMessageBox.confirm(
-      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-      "提示",
-      {
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-        type: "warning",
-      },
-    )
-      .then(() => {
-        NewProjectState.visible = false;
-      })
-      .catch(() => {
-        console.error("drawer component: fail");
-      });
-  }
-};
-
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const handleBasicInformationOfAdClose = (options: { type: number, form?: any }) => {
-  if (options.type === 1) {
-    BasicInformationOfAdForm.value = options.form;
-    BasicInformationOfAdState.visible = false;
-  } else {
-    ElMessageBox.confirm(
-      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-      "提示",
-      {
-        confirmButtonText: "确认",
-        cancelButtonText: "取消",
-        type: "warning",
-      },
-    )
-      .then(() => {
-        BasicInformationOfAdState.visible = false;
-      })
-      .catch(() => {
-        console.error("drawer component: fail");
-      });
-  }
-};
-
-
 const handleNewProjectClose = (options: { type: number, form?: any }) => {
   handleDrawerClose(NewProjectState, NewProjectForm, options);
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleBasicInformationOfAdClose = (options: { type: number, form?: any }) => {
   handleDrawerClose(BasicInformationOfAdState, BasicInformationOfAdForm, options);
+  console.log("handleBasicInformationOfAdClose", BasicInformationOfAdForm.value)
 };
 
 

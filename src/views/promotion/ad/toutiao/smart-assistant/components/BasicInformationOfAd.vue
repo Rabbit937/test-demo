@@ -396,27 +396,49 @@ interface IProps {
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
-const emits = defineEmits(["handleDrawerClose"]);
+const emits = defineEmits(["handleBasicInformationOfAdClose"]);
 
 const drawerOptions = reactive({
     visible: props.visible ?? false,
     size: 1016,
 });
 
-const handleDrawerClose = (type: number) => {
-    console.log(type);
-    emits("handleDrawerClose", type);
-};
-
 watchEffect(() => {
     drawerOptions.visible = props.visible;
 });
 
+
+const handleDrawerClose = (type: number) => {
+    if (type === 1) {
+        emits("handleBasicInformationOfAdClose", { type: 1, form: form });
+    } else {
+        emits("handleBasicInformationOfAdClose", { type: 0 });
+    }
+};
+
+
 const form: ICreatePromotion = reactive({
     name: "<日期>-<时分秒>-<当日标号>",
     ad_download_status: '',
-    advertiser_id: "",
-    anchor_related_type: ""
+    advertiser_id: '',
+    anchor_related_type: '',
+    auth_type: '',
+    aweme_id: '',
+    budget: '',
+    budget_mode: '',
+    call_to_action_buttons: [],
+    cpa_bid: '',
+    deep_cpabid: '',
+    intelligent_generation: '',
+    is_comment_disable: '',
+    materials_type: '',
+    operation: '',
+    product_info: '',
+    project_id: '',
+    text_abstract_list: [],
+    title_material_list: [],
+    video_material_list: [],
+    web_url_material_list: [],
 });
 
 const promotional_identity = ref(1);
@@ -433,6 +455,7 @@ const selectTikTokAccount = () => {
     SelectTikTokAccountState.visible = true;
 };
 const selectTikTokAccountDialog = () => {
+    
     SelectTikTokAccountState.visible = false;
 };
 
