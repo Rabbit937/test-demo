@@ -30,7 +30,9 @@
       <el-row class="flex p-16px pb-0px">
         <el-col :span="1.5">
           <SelectAccountVue :prefix-title="'媒体账户'" @handleChange="handleMediaAccount">
-            <span class="color-[#c6c6c6]" @click="handleMediaAccount">请选择媒体账户</span>
+            <span v-if="SelectMediaAccountListLength === 0" class="color-[#c6c6c6]"
+              @click="handleMediaAccount">请选择媒体账户</span>
+            <div v-else>{{ SelectMediaAccountList[0].ALIAS }}</div>
             <!-- 显示账户信息 -->
             <!-- <template v-else>
               <el-popover placement="bottom" trigger="click" width="502">
@@ -47,7 +49,7 @@
                   </el-row>
                   <div class="w-100% overflow-x-hidden overflow-y-auto" style="max-height: 320px">
                     <div class="flex grid-justify-start p-6px m-auto mt-8px mb-8px pos-relative"
-                      style="background-color: #f2f2f2; border-radius: 4px" v-for="(item) in multipleSelectionState">
+                      style="background-color: #f2f2f2; border-radius: 4px" v-for="(item) in SelectMediaAccountList">
                       <img
                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMkAAADICAYAAABCmsWgAAAAAXNSR0IArs4c6QAACXNJREFUeF7tnU1u4zgQRt0IEG+cVVa+TV+pT9jH8corZ+MAgQfUtBzZkcSfIikW6xlodAYhJfKrev1VUZrk1+l0+n273f7u+KAACswp8OcXkJAZKLCqAJCQICjgUQBISBEUABJyAAVkCuAkMv2YbUABIDEQZLYoUwBIZPox24ACQGIgyGxRpgCQyPRjtgEFgMRAkNmiTAEgkenHbAMKAImBILNFmQJAItOP2QYUABIDQWaLMgWARKYfsw0oACQGgswWZQoAiUw/ZhtQAEgMBJktyhQAEpl+zDagAJAYCDJblCkAJDL9mG1AASAxEGS2KFMASGT6MduAAkBiIMhsUaYAkMj0Y7YBBYDEQJDZokwBIJHpx2wDCgCJgSCzRZkCQCLTj9kGFAASA0FmizIFgESmH7MNKAAkBoLMFmUKAIlMP2YbUABIDASZLcoUABKZfsw2oACQGAgyW5QpACQy/ZhtQAEgMRBktihTAEhk+jHbgAJAYiDIbFGmAJDI9GO2AQWAxECQ2aJMASCR6cdsAwoAiYEgs0WZAkAi0y9+9uvr6zBpv9/vxq/Hv5eu9vn5uXN/3Od6vd6/jr87MxIUAJIE0aKnOAje3t7uUERfYGbCCM7lcslxOa6xrACQlMqOEmAsrfXj42P4FsAUiSaQ5Ja1Jhxza3fAAEvWqAJJLjm3huN5H8CSK7I7IJFK2Roc0/3Qt0ijO8wHEomMrhk/HA6SS1SZi6uIZAaSVPm0ADLuz7nK+XxO3a7leUCSEv339/esx7kpa0idg6tEKwckMZK5/sMBov0DKFERBJJQuXoBZNwvoIRGnsY9SKneAAGUoLCPg3CSELmOx2PIMJVjXDM/vhemcgPlFw0kPo01N+m+vY3fB5RVpYBkTR5tx7yhUDyP43gYSJJyxwog9Cfe9MBJliTquQ9Z2jNl16wyQDInizUXGTWg7AISr6+6AVYBoexaTA+c5Fkai2XWswaUXQ+KAMlUDusuQtlFueUtt4DkW6LT6eTVy8gAnGQMNIA8pjzvdt31ABIgWfYD3GTQBkjGFKFh/wkLDTyQ3LOCUmveTXhuAiRAEtB5U3JRbg1pQqm1TAslF5AAicdNgARIzL+G4qu46EuABEg8lAAJkAw//cT3qw98/9r2/n3jzTvPSYDEjziQnE6/b7fbX79UfY7gZMsfV+PNO04CJEDiUQBIgARIgMSjAJAACZAAiZ8CHiiuKUC5hZP4GaJx53TLnyXGRwCJcUh4TuL/F4DnJEDCE3cPJ0ACJEACJDTuawr0+rtH/EVU2AhecOQFx8FFevgVb2EpHz+Kn5oCJEPWcAy8DI/xky0nDM9JnAqccC1DYrxpB5IxNSi55iGh1Bp0wUmcCkACJCvdGpCM4lBy/UwTSi2c5CErcJNHSCi17nrgJNPUwE2+1eBUC0hmS1B+3On/suAiD+mBkzzTwjMTIHnKCSB5hsS6m+AiP4oMIJmruyz3JpxoAcnKcfj3t6yedOEis+mBkyxRY63s4m3fxX8/gWTNWiyVXZRZQBJUZj0PslJ2UWatpgdO4qOnd1AAxJcBvODoVcgN6LU/AZCg8OMkQTJ1CAqAhEYeJwlWqidHAZCosOMkUXJ14CgAEhtxnCRaMTdBazMPIEnhxkmSZPs3SUtD7x4UXi6XnfubT7QCQBIt2dOE1kHBPaQRptwSKzheoDVYcI9socVJsknZSAkGHLkjipNkV3QrZwGOYqHESYpJO3EW9+XhcMh+K8DILuncBYGkisz/buKOjvf7/fBf7mv3J/Qznky5v6/XKydVocLJxwGJXMPwK8xB4aB5eXlZvcjX19cAxvTDcW647sKRQCIU8Mf0EQSX/FMoYlwjZk0OlikwuEyMekFjgSRIppVBLvnd8e9YQkmvl2v+FB73IJFPsgJAEiPd6AYtQhGyD/dg0X1wmxC17mOAxCfXFIxSJZNvDaW+76ABGK+6QLIk0VhG9QbG0n55fWURFiCZSmMNjLm0GHsZ+hjKrYf8aO29K28BUGkA7jIIbddJcI1w0saG36i72IMEOMLhmBtp0F3sQAIcMjieZxuCpX9IgCMvHNOrGWny+4aEhrwcINMrd+4qfUKi9Qc11EnpcnfpFJa+IKG0KgdAzJU7g6UfSCitYtK4/NiOQNEPCe5RPuEld+gAFt2Q4B6S9K03VzkoeiGx9At26qVzuTsp/v/x9UFCeVUukWtcWaGr6IKEo90aaVz+HspA0QMJ/Uf55K15B0Wg6IAEQGqmb717KfmNv+1DQoNeL2m3utP5fG7554i1DQmAbJW29e/bMCjtQgIg9RN16zs2CkqbkADI1um63f0bBKU9SABkuwRt5c6NgdIWJADSSppuv46GQGkHkuPxuH1kWEFTCjQCShuQ4CBN5WZTi2kAlO0h4UFhUznZ3GIaeOC4LSQA0lxONrmgjUHZDhIAaTIfm13Uhu96bQMJgDSbi00vbCNQ6kPC6+5N52Hzi9sAlPqQcJLVfB42v8DKJ151IaHMaj7/VCywciNfDxIAUZF/ahZZseyqBwlP1NXkn5qFViq76kCCi6jJO1ULrVR2lYcEQFTlnbrFVii7ykNCmaUu79QtuHDZVRYSXERdvqlccOGyqxwkAKIy39QuumDZBSRqs4KF/1DgdDqVUKUMJLhIiVhxTZ8ChcquMpDQrPvCyfdLKVCgic8PCS5SKvxcN0SBAm6SHxJcJCSUjCmpQGY3yQsJLlIy9Fw7VIHMbpIXElwkNIyMK61ARjfJBwkuUjrsXD9GgYxukg8SXCQmhIytoUAmN8kDCS5SI+TcI1aBTG6SBxJcJDZ8jK+lQAY3kUOCi9QKN/dJUSDDO11AkiI8c3QpIHynSw4JpZauhLG4WmHJJYOEUstiyunbs7CBl0HCz9DSlzBWVywouWSQUGpZTTl9+xaUXOmQUGrpSxTLKxaUXOmQUGpZTjmde08sudIg4Yde60wS66tOLLnSIKHUsp5uOvefWHKlQUKppTNJWPVul1BypUHCqRbpplWBhJIrHhL6Ea3pwbqdAgnvcsVDQj9CsmlWIKEviYeEfkRzirB2p0BkXxIPCf0IiaZdgci+JA4S+hHt6cH6E/qSOEjoR0iyHhSI7EuApIegs4c4BYpCQtMeFwxGt6tARPMe5yQ07e0GnZXFKRDRvANJnLSM7kWBIpBwstVLerCPyBOucCfhZIvk6kmBiOYdSHoKPHsJVwBIwrVipGEFAk+4/vwHZlI14DTtvq8AAAAASUVORK5CYII="
                         alt="加载失败" class="w-32px h-32px mr-8px" />
@@ -66,8 +68,8 @@
                   </div>
                 </template>
 <template #reference>
-                    <div>{{ multipleSelectionState[0].ALIAS }}</div>
-                  </template>
+                  <div>{{ SelectMediaAccountList[0].ALIAS }}</div>
+                </template>
 </el-popover>
 </template> -->
           </SelectAccountVue>
@@ -276,7 +278,7 @@
           <tr>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
               <!-- 新建项目 -->
-              <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
+              <el-popover placement="top" trigger="hover" width="170" :disabled="SelectMediaAccountListLength !== 0">
                 <template #default>
                   <div class="flex">
                     <el-text>请选择媒体账户</el-text>
@@ -306,7 +308,7 @@
             </td>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
               <!-- 创意素材 -->
-              <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
+              <el-popover placement="top" trigger="hover" width="170" :disabled="SelectMediaAccountListLength !== 0">
                 <template #default>
                   <div class="flex">
                     <el-text>请选择媒体账户</el-text>
@@ -320,7 +322,7 @@
             </td>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
               <!-- 标题包 -->
-              <el-popover placement="top" trigger="hover" width="170" :disabled="multipleSelectionLength !== 0">
+              <el-popover placement="top" trigger="hover" width="170" :disabled="SelectMediaAccountListLength !== 0">
                 <template #default>
                   <div class="flex">
                     <el-text>请选择媒体账户</el-text>
@@ -383,7 +385,7 @@
   <SelectMediaAccountDialog :visible="SelectMediaAccountState.visible" @handleClose="handleMediaAccountDialogClose" />
 
   <!-- 选择规则配置 -->
-  <RuleConfigurationDialog :visible="RuleConfigurationState.visible"
+  <RuleConfigurationDialog :visible="RuleConfigurationState.visible" :infoOrNew="RuleConfigurationState.infoOrNew"
     @handleClose="handleRuleConfigurationDialogClose" />
 
   <!-- 新建项目 -->
@@ -419,6 +421,7 @@ import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 import CreativeMaterials from "./components/CreativeMaterials.vue";
 import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
+import { type IRuleConfiguration } from "@/api/modules/promotion";
 
 // 新建项目
 const NewProjectForm = ref();
@@ -498,41 +501,47 @@ const handleMediaAccount = () => {
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const multipleSelectionState = ref<any[]>([]);
+const SelectMediaAccountList = ref<any[]>([]);
 
 const handleMediaAccountDialogClose = (
-  state: number,
+  type: number,
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   multipleSelection: any,
 ) => {
   SelectMediaAccountState.visible = false;
-  if (state === 1) {
-    // 做弹窗确认的处理
-    // console.log("收到确认");
-    // console.log(multipleSelection);
-    multipleSelectionState.value = multipleSelection;
+  if (type === 1) {
+    SelectMediaAccountList.value = multipleSelection;
+    console.log("SelectMediaAccountList", SelectMediaAccountList.value);
   }
 };
 
-const multipleSelectionLength = computed(() => {
-  return multipleSelectionState.value.length;
+const SelectMediaAccountListLength = computed(() => {
+  return SelectMediaAccountList.value.length;
 });
+
+// 生成ADVERTISER_ID数组
+const ADVERTISER_ID_ARRAY = computed(() => {
+  return SelectMediaAccountList.value.map((item: any) => item.ADVERTISER_ID) ?? [];
+})
 
 // 更改规则配置
 const RuleConfigurationState = reactive({
   visible: false,
+  infoOrNew: ''
 });
 
 const handleChangeRuleConfiguration = () => {
   RuleConfigurationState.visible = true;
+  RuleConfigurationState.infoOrNew = infoOrNew.value;
 };
 
-const handleRuleConfigurationDialogClose = (state: number) => {
-  if (state === 1) {
-    // 做弹窗确认的处理
-    // console.log("收到确认");
-  }
+const ruleConfiguration = ref<IRuleConfiguration>();
+const handleRuleConfigurationDialogClose = (options: { type: number; ruleConfiguration: IRuleConfiguration }) => {
   RuleConfigurationState.visible = false;
+  if (options.type === 1) {
+    ruleConfiguration.value = options.ruleConfiguration
+    console.log("RuleConfiguration", ruleConfiguration.value);
+  }
 };
 
 // 切换项目
@@ -542,6 +551,17 @@ const infoOrNew = ref("new");
 const handleChangeInfoOrNew = () => {
   infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
 };
+
+
+
+
+
+
+
+
+
+
+
 
 // 已有项目
 const ExistingProjectState = reactive({
