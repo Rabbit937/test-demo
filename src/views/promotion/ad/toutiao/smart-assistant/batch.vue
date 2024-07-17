@@ -421,10 +421,10 @@ import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 import CreativeMaterials from "./components/CreativeMaterials.vue";
 import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
-import { type IRuleConfiguration } from "@/api/modules/promotion";
+import type { INewProject, IRuleConfiguration } from "@/api/modules/promotion";
 
 // 新建项目
-const NewProjectForm = ref();
+const NewProjectForm = ref<INewProject>();
 const NewProjectState = reactive({ visible: false });
 
 const openNewProjectDrawer = () => {
@@ -551,15 +551,6 @@ const infoOrNew = ref("new");
 const handleChangeInfoOrNew = () => {
   infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
 };
-
-
-
-
-
-
-
-
-
 
 
 

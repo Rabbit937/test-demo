@@ -554,6 +554,7 @@ export interface INewProject {
 	inventory_type?: string[];
 	launch_type?: string;
 	marketing_goal: string;
+	landing_type: string;
 
 	/**
  * 字节小程序资产id，推广字节小程序必填
@@ -943,11 +944,23 @@ export interface ICreatePromotionByNewProject {
 }
 
 
-
-
-
 export const createPromotionByNewProject = (params: ICreatePromotionByNewProject) => {
 	return http.post(
 		"/api/Mk_Tt_Program/_createPromotionByNewProject", params
+	);
+}
+
+
+/**
+ * @name 查询ios应用信息
+ */
+
+export interface Request {
+	itunes_id: number;
+}
+
+export const queryIosApplication = (params: ICreatePromotionByNewProject) => {
+	return http.post(
+		"/api/Mk_Tt_Tool/_queryIosApplication", params
 	);
 }

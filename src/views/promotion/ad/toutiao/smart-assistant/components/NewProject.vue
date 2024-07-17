@@ -516,129 +516,135 @@ import "element-plus/es/components/message-box/style/css";
 import { WarningFilled } from "@element-plus/icons-vue";
 
 import {
-	type ICreateProject,
-	queryAndroidAppList,
-	type IGetOptimizeGoal,
-	getOptimizeGoal,
-	type IGetDeepOptimizeType,
-	getDeepOptimizeType,
+    type INewProject,
+    queryAndroidAppList,
+    type IGetOptimizeGoal,
+    getOptimizeGoal,
+    type IGetDeepOptimizeType,
+    getDeepOptimizeType,
 } from "@/api/modules/promotion";
 
 import {
-	app_promotion_type_radio,
-	delivery_mode_radio,
-	marketing_goal_radio,
-	ad_type_radio,
-	platform_type_radio,
-	// download_type_radio,
-	inventory_catalog_radio,
-	schedule_type_radio,
-	bid_type_radio,
-	budget_mode_radio,
-	audience_extend_radio,
-	operation_radio,
-	deep_bid_type_radio,
-	inventory_type_radio,
+    app_promotion_type_radio,
+    delivery_mode_radio,
+    marketing_goal_radio,
+    ad_type_radio,
+    platform_type_radio,
+    // download_type_radio,
+    inventory_catalog_radio,
+    schedule_type_radio,
+    bid_type_radio,
+    budget_mode_radio,
+    audience_extend_radio,
+    operation_radio,
+    deep_bid_type_radio,
+    inventory_type_radio,
 } from "../../radio-info/NewProject";
 
 interface IProps {
-	visible: boolean;
+    visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleNewProjectClose"]);
 
 const drawerOptions = reactive({
-	visible: props.visible,
-	size: 1016,
+    visible: props.visible,
+    size: 1016,
 });
 
 watchEffect(() => {
-	drawerOptions.visible = props.visible;
+    drawerOptions.visible = props.visible;
 });
 
 const handleDrawerClose = (type: number) => {
-	if (type === 1) {
-		emits("handleNewProjectClose", { type: 1, form: form });
-	} else {
-		emits("handleNewProjectClose", { type: 0 });
-	}
+    if (type === 1) {
+        emits("handleNewProjectClose", { type: 1, form: form });
+    } else {
+        emits("handleNewProjectClose", { type: 0 });
+    }
 };
 
-const form: ICreateProject = reactive({
-	advertiser_id: 1787695788195915,
-	delivery_mode: "MANUAL",
-	app_promotion_type: "DOWNLOAD",
-	landing_type: "APP",
-	marketing_goal: "VIDEO_AND_IMAGE",
-	ad_type: "ALL",
-	delivery_type: "NORMAL",
-	platform_type: "",
-	app_name: "",
+const form: INewProject = reactive({
+    delivery_mode: "MANUAL",
+    app_promotion_type: "DOWNLOAD",
+    landing_type: "APP",
+    marketing_goal: "VIDEO_AND_IMAGE",
+    ad_type: "ALL",
+    delivery_type: "NORMAL",
+    platform_type: "",
+    app_name: "",
 
-	// 检测链接来源
-	detect_link_source: 1,
-	// 下载方式
-	download_type: "",
-	download_mode: "DEFAULT",
-	data_docking_mode: "EVENT",
+    // 检测链接来源
+    detect_link_source: 1,
+    // 下载方式
+    download_type: "",
+    download_mode: "DEFAULT",
+    data_docking_mode: "EVENT",
 
-	inventory_catalog: "UNIVERSAL_SMART",
-	inventory_type: [],
+    inventory_catalog: "UNIVERSAL_SMART",
+    inventory_type: [],
 
-	targetedPackageSource: 1,
-	matchingMethod: 2,
+    targetedPackageSource: 1,
+    matchingMethod: 2,
 
-	// 项目排期与预算
-	schedule_type: "SCHEDULE_FROM_NOW",
-	schedule_time_type: 1,
-	schedule_time: "",
-	schedule_date: [],
-	start_time: "",
-	end_time: "",
-	bid_type: "CUSTOM",
-	budget_mode: "BUDGET_MODE_INFINITE",
-	pricing: "PRICING_OCPM",
-	budget_optimize_switch: "OFF",
+    // 项目排期与预算
+    schedule_type: "SCHEDULE_FROM_NOW",
+    schedule_time_type: 1,
+    schedule_time: "",
+    schedule_date: [],
+    start_time: "",
+    end_time: "",
+    bid_type: "CUSTOM",
+    budget_mode: "BUDGET_MODE_INFINITE",
+    pricing: "PRICING_OCPM",
+    budget_optimize_switch: "OFF",
 
-	search_bid_ratio_type: 2,
-	search_bid_ratio: "",
+    search_bid_ratio_type: 2,
+    search_bid_ratio: "",
 
-	audience_extend: "ON",
+    audience_extend: "ON",
 
-	// 项目名称
-	name: "<日期>-<时分秒>-<当日标号>",
-	operation: "ENABLE", // DISABLE
+    // 项目名称
+    name: "<日期>-<时分秒>-<当日标号>",
+    operation: "ENABLE", // DISABLE
 
-	ac: [],
-	age: [],
-	android_osv: "",
-	asset_ids: [1791972146324483],
-	auto_extend_targets: [],
-	budget: "",
-	device_brand: [],
-	device_type: [],
-	district: "",
-	download_url:
-		"https://apps.bytesfield.com/download/basic/cur/c1e4f76f2c6608cf2ce4f1d00684d6be37439fc5",
-	external_action: "",
-	gender: "NONE",
-	hide_if_converted: "PROMOTION",
-	hide_if_exists: "UNLIMITED",
-	interest_action_mode: "RECOMMEND",
+    ac: [],
+    age: [],
+    android_osv: "",
+    asset_ids: [1791972146324483],
+    auto_extend_targets: [],
+    budget: "",
+    device_brand: [],
+    device_type: [],
+    district: "",
+    download_url:
+        "https://apps.bytesfield.com/download/basic/cur/c1e4f76f2c6608cf2ce4f1d00684d6be37439fc5",
+    external_action: "",
+    gender: "NONE",
+    hide_if_converted: "PROMOTION",
+    hide_if_exists: "UNLIMITED",
+    interest_action_mode: "RECOMMEND",
 
-	platform: [],
-	superior_popularity_type: "",
-	track_url_group_id: "1797289111929028",
-	track_url_type: "GROUP_ID",
-	union_video_type: "",
-	value_optimized_type: "",
-	app_type: "",
-	deep_external_action: "NONE",
-	deep_bid_type: "",
+    platform: [],
+    superior_popularity_type: "",
+    track_url_group_id: "1797289111929028",
+    track_url_type: "GROUP_ID",
+    union_video_type: "",
+    value_optimized_type: "",
+    app_type: "",
+    deep_external_action: "NONE",
+    deep_bid_type: "",
 
-	// 可选参数，接口不需要，界面需要
-	budget_bidding_configuration_mode: "unified_configuration",
+    // 可选参数，接口不需要，界面需要
+    budget_bidding_configuration_mode: "unified_configuration",
+
+
+    pre_budget_group: [],
+    preference_group: [],
+
+    project_budget: 'same',
+    project_preference: 'same',
 });
 
 const platform_type = ref();
@@ -653,68 +659,68 @@ const search_bid_ratio_type = ref();
 const eventReturnMethod = ref(1);
 // 卡片切换
 const boxCardItem = ref([
-	{
-		id: 0,
-		title: "应用推广",
-		content: "推广您的线上APP",
-		active: true,
-		value: "APP",
-	},
-	{
-		id: 1,
-		title: "小程序",
-		content: "吸引更多用户进入小程序",
-		active: false,
-		value: "MICRO_GAME",
-	},
+    {
+        id: 0,
+        title: "应用推广",
+        content: "推广您的线上APP",
+        active: true,
+        value: "APP",
+    },
+    {
+        id: 1,
+        title: "小程序",
+        content: "吸引更多用户进入小程序",
+        active: false,
+        value: "MICRO_GAME",
+    },
 ]);
 
 const handleBoxCardItem = (id: number) => {
-	ElMessageBox.confirm(
-		"切换推广目的将会清空您已填写的所有内容，是否继续切换？",
-		"提示",
-		{
-			confirmButtonText: "确认",
-			cancelButtonText: "取消",
-			type: "warning",
-			icon: markRaw(WarningFilled),
-		},
-	).then(() => {
-		boxCardItem.value = boxCardItem.value.map((item) => {
-			item.active = false;
-			if (item.id === id) {
-				item.active = true;
-				form.landing_type = item.value;
-			}
-			return {
-				id: item.id,
-				title: item.title,
-				content: item.content,
-				active: item.active,
-				value: item.value,
-			};
-		});
-	});
+    ElMessageBox.confirm(
+        "切换推广目的将会清空您已填写的所有内容，是否继续切换？",
+        "提示",
+        {
+            confirmButtonText: "确认",
+            cancelButtonText: "取消",
+            type: "warning",
+            icon: markRaw(WarningFilled),
+        },
+    ).then(() => {
+        boxCardItem.value = boxCardItem.value.map((item) => {
+            item.active = false;
+            if (item.id === id) {
+                item.active = true;
+                form.landing_type = item.value;
+            }
+            return {
+                id: item.id,
+                title: item.title,
+                content: item.content,
+                active: item.active,
+                value: item.value,
+            };
+        });
+    });
 };
 
 // 应用推广类型切换方法
 const handleAppPromotionTypeChange = (value: string) => {
-	ElMessageBox.confirm(
-		"切换子目标将会清空您已填写的所有内容，是否继续切换？",
-		"提示",
-		{
-			confirmButtonText: "确认",
-			cancelButtonText: "取消",
-			type: "warning",
-			icon: markRaw(WarningFilled),
-		},
-	)
-		.then(() => {
-			form.app_promotion_type = value;
-		})
-		.catch((error) => {
-			console.error(error);
-		});
+    ElMessageBox.confirm(
+        "切换子目标将会清空您已填写的所有内容，是否继续切换？",
+        "提示",
+        {
+            confirmButtonText: "确认",
+            cancelButtonText: "取消",
+            type: "warning",
+            icon: markRaw(WarningFilled),
+        },
+    )
+        .then(() => {
+            form.app_promotion_type = value;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 };
 
 // 头条应用
@@ -722,38 +728,38 @@ const AndroidAppList = ref([]);
 const headline_application_options = ref([]);
 
 interface IQueryAndroidAppList {
-	advertiser_id: string;
-	page_limit: number;
+    advertiser_id: string;
+    page_limit: number;
 }
 
 const queryAndroidAppListFunc = async (params: IQueryAndroidAppList) => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const res: any = await queryAndroidAppList(params);
-	AndroidAppList.value = res.data.list;
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	headline_application_options.value = res.data.list.map((item: any) => ({
-		value: `${item.package_id}`,
-		label: `${item.app_name}(${item.package_name})`,
-	}));
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const res: any = await queryAndroidAppList(params);
+    AndroidAppList.value = res.data.list;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    headline_application_options.value = res.data.list.map((item: any) => ({
+        value: `${item.package_id}`,
+        label: `${item.app_name}(${item.package_name})`,
+    }));
 };
 
 onMounted(() => {
-	queryAndroidAppListFunc({
-		advertiser_id: "1787695788195915",
-		page_limit: 1000,
-	});
+    queryAndroidAppListFunc({
+        advertiser_id: "1787695788195915",
+        page_limit: 1000,
+    });
 });
 
 const headline_application_value = ref();
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleHeadlineApplicationChange = (val: any) => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const filterAndroidApp: any = AndroidAppList.value.filter(
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		(app: any) => app.package_id === val,
-	);
-	form.app_name = filterAndroidApp[0].app_name;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const filterAndroidApp: any = AndroidAppList.value.filter(
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        (app: any) => app.package_id === val,
+    );
+    form.app_name = filterAndroidApp[0].app_name;
 };
 
 // 选择链接组
@@ -768,113 +774,113 @@ const handleHeadlineApplicationChange = (val: any) => {
 // };
 
 const AudiencePackageState = reactive({
-	visible: false,
-	size: 1016,
+    visible: false,
+    size: 1016,
 });
 
 // 选择定向包
 const selectAudiencePackage = () => {
-	AudiencePackageState.visible = true;
+    AudiencePackageState.visible = true;
 };
 
 const handleAudiencePackageDrawerClose = (type: number) => {
-	if (type === 1) {
-		AudiencePackageState.visible = false;
-	} else {
-		AudiencePackageState.visible = false;
-	}
+    if (type === 1) {
+        AudiencePackageState.visible = false;
+    } else {
+        AudiencePackageState.visible = false;
+    }
 };
 
 // 查询优化目标
 const optimizeGoal = ref();
 const deepOptimizeGoal = ref([
-	{
-		deep_external_action: "NONE",
-		optimization_name: "无",
-	},
+    {
+        deep_external_action: "NONE",
+        optimization_name: "无",
+    },
 ]);
 
 const getOptimizeGoalFunc = async (params: IGetOptimizeGoal) => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const res: any = await getOptimizeGoal(params);
-	if (res.state === 1) {
-		optimizeGoal.value = res.data;
-	}
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const res: any = await getOptimizeGoal(params);
+    if (res.state === 1) {
+        optimizeGoal.value = res.data;
+    }
 };
 
 onMounted(() => {
-	getOptimizeGoalFunc({
-		advertiser_id: "1787695788195915",
-		landing_type: "APP",
-		ad_type: "ALL",
-		asset_type: "APP",
-	});
+    getOptimizeGoalFunc({
+        advertiser_id: "1787695788195915",
+        landing_type: "APP",
+        ad_type: "ALL",
+        asset_type: "APP",
+    });
 });
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const selectOptimizeGoal = (val: any) => {
-	console.log(val);
+    console.log(val);
 
-	const filterOptimizeGoal = optimizeGoal.value.filter(
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		(goal: any) => goal.external_action === val,
-	);
-	if (filterOptimizeGoal[0].deep_goals) {
-		deepOptimizeGoal.value.push(filterOptimizeGoal[0].deep_goals);
-	} else {
-		deepOptimizeGoal.value = [
-			{
-				deep_external_action: "NONE",
-				optimization_name: "无",
-			},
-		];
-	}
-	form.deep_external_action = "NONE";
+    const filterOptimizeGoal = optimizeGoal.value.filter(
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        (goal: any) => goal.external_action === val,
+    );
+    if (filterOptimizeGoal[0].deep_goals) {
+        deepOptimizeGoal.value.push(filterOptimizeGoal[0].deep_goals);
+    } else {
+        deepOptimizeGoal.value = [
+            {
+                deep_external_action: "NONE",
+                optimization_name: "无",
+            },
+        ];
+    }
+    form.deep_external_action = "NONE";
 
-	getDeepOptimizeTypeFunc({
-		advertiser_id: "1787695788195915",
-		external_action: form.external_action,
-		delivery_mode: "MANUAL",
-		landing_type: "APP",
-	});
+    getDeepOptimizeTypeFunc({
+        advertiser_id: "1787695788195915",
+        external_action: form.external_action,
+        delivery_mode: "MANUAL",
+        landing_type: "APP",
+    });
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const selectDeepOptimizeGoal = (val: any) => {
-	console.log(val);
+    console.log(val);
 
-	getDeepOptimizeTypeFunc({
-		advertiser_id: "1787695788195915",
-		external_action: form.external_action,
-		delivery_mode: "MANUAL",
-		landing_type: "APP",
-		deep_external_action: form.deep_external_action,
-	});
+    getDeepOptimizeTypeFunc({
+        advertiser_id: "1787695788195915",
+        external_action: form.external_action,
+        delivery_mode: "MANUAL",
+        landing_type: "APP",
+        deep_external_action: form.deep_external_action,
+    });
 };
 
 // 查询可用深度优化方式
 
 const deep_bid_type_radio_filtered = ref<{ value: string; label: string }[]>(
-	[],
+    [],
 );
 
 const getDeepOptimizeTypeFunc = async (params: IGetDeepOptimizeType) => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const res: any = await getDeepOptimizeType(params);
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const res: any = await getDeepOptimizeType(params);
 
-	console.log(res);
+    console.log(res);
 
-	if (res.state === 1) {
-		if (res.data.length > 0) {
-			deep_bid_type_radio_filtered.value = deep_bid_type_radio.filter((radio) =>
-				res.data.includes(radio.value),
-			);
-			console.log(deep_bid_type_radio_filtered.value);
-		} else {
-			deep_bid_type_radio_filtered.value = [];
-			form.deep_bid_type = "";
-		}
-	}
+    if (res.state === 1) {
+        if (res.data.length > 0) {
+            deep_bid_type_radio_filtered.value = deep_bid_type_radio.filter((radio) =>
+                res.data.includes(radio.value),
+            );
+            console.log(deep_bid_type_radio_filtered.value);
+        } else {
+            deep_bid_type_radio_filtered.value = [];
+            form.deep_bid_type = "";
+        }
+    }
 };
 
 // 首选媒体
@@ -882,34 +888,34 @@ const checkAll = ref(false);
 const indeterminate = ref(false);
 
 watch(form.inventory_type, (val) => {
-	if (val.length === 0) {
-		checkAll.value = false;
-		indeterminate.value = false;
-	} else if (val.length === inventory_type_radio.length) {
-		checkAll.value = true;
-		indeterminate.value = false;
-	} else {
-		indeterminate.value = true;
-	}
+    if (val.length === 0) {
+        checkAll.value = false;
+        indeterminate.value = false;
+    } else if (val.length === inventory_type_radio.length) {
+        checkAll.value = true;
+        indeterminate.value = false;
+    } else {
+        indeterminate.value = true;
+    }
 });
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleCheckAll = (val: any) => {
-	indeterminate.value = false;
-	if (val) {
-		form.inventory_type = inventory_type_radio.map((_) => _.value);
-	} else {
-		form.inventory_type = [];
-	}
+    indeterminate.value = false;
+    if (val) {
+        form.inventory_type = inventory_type_radio.map((_) => _.value);
+    } else {
+        form.inventory_type = [];
+    }
 };
 
 // 投放时间
 
 const handleScheduleDateChange = () => {
-	console.log(form.schedule_date);
-	if (form.schedule_date) {
-		[form.start_time, form.end_time] = form.schedule_date;
-	} else {
-		[form.start_time, form.end_time] = ["", ""];
-	}
+    console.log(form.schedule_date);
+    if (form.schedule_date) {
+        [form.start_time, form.end_time] = form.schedule_date;
+    } else {
+        [form.start_time, form.end_time] = ["", ""];
+    }
 };
 </script>
