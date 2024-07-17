@@ -389,7 +389,8 @@
     @handleClose="handleRuleConfigurationDialogClose" />
 
   <!-- 新建项目 -->
-  <NewProject :visible="NewProjectState.visible" @handleNewProjectClose="handleNewProjectClose" />
+  <NewProject :visible="NewProjectState.visible" @handleNewProjectClose="handleNewProjectClose"
+    :advertiser_id_array="ADVERTISER_ID_ARRAY" />
 
   <ExistingProject :visible="ExistingProjectState.visible" @handleExistingProjectClose="handleExistingProjectClose" />
 

@@ -281,15 +281,24 @@ export const createPromotion = (params: ICreatePromotion) => {
 /**
  * @name 查询可用优化目标
  */
-export interface IGetOptimizeGoal {
-	ad_type: string;
-	advertiser_id: string;
-	asset_type: string;
-	landing_type: string;
+// export interface IGetOptimizeGoal {
+// 	ad_type: string;
+// 	advertiser_id: string;
+// 	asset_type: string;
+// 	landing_type: string;
+// }
+
+export interface IGetOptimizeGoalResultData {
+	optimization_name: string;
+	external_action: string;
+	deep_goals?: {
+		deep_external_action: string;
+		optimization_name: string;
+	}[]
 }
 
-export const getOptimizeGoal = (params: IGetOptimizeGoal) => {
-	return http.get("/api/Mk_Tt_Tool/_getOptimizeGoal", params);
+export const getOptimizeGoal = () => {
+	return http.get<IGetOptimizeGoalResultData[]>("/api/Mk_Tt_Tool/_getOptimizeGoal");
 };
 
 /**
@@ -299,13 +308,13 @@ export const getOptimizeGoal = (params: IGetOptimizeGoal) => {
 export interface IGetDeepOptimizeType {
 	advertiser_id: string;
 	deep_external_action?: string;
+	external_action?: string;
 	delivery_mode: string;
-	external_action: string;
 	landing_type: string;
 }
 
 export const getDeepOptimizeType = (params: IGetDeepOptimizeType) => {
-	return http.get("/api/Mk_Tt_Tool/_getDeepOptimizeType", params);
+	return http.get<string[]>("/api/Mk_Tt_Tool/_getDeepOptimizeType", params);
 };
 
 /**
@@ -955,12 +964,21 @@ export const createPromotionByNewProject = (params: ICreatePromotionByNewProject
  * @name 查询ios应用信息
  */
 
-export interface Request {
+export interface IQueryIosApplication {
 	itunes_id: number;
 }
 
-export const queryIosApplication = (params: ICreatePromotionByNewProject) => {
-	return http.post(
+export interface IQueryIosApplicationResultData {
+	appstore_id: string;
+	appstore_name: string;
+	appstore_url: string;
+	bundleid: string;
+	download_url: string;
+	icon: string;
+}
+
+export const queryIosApplication = (params: IQueryIosApplication) => {
+	return http.get<IQueryIosApplicationResultData>(
 		"/api/Mk_Tt_Tool/_queryIosApplication", params
 	);
 }
