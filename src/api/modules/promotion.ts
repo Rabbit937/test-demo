@@ -513,10 +513,11 @@ export interface IBasicInformationOfAd {
 	/**
 	  *@name 原生锚点开关，选择了抖音号时必填，OFF/AUTO
 	  */
-	anchor_related_type?: string;
+	anchor_related_type?: 'OFF' | 'AUTO';
 	aweme_info_group?: { advertiser_id?: string; aweme_id: string }[];
 	product_info_group: {
-		advertiser_id?: string; product_info: {
+		advertiser_id?: string;
+		product_info: {
 			titles: string[];
 			image_ids: string[];
 			selling_points: string[]

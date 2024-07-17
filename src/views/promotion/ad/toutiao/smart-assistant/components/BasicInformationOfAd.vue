@@ -22,13 +22,13 @@
                                     <el-radio-button :value="2"> 账户信息 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
-                            <el-form-item label="匹配方式">
-                                <el-radio-group v-model="matching_method">
-                                    <el-radio-button :value="1"> 所有广告选择同一抖音号 </el-radio-button>
-                                    <el-radio-button :value="2"> 每个账户选择一个抖音号 </el-radio-button>
+                            <el-form-item label="匹配方式" v-if="promotional_identity === 1">
+                                <el-radio-group v-model="form.promotion_aweme">
+                                    <el-radio-button :value="'same'"> 所有广告选择同一抖音号 </el-radio-button>
+                                    <el-radio-button :value="'ad_same'"> 每个账户选择一个抖音号 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
-                            <el-form-item label="选择抖音号">
+                            <el-form-item label="选择抖音号" v-if="promotional_identity === 1">
                                 <el-radio-group>
                                     <el-button type="primary" @click="selectTikTokAccount">选择抖音号</el-button>
                                 </el-radio-group>
@@ -38,7 +38,8 @@
                 </el-row>
 
                 <!-- 原生锚点 -->
-                <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
+                <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px"
+                    v-if="promotional_identity === 1">
                     <el-col class="h-48px pl-16px font-700 line-height-48px color-[#333]" style="
                   background-color: #fbfcfd;
                   border-bottom: 1px solid #e8eaec;
@@ -48,9 +49,9 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="原生锚点类型">
-                                <el-radio-group v-model="native_anchor_type">
-                                    <el-radio-button :value="1"> 不启用 </el-radio-button>
-                                    <el-radio-button :value="2"> 自动生成 </el-radio-button>
+                                <el-radio-group v-model="form.anchor_related_type">
+                                    <el-radio-button :value="'OFF'"> 不启用 </el-radio-button>
+                                    <el-radio-button :value="'AUTO'"> 自动生成 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                         </el-form>
@@ -75,7 +76,7 @@
                             </el-form-item> -->
 
                             <el-form-item label="行动号召">
-                                <el-input placeholder="空格分隔,最多10个,每个标签不超过6个字" v-model="callToAction"
+                                <el-input placeholder="空格分隔,最多10个,每个标签不超过6个字" v-model="form.call_to_action_buttons"
                                     style="width : 244px;" @keyup.enter="addcallToAction" /><el-button type="primary"
                                     @click="addcallToAction">添加（回车键）</el-button>
                             </el-form-item>
@@ -377,8 +378,6 @@
             </main>
         </el-scrollbar>
     </Drawer>
-
-
     <!-- 选择抖音号 -->
     <SelectTikTokAccount :visible="SelectTikTokAccountState.visible" :title="SelectTikTokAccountState.title"
         @handleDialogClose="selectTikTokAccountDialog" />
@@ -388,7 +387,7 @@
 import { ref, reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import SelectTikTokAccount from "./SelectTikTokAccount.vue";
-import type { ICreatePromotion } from "@/api/modules/promotion";
+import type { IBasicInformationOfAd } from "@/api/modules/promotion";
 import { watch } from "vue";
 
 interface IProps {
@@ -415,34 +414,27 @@ const handleDrawerClose = (type: number) => {
     }
 };
 
-const form: ICreatePromotion = reactive({
-    name: "<日期>-<时分秒>-<当日标号>",
-    ad_download_status: "",
-    advertiser_id: "",
-    anchor_related_type: "",
-    auth_type: "",
-    aweme_id: "",
-    budget: "",
-    budget_mode: "",
+const form = reactive<IBasicInformationOfAd>({
+    ad_download_status: '',
+    anchor_related_type: 'OFF',
+    aweme_info_group: [],
+    product_info_group: [],
     call_to_action_buttons: [],
-    cpa_bid: "",
-    deep_cpabid: "",
-    intelligent_generation: "",
-    is_comment_disable: "",
-    materials_type: "",
-    operation: "",
-    product_info: "",
-    project_id: "",
-    text_abstract_list: [],
-    title_material_list: [],
-    video_material_list: [],
-    web_url_material_list: [],
+    intelligent_generation: '',
+    is_comment_disable: '',
+    keywords: [],
+    mini_program_info: '',
+    playable_url_material_list: [],
+    pre_promotion_budget_group: [],
+    product_info_conf: 'same',
+    promotion_aweme: 'same',
+    promotion_name: '',
+    promotion_operation: '',
+    source: '',
+    web_url_material_list: []
 });
 
 const promotional_identity = ref(1);
-const matching_method = ref(1);
-const native_anchor_type = ref(1);
-// const additional_creative_components = ref(1)
 
 const SelectTikTokAccountState = reactive({
     visible: false,

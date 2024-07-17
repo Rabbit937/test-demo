@@ -335,9 +335,9 @@
 
 
                             <el-form-item label="预算出价配置模式">
-                                <el-radio-group v-model="form.budget_bidding_configuration_mode">
-                                    <el-radio-button :value="'unified_configuration'"> 统一配置 </el-radio-button>
-                                    <el-radio-button :value="'account_configuration'"> 分帐户配置 </el-radio-button>
+                                <el-radio-group v-model="form.project_budget">
+                                    <el-radio-button :value="'same'"> 统一配置 </el-radio-button>
+                                    <el-radio-button :value="'ad_same'"> 分帐户配置 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                         </el-form>
@@ -373,7 +373,7 @@
                                     <div
                                         class="font-size-12px  flex justify-between p-12px bg-[#f2f2f2]  border-bottom-[#e8eaec]">
                                         <div>
-                                            <span>预算出价规则1</span>
+                                            <span>预算出价规则</span>
                                         </div>
 
                                         <div>
@@ -383,11 +383,17 @@
                                     <div class="p-16px">
                                         <el-form>
                                             <el-form-item :label="'日预算'" :label-width="200">
-                                                <el-input placeholder="请输入预算金额" style="width: 160px"></el-input>
-                                                <el-button type="primary" link class="!mx-8px">300</el-button> |
-                                                <el-button type="primary" link class="!mx-8px">500</el-button> |
-                                                <el-button type="primary" link class="!mx-8px">1000</el-button> |
-                                                <el-button type="primary" link class="!mx-8px">2000</el-button> |
+                                                <el-input placeholder="请输入预算金额" style="width: 160px"
+                                                    v-model="budget"></el-input>
+                                                <el-button type="primary" link class="!mx-8px"
+                                                    @click="handleBudgetChange(300)">300</el-button>|
+                                                <el-button type="primary" link class="!mx-8px"
+                                                    @click="handleBudgetChange(500)">500</el-button> |
+                                                <el-button type="primary" link class="!mx-8px"
+                                                    @click="handleBudgetChange(1000)">1000</el-button> |
+                                                <el-button type="primary" link class="!mx-8px"
+                                                    @click="handleBudgetChange(2000)"> 2000
+                                                </el-button>
                                             </el-form-item>
                                         </el-form>
                                     </div>
@@ -399,8 +405,8 @@
 
 
 
-                <!-- 搜索快投 -->
-                <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
+                <!--搜索快投 -->
+                <el-row class=" mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
                     <el-col class="h-48px pl-16px font-700 line-height-48px color-[#333]" style="
                   background-color: #fbfcfd;
                   border-bottom: 1px solid #e8eaec;
@@ -409,9 +415,9 @@
                 ">搜索快投</el-col>
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
-                            <el-form-item label="关键词">
+                            <!-- <el-form-item label="关键词">
                                 <el-input></el-input>
-                            </el-form-item>
+                            </el-form-item> -->
                             <el-form-item label="出价系数" style="margin-bottom: 0px;">
                                 <el-radio-group v-model="search_bid_ratio_type">
                                     <el-radio-button :value="1"> 不启用 </el-radio-button>
@@ -517,7 +523,6 @@ import "element-plus/es/components/message-box/style/css";
 
 import {
     type INewProject,
-    type IGetOptimizeGoal,
     type IGetDeepOptimizeType,
     type IQueryIosApplication,
     queryAndroidAppList,
@@ -717,7 +722,7 @@ const queryAndroidAppListFunc = async (params: IQueryAndroidAppList) => {
 
 onMounted(() => {
     queryAndroidAppListFunc({
-        advertiser_id: drawerOptions.advertiser_id_array[0],
+        advertiser_id: drawerOptions.advertiser_id_array[0] ?? "1787695788195915",
         page_limit: 1000,
     });
 });
@@ -802,7 +807,7 @@ const selectOptimizeGoal = (val: string) => {
 const selectDeepOptimizeGoal = (val: string) => {
     console.log(val);
     getDeepOptimizeTypeFunc({
-        advertiser_id: drawerOptions.advertiser_id_array[0],
+        advertiser_id: drawerOptions.advertiser_id_array[0] ?? "1787695788195915",
         external_action: form.external_action,
         delivery_mode: form.delivery_mode,
         landing_type: form.landing_type,
@@ -836,8 +841,23 @@ const getDeepOptimizeTypeFunc = async (params: IGetDeepOptimizeType) => {
 };
 
 
+const schedule_time_type = ref(1);
+const search_bid_ratio_type = ref(1);
 
+const budget = ref();
 
+watchEffect(() => {
+    console.log(budget.value);
+    if (budget.value) {
+        form.pre_budget_group.push({
+            budget: budget.value
+        })
+    }
+})
+
+const handleBudgetChange = (val: number) => {
+    budget.value = val;
+}
 
 
 
@@ -945,23 +965,21 @@ const handleAudiencePackageDrawerClose = (type: number) => {
 };
 
 
-
-
 // 首选媒体
 const checkAll = ref(false);
 const indeterminate = ref(false);
 
-watch(form.inventory_type, (val) => {
-    if (val.length === 0) {
-        checkAll.value = false;
-        indeterminate.value = false;
-    } else if (val.length === inventory_type_radio.length) {
-        checkAll.value = true;
-        indeterminate.value = false;
-    } else {
-        indeterminate.value = true;
-    }
-});
+// watch(form.inventory_type, (val) => {
+//     if (val.length === 0) {
+//         checkAll.value = false;
+//         indeterminate.value = false;
+//     } else if (val.length === inventory_type_radio.length) {
+//         checkAll.value = true;
+//         indeterminate.value = false;
+//     } else {
+//         indeterminate.value = true;
+//     }
+// });
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleCheckAll = (val: any) => {
     indeterminate.value = false;
