@@ -1,178 +1,175 @@
 <template>
-    <Dialog :visible="visible" :title="'新建头条定向包'" @handleClose="handleDialogClose">
-        <el-scrollbar height="400px">
-            <el-form :model="form" :label-position="'left'">
-                <el-form-item :label-width="140" label="媒体账户">
-                    <el-select v-model="form.media_account" placeholder="请选择媒体账户">
-                        <el-option v-for="(item) in account_list_options" :key="item.ADVERTISER_ID"
-                            :value="`${item.ALIAS}(${item.ADVERTISER_ID})`"
-                            :label="`${item.ALIAS}(${item.ADVERTISER_ID})`">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
+	<Dialog :visible="visible" :title="'新建头条定向包'" @handleClose="handleDialogClose">
+		<el-scrollbar height="400px">
+			<el-form :model="form" :label-position="'left'">
+				<el-form-item :label-width="140" label="媒体账户">
+					<el-select v-model="form.advertiser_id" placeholder="请选择媒体账户">
+						<el-option v-for="(item) in account_list_options" :key="item.ADVERTISER_ID"
+							:value="item.ADVERTISER_ID" :label="`${item.ALIAS}(${item.ADVERTISER_ID})`">
+						</el-option>
+					</el-select>
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="定向包名称">
-                    <el-input v-model="form.name" placeholder="请输入定向包名称，最多40个字符" :maxlength="40"
-                        :show-word-limit="true" />
-                </el-form-item>
+				<el-form-item :label-width="140" label="定向包名称">
+					<el-input v-model="form.name" placeholder="请输入定向包名称，最多40个字符" :maxlength="40"
+						:show-word-limit="true" />
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="定向包描述">
-                    <el-input v-model="form.description" placeholder="请输入定向包描述，最多100个字符" type="textarea"
-                        :maxlength="100" />
-                </el-form-item>
+				<el-form-item :label-width="140" label="定向包描述">
+					<el-input v-model="form.description" placeholder="请输入定向包描述，最多100个字符" type="textarea"
+						:maxlength="100" />
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="定向包类型">
-                    <el-select v-model="form.landing_type" placeholder="请选择定向包类型">
-                        <el-option v-for="(item) in landing_type_options" :key="item.value" :value="item.value"
-                            :label="item.label"></el-option>
-                    </el-select>
-                </el-form-item>
+				<el-form-item :label-width="140" label="定向包类型">
+					<el-select v-model="form.landing_type" placeholder="请选择定向包类型">
+						<el-option v-for="(item) in landing_type_options" :key="item.value" :value="item.value"
+							:label="item.label"></el-option>
+					</el-select>
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="广告类型">
-                    <el-radio-group v-model="form.ad_type">
-                        <el-radio-button v-for="(item) in ad_type_options" :value="item.value" :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
+				<el-form-item :label-width="140" label="广告类型">
+					<el-radio-group v-model="form.ad_type">
+						<el-radio-button v-for="(item) in ad_type_options" :value="item.value" :label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="营销场景">
-                    <el-radio-group v-model="form.marketing_goal">
-                        <el-radio-button v-for="(item) in marketing_goal_options" :value="item.value"
-                            :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
+				<el-form-item :label-width="140" label="营销场景">
+					<el-radio-group v-model="form.marketing_goal">
+						<el-radio-button v-for="(item) in marketing_goal_options" :value="item.value"
+							:label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="投放范围">
-                    <el-radio-group v-model="form.delivery_range">
-                        <el-radio-button v-for="(item) in delivery_mode_options" :value="item.value"
-                            :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
+				<el-form-item :label-width="140" label="投放范围">
+					<el-radio-group v-model="form.delivery_range">
+						<el-radio-button v-for="(item) in delivery_mode_options" :value="item.value"
+							:label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="地域">
-                    <el-radio-group v-model="form.district">
-                        <el-radio-button v-for="(item) in district_options" :value="item.value" :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
+				<el-form-item :label-width="140" label="地域">
+					<el-radio-group v-model="form.district">
+						<el-radio-button v-for="(item) in district_options" :value="item.value" :label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="性别">
-                    <el-radio-group v-model="form.gender">
-                        <el-radio-button v-for="(item) in gender_options" :value="item.value" :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
+				<el-form-item :label-width="140" label="性别">
+					<el-radio-group v-model="form.gender">
+						<el-radio-button v-for="(item) in gender_options" :value="item.value" :label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="年龄">
-                    <el-radio-group v-model="form.age">
-                        <el-radio-button v-for="(item) in age_type_options" :value="item.value" :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
-                <!-- 原有分段 -->
-                <!-- <el-form-item v-if="age_type === 1" :label-width="140" style="margin-top:0px;">
+				<!-- <el-form-item :label-width="140" label="年龄">
+					<el-radio-group v-model="form.age">
+						<el-radio-button v-for="(item) in age_type_options" :value="item.value" :label="item.label" />
+					</el-radio-group>
+				</el-form-item> -->
+				<!-- 原有分段 -->
+				<!-- <el-form-item v-if="age_type === 1" :label-width="140" style="margin-top:0px;">
                     <el-input v-model="form.age" />
                 </el-form-item> -->
-                <!-- 更多分段 -->
-                <!-- <el-form-item v-if="age_type === 2" :label-width="140" style="margin-top:0px;">
+				<!-- 更多分段 -->
+				<!-- <el-form-item v-if="age_type === 2" :label-width="140" style="margin-top:0px;">
                     <el-input v-model="form.age" />
                 </el-form-item> -->
 
 
 
-                <el-form-item :label-width="140" label="自定义人群">
-                    <el-radio-group v-model="form.custom_people">
-                        <el-radio-button v-for="(item) in custom_people_options" :value="item.value"
-                            :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
+				<el-form-item :label-width="140" label="自定义人群">
+					<el-radio-group v-model="form.custom_people">
+						<el-radio-button v-for="(item) in custom_people_options" :value="item.value"
+							:label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
 
-                <el-form-item :label-width="140" label="行为兴趣">
-                    <el-radio-group v-model="form.interest_action_mode">
-                        <el-radio-button v-for="(item) in interest_action_mode_options" :value="item.value"
-                            :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
+				<el-form-item :label-width="140" label="行为兴趣">
+					<el-radio-group v-model="form.interest_action_mode">
+						<el-radio-button v-for="(item) in interest_action_mode_options" :value="item.value"
+							:label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
 
-                <el-form-item :label-width="140" label="媒体定向">
-                    <el-radio-group v-model="form.superior_popularity_type">
-                        <el-radio-button v-for="(item) in superior_popularity_type_options" :value="item.value"
-                            :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
+				<el-form-item :label-width="140" label="媒体定向">
+					<el-radio-group v-model="form.superior_popularity_type">
+						<el-radio-button v-for="(item) in superior_popularity_type_options" :value="item.value"
+							:label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="平台">
+				<!-- <el-form-item :label-width="140" label="平台">
                     <el-radio-group v-model="form.platform">
                         <el-radio-button v-for="(item) in platform_options" :value="item.value" :label="item.label" />
                     </el-radio-group>
-                </el-form-item>
-
+                </el-form-item> -->
+				<!-- 
                 <el-form-item :label-width="140" label="设备类型">
                     <el-radio-group v-model="form.device_type">
                         <el-radio-button v-for="(item) in device_type_options" :value="item.value"
                             :label="item.label" />
                     </el-radio-group>
-                </el-form-item>
+                </el-form-item> -->
 
-                <el-form-item :label-width="140" label="网络">
+				<!-- <el-form-item :label-width="140" label="网络">
                     <el-radio-group v-model="form.ac">
                         <el-radio-button v-for="(item) in ac_options" :value="item.value" :label="item.label" />
                     </el-radio-group>
-                </el-form-item>
+                </el-form-item> -->
 
 
-                <!-- <el-form-item :label-width="140" label="运营商">
+				<!-- <el-form-item :label-width="140" label="运营商">
                     <el-radio-group v-model="form.carrier">
                         <el-radio-button v-for="(item) in carrier_options" :value="item.value" :label="item.label" />
                     </el-radio-group>
                 </el-form-item> -->
 
-                <el-form-item :label-width="140" label="已安装用户">
-                    <el-radio-group v-model="form.hide_if_exists">
-                        <el-radio-button v-for="(item) in hide_if_exists_options" :value="item.value"
-                            :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
+				<el-form-item :label-width="140" label="已安装用户">
+					<el-radio-group v-model="form.hide_if_exists">
+						<el-radio-button v-for="(item) in hide_if_exists_options" :value="item.value"
+							:label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
-                <el-form-item :label-width="140" label="过滤已转化用户">
+				<el-form-item :label-width="140" label="过滤已转化用户">
+					<el-radio-group v-model="form.hide_if_converted">
+						<el-radio-button v-for="(item) in hide_if_converted_options" :value="item.value"
+							:label="item.label" />
+					</el-radio-group>
+				</el-form-item>
 
-
-                    <el-radio-group v-model="form.hide_if_converted">
-                        <el-radio-button v-for="(item) in hide_if_converted_options" :value="item.value"
-                            :label="item.label" />
-                    </el-radio-group>
-                </el-form-item>
-
-                <el-form-item :label-width="140" label="安卓版本">
+				<!-- <el-form-item :label-width="140" label="安卓版本">
                     <el-radio-group v-model="form.android_osv">
                         <el-radio-button v-for="(item) in android_osv_options" :value="item.value"
                             :label="item.label" />
                     </el-radio-group>
-                </el-form-item>
+                </el-form-item> -->
 
-                <el-form-item :label-width="140" label="手机品牌">
+				<!-- <el-form-item :label-width="140" label="手机品牌">
                     <el-radio-group v-model="form.device_brand">
                         <el-radio-button v-for="(item) in device_brand_options" :value="item.value"
                             :label="item.label" />
                     </el-radio-group>
-                </el-form-item>
-
+                </el-form-item> -->
+				<!-- 
                 <el-form-item :label-width="140" label="手机价格">
                     <el-radio-group v-model="form.launch_price">
                         <el-radio-button v-for="(item) in launch_price_options" :value="item.value"
                             :label="item.label" />
                     </el-radio-group>
-                </el-form-item>
+                </el-form-item> -->
 
-                <el-form-item :label-width="140" label="智能放量">
+				<!-- <el-form-item :label-width="140" label="智能放量">
                     <el-radio-group v-model="form.auto_extend_targets">
                         <el-radio-button v-for="(item) in auto_extend_targets_options" :value="item.value"
                             :label="item.label" />
                     </el-radio-group>
-                </el-form-item>
+                </el-form-item> -->
 
-            </el-form>
+			</el-form>
 
-        </el-scrollbar>
-    </Dialog>
+		</el-scrollbar>
+	</Dialog>
 </template>
 
 <script setup lang="ts">
@@ -184,6 +181,8 @@ import {
 	createPreference,
 	queryAccountList,
 } from "@/api/modules/promotion";
+import { ElMessage } from "element-plus";
+import { emit } from "process";
 
 interface IProps {
 	visible: boolean;
@@ -198,20 +197,19 @@ watchEffect(() => {
 });
 
 const handleDialogClose = (type: number) => {
-	// console.log(type);
-
 	if (type === 1) {
 		createPreferenceFunc(form);
+	} else {
+		emtis('handleClose', { type: 0 })
 	}
 };
 
 // form
-const form = reactive({
-	advertiser_id: "1787695788195915",
-	media_account: "",
-	name: "开天辟地大菠萝2",
-	description: "八戒山上一条狗",
-	landing_type: "APP_ANDROID",
+const form = reactive<ICreatePreference>({
+	advertiser_id: "",
+	name: "",
+	description: "",
+	landing_type: "",
 	ad_type: "",
 	marketing_goal: "VIDEO_AND_IMAGE",
 	delivery_range: "DEFAULT",
@@ -220,16 +218,16 @@ const form = reactive({
 	custom_people: "",
 	interest_action_mode: "",
 	superior_popularity_type: "",
-	platform: [],
-	device_type: [],
-	ac: [],
-	hide_if_exists: 0,
-	hide_if_converted: "AD",
-	android_osv: "NONE",
-	device_brand: ["VIVO", "OPPO"],
-	launch_price: [2000, 10000],
-	auto_extend_targets: ["AGE"],
-	age: ["AGE_BETWEEN_24_30", "AGE_BETWEEN_31_40"],
+	// platform: [],
+	// device_type: [],
+	// ac: [],
+	// hide_if_exists: 0,
+	// hide_if_converted: "AD",
+	// android_osv: "NONE",
+	// device_brand: ["VIVO", "OPPO"],
+	// launch_price: [2000, 10000],
+	// auto_extend_targets: ["AGE"],
+	// age: ["AGE_BETWEEN_24_30", "AGE_BETWEEN_31_40"],
 });
 
 const account_list_options = ref();
@@ -257,35 +255,35 @@ const landing_type_options = [
 		label: "落地页",
 	},
 
-	{
-		value: "ARTICLE",
-		label: "文章推广",
-	},
+	// {
+	// 	value: "ARTICLE",
+	// 	label: "文章推广",
+	// },
 
-	{
-		value: "GOODS",
-		label: "商品推广",
-	},
+	// {
+	// 	value: "GOODS",
+	// 	label: "商品推广",
+	// },
 
-	{
-		value: "DPA",
-		label: "商品目录",
-	},
+	// {
+	// 	value: "DPA",
+	// 	label: "商品目录",
+	// },
 
-	{
-		value: "STORE",
-		label: "门店推广",
-	},
+	// {
+	// 	value: "STORE",
+	// 	label: "门店推广",
+	// },
 
 	{
 		value: "AWEME",
 		label: "抖音号推广",
 	},
 
-	{
-		value: "SHOP",
-		label: "店铺直投",
-	},
+	// {
+	// 	value: "SHOP",
+	// 	label: "店铺直投",
+	// },
 
 	{
 		value: "APP_ANDROID",
@@ -296,14 +294,14 @@ const landing_type_options = [
 		value: "APP_IOS",
 		label: "应用下载-IOS",
 	},
-	{
-		value: "LIVE",
-		label: "直播间推广",
-	},
-	{
-		value: "QUICK_APP",
-		label: "快应用",
-	},
+	// {
+	// 	value: "LIVE",
+	// 	label: "直播间推广",
+	// },
+	// {
+	// 	value: "QUICK_APP",
+	// 	label: "快应用",
+	// },
 	{
 		value: "MICRO_GAME",
 		label: "小游戏推广",
@@ -504,22 +502,22 @@ const ac_options = [
 
 // 运营商
 /* const carrier_options = [
-    {
-        value: 'NONE',
-        label: '不限'
-    },
-    {
-        value: 'MOBILE',
-        label: '移动'
-    },
-    {
-        value: "UNICOM",
-        label: '联通'
-    },
-    {
-        value: 'TELCOM',
-        label: '电信'
-    }
+	{
+		value: 'NONE',
+		label: '不限'
+	},
+	{
+		value: 'MOBILE',
+		label: '移动'
+	},
+	{
+		value: "UNICOM",
+		label: '联通'
+	},
+	{
+		value: 'TELCOM',
+		label: '电信'
+	}
 ] */
 
 const hide_if_exists_options = [
@@ -834,7 +832,18 @@ const auto_extend_targets_options = [
 
 const createPreferenceFunc = async (params: ICreatePreference) => {
 	const res = await createPreference(params);
+	console.log(res);
 
-	// console.log(res);
+	if (res.state === 1) {
+		emtis('handleClose', { type: 1, form: form.value })
+	} else {
+		ElMessage({
+			message: res.msg,
+			type: "error",
+		})
+	}
 };
+
+
+
 </script>

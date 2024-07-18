@@ -189,7 +189,7 @@ export interface IQueryPreferenceList {
 	 * 广告类型
 	 */
 	ad_type?: string;
-	advertiser_id: number;
+	advertiser_id?: number;
 	/**
 	 * 定向包id
 	 */
@@ -222,31 +222,8 @@ export const queryPreferenceList = (params: IQueryPreferenceList) => {
 	return http.get("/api/Mk_Tt_Preference/_queryPreferenceList", params);
 };
 
-/**
- * @name 创建定向包
- */
 
-export interface ICreatePreference {
-	ac: string[];
-	ad_type: string;
-	advertiser_id: string;
-	age: string[];
-	android_osv?: string;
-	auto_extend_targets: string[];
-	delivery_range: string;
-	description: string;
-	district: string;
-	gender: string;
-	interest_action_mode: string;
-	landing_type: string;
-	marketing_goal: string;
-	name: string;
-	superior_popularity_type: string;
-}
 
-export const createPreference = (params: ICreatePreference) => {
-	return http.post("/api/Mk_Tt_Preference/_createPreference", params);
-};
 
 /**
  * @name 创建广告
@@ -981,5 +958,92 @@ export interface IQueryIosApplicationResultData {
 export const queryIosApplication = (params: IQueryIosApplication) => {
 	return http.get<IQueryIosApplicationResultData>(
 		"/api/Mk_Tt_Tool/_queryIosApplication", params
+	);
+}
+
+
+
+/**
+ * @name 创建定向包
+ */
+
+export interface ICreatePreference {
+	/**
+	 * 受众网络类型
+	 */
+	ac?: string[];
+	/**
+	 * 广告类型
+	 */
+	ad_type: string;
+	/**
+	 * 媒体账号id
+	 */
+	advertiser_id: string;
+	/**
+	 * 年龄
+	 */
+	age?: string[];
+	/**
+	 * 安卓版本
+	 */
+	android_osv?: string;
+	/**
+	 * 智能放量定向
+	 */
+	auto_extend_targets?: string[];
+	/**
+	 * 地域定向省市或者区县列表(当传递省份ID时,旗下市县ID可省略不传)，当district=REGION/OVERSEA时必填
+	 */
+	city?: string[];
+	/**
+	 * 投放范围
+	 */
+	delivery_range: string;
+	/**
+	 * 描述
+	 */
+	description: string;
+	/**
+	 * 地域类型
+	 */
+	district?: string;
+	/**
+	 * 性别
+	 */
+	gender?: string;
+	/**
+	 * 行为兴趣选择
+	 */
+	interest_action_mode?: string;
+	/**
+	 * 推广目的
+	 */
+	landing_type: string;
+	/**
+	 * 受众位置类型
+	 */
+	location_type?: string;
+	/**
+	 * 营销场景
+	 */
+	marketing_goal: string;
+	/**
+	 * 定向包名称
+	 */
+	name: string;
+	/**
+	 * 行政区域版本号，district =REGION/OVERSEA时必填
+	 */
+	region_version?: string;
+	/**
+	 * 媒体定向
+	 */
+	superior_popularity_type?: string;
+	[property: string]: any;
+}
+export const createPreference = (params: ICreatePreference) => {
+	return http.post(
+		"/api/Mk_Tt_Preference/_createPreference", params
 	);
 }
