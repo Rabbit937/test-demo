@@ -85,7 +85,7 @@
                                         <el-table border ref="multipleTableRef" :data="tableData"
                                             style="max-height: 600px;" @selection-change="handleSelectionChange"
                                             empty-text="没有数据" v-loading="loading">
-                                            <el-table-column type="selection" width="55" />
+                                            <el-table-column type="selection" width="55" :selectable="canSelectRow" />
                                             <el-table-column v-for="(value, key) in tableKey" :prop="key" :label="value"
                                                 :width="200" align="center">
                                                 <template #default="scope">
@@ -155,8 +155,11 @@ watchEffect(() => {
 });
 
 const handleDrawerClose = (type: number) => {
-    console.log(type);
-    emits("handleDrawerClose", type);
+    if (type === 1) {
+        emits('handleDrawerClose', { type: 1, selectedTargetingPackage: selectedRows.value })
+    } else {
+        emits('handleDrawerClose', { type: 0 })
+    }
 };
 
 const keyword = ref();
@@ -189,32 +192,38 @@ const tableData = ref();
 const currentPage = ref(1);
 const pageSize = ref(10);
 const total = ref();
+const multipleTableRef = ref();
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const handleSelectionChange = (row: any) => {
-    // console.log(row);
+const selectedRows = ref<any[]>([]); // 初始化时选中所有行
+
+const handleSelectionChange = (selection: any[]) => {
+    selectedRows.value = selection; // 更新 selectedRows 数组
 };
 
-const handleSizeChange = (size: number) => {
-    // console.log(size);
+const canSelectRow = (row: any, index: number) => {
+    if (selectedRows.value?.length > 0) {
+        return selectedRows.value.some((selectedRow) => selectedRow.id === row.id);
+    } else {
+        return true;
+    }
+};
 
+const handleSizeChange = () => {
     queryPreferenceListFunc({
-        advertiser_id: 1787695788195915,
         cur_page: currentPage.value,
     });
 };
 
-const handlePageChange = (page: number) => {
+const handlePageChange = () => {
     // console.log(page);
     queryPreferenceListFunc({
-        advertiser_id: 1787695788195915,
         page_limit: pageSize.value,
     });
 };
 
 const loading = ref(false);
 
-const queryPreferenceListFunc = async (params: IQueryPreferenceList) => {
+const queryPreferenceListFunc = async (params?: IQueryPreferenceList) => {
     loading.value = true;
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const res: any = await queryPreferenceList(params);
@@ -262,28 +271,23 @@ const handleDeliveryModeChange = (value: string | number) => {
     // console.log(value);
     if (value) {
         queryPreferenceListFunc({
-            advertiser_id: 1787695788195915,
             delivery_range: String(value),
         });
     }
 };
 
 const handleDeliveryModeClear = () => {
-    queryPreferenceListFunc({
-        advertiser_id: 1787695788195915,
-    });
+    queryPreferenceListFunc();
 };
 
 const handleSearchClick = () => {
     if (keyword.value) {
         if (keyword_type.value === "name") {
             queryPreferenceListFunc({
-                advertiser_id: 1787695788195915,
                 name: keyword.value,
             });
         } else {
             queryPreferenceListFunc({
-                advertiser_id: 1787695788195915,
                 audience_package_id: keyword.value,
             });
         }

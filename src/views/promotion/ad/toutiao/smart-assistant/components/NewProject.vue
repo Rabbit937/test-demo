@@ -261,6 +261,32 @@
                                 <el-button @click="selectAudiencePackage" type="primary">选择定向包</el-button>
                             </el-form-item>
                         </el-form>
+
+                        <el-table :data="selectedTargetingPackage" v-if="selectedTargetingPackage.length > 0" border>
+                            <el-table-column label="账户ID" width="300">
+                                <template #default="scope">
+                                    <div>
+                                        <span>
+                                            {{ scope.row.advertiser_id }}
+                                        </span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="状态" width="auto">
+                                <template #default="scope">
+                                    <div>
+                                        <span>
+                                            {{ scope.row.name }}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>
+                                            {{ scope.row.audience_package_id }}
+                                        </span>
+                                    </div>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                     </el-col>
                 </el-row>
 
@@ -326,7 +352,7 @@
                                 </el-radio-group>
                             </el-form-item>
 
-                            <el-form-item label="预算择优分配">
+                            <el-form-item label="预算择优分配" v-if="form.budget_mode !== 'BUDGET_MODE_INFINITE'">
                                 <el-radio-group v-model="form.budget_optimize_switch">
                                     <el-radio-button :value="'ON'"> 开启 </el-radio-button>
                                     <el-radio-button :value="'OFF'"> 不开启 </el-radio-button>
@@ -334,7 +360,7 @@
                             </el-form-item>
 
 
-                            <el-form-item label="预算出价配置模式">
+                            <el-form-item label="预算出价配置模式" v-if="form.budget_mode !== 'BUDGET_MODE_INFINITE'">
                                 <el-radio-group v-model="form.project_budget">
                                     <el-radio-button :value="'same'"> 统一配置 </el-radio-button>
                                     <el-radio-button :value="'ad_same'"> 分帐户配置 </el-radio-button>
@@ -343,7 +369,8 @@
                         </el-form>
                     </el-col>
 
-                    <el-col :span="1.5" class="w-100% m-16px border-[#e8eaec]">
+                    <el-col :span="1.5" class="w-100% m-16px border-[#e8eaec]"
+                        v-if="form.budget_mode !== 'BUDGET_MODE_INFINITE'">
                         <!-- <div class="h-64px p-16px text-right">
                             <el-text>全部收起</el-text>
                         </div> -->
@@ -956,9 +983,12 @@ const selectAudiencePackage = () => {
     AudiencePackageState.visible = true;
 };
 
-const handleAudiencePackageDrawerClose = (type: number) => {
-    if (type === 1) {
+const selectedTargetingPackage = ref([]);
+
+const handleAudiencePackageDrawerClose = (options: { type: number, selectedTargetingPackage: any }) => {
+    if (options.type === 1) {
         AudiencePackageState.visible = false;
+        selectedTargetingPackage.value = options.selectedTargetingPackage;
     } else {
         AudiencePackageState.visible = false;
     }

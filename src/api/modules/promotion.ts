@@ -218,7 +218,7 @@ export interface IQueryPreferenceList {
 	cur_page?: number;
 }
 
-export const queryPreferenceList = (params: IQueryPreferenceList) => {
+export const queryPreferenceList = (params?: IQueryPreferenceList) => {
 	return http.get("/api/Mk_Tt_Preference/_queryPreferenceList", params);
 };
 

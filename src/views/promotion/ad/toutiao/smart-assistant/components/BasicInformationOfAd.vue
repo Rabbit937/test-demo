@@ -350,7 +350,7 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="广告名称">
-                                <el-input v-model="form.name" style="width: 360px;" :maxlength="100"
+                                <el-input v-model="form.promotion_name" style="width: 360px;" :maxlength="100"
                                     show-word-limit></el-input>
                             </el-form-item>
                             <!-- <el-form-item>
