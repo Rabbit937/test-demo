@@ -136,7 +136,7 @@
                                     </div>
                                 </div>
                             </el-form-item>
-                            <el-form-item style="margin-top:0px">
+                            <el-form-item style="margin-bottom:0px">
                                 <el-text type="warning">
                                     <el-icon>
                                         <InfoFilled />
@@ -144,8 +144,9 @@
                                     行动号召最多只可选择10个
                                 </el-text>
                             </el-form-item>
-                            <el-form-item>
-                                <el-checkbox v-model="enableSmartGenerationChecked" label="开启智能生成" />
+                            <el-form-item style="margin-top: 0px;">
+                                <el-checkbox v-model="form.intelligent_generation" label="开启智能生成" :true-value="'ON'"
+                                    :false-value="'OFF'" />
                             </el-form-item>
                         </el-form>
                     </el-col>
@@ -169,21 +170,30 @@
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item label="产品名称">
-                                <el-input style="width: 300px" placeholder="2-40个字符，中文占两个字符" show-word-limit
-                                    maxlength="40"></el-input>
+                                <el-input v-model="product_info_titles" style="width: 300px"
+                                    placeholder="2-40个字符，中文占两个字符" show-word-limit maxlength="40"></el-input>
                             </el-form-item>
                             <el-form-item label="产品主图">
-                                <!-- <el-input placeholder="2-40个字符，中文占两个字符"></el-input> -->
-                                <div>
-                                    <div class="w-108px h-108px bg-[#fff]"
+                                <div class="flex flex-wrap">
+                                    <div class="w-108px h-108px bg-[#fff] mr-8px mt-8px"
+                                        v-for="item in product_info_image_ids"
+                                        style="display: inline-flex;align-items: center;justify-content: center;box-sizing: border-box;">
+                                        <div class="position-relative flex align-items-center align-content-center w-100% h-100% font-size-14px color-[#666] cursor-pointer bg-[#f8f8f8]"
+                                            style="border:1px dashed #d6d6d6;border-radius:4px;">
+                                            <el-image style="width: 100%; height: 100%" :src="item" />
+
+                                        </div>
+                                    </div>
+
+                                    <div v-if="product_info_image_ids.length <= 10"
+                                        class="w-108px h-108px bg-[#fff] mt-8px"
                                         style="display: inline-flex;align-items: center;justify-content: center;border:.758865px solid #dadfe3;border-radius:4px;box-sizing: border-box;">
                                         <div class="flex align-items-center align-content-center w-95px h-95px font-size-14px color-[#666] cursor-pointer bg-[#f8f8f8]"
-                                            style="border:1px dashed #d6d6d6;border-radius:4px;">
-
+                                            style="border:1px dashed #d6d6d6;border-radius:4px;" @click="addImageIds">
                                             <el-text>
                                                 <el-icon>
                                                     <Plus />
-                                                </el-icon> 图片(9/10)
+                                                </el-icon> 图片({{ product_info_image_ids.length }}/10)
                                             </el-text>
                                         </div>
                                     </div>
@@ -381,14 +391,17 @@
     <!-- 选择抖音号 -->
     <SelectTikTokAccount :visible="SelectTikTokAccountState.visible" :title="SelectTikTokAccountState.title"
         @handleDialogClose="selectTikTokAccountDialog" />
+
+    <!-- 选择产品主图 -->
+    <SelectMediaAccountDialog :visible="SelectMediaAccountDialogState.visible" />
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watchEffect } from "vue";
+import { ref, reactive, watchEffect, watch } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import SelectTikTokAccount from "./SelectTikTokAccount.vue";
+import SelectMediaAccountDialog from "./SelectMediaAccountDialog.vue";
 import type { IBasicInformationOfAd } from "@/api/modules/promotion";
-import { watch } from "vue";
 
 interface IProps {
     visible: boolean;
@@ -444,8 +457,11 @@ const SelectTikTokAccountState = reactive({
 const selectTikTokAccount = () => {
     SelectTikTokAccountState.visible = true;
 };
-const selectTikTokAccountDialog = () => {
+const selectTikTokAccountDialog = (options: { type: number, AwemeList: any }) => {
     SelectTikTokAccountState.visible = false;
+    if (options.type === 1) {
+        form.aweme_info_group = options.AwemeList;
+    }
 };
 
 const callToAction = ref<string>();
@@ -480,8 +496,6 @@ watch(
     },
 );
 
-const enableSmartGenerationChecked = ref(false);
-
 // 产品信息
 const configuration_mode = ref(1);
 
@@ -490,4 +504,23 @@ const recommend_product_selling_points_list = ["近期热卖商品"];
 
 // 广告预算与出价
 const budget_bidding_configuration_mode = ref(1);
+
+const product_info_titles = ref();
+const product_info_image_ids = ref<string[]>([]);
+const product_info_selling_points = ref<string[]>();
+
+
+const SelectMediaAccountDialogState = reactive({
+    visible: false,
+
+})
+
+
+const addImageIds = () => {
+    // product_info_image_ids.value.push('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimage109.360doc.com%2FDownloadImg%2F2021%2F08%2F0420%2F227651986_4_20210804085322222&refer=http%3A%2F%2Fimage109.360doc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1723885957&t=5273a063647eb9beaacfa32772f05d40')
+
+    SelectMediaAccountDialogState.visible = true;
+
+
+}
 </script>

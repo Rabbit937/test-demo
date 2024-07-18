@@ -299,12 +299,28 @@ export const getDeepOptimizeType = (params: IGetDeepOptimizeType) => {
  */
 
 export interface IQueryAwemeList {
-	advertiser_id: string;
+	advertiser_id: string[];
 }
 
 export const queryAwemeList = (params: IQueryAwemeList) => {
 	return http.get("/api/Mk_Tt_Tool/_queryAwemeList", params);
 };
+
+
+/**
+ * @name 同步抖音号
+ */
+export interface ISyncAweme {
+	advertiser_id: string[];
+}
+
+export const syncAweme = (params: ISyncAweme) => {
+	return http.get("/api/Mk_Tt_Tool/_syncAweme", params);
+};
+
+
+
+
 
 /**
  * @name 查询橙子落地页

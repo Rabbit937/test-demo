@@ -23,7 +23,7 @@
                         <el-text>选择抖音帐号</el-text>
                     </div>
                     <div>
-                        <el-button type="primary">多账户刷新</el-button>
+                        <el-button type="primary" @click="syncAwemeFunc">多账户刷新</el-button>
                     </div>
                 </div>
                 <div class="border-top-[#e8eaec] p-16px">
@@ -80,46 +80,71 @@
 import { ref, onMounted, reactive, watchEffect } from "vue";
 import "element-plus/es/components/message/style/css";
 import Dialog from "@/components/Dialog.vue";
-import { type IQueryAwemeList, queryAwemeList } from "@/api/modules/promotion";
+import { type IQueryAwemeList, queryAwemeList, type ISyncAweme, syncAweme } from "@/api/modules/promotion";
 
 interface IProps {
-	visible: boolean;
-	title?: string;
+    visible: boolean;
+    title?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emtis = defineEmits(["handleDialogClose"]);
 
 const dialogState = reactive({
-	title: props.title,
-	visible: false,
+    title: props.title,
+    visible: false,
 });
 
 watchEffect(() => {
-	dialogState.visible = props.visible;
+    dialogState.visible = props.visible;
 });
 
 const handleDialogClose = (type: number) => {
-	console.log(type);
-	emtis("handleDialogClose", type);
+    console.log(type);
+    emtis("handleDialogClose", type);
+
+    if (type === 1) {
+        emtis("handleDialogClose", { type: 1, AwemeList: checkList.value });
+    } else {
+        emtis("handleDialogClose", { type: 0 });
+    }
 };
 
 const AwemeList = ref();
 const checkList = ref<string[]>([]);
 
 const queryAwemeListFunc = async (params: IQueryAwemeList) => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const res: any = await queryAwemeList(params);
-	console.log(res);
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const res: any = await queryAwemeList(params);
+    console.log("queryAwemeListFunc------->", res);
 
-	if (res.state === 1) {
-		AwemeList.value = res.data.list;
-	}
+    if (res.state === 1) {
+        AwemeList.value = res.data.list;
+    }
 };
 
 onMounted(() => {
-	queryAwemeListFunc({
-		advertiser_id: "1787695788195915",
-	});
+    queryAwemeListFunc({
+        advertiser_id: ["1787695788195915"],
+    });
 });
+
+
+// 同步抖音号
+const syncAwemeFunc = async () => {
+    try {
+        const res = await syncAweme({
+            advertiser_id: ["1787695788195915"]
+        });
+        console.log(res);
+
+        if (res.state === 1) {
+            queryAwemeListFunc({
+                advertiser_id: ["1787695788195915"],
+            });
+        }
+    } catch (error) {
+        console.error("同步抖音号失败", error);
+    }
+}
 </script>
