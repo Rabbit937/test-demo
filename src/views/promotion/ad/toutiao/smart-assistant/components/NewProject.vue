@@ -715,8 +715,6 @@ const handleQueryIosApplication = (ITunesID: number | undefined) => {
 const queryIosApplicationFunc = async (params: IQueryIosApplication) => {
     try {
         const res = await queryIosApplication(params)
-        console.log(res);
-
         if (res.state === 1) {
             form.app_name = res.data.appstore_name
             form.download_url = res.data.download_url
@@ -795,8 +793,6 @@ const deepOptimizeGoal = ref([
 const getOptimizeGoalFunc = async () => {
     try {
         const res = await getOptimizeGoal();
-        console.log("getOptimizeGoalFunc------>", res);
-
         if (res.state === 1) {
             optimizeGoal.value = res.data;
         } else {
@@ -832,7 +828,6 @@ const selectOptimizeGoal = (val: string) => {
 
 
 const selectDeepOptimizeGoal = (val: string) => {
-    console.log(val);
     getDeepOptimizeTypeFunc({
         advertiser_id: drawerOptions.advertiser_id_array[0] ?? "1787695788195915",
         external_action: form.external_action,
@@ -849,17 +844,12 @@ const deep_bid_type_radio_filtered = ref<{ value: string; label: string }[]>(
 );
 
 const getDeepOptimizeTypeFunc = async (params: IGetDeepOptimizeType) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const res = await getDeepOptimizeType(params);
-
-    console.log(res);
-
     if (res.state === 1) {
         if (res.data.length > 0) {
             deep_bid_type_radio_filtered.value = deep_bid_type_radio.filter((radio) =>
                 res.data.includes(radio.value),
             );
-            console.log(deep_bid_type_radio_filtered.value);
         } else {
             deep_bid_type_radio_filtered.value = [];
             form.deep_bid_type = "";
@@ -874,7 +864,6 @@ const search_bid_ratio_type = ref(1);
 const budget = ref();
 
 watchEffect(() => {
-    console.log(budget.value);
     if (budget.value) {
         form.pre_budget_group.push({
             budget: budget.value

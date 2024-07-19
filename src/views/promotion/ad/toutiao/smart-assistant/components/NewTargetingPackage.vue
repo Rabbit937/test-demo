@@ -234,11 +234,7 @@ const account_list_options = ref();
 
 // 查询账户媒体
 const queryAccountListFunc = async () => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const res: any = await queryAccountList({ PID: "11" });
-
-	// console.log(res);
-
 	if (res.state === 1) {
 		account_list_options.value = res.data.list;
 	}
@@ -832,8 +828,6 @@ const auto_extend_targets_options = [
 
 const createPreferenceFunc = async (params: ICreatePreference) => {
 	const res = await createPreference(params);
-	console.log(res);
-
 	if (res.state === 1) {
 		emtis('handleClose', { type: 1, form: form.value })
 	} else {

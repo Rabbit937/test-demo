@@ -38,8 +38,6 @@ const text = ref();
 watchEffect(() => {
 	breadListRef.value = props.breadList;
 	searchParams.value = props.searchParams;
-	// // console.log(searchParams.value);
-
 	if (searchParams.value) {
 		if (Number(searchParams.value.search_type) === 1) {
 			text.value = `搜索「专辑」： ${

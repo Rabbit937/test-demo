@@ -5,24 +5,23 @@ import CreateMaterial from "./CreativeMaterial.vue";
 import MaterialSelector from "./MaterialSelector.vue";
 
 interface IProps {
-	visible: boolean;
+    visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
 const drawerOptions = reactive({
-	visible: props.visible ?? false,
-	size: 1016,
+    visible: props.visible ?? false,
+    size: 1016,
 });
 
 const handleDrawerClose = (type: number) => {
-	console.log(type);
-	emits("handleDrawerClose", type);
+    emits("handleDrawerClose", type);
 };
 
 watchEffect(() => {
-	drawerOptions.visible = props.visible;
+    drawerOptions.visible = props.visible;
 });
 
 // 每个创意组配置
@@ -34,65 +33,61 @@ const multiple_account_allocation_rules = ref(1);
 
 // 素材选择器
 const MaterialSelectorState = reactive({
-	visible: false,
+    visible: false,
 });
 
 // 创意组
 interface IVidoeInfo {
-	id: number; // 索引id
-	filename?: string; // 名称
-	jy_mat_id?: number; // 头条素材id
-	material_id?: number; // 素材ID
-	mime?: number; // 1 视频 2 图片 3 图文
-	post_url?: string; // 视频预览图片地址
-	state?: number;
-	video_id?: number; // 视频ID
-	video_cover_id?: number;
+    id: number; // 索引id
+    filename?: string; // 名称
+    jy_mat_id?: number; // 头条素材id
+    material_id?: number; // 素材ID
+    mime?: number; // 1 视频 2 图片 3 图文
+    post_url?: string; // 视频预览图片地址
+    state?: number;
+    video_id?: number; // 视频ID
+    video_cover_id?: number;
 }
 
 interface ComponentState {
-	id: number;
-	video: number;
-	image: number;
-	graphics: number;
-	vidoeInfo?: IVidoeInfo[];
+    id: number;
+    video: number;
+    image: number;
+    graphics: number;
+    vidoeInfo?: IVidoeInfo[];
 }
 
 const components = ref<ComponentState[]>([
-	{
-		id: 1,
-		video: video.value,
-		image: image.value,
-		graphics: graphics.value,
-		videoInfo: [],
-	},
+    {
+        id: 1,
+        video: video.value,
+        image: image.value,
+        graphics: graphics.value,
+        videoInfo: [],
+    },
 ]);
 
 const addComponent = () => {
-	components.value.push({
-		id: components.value.length + 1,
-		video: video.value,
-		image: image.value,
-		graphics: graphics.value,
-		videoInfo: [],
-	});
-	console.log(components.value);
+    components.value.push({
+        id: components.value.length + 1,
+        video: video.value,
+        image: image.value,
+        graphics: graphics.value,
+        videoInfo: [],
+    });
 };
 
 // 处理更新状态的函数
 const handleUpdateState = (component: {
-	id: number;
-	videoInfo: IVidoeInfo;
+    id: number;
+    videoInfo: IVidoeInfo;
 }) => {
-	console.log(component);
+    components.value.forEach((item) => {
+        if (item.id === component.id) {
+            item.videoInfo = component.videoInfo;
+        }
+    });
 
-	components.value.forEach((item) => {
-		if (item.id === component.id) {
-			item.videoInfo = component.videoInfo;
-		}
-	});
-
-	console.log(components.value);
 };
 </script>
 

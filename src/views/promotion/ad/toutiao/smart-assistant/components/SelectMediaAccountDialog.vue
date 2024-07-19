@@ -139,8 +139,6 @@ const mainBodyOptions = ref<IOption[]>();
 const queryCompanyInfoFunc = async () => {
 	try {
 		const res = await queryCompanyInfo();
-		console.log(res);
-
 		if (res.state === 1) {
 			mainBodyOptions.value = res.data.map(
 				(item: { id: string; text: string }) => {

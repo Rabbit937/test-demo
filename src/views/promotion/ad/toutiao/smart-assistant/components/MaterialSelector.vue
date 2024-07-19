@@ -9,7 +9,6 @@ import {
     matList,
     uploadMaterial2Media,
 } from "@/api/modules/promotion";
-import { ElMessage } from "element-plus";
 
 interface IProps {
     visible: boolean;
@@ -26,61 +25,34 @@ const dialogState = reactive({
 });
 
 watchEffect(() => {
-    dialogState.visible = props.visible;
+    // dialogState.visible = props.visible;
+    dialogState.visible = true;
+
+    if (dialogState.visible === true) {
+        matListFunc()
+    }
 });
 
-const handleClose = () => {
-    console.log("handleClose");
-    emtis("handleDialogClose", 0);
-};
+const handleDialogClose = (type: number) => {
+    if (type === 1) {
 
-const handleCancelButton = () => {
-    dialogState.visible = false;
-    console.log("cancel");
-    emtis("handleDialogClose", 0);
-};
-
-const handleConfirmButton = () => {
-    console.log("confirm");
-    // dialogState.visible = false;
-    if (selectedVideos.value.length > 0) {
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        const material_info = selectedVideos.value.map((video: any) => {
-            if (video.mime === "1") {
-                return {
-                    filename: video.material_name,
-                    mime: video.mime,
-                    mat_id: video.material_id,
-                    post_url: video.info.preview,
-                };
-            }
-            return {
-                filename: video.material_name,
-                mime: video.mime,
-                mat_id: video.material_id,
-                url: video.upload_dir,
-            };
-        });
-
-        uploadMaterial2MediaFunc({
-            advertiser_id: "1787695788195915",
-            cpnid: "1",
-            material_info: material_info,
-        });
     } else {
-        ElMessage.warning({
-            message: "请选择素材",
-            type: "warning",
-            duration: 2000,
-        });
+        emtis("handleDialogClose", 0);
     }
-};
+}
 
-const activeName = ref("first");
 
-const handletabsClick = () => { };
+// 素材库和
+const tabName = ref("material_library");
 
-const state = reactive({
+const handletabsClick = (value: string) => {
+}
+
+
+
+
+
+const searchParameters = reactive({
     keyword: "",
     search_type: 2,
     materialType: "",
@@ -183,18 +155,12 @@ const shortcuts = [
 
 const materialTypeOptions = [
     { label: "视频", value: 1 },
-    {
-        label: "图片",
-        value: 2,
-    },
+    { label: "图片", value: 2, },
 ];
 
 const materialStatusOptions = [
     { label: "停用", value: 1 },
-    {
-        label: "启用",
-        value: 0,
-    },
+    { label: "启用", value: 0, },
 ];
 
 const placeholderText = ref("请输入素材名称");
@@ -212,36 +178,22 @@ const handleSearch = () => { };
 const checked1 = ref();
 
 const selectedVideos = ref([]);
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const videos = ref<any[]>([]);
 
 const handleChange = () => {
-    console.log(selectedVideos.value);
 };
 
+// 查询素材列表
 const matListFunc = async (param: IMatList) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const res: any = await matList(param);
-
-    console.log(res);
-
     if (res.state === 1) {
         videos.value = res.data.list;
     }
 };
 
-onMounted(() => {
-    matListFunc({
-        // create_date: "2024-04-01 - 2024-06-30",
-        // category: 1,
-    });
-});
-
+// 确认之后上传到媒体接口
 const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
     const res = await uploadMaterial2Media(params);
-    console.log(res);
-    console.log(res.data);
-
     if (res.state === 1) {
         selectedVideos.value = [];
         emtis("handleDialogClose", 1, res.data);
@@ -255,17 +207,17 @@ const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
         <div class="position-absolute right-16px z-100">
             <el-button>管理素材</el-button>
         </div>
-        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handletabsClick">
-            <el-tab-pane label="素材库" name="first">
+        <el-tabs v-model="tabName" class="demo-tabs" @tab-click="handletabsClick">
+            <el-tab-pane label="素材库" name="material_library">
                 <div class="max-h-200px px-24px py-12px overflow-hidden border-bottom-[#e8eaec] flex"
                     style="transition: max-height .3s;">
                     <div class="flex" style="flex : 1">
                         <el-form class="flex flex-wrap" style="background-color: #fff">
                             <el-form-item label="名称或ID:">
-                                <el-input v-model="state.keyword" :placeholder="placeholderText"
+                                <el-input v-model="searchParameters.keyword" :placeholder="placeholderText"
                                     class="input-with-select" style="width: 300px">
                                     <template #prepend>
-                                        <el-select v-model="state.search_type" style="width: 110px">
+                                        <el-select v-model="searchParameters.search_type" style="width: 110px">
                                             <el-option v-for="(item, index) in searchSelectList" :label="item.label"
                                                 :value="item.value" :key="index"></el-option>
                                         </el-select>
@@ -278,11 +230,11 @@ const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
 
                             <el-form-item label="类型:" class="pl-16px">
                                 <el-config-provider :locale="zhCn">
-                                    <el-date-picker v-model="state.dateValue" type="daterange" :shortcuts="shortcuts"
-                                        range-separator="~" start-placeholder="开始日期" end-placeholder="结束日期"
-                                        style="width: 200px">
+                                    <el-date-picker v-model="searchParameters.dateValue" type="daterange"
+                                        :shortcuts="shortcuts" range-separator="~" start-placeholder="开始日期"
+                                        end-placeholder="结束日期" style="width: 200px">
                                         <template #prepend>
-                                            <el-select v-model="state.search_type" style="width: 110px">
+                                            <el-select v-model="searchParameters.search_type" style="width: 110px">
                                                 <el-option v-for="(item, index) in searchSelectList" :label="item.label"
                                                     :value="item.value" :key="index"></el-option>
                                             </el-select>
@@ -292,29 +244,29 @@ const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
                             </el-form-item>
 
                             <el-form-item label="素材目录:" class="pl-16px">
-                                <el-cascader v-model="state.cascaderValue" placeholder="全选" :options="cascaderOptions"
-                                    :props="cascaderProps" clearable />
+                                <el-cascader v-model="searchParameters.cascaderValue" placeholder="全选"
+                                    :options="cascaderOptions" :props="cascaderProps" clearable />
                             </el-form-item>
 
                             <el-form-item label="类型:" class="pl-16px">
-                                <el-select v-model="state.materialType" placeholder="请选择素材类型" style="width: 240px"
-                                    clearable>
+                                <el-select v-model="searchParameters.materialType" placeholder="请选择素材类型"
+                                    style="width: 240px" clearable>
                                     <el-option v-for="item in materialTypeOptions" :key="item.value" :label="item.label"
                                         :value="item.value" />
                                 </el-select>
                             </el-form-item>
 
                             <el-form-item label="素材状态:" class="pl-16px">
-                                <el-select v-model="state.materialStatus" placeholder="请选择素材状态" style="width: 240px"
-                                    clearable>
+                                <el-select v-model="searchParameters.materialStatus" placeholder="请选择素材状态"
+                                    style="width: 240px" clearable>
                                     <el-option v-for="item in materialStatusOptions" :key="item.value"
                                         :label="item.label" :value="item.value" />
                                 </el-select>
                             </el-form-item>
 
                             <el-form-item label="版式:" class="pl-16px">
-                                <el-select v-model="state.materialStatus" placeholder="请选择素材状态" style="width: 240px"
-                                    clearable>
+                                <el-select v-model="searchParameters.materialStatus" placeholder="请选择素材状态"
+                                    style="width: 240px" clearable>
                                     <el-option v-for="item in materialStatusOptions" :key="item.value"
                                         :label="item.label" :value="item.value" />
                                 </el-select>
@@ -406,7 +358,7 @@ const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
                                             }}</span>
                                         <span class="ml-4px flex-shrink-0">{{
                                             video.info.size
-                                            }}</span>
+                                        }}</span>
                                     </div>
 
                                     <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
@@ -427,7 +379,7 @@ const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
                     </el-checkbox-group>
                 </el-scrollbar>
             </el-tab-pane>
-            <el-tab-pane label="媒体素材" name="second">
+            <el-tab-pane label="媒体素材" name="media_material">
                 <span>
                     媒体素材
                 </span>
@@ -436,8 +388,8 @@ const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
 
         <template #footer>
             <div class="dialog-footer">
-                <el-button class="w-120px" @click="handleCancelButton">取消</el-button>
-                <el-button type="primary" @click="handleConfirmButton" class="w-120px">
+                <el-button class="w-120px" @click="handleDialogClose(0)">取消</el-button>
+                <el-button type="primary" @click="handleDialogClose(1)" class="w-120px">
                     确认
                 </el-button>
             </div>

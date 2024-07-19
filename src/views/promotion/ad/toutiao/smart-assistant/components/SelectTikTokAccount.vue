@@ -100,7 +100,6 @@ watchEffect(() => {
 });
 
 const handleDialogClose = (type: number) => {
-    console.log(type);
     emtis("handleDialogClose", type);
 
     if (type === 1) {
@@ -114,9 +113,7 @@ const AwemeList = ref();
 const checkList = ref<string[]>([]);
 
 const queryAwemeListFunc = async (params: IQueryAwemeList) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const res: any = await queryAwemeList(params);
-    console.log("queryAwemeListFunc------->", res);
 
     if (res.state === 1) {
         AwemeList.value = res.data.list;
@@ -136,8 +133,6 @@ const syncAwemeFunc = async () => {
         const res = await syncAweme({
             advertiser_id: ["1787695788195915"]
         });
-        console.log(res);
-
         if (res.state === 1) {
             queryAwemeListFunc({
                 advertiser_id: ["1787695788195915"],

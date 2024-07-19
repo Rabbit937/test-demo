@@ -22,9 +22,6 @@ const drawerOptions = reactive({
 });
 
 const handleDrawerClose = (type: number) => {
-	console.log(type);
-	// emits('handleDrawerClose', type);
-
 	if (type === 1) {
 		// if (checkedLandingPage.value) {
 		//     emits('handleDrawerClose', type, checkedLandingPage.value);
@@ -58,8 +55,6 @@ const title_source_radio = [
 ];
 
 const handleTitleSourceChange = (value: string | number | boolean) => {
-	console.log(value);
-
 	queryTitleBagFunc({
 		type: String(title_source.value),
 		user_id: staffInfoSelected.value,
@@ -99,8 +94,6 @@ const queryTitleBagFunc = async (params: IQueryTitleBag) => {
 	tableLoading.value = true;
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const res: any = await queryTitleBag(params);
-	console.log("queryTitleBagFunc---------->", res);
-
 	if (res.state === 1) {
 		title_pack_table_data.value = res.data.list;
 		tableLoading.value = false;
@@ -119,8 +112,6 @@ const staffInfoSelected = ref();
 const staffInfoFunc = async () => {
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const res: any = await staffInfo();
-	console.log(res);
-
 	if (res.state === 1) {
 		staffInfoList.value = res.data;
 	}
@@ -132,7 +123,6 @@ onMounted(() => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleStaffInfoChange = (value: any) => {
-	console.log(value);
 	queryTitleBagFunc({
 		type: String(title_source.value),
 		user_id: staffInfoSelected.value,
@@ -151,8 +141,6 @@ const addTitilePack = () => {
 };
 
 const handleAddTitlePackDialogClose = (type: number) => {
-	console.log(type);
-
 	if (type === 1) {
 		AddTitilePackState.visible = false;
 		queryTitleBagFunc({

@@ -9,8 +9,8 @@
 
 <script setup lang="ts">
 interface Props {
-	visible: boolean;
-	size: number;
+  visible: boolean;
+  size: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {});
@@ -18,10 +18,9 @@ const props = withDefaults(defineProps<Props>(), {});
 const emits = defineEmits(["update:visible", "close"]);
 
 const beforeClose = () => {
-	// console.log(123213);
-	// 处理关闭el-drawer前的逻辑
-	emits("update:visible", false); // 关闭el-drawer
-	emits("close"); // 触发close事件
+  // 处理关闭el-drawer前的逻辑
+  emits("update:visible", false); // 关闭el-drawer
+  emits("close"); // 触发close事件
 };
 </script>
 

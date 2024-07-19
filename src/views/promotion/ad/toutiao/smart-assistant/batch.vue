@@ -486,10 +486,6 @@ const handleBasicInformationOfAdClose = (options: {
     BasicInformationOfAdForm,
     options,
   );
-  console.log(
-    "handleBasicInformationOfAdClose",
-    BasicInformationOfAdForm.value,
-  );
 };
 
 // 选择媒体账户
@@ -512,7 +508,6 @@ const handleMediaAccountDialogClose = (
   SelectMediaAccountState.visible = false;
   if (type === 1) {
     SelectMediaAccountList.value = multipleSelection;
-    console.log("SelectMediaAccountList", SelectMediaAccountList.value);
   }
 };
 
@@ -541,7 +536,6 @@ const handleRuleConfigurationDialogClose = (options: { type: number; ruleConfigu
   RuleConfigurationState.visible = false;
   if (options.type === 1) {
     ruleConfiguration.value = options.ruleConfiguration
-    console.log("RuleConfiguration", ruleConfiguration.value);
   }
 };
 
@@ -586,8 +580,6 @@ const showCreativeMaterialsState = () => {
 };
 
 const handleCreativeMaterialsStateClose = (type: number) => {
-  console.log(type);
-
   if (type === 1) {
     CreativeMaterialsState.visible = false;
   } else {
@@ -620,8 +612,6 @@ const showTitlePackState = () => {
 };
 
 const handleTitlePackStateClose = (type: number) => {
-  console.log(type);
-
   if (type === 1) {
     TitlePackState.visible = false;
   } else {
@@ -654,8 +644,6 @@ const showLandingPageState = () => {
 };
 
 const handleLandingPageStateClose = (type: number) => {
-  console.log(type);
-
   if (type === 1) {
     LandingPageState.visible = false;
   } else {

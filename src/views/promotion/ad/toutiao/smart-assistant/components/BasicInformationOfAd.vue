@@ -517,8 +517,6 @@ const recommendCallToActionList = [
 ];
 
 watchEffect(() => {
-    console.log(addCallToActionList.value)
-    console.log(callToActionListRecommendList.value)
     callToActionList.value = [...addCallToActionList.value, ...callToActionListRecommendList.value];
 })
 

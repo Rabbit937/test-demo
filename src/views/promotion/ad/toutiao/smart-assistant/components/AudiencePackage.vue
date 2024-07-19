@@ -215,7 +215,6 @@ const handleSizeChange = () => {
 };
 
 const handlePageChange = () => {
-    // console.log(page);
     queryPreferenceListFunc({
         page_limit: pageSize.value,
     });
@@ -225,9 +224,7 @@ const loading = ref(false);
 
 const queryPreferenceListFunc = async (params?: IQueryPreferenceList) => {
     loading.value = true;
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const res: any = await queryPreferenceList(params);
-    // console.log("queryPreferenceListFunc ---> ", res);
     if (res.state === 1) {
         tableData.value = res.data.list;
         total.value = res.data.page_info.total;
@@ -268,7 +265,6 @@ onMounted(() => {
 });
 
 const handleDeliveryModeChange = (value: string | number) => {
-    // console.log(value);
     if (value) {
         queryPreferenceListFunc({
             delivery_range: String(value),
@@ -309,7 +305,6 @@ const handleNewTargetingPackageClick = () => {
 
 const handleNewTargetingPackageClose = (options: { type: number, form: any }) => {
     NewTargetingPackageState.visible = false;
-    console.log(options)
 } 
 </script>
 

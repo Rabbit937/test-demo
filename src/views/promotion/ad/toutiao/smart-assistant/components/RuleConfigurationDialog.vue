@@ -106,9 +106,6 @@ const infoOrNew = ref(props.infoOrNew);
 watchEffect(() => {
     visible.value = props.visible;
     infoOrNew.value = props.infoOrNew;
-
-    console.log(props.infoOrNew)
-
 });
 
 const handleDialogClose = (type: 1 | 0) => {

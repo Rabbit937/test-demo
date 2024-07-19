@@ -1,25 +1,25 @@
 <template>
-    <Drawer class="!p-0px" :visible="drawerOptions.visible" :size="drawerOptions.size"
-        @handleDrawerClose="handleDrawerClose">
-        <template #header>
-            <header style="
+	<Drawer class="!p-0px" :visible="drawerOptions.visible" :size="drawerOptions.size"
+		@handleDrawerClose="handleDrawerClose">
+		<template #header>
+			<header style="
           position: relative;
           padding: 0 16px;
           background-color: #fff;
           border-bottom: 1px solid #e8eaec;
           ">
-                <slot name="header">
-                    <div class="font-size-16px font-700 line-height-48px color-[#333]">账户定向包</div>
-                </slot>
-            </header>
-        </template>
+				<slot name="header">
+					<div class="font-size-16px font-700 line-height-48px color-[#333]">账户定向包</div>
+				</slot>
+			</header>
+		</template>
 
-        <el-scrollbar style="height: calc(100vh - 140px)">
-            <main class="m-16px pl-16px pr-16px h-100%">
-                <el-button @click="handleClick">创建广告</el-button>
-            </main>
-        </el-scrollbar>
-    </Drawer>
+		<el-scrollbar style="height: calc(100vh - 140px)">
+			<main class="m-16px pl-16px pr-16px h-100%">
+				<el-button @click="handleClick">创建广告</el-button>
+			</main>
+		</el-scrollbar>
+	</Drawer>
 </template>
 
 <script setup lang="ts">
@@ -49,7 +49,7 @@ watchEffect(() => {
 	drawerOptions.visible = props.visible;
 });
 
-const handleDrawerClose = () => {};
+const handleDrawerClose = () => { };
 
 const form: ICreatePromotion = reactive({
 	advertiser_id: "1787695788195915",
@@ -97,7 +97,6 @@ const form: ICreatePromotion = reactive({
 
 const createPromotionFunc = async (params: ICreatePromotion) => {
 	const res = await createPromotion(params);
-	// console.log(res)
 };
 
 const handleClick = () => {

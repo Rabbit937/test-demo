@@ -22,7 +22,6 @@ const props = withDefaults(defineProps<Props>(), {});
 const emits = defineEmits(["handleChange"]);
 
 const handleChange = () => {
-	// console.log("更改");
 	emits("handleChange");
 };
 </script>

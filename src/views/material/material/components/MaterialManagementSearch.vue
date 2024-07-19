@@ -1,47 +1,49 @@
 <template>
-  <el-form class="flex flex-wrap" style="background-color: #fff">
-    <el-form-item class="pl-16px pt-12px">
-      <el-input v-model="state.keyword" :placeholder="placeholderText" class="input-with-select" size="small"
-        style="width: 600px">
-        <template #prepend>
-          <el-select v-model="state.search_type" style="width: 110px">
-            <el-option v-for="(item, index) in searchSelectList" :label="item.label" :value="item.value"
-              :key="index"></el-option>
-          </el-select>
-        </template>
-        <template #append>
-          <el-button :icon="Search" @click="handleSearch" />
-        </template>
-      </el-input>
-    </el-form-item>
+	<el-form class="flex flex-wrap" style="background-color: #fff">
+		<el-form-item class="pl-16px pt-12px">
+			<el-input v-model="state.keyword" :placeholder="placeholderText" class="input-with-select" size="small"
+				style="width: 600px">
+				<template #prepend>
+					<el-select v-model="state.search_type" style="width: 110px">
+						<el-option v-for="(item, index) in searchSelectList" :label="item.label" :value="item.value"
+							:key="index"></el-option>
+					</el-select>
+				</template>
+				<template #append>
+					<el-button :icon="Search" @click="handleSearch" />
+				</template>
+			</el-input>
+		</el-form-item>
 
-    <el-form-item class="pl-16px pt-12px pr-800px">
-      <el-button @click="clearState"> 清空</el-button>
-    </el-form-item>
-    <el-form-item label="创建时间:" class="pl-16px">
-      <el-config-provider :locale="zhCn">
-        <el-date-picker v-model="state.dateValue" type="daterange" :shortcuts="shortcuts" range-separator="~"
-          start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="width: 200px" />
-      </el-config-provider>
-    </el-form-item>
+		<el-form-item class="pl-16px pt-12px pr-800px">
+			<el-button @click="clearState"> 清空</el-button>
+		</el-form-item>
+		<el-form-item label="创建时间:" class="pl-16px">
+			<el-config-provider :locale="zhCn">
+				<el-date-picker v-model="state.dateValue" type="daterange" :shortcuts="shortcuts" range-separator="~"
+					start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="width: 200px" />
+			</el-config-provider>
+		</el-form-item>
 
-    <el-form-item label="素材目录:" class="pl-16px">
-      <el-cascader size="small" v-model="state.cascaderValue" placeholder="全选" :options="cascaderOptions"
-        :props="cascaderProps" clearable />
-    </el-form-item>
+		<el-form-item label="素材目录:" class="pl-16px">
+			<el-cascader size="small" v-model="state.cascaderValue" placeholder="全选" :options="cascaderOptions"
+				:props="cascaderProps" clearable />
+		</el-form-item>
 
-    <el-form-item label="类型:" class="pl-16px">
-      <el-select v-model="state.materialType" placeholder="请选择素材类型" size="small" style="width: 240px" clearable>
-        <el-option v-for="item in materialTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
-    </el-form-item>
+		<el-form-item label="类型:" class="pl-16px">
+			<el-select v-model="state.materialType" placeholder="请选择素材类型" size="small" style="width: 240px" clearable>
+				<el-option v-for="item in materialTypeOptions" :key="item.value" :label="item.label"
+					:value="item.value" />
+			</el-select>
+		</el-form-item>
 
-    <el-form-item label="素材状态:" class="pl-16px">
-      <el-select v-model="state.materialStatus" placeholder="请选择素材状态" size="small" style="width: 240px" clearable>
-        <el-option v-for="item in materialStatusOptions" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
-    </el-form-item>
-  </el-form>
+		<el-form-item label="素材状态:" class="pl-16px">
+			<el-select v-model="state.materialStatus" placeholder="请选择素材状态" size="small" style="width: 240px" clearable>
+				<el-option v-for="item in materialStatusOptions" :key="item.value" :label="item.label"
+					:value="item.value" />
+			</el-select>
+		</el-form-item>
+	</el-form>
 </template>
 
 <script setup lang="ts">
@@ -194,8 +196,6 @@ const handleSearch = () => {
 // }
 
 watchEffect(() => {
-	// // console.log(state.search_type);
-
 	if (Number(state.search_type) === 2) {
 		placeholderText.value = "请输入素材名称";
 	} else {
@@ -212,8 +212,6 @@ watch(
 		state.cascaderValue,
 	],
 	() => {
-		// // console.log(state.cascaderValue);
-
 		handleSearch();
 	},
 );

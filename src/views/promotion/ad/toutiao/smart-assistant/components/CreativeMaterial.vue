@@ -149,25 +149,25 @@ import { defineProps, defineEmits, ref, watchEffect, reactive } from "vue";
 import MaterialSelector from "./MaterialSelector.vue";
 
 interface IVidoeInfo {
-	id: number; // 索引id
-	filename?: string; // 名称
-	jy_mat_id?: number; // 头条素材id
-	material_id?: number; // 素材ID
-	mime?: number; // 1 视频 2 图片 3 图文
-	post_url?: string; // 视频预览图片地址
-	state?: number;
-	video_id?: number; // 视频ID
-	video_cover_id?: number;
+    id: number; // 索引id
+    filename?: string; // 名称
+    jy_mat_id?: number; // 头条素材id
+    material_id?: number; // 素材ID
+    mime?: number; // 1 视频 2 图片 3 图文
+    post_url?: string; // 视频预览图片地址
+    state?: number;
+    video_id?: number; // 视频ID
+    video_cover_id?: number;
 }
 
 const props = defineProps<{
-	initialState: {
-		id: number;
-		video: number;
-		image: number;
-		graphics: number;
-		videoInfo?: IVidoeInfo[];
-	};
+    initialState: {
+        id: number;
+        video: number;
+        image: number;
+        graphics: number;
+        videoInfo?: IVidoeInfo[];
+    };
 }>();
 const emit = defineEmits(["updateState"]);
 
@@ -175,62 +175,58 @@ const component = ref<IVidoeInfo[]>([]);
 const showAddComponent = ref(true);
 
 const addComponent = () => {
-	if (component.value.length < props.initialState.video) {
-		component.value.push({ id: component.value.length + 1 });
-	}
+    if (component.value.length < props.initialState.video) {
+        component.value.push({ id: component.value.length + 1 });
+    }
 };
 
 watchEffect(() => {
-	if (component.value.length === props.initialState.video) {
-		showAddComponent.value = false;
-	}
-
-	console.log(component.value.length);
-
-	if (component.value.length === 0) {
-		showAddComponent.value = true;
-	}
+    if (component.value.length === props.initialState.video) {
+        showAddComponent.value = false;
+    }
+    if (component.value.length === 0) {
+        showAddComponent.value = true;
+    }
 });
 
 // 素材选择状态
 const MaterialSelectorState = reactive({
-	visible: false,
+    visible: false,
 });
 
 const targetComponent = ref();
 
 const showMaterialSelector = (n: IVidoeInfo) => {
-	targetComponent.value = n;
-	MaterialSelectorState.visible = true;
+    targetComponent.value = n;
+    MaterialSelectorState.visible = true;
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleMaterialSelectorDialog = (type: number, video?: any[]) => {
-	console.log(type);
-	if (type === 1) {
-		if (video?.length) {
-			component.value[targetComponent.value.id - 1] = {
-				id: targetComponent.value.id,
-				...video[0],
-			};
-		}
-		emit("updateState", {
-			id: props.initialState.id,
-			videoInfo: component.value,
-		});
-		MaterialSelectorState.visible = false;
-	} else {
-		MaterialSelectorState.visible = false;
-	}
+    if (type === 1) {
+        if (video?.length) {
+            component.value[targetComponent.value.id - 1] = {
+                id: targetComponent.value.id,
+                ...video[0],
+            };
+        }
+        emit("updateState", {
+            id: props.initialState.id,
+            videoInfo: component.value,
+        });
+        MaterialSelectorState.visible = false;
+    } else {
+        MaterialSelectorState.visible = false;
+    }
 };
 
 // 删除
 const deleteComponent = (video: IVidoeInfo) => {
-	component.value.splice(component.value.length - 1, 1);
-	emit("updateState", {
-		id: props.initialState.id,
-		videoInfo: component.value,
-	});
+    component.value.splice(component.value.length - 1, 1);
+    emit("updateState", {
+        id: props.initialState.id,
+        videoInfo: component.value,
+    });
 };
 </script>
 
