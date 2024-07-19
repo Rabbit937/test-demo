@@ -76,8 +76,9 @@
                             </el-form-item> -->
 
                             <el-form-item label="行动号召">
-                                <el-input placeholder="空格分隔,最多10个,每个标签不超过6个字" v-model="form.call_to_action_buttons"
-                                    style="width : 244px;" @keyup.enter="addcallToAction" /><el-button type="primary"
+                                <el-input placeholder="空格分隔,最多10个,每个标签不超过6个字" v-model="callToAction"
+                                    style="width : 244px;" @keyup.enter="addcallToAction" :maxlength="12"
+                                    :minlength="6" /><el-button type="primary"
                                     @click="addcallToAction">添加（回车键）</el-button>
                             </el-form-item>
                             <el-form-item style="margin-bottom:0px;">
@@ -95,13 +96,14 @@
                                     <el-scrollbar height="180px">
                                         <div class="h-180px px-10px py-7px">
                                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap : 5px; ">
-                                                <div v-for="callToAction in callToActionList"
+                                                <div v-for="(callToAction, index) in callToActionList"
                                                     class="flex w-166px h-24px line-height-24px bg-[#f4f5fc] mb-6px border-radius-6px px-8px color-[#515a6e] justify-between overflow-y-auto">
                                                     <div>
                                                         <span>{{ callToAction }}</span>
                                                     </div>
                                                     <div>
-                                                        <el-button link><el-icon>
+                                                        <el-button link
+                                                            @click="deleteCallToAction(callToAction)"><el-icon>
                                                                 <CloseBold />
                                                             </el-icon></el-button>
                                                     </div>
@@ -127,7 +129,8 @@
                                     <div class="h-180px px-10px py-7px flex flex-wrap"
                                         style="justify-content: space-evenly;align-content:flex-start;">
                                         <el-scrollbar height="180px">
-                                            <el-checkbox-group v-model="callToActionList"
+                                            <el-checkbox-group v-model="callToActionListRecommendList"
+                                                :max="10 - addCallToActionList.length"
                                                 style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap : 5px;">
                                                 <el-checkbox v-for="item in recommendCallToActionList" :label="item"
                                                     :value="item" :key="item" class="!w-100%" />
@@ -393,15 +396,16 @@
         @handleDialogClose="selectTikTokAccountDialog" />
 
     <!-- 选择产品主图 -->
-    <SelectMediaAccountDialog :visible="SelectMediaAccountDialogState.visible" />
+    <MaterialSelector :visible="MaterialSelectorState.visible" />
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, watchEffect, watch } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import SelectTikTokAccount from "./SelectTikTokAccount.vue";
-import SelectMediaAccountDialog from "./SelectMediaAccountDialog.vue";
+import MaterialSelector from "./MaterialSelector.vue";
 import type { IBasicInformationOfAd } from "@/api/modules/promotion";
+import { ElMessage } from "element-plus";
 
 interface IProps {
     visible: boolean;
@@ -467,14 +471,37 @@ const selectTikTokAccountDialog = (options: { type: number, AwemeList: any }) =>
 const callToAction = ref<string>();
 const callToActionList = ref<string[]>([]);
 
+const addCallToActionList = ref<string[]>([])
+
 const addcallToAction = () => {
     if (callToAction.value) {
-        if (callToAction.value.length < 10) {
-            callToActionList.value.push(callToAction.value);
+        if (callToActionList.value.length < 10) {
+            if (addCallToActionList.value.includes(callToAction.value)) {
+                callToAction.value = "";
+                ElMessage({
+                    message: "请勿重复添加行动号召",
+                    type: 'warning'
+                })
+            } else {
+                addCallToActionList.value.push(callToAction.value);
+                callToAction.value = "";
+            }
+        } else {
+            callToAction.value = "";
+            ElMessage({
+                message: "行动号召最多只能10个",
+                type: 'warning'
+            })
         }
+    } else {
+        ElMessage({
+            message: "添加行动号召内容不能为空",
+            type: 'warning'
+        })
     }
 };
 
+const callToActionListRecommendList = ref<string[]>([]);
 const recommendCallToActionList = [
     "一键领取",
     "了解更多",
@@ -489,16 +516,32 @@ const recommendCallToActionList = [
     "马上领取",
 ];
 
-watch(
-    () => callToActionList.value,
-    (newVal, oldVal) => {
-        console.log(newVal, oldVal);
-    },
-);
+watchEffect(() => {
+    console.log(addCallToActionList.value)
+    console.log(callToActionListRecommendList.value)
+    callToActionList.value = [...addCallToActionList.value, ...callToActionListRecommendList.value];
+})
+
+const deleteCallToAction = (value: string) => {
+    if (addCallToActionList.value.includes(value)) {
+        addCallToActionList.value = addCallToActionList.value.filter(item => item !== value);
+    }
+
+    if (callToActionListRecommendList.value.includes(value)) {
+        callToActionListRecommendList.value = callToActionListRecommendList.value.filter(item => item !== value);
+    }
+}
+
+
+
+
+
+
+
+
 
 // 产品信息
 const configuration_mode = ref(1);
-
 const product_selling_points_list = ref();
 const recommend_product_selling_points_list = ["近期热卖商品"];
 
@@ -510,7 +553,7 @@ const product_info_image_ids = ref<string[]>([]);
 const product_info_selling_points = ref<string[]>();
 
 
-const SelectMediaAccountDialogState = reactive({
+const MaterialSelectorState = reactive({
     visible: false,
 
 })
@@ -519,7 +562,7 @@ const SelectMediaAccountDialogState = reactive({
 const addImageIds = () => {
     // product_info_image_ids.value.push('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimage109.360doc.com%2FDownloadImg%2F2021%2F08%2F0420%2F227651986_4_20210804085322222&refer=http%3A%2F%2Fimage109.360doc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1723885957&t=5273a063647eb9beaacfa32772f05d40')
 
-    SelectMediaAccountDialogState.visible = true;
+    MaterialSelectorState.visible = true;
 
 
 }
