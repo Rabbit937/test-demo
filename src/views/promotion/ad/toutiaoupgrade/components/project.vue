@@ -121,6 +121,4 @@ const tableData = [
 		address: "No. 189, Grove St, Los Angeles",
 	},
 ];
-
-
 </script>

@@ -222,9 +222,6 @@ export const queryPreferenceList = (params?: IQueryPreferenceList) => {
 	return http.get("/api/Mk_Tt_Preference/_queryPreferenceList", params);
 };
 
-
-
-
 /**
  * @name 创建广告
  */
@@ -271,11 +268,13 @@ export interface IGetOptimizeGoalResultData {
 	deep_goals?: {
 		deep_external_action: string;
 		optimization_name: string;
-	}[]
+	}[];
 }
 
 export const getOptimizeGoal = () => {
-	return http.get<IGetOptimizeGoalResultData[]>("/api/Mk_Tt_Tool/_getOptimizeGoal");
+	return http.get<IGetOptimizeGoalResultData[]>(
+		"/api/Mk_Tt_Tool/_getOptimizeGoal",
+	);
 };
 
 /**
@@ -306,7 +305,6 @@ export const queryAwemeList = (params: IQueryAwemeList) => {
 	return http.get("/api/Mk_Tt_Tool/_queryAwemeList", params);
 };
 
-
 /**
  * @name 同步抖音号
  */
@@ -317,10 +315,6 @@ export interface ISyncAweme {
 export const syncAweme = (params: ISyncAweme) => {
 	return http.get("/api/Mk_Tt_Tool/_syncAweme", params);
 };
-
-
-
-
 
 /**
  * @name 查询橙子落地页
@@ -469,10 +463,11 @@ export interface IUploadMaterial2MediaResultData {
 	state: number;
 }
 
-
-
 export const uploadMaterial2Media = (params: IUploadMaterial2Media) => {
-	return http.post<IUploadMaterial2MediaResultData>("/api/Mk_Tt_Promotion/_uploadMaterial2Media", params);
+	return http.post<IUploadMaterial2MediaResultData>(
+		"/api/Mk_Tt_Promotion/_uploadMaterial2Media",
+		params,
+	);
 };
 
 /**
@@ -507,26 +502,23 @@ export const queryCompanyInfo = () => {
 	);
 };
 
-
-
-
 /**
  * @name 批量创建计划-新建项目
  */
 export interface IBasicInformationOfAd {
 	ad_download_status?: string;
 	/**
-	  *@name 原生锚点开关，选择了抖音号时必填，OFF/AUTO
-	  */
-	anchor_related_type?: 'OFF' | 'AUTO';
+	 *@name 原生锚点开关，选择了抖音号时必填，OFF/AUTO
+	 */
+	anchor_related_type?: "OFF" | "AUTO";
 	aweme_info_group?: { advertiser_id?: string; aweme_id: string }[];
 	product_info_group: {
 		advertiser_id?: string;
 		product_info: {
 			titles: string[];
 			image_ids: string[];
-			selling_points: string[]
-		}
+			selling_points: string[];
+		};
 	}[];
 
 	call_to_action_buttons: string[];
@@ -538,14 +530,21 @@ export interface IBasicInformationOfAd {
 	 * 试玩落地页
 	 */
 	playable_url_material_list?: string[];
-	pre_promotion_budget_group: { advertiser_id?: string; budget?: string, cpa_bid?: string, deep_cpabid?: string, roi_goal?: string, union_bid_ratio?: string; bid?: string }[];
-	product_info_conf: "same" | 'ad_same';
-	promotion_aweme: "same" | 'ad_same',
+	pre_promotion_budget_group: {
+		advertiser_id?: string;
+		budget?: string;
+		cpa_bid?: string;
+		deep_cpabid?: string;
+		roi_goal?: string;
+		union_bid_ratio?: string;
+		bid?: string;
+	}[];
+	product_info_conf: "same" | "ad_same";
+	promotion_aweme: "same" | "ad_same";
 	promotion_name: string;
 	promotion_operation: string;
 	source?: string;
 	web_url_material_list?: string[];
-
 }
 
 export interface INewProject {
@@ -572,8 +571,8 @@ export interface INewProject {
 	landing_type: string;
 
 	/**
- * 字节小程序资产id，推广字节小程序必填
- */
+	 * 字节小程序资产id，推广字节小程序必填
+	 */
 	micro_app_instance_id?: number;
 	/**
 	 * 小程序类型，小程序推广必填
@@ -581,13 +580,20 @@ export interface INewProject {
 	micro_promotion_type?: string;
 	name: string;
 	operation: string;
-	pre_budget_group: { advertiser_id?: string; budget?: string, cpa_bid?: string, deep_cpabid?: string, roi_goal?: string, first_roi_goal?: string, bid?: string; }[];
-	preference_group: { advertiser_id?: string, audience_package_id: string }[];
+	pre_budget_group: {
+		advertiser_id?: string;
+		budget?: string;
+		cpa_bid?: string;
+		deep_cpabid?: string;
+		roi_goal?: string;
+		first_roi_goal?: string;
+		bid?: string;
+	}[];
+	preference_group: { advertiser_id?: string; audience_package_id: string }[];
 	pricing?: string;
 
-
-	project_budget: 'same' | 'ad_same';
-	project_preference: 'same' | 'ad_same'
+	project_budget: "same" | "ad_same";
+	project_preference: "same" | "ad_same";
 
 	schedule_time?: string;
 	schedule_type?: string;
@@ -600,62 +606,63 @@ export interface INewProject {
 	union_video_type?: string;
 }
 
-
 export interface ILandingPage {
-	landing_page_conf: "same" | 'ad_same';
+	landing_page_conf: "same" | "ad_same";
 
 	promotion_page_group: {
-		advertiser_id?: string,
-		landing_page: string[]
-	}[]
+		advertiser_id?: string;
+		landing_page: string[];
+	}[];
 }
 
 export interface ICreativeMaterials {
 	material: string;
 	promotion_material_group: {
-		advertiser_id?: string,
+		advertiser_id?: string;
 		video_material_list: {
-			image_mode: string,
-			video_id: string,
-			jy_mat_id: string,
-			material_id: string,
-			video_cover_id: string,
-			item_id: string,
+			image_mode: string;
+			video_id: string;
+			jy_mat_id: string;
+			material_id: string;
+			video_cover_id: string;
+			item_id: string;
 			video_hp_visibility: string;
-		}[],
+		}[];
 		image_material_list: {
-			image_mode: string,
-			images: { image_id: string, jy_mat_id: string, material_id: string }
-		}[],
+			image_mode: string;
+			images: {
+				image_id: string;
+				jy_mat_id: string;
+				material_id: string;
+			};
+		}[];
 		carousel_material_list: {
-			carousel_id: string,
+			carousel_id: string;
 			video_hp_visibility: string;
-		}[],
-	}[],
-	image_material_list: string,
-	carousel_material_list: string
+		}[];
+	}[];
+	// image_material_list: string,
+	// carousel_material_list: string
 }
-
 
 export interface IRuleConfiguration {
 	project: {
-		rule: 'manual' | 'creative',
-		num?: number
-	}
+		rule: "manual" | "creative";
+		num?: number;
+	};
 	promotion: {
-		num?: number
-	}
+		num?: number;
+	};
 }
 
 export interface INewTargetingPackage {
 	promotion_title_group: {
-		advertiser_id?: string,
-		title_material_list: string[],
-	}[],
+		advertiser_id?: string;
+		title_material_list: string[];
+	}[];
 
-	title_conf: "same" | 'ad_same' | 'agv';
+	title_conf: "same" | "ad_same" | "agv";
 }
-
 
 export interface ICreatePromotionByNewProject {
 	/**
@@ -820,7 +827,15 @@ export interface ICreatePromotionByNewProject {
 	 * ['advertiser_id', 'budget','cpa_bid','deep_cpabid','roi_goal','first_roi_goal','bid']
 	 * ]
 	 */
-	pre_budget_group: { advertiser_id?: string; budget?: string, cpa_bid?: string, deep_cpabid?: string, roi_goal?: string, first_roi_goal?: string, bid?: string; }[];
+	pre_budget_group: {
+		advertiser_id?: string;
+		budget?: string;
+		cpa_bid?: string;
+		deep_cpabid?: string;
+		roi_goal?: string;
+		first_roi_goal?: string;
+		bid?: string;
+	}[];
 	/**
 	 * [
 	 * *      ['advertiser_id', 'budget',
@@ -829,14 +844,22 @@ export interface ICreatePromotionByNewProject {
 	 * 'cpa_bid','deep_cpabid','roi_goal','union_bid_ratio','bid']
 	 * * ]
 	 */
-	pre_promotion_budget_group: { advertiser_id?: string; budget?: string, cpa_bid?: string, deep_cpabid?: string, roi_goal?: string, union_bid_ratio?: string; bid?: string }[];
+	pre_promotion_budget_group: {
+		advertiser_id?: string;
+		budget?: string;
+		cpa_bid?: string;
+		deep_cpabid?: string;
+		roi_goal?: string;
+		union_bid_ratio?: string;
+		bid?: string;
+	}[];
 	/**
 	 * [
 	 * {'advertiser_id', 'audience_package_id'},
 	 * {'advertiser_id', 'audience_package_id'}
 	 * ] 分账户定向包，当规则是分账户选择是，需要advertiser_id字段，其他规则不需要，以下均相同
 	 */
-	preference_group: { advertiser_id?: string, audience_package_id: string }[];
+	preference_group: { advertiser_id?: string; audience_package_id: string }[];
 	/**
 	 * 付费方式
 	 */
@@ -844,7 +867,7 @@ export interface ICreatePromotionByNewProject {
 	/**
 	 * 广告内分配产品规则，same:统一分配，ad_same:按账号分配
 	 */
-	product_info_conf: "same" | 'ad_same';
+	product_info_conf: "same" | "ad_same";
 	/**
 	 * [
 	 * *      ['advertiser_id', 'product_info'],
@@ -958,13 +981,11 @@ export interface ICreatePromotionByNewProject {
 	web_url_material_list?: string[];
 }
 
-
-export const createPromotionByNewProject = (params: ICreatePromotionByNewProject) => {
-	return http.post(
-		"/api/Mk_Tt_Program/_createPromotionByNewProject", params
-	);
-}
-
+export const createPromotionByNewProject = (
+	params: ICreatePromotionByNewProject,
+) => {
+	return http.post("/api/Mk_Tt_Program/_createPromotionByNewProject", params);
+};
 
 /**
  * @name 查询ios应用信息
@@ -985,11 +1006,10 @@ export interface IQueryIosApplicationResultData {
 
 export const queryIosApplication = (params: IQueryIosApplication) => {
 	return http.get<IQueryIosApplicationResultData>(
-		"/api/Mk_Tt_Tool/_queryIosApplication", params
+		"/api/Mk_Tt_Tool/_queryIosApplication",
+		params,
 	);
-}
-
-
+};
 
 /**
  * @name 创建定向包
@@ -1071,7 +1091,5 @@ export interface ICreatePreference {
 	[property: string]: any;
 }
 export const createPreference = (params: ICreatePreference) => {
-	return http.post(
-		"/api/Mk_Tt_Preference/_createPreference", params
-	);
-}
+	return http.post("/api/Mk_Tt_Preference/_createPreference", params);
+};

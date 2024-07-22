@@ -200,7 +200,7 @@ const handleDialogClose = (type: number) => {
 	if (type === 1) {
 		createPreferenceFunc(form);
 	} else {
-		emtis('handleClose', { type: 0 })
+		emtis("handleClose", { type: 0 });
 	}
 };
 
@@ -829,15 +829,12 @@ const auto_extend_targets_options = [
 const createPreferenceFunc = async (params: ICreatePreference) => {
 	const res = await createPreference(params);
 	if (res.state === 1) {
-		emtis('handleClose', { type: 1, form: form.value })
+		emtis("handleClose", { type: 1, form: form.value });
 	} else {
 		ElMessage({
 			message: res.msg,
 			type: "error",
-		})
+		});
 	}
 };
-
-
-
 </script>

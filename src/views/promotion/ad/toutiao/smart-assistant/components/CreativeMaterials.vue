@@ -2,7 +2,8 @@
 import { ref, reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import CreateMaterial from "./CreativeMaterial.vue";
-import MaterialSelector from "./MaterialSelector.vue";
+import { ICreativeMaterials } from "@/api/modules/promotion";
+// import MaterialSelector from "./MaterialSelector.vue";
 
 interface IProps {
     visible: boolean;
@@ -24,17 +25,24 @@ watchEffect(() => {
     drawerOptions.visible = props.visible;
 });
 
+const form = reactive<ICreativeMaterials>({
+    material: "same",
+    promotion_material_group: [{
+        video_material_list: [],
+        image_material_list: [],
+        carousel_material_list: [],
+    }]
+})
+
 // 每个创意组配置
 const video = ref(5);
 const image = ref(5);
 const graphics = ref(5);
 
-const multiple_account_allocation_rules = ref(1);
-
 // 素材选择器
-const MaterialSelectorState = reactive({
-    visible: false,
-});
+// const MaterialSelectorState = reactive({
+//     visible: false,
+// });
 
 // 创意组
 interface IVidoeInfo {
@@ -54,7 +62,7 @@ interface ComponentState {
     video: number;
     image: number;
     graphics: number;
-    vidoeInfo?: IVidoeInfo[];
+    videoInfo?: IVidoeInfo[];
 }
 
 const components = ref<ComponentState[]>([
@@ -82,12 +90,12 @@ const handleUpdateState = (component: {
     id: number;
     videoInfo: IVidoeInfo;
 }) => {
-    components.value.forEach((item) => {
-        if (item.id === component.id) {
-            item.videoInfo = component.videoInfo;
-        }
-    });
-
+    console.log(component)
+    // components.value.forEach((item) => {
+    //     if (item.id === component.id) {
+    //         item.videoInfo = component.videoInfo;
+    //     }
+    // });
 };
 </script>
 
@@ -101,10 +109,10 @@ const handleUpdateState = (component: {
             <el-scrollbar style="height: 100%">
                 <el-form :label-position="'left'" :label-width="'160'">
                     <el-form-item label="多账户分配规则">
-                        <el-radio-group v-model="multiple_account_allocation_rules">
-                            <el-radio-button label="全账户服用" value="1" />
-                            <el-radio-button label="平均分配" value="2" />
-                            <el-radio-button label="分帐户选择" value="3" />
+                        <el-radio-group v-model="form.material">
+                            <el-radio-button label="全账户服用" :value="'same'" />
+                            <el-radio-button label="平均分配" :value="'agv'" />
+                            <el-radio-button label="分帐户选择" :value="'ad_same'" />
                         </el-radio-group>
                     </el-form-item>
 
@@ -115,7 +123,7 @@ const handleUpdateState = (component: {
                                     :min="1"></el-input><el-text>个视频</el-text>
                             </div>
 
-                            <div class="flex w-160px">
+                            <!-- <div class="flex w-160px">
                                 <el-input v-model="image" style="width : 60px;margin-right: 8px;"
                                     :min="1"></el-input><el-text>个图片</el-text>
                             </div>
@@ -123,7 +131,7 @@ const handleUpdateState = (component: {
                             <div class="flex w-160px">
                                 <el-input v-model="graphics" style="width : 60px;margin-right: 8px;"
                                     :min="1"></el-input><el-text>个图文</el-text>
-                            </div>
+                            </div> -->
                         </div>
                     </el-form-item>
                 </el-form>
@@ -163,8 +171,5 @@ const handleUpdateState = (component: {
                 </div>
             </el-scrollbar>
         </main>
-
     </Drawer>
-
-    <!-- <MaterialSelector :visible="MaterialSelectorState.visible" /> -->
 </template>

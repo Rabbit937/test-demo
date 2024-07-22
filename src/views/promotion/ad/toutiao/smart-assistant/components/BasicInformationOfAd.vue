@@ -411,184 +411,198 @@ import { ref, reactive, watchEffect, watch } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import SelectTikTokAccount from "./SelectTikTokAccount.vue";
 import MaterialSelector from "./MaterialSelector.vue";
-import type { IBasicInformationOfAd, IUploadMaterial2MediaResultData } from "@/api/modules/promotion";
+import type {
+	IBasicInformationOfAd,
+	IUploadMaterial2MediaResultData,
+} from "@/api/modules/promotion";
 import { ElMessage } from "element-plus";
 
 interface IProps {
-    visible: boolean;
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleBasicInformationOfAdClose"]);
 
 const drawerOptions = reactive({
-    visible: props.visible ?? false,
-    size: 1016,
+	visible: props.visible ?? false,
+	size: 1016,
 });
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
+	drawerOptions.visible = props.visible;
 });
 
 const handleDrawerClose = (type: number) => {
-    if (type === 1) {
-        console.log(form)
-        emits("handleBasicInformationOfAdClose", { type: 1, form: form });
-    } else {
-        emits("handleBasicInformationOfAdClose", { type: 0 });
-    }
+	if (type === 1) {
+		console.log(form);
+		emits("handleBasicInformationOfAdClose", { type: 1, form: form });
+	} else {
+		emits("handleBasicInformationOfAdClose", { type: 0 });
+	}
 };
 
 const form = reactive<IBasicInformationOfAd>({
-    ad_download_status: '',
-    anchor_related_type: 'OFF',
-    aweme_info_group: [],
-    product_info_group: [],
-    call_to_action_buttons: [],
-    intelligent_generation: '',
-    is_comment_disable: '',
-    keywords: [],
-    mini_program_info: '',
-    playable_url_material_list: [],
-    pre_promotion_budget_group: [],
-    product_info_conf: 'same',
-    promotion_aweme: 'same',
-    promotion_name: '<日期>-<时分秒>-<当日标号>',
-    promotion_operation: 'ENABLE',
-    source: '',
-    web_url_material_list: []
+	ad_download_status: "",
+	anchor_related_type: "OFF",
+	aweme_info_group: [],
+	product_info_group: [],
+	call_to_action_buttons: [],
+	intelligent_generation: "",
+	is_comment_disable: "",
+	keywords: [],
+	mini_program_info: "",
+	playable_url_material_list: [],
+	pre_promotion_budget_group: [],
+	product_info_conf: "same",
+	promotion_aweme: "same",
+	promotion_name: "<日期>-<时分秒>-<当日标号>",
+	promotion_operation: "ENABLE",
+	source: "",
+	web_url_material_list: [],
 });
 
 const promotional_identity = ref(1);
 
 const SelectTikTokAccountState = reactive({
-    visible: false,
-    title: "选择抖音号",
+	visible: false,
+	title: "选择抖音号",
 });
 
 const selectTikTokAccount = () => {
-    SelectTikTokAccountState.visible = true;
+	SelectTikTokAccountState.visible = true;
 };
-const selectTikTokAccountDialog = (options: { type: number, AwemeList: any }) => {
-    SelectTikTokAccountState.visible = false;
-    if (options.type === 1) {
-        form.aweme_info_group = options.AwemeList;
-    }
+const selectTikTokAccountDialog = (options: {
+	type: number;
+	AwemeList: any;
+}) => {
+	SelectTikTokAccountState.visible = false;
+	if (options.type === 1) {
+		form.aweme_info_group = options.AwemeList;
+	}
 };
 
 const callToAction = ref<string>();
 const callToActionList = ref<string[]>([]);
 
-const addCallToActionList = ref<string[]>([])
+const addCallToActionList = ref<string[]>([]);
 
 const addcallToAction = () => {
-    if (callToAction.value) {
-        if (callToActionList.value.length < 10) {
-            if (addCallToActionList.value.includes(callToAction.value)) {
-                callToAction.value = "";
-                ElMessage({
-                    message: "请勿重复添加行动号召",
-                    type: 'warning'
-                })
-            } else {
-                addCallToActionList.value.push(callToAction.value);
-                callToAction.value = "";
-            }
-        } else {
-            callToAction.value = "";
-            ElMessage({
-                message: "行动号召最多只能10个",
-                type: 'warning'
-            })
-        }
-    } else {
-        ElMessage({
-            message: "添加行动号召内容不能为空",
-            type: 'warning'
-        })
-    }
+	if (callToAction.value) {
+		if (callToActionList.value.length < 10) {
+			if (addCallToActionList.value.includes(callToAction.value)) {
+				callToAction.value = "";
+				ElMessage({
+					message: "请勿重复添加行动号召",
+					type: "warning",
+				});
+			} else {
+				addCallToActionList.value.push(callToAction.value);
+				callToAction.value = "";
+			}
+		} else {
+			callToAction.value = "";
+			ElMessage({
+				message: "行动号召最多只能10个",
+				type: "warning",
+			});
+		}
+	} else {
+		ElMessage({
+			message: "添加行动号召内容不能为空",
+			type: "warning",
+		});
+	}
 };
 
 const callToActionListRecommendList = ref<string[]>([]);
 const recommendCallToActionList = [
-    "一键领取",
-    "了解更多",
-    "官方下载",
-    "更多精彩",
-    "极速下载",
-    "查看详情",
-    "立即下载",
-    "立即预约",
-    "领取优惠",
-    "领取卡券",
-    "马上领取",
+	"一键领取",
+	"了解更多",
+	"官方下载",
+	"更多精彩",
+	"极速下载",
+	"查看详情",
+	"立即下载",
+	"立即预约",
+	"领取优惠",
+	"领取卡券",
+	"马上领取",
 ];
 
 watchEffect(() => {
-    callToActionList.value = [...addCallToActionList.value, ...callToActionListRecommendList.value];
-})
+	callToActionList.value = [
+		...addCallToActionList.value,
+		...callToActionListRecommendList.value,
+	];
+});
 
 const deleteCallToAction = (value: string) => {
-    if (addCallToActionList.value.includes(value)) {
-        addCallToActionList.value = addCallToActionList.value.filter(item => item !== value);
-    }
+	if (addCallToActionList.value.includes(value)) {
+		addCallToActionList.value = addCallToActionList.value.filter(
+			(item) => item !== value,
+		);
+	}
 
-    if (callToActionListRecommendList.value.includes(value)) {
-        callToActionListRecommendList.value = callToActionListRecommendList.value.filter(item => item !== value);
-    }
-}
-
+	if (callToActionListRecommendList.value.includes(value)) {
+		callToActionListRecommendList.value =
+			callToActionListRecommendList.value.filter((item) => item !== value);
+	}
+};
 
 // 清空已选的行动号召
 const clearCallToActionList = () => {
-    callToActionList.value = []
-    addCallToActionList.value = []
-    callToActionListRecommendList.value = []
-}
+	callToActionList.value = [];
+	addCallToActionList.value = [];
+	callToActionListRecommendList.value = [];
+};
 
 // 清空已选推荐的行动号召
 const clearCallToActionListRecommendList = () => {
-    callToActionListRecommendList.value = []
-}
-
-
+	callToActionListRecommendList.value = [];
+};
 
 // 产品名称
-const product_name = ref<string>('');
+const product_name = ref<string>("");
 
 // 产品主图
 const product_info_image_ids = ref<string[]>([]);
 
 const MaterialSelectorState = reactive({
-    visible: false,
-})
+	visible: false,
+});
 
 const addImageIds = () => {
-    MaterialSelectorState.visible = true;
-}
+	MaterialSelectorState.visible = true;
+};
 
 const MaterialSelectorForm = ref<IUploadMaterial2MediaResultData[]>([]);
 
-const handleMaterialSelectorDialogClose = (options: { type: number; form: any }) => {
-    MaterialSelectorState.visible = false;
-    if (options.type === 1) {
-        MaterialSelectorForm.value = options.form;
-    }
-    if (MaterialSelectorForm.value.length > 0) {
-        product_info_image_ids.value.push(...MaterialSelectorForm.value.map((obj => obj.post_url)))
-    }
-}
+const handleMaterialSelectorDialogClose = (options: {
+	type: number;
+	form: any;
+}) => {
+	MaterialSelectorState.visible = false;
+	if (options.type === 1) {
+		MaterialSelectorForm.value = options.form;
+	}
+	if (MaterialSelectorForm.value.length > 0) {
+		product_info_image_ids.value.push(
+			...MaterialSelectorForm.value.map((obj) => obj.post_url),
+		);
+	}
+};
 
 // 删除已选的产品主图
 const deleteProductInfoImage = (value: string) => {
-    product_info_image_ids.value = product_info_image_ids.value.filter(item => item !== value);
-}
-
-
+	product_info_image_ids.value = product_info_image_ids.value.filter(
+		(item) => item !== value,
+	);
+};
 
 // 产品卖点
 // input输入内容
-const product_info_title = ref<string>('');
+const product_info_title = ref<string>("");
 // input输入内容列表
 const product_selling_points_list = ref<string[]>([]);
 // input输入内容和选择推荐的总列表
@@ -600,63 +614,68 @@ const recommend_product_selling_points_list_selected = ref<string[]>([]);
 
 // 添加产品函数
 const addProductInfoSellingPoint = () => {
-    if (product_info_title.value) {
-        if (product_selling_points_list_selected.value.length < 10) {
-            if (product_selling_points_list.value.includes(product_info_title.value)) {
-                product_info_title.value = "";
-                ElMessage({
-                    message: "请勿重复添加行动号召",
-                    type: 'warning'
-                })
-            } else {
-                product_selling_points_list.value.push(product_info_title.value);
-                product_info_title.value = "";
-            }
-        } else {
-            product_info_title.value = "";
-            ElMessage({
-                message: "行动号召最多只能10个",
-                type: 'warning'
-            })
-        }
-    } else {
-        ElMessage({
-            message: "添加行动号召内容不能为空",
-            type: 'warning'
-        })
-    }
-}
-
+	if (product_info_title.value) {
+		if (product_selling_points_list_selected.value.length < 10) {
+			if (
+				product_selling_points_list.value.includes(product_info_title.value)
+			) {
+				product_info_title.value = "";
+				ElMessage({
+					message: "请勿重复添加行动号召",
+					type: "warning",
+				});
+			} else {
+				product_selling_points_list.value.push(product_info_title.value);
+				product_info_title.value = "";
+			}
+		} else {
+			product_info_title.value = "";
+			ElMessage({
+				message: "行动号召最多只能10个",
+				type: "warning",
+			});
+		}
+	} else {
+		ElMessage({
+			message: "添加行动号召内容不能为空",
+			type: "warning",
+		});
+	}
+};
 
 watchEffect(() => {
-    product_selling_points_list_selected.value = [...product_selling_points_list.value, ...recommend_product_selling_points_list_selected.value];
-})
+	product_selling_points_list_selected.value = [
+		...product_selling_points_list.value,
+		...recommend_product_selling_points_list_selected.value,
+	];
+});
 
 const deleteProductSellingPointsListSelected = (value: string) => {
-    if (product_selling_points_list.value.includes(value)) {
-        product_selling_points_list.value = product_selling_points_list.value.filter(item => item !== value);
-    }
+	if (product_selling_points_list.value.includes(value)) {
+		product_selling_points_list.value =
+			product_selling_points_list.value.filter((item) => item !== value);
+	}
 
-    if (recommend_product_selling_points_list_selected.value.includes(value)) {
-        recommend_product_selling_points_list_selected.value = recommend_product_selling_points_list_selected.value.filter(item => item !== value);
-    }
-}
+	if (recommend_product_selling_points_list_selected.value.includes(value)) {
+		recommend_product_selling_points_list_selected.value =
+			recommend_product_selling_points_list_selected.value.filter(
+				(item) => item !== value,
+			);
+	}
+};
 
 // 清空已选产品卖点
 const clearProductSellingPointsListSelected = () => {
-    product_selling_points_list_selected.value = []
-    product_selling_points_list.value = []
-    recommend_product_selling_points_list_selected.value = []
-}
+	product_selling_points_list_selected.value = [];
+	product_selling_points_list.value = [];
+	recommend_product_selling_points_list_selected.value = [];
+};
 
 // 清空已选推荐的产品卖点
 const clearRecommendProductSellingPointsListSelected = () => {
-    recommend_product_selling_points_list_selected.value = []
-}
+	recommend_product_selling_points_list_selected.value = [];
+};
 
 // 预算出价规则-预算
-const budget_amount = ref<string>()
-
-
-
+const budget_amount = ref<string>();
 </script>

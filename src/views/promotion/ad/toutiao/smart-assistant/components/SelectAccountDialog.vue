@@ -129,32 +129,32 @@ import { reactive, ref } from "vue";
 import { Search } from "@element-plus/icons-vue";
 
 const selectPopover = reactive({
-    title: "",
-    visible: false,
-    width: 0,
-    type: 1,
+	title: "",
+	visible: false,
+	width: 0,
+	type: 1,
 });
 
 const handleDialogClose = (done: "confirm" | "cancel") => {
-    selectPopover.visible = false;
-    if (done === "confirm") {
-    } else {
-    }
+	selectPopover.visible = false;
+	if (done === "confirm") {
+	} else {
+	}
 };
 
 const mediaAccountState = reactive<{
-    project: string;
-    mainBody: string;
-    searchValue: string;
+	project: string;
+	mainBody: string;
+	searchValue: string;
 }>({
-    project: "",
-    mainBody: "",
-    searchValue: "",
+	project: "",
+	mainBody: "",
+	searchValue: "",
 });
 
 interface IOption {
-    value: string;
-    label: string;
+	value: string;
+	label: string;
 }
 const projectOptions = ref<IOption[]>();
 const mainBodyOptions = ref<IOption[]>();
@@ -162,57 +162,57 @@ const mainBodyOptions = ref<IOption[]>();
 const loading = ref(false);
 
 const tableData = [
-    {
-        date: "2016-05-03",
-        name: "Tom",
-        address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-        date: "2016-05-02",
-        name: "Tom",
-        address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-        date: "2016-05-04",
-        name: "Tom",
-        address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-        date: "2016-05-01",
-        name: "Tom",
-        address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-        date: "2016-05-03",
-        name: "Tom",
-        address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-        date: "2016-05-02",
-        name: "Tom",
-        address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-        date: "2016-05-04",
-        name: "Tom",
-        address: "No. 189, Grove St, Los Angeles",
-    },
-    {
-        date: "2016-05-01",
-        name: "Tom",
-        address: "No. 189, Grove St, Los Angeles",
-    },
+	{
+		date: "2016-05-03",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
+	{
+		date: "2016-05-02",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
+	{
+		date: "2016-05-04",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
+	{
+		date: "2016-05-01",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
+	{
+		date: "2016-05-03",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
+	{
+		date: "2016-05-02",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
+	{
+		date: "2016-05-04",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
+	{
+		date: "2016-05-01",
+		name: "Tom",
+		address: "No. 189, Grove St, Los Angeles",
+	},
 ];
 
 const paginationState = reactive({
-    currentPage: 1,
-    pageSize: 10,
-    total: 10,
+	currentPage: 1,
+	pageSize: 10,
+	total: 10,
 });
 
 const ruleConfiguration = reactive({
-    generateRuleValue: 1,
-    allocationRuleValue: 1,
-    NumberOfAdvertisements: 100,
+	generateRuleValue: 1,
+	allocationRuleValue: 1,
+	NumberOfAdvertisements: 100,
 });
 </script>

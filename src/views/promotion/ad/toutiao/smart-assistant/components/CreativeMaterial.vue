@@ -4,7 +4,7 @@
             <div class="creative-group">
                 <div class="creative-group-header flex">
                     <span class="creative-group-name">
-                        创意组01 <i class="el-icon-edit-outline"></i>
+                        创意组 <i class="el-icon-edit-outline"></i>
                     </span><i class="el-icon-caret el-icon-caret-bottom"></i>
                 </div>
                 <div class="creative-group-body">
@@ -112,7 +112,7 @@
                                 </div>
                             </el-scrollbar>
                         </el-tab-pane>
-                        <el-tab-pane :label="`图片(0/${props.initialState.image})`" class="p-16px min-h-256px">
+                        <!-- <el-tab-pane :label="`图片(0/${props.initialState.image})`" class="p-16px min-h-256px">
                             <el-scrollbar height="256px">
                                 <div class="flex flex-wrap">
                                     <div class="min-h-140px mr-23px flex align-items-center justify-center position-relative w-200px hover:border-"
@@ -128,7 +128,7 @@
                             <el-scrollbar height="256px">
                                 <h1>图文</h1>
                             </el-scrollbar>
-                        </el-tab-pane>
+                        </el-tab-pane> -->
                     </el-tabs>
                 </div>
             </div>
@@ -146,7 +146,6 @@
 
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref, watchEffect, reactive } from "vue";
-import MaterialSelector from "./MaterialSelector.vue";
 
 interface IVidoeInfo {
     id: number; // 索引id
@@ -202,32 +201,33 @@ const showMaterialSelector = (n: IVidoeInfo) => {
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const handleMaterialSelectorDialog = (type: number, video?: any[]) => {
-    if (type === 1) {
-        if (video?.length) {
-            component.value[targetComponent.value.id - 1] = {
-                id: targetComponent.value.id,
-                ...video[0],
-            };
-        }
-        emit("updateState", {
-            id: props.initialState.id,
-            videoInfo: component.value,
-        });
-        MaterialSelectorState.visible = false;
-    } else {
-        MaterialSelectorState.visible = false;
-    }
-};
+// const handleMaterialSelectorDialog = (type: number, video?: any[]) => {
+// 	if (type === 1) {
+// 		if (video?.length) {
+// 			component.value[targetComponent.value.id - 1] = {
+// 				id: targetComponent.value.id,
+// 				...video[0],
+// 			};
+// 		}
+// 		emit("updateState", {
+// 			id: props.initialState.id,
+// 			videoInfo: component.value,
+// 		});
+// 		MaterialSelectorState.visible = false;
+// 	} else {
+// 		MaterialSelectorState.visible = false;
+// 	}
+// };
 
 // 删除
 const deleteComponent = (video: IVidoeInfo) => {
+    console.log(video)
     component.value.splice(component.value.length - 1, 1);
     emit("updateState", {
         id: props.initialState.id,
         videoInfo: component.value,
     });
-};
+}
 </script>
 
 <style lang="scss" scoped>

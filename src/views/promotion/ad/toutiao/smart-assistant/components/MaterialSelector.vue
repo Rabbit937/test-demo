@@ -4,234 +4,233 @@ import { Search } from "@element-plus/icons-vue";
 import { zhCn } from "element-plus/es/locales.mjs";
 import "element-plus/es/components/message/style/css";
 import {
-    type IMatList,
-    type IUploadMaterial2Media,
-    matList,
-    uploadMaterial2Media,
+	type IMatList,
+	type IUploadMaterial2Media,
+	matList,
+	uploadMaterial2Media,
 } from "@/api/modules/promotion";
-import { ElMessage } from 'element-plus'
+import { ElMessage } from "element-plus";
 
 interface IProps {
-    visible: boolean;
-    title?: string;
+	visible: boolean;
+	title?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emtis = defineEmits(["handleDialogClose"]);
 
 const dialogState = reactive({
-    title: props.title,
-    visible: false,
-    width: 1200,
+	title: props.title,
+	visible: false,
+	width: 1200,
 });
 
 // 查询素材列表
 const matListFunc = async (param: IMatList) => {
-    const res: any = await matList(param);
+	const res: any = await matList(param);
 
-    console.log("matListFunc------->", res);
+	console.log("matListFunc------->", res);
 
-    if (res.state === 1) {
-        videos.value = res.data.list;
-    }
+	if (res.state === 1) {
+		videos.value = res.data.list;
+	}
 };
 
 // 确认之后上传到媒体接口
 const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
-    const res = await uploadMaterial2Media(params);
-    if (res.state === 1) {
-        selectedVideos.value = [];
-        emtis("handleDialogClose", { type: 1, form: res.data });
-    }
+	const res = await uploadMaterial2Media(params);
+	if (res.state === 1) {
+		selectedVideos.value = [];
+		emtis("handleDialogClose", { type: 1, form: res.data });
+	}
 };
 
 watchEffect(() => {
-    dialogState.visible = props.visible;
+	dialogState.visible = props.visible;
 });
 
-
-watch(() => dialogState.visible, () => {
-    if (dialogState.visible === true) {
-        matListFunc({})
-    }
-});
+watch(
+	() => dialogState.visible,
+	() => {
+		if (dialogState.visible === true) {
+			matListFunc({});
+		}
+	},
+);
 
 const handleDialogClose = (type: number) => {
-    if (type === 1) {
-        if (selectedVideos.value.length > 0) {
-            const material_info = selectedVideos.value.map((video: any) => {
-                if (video.mime === "1") {
-                    return {
-                        filename: video.material_name,
-                        mime: video.mime,
-                        mat_id: video.material_id,
-                        post_url: video.info.preview,
-                    };
-                }
-                return {
-                    filename: video.material_name,
-                    mime: video.mime,
-                    mat_id: video.material_id,
-                    url: video.upload_dir,
-                };
-            });
+	if (type === 1) {
+		if (selectedVideos.value.length > 0) {
+			const material_info = selectedVideos.value.map((video: any) => {
+				if (video.mime === "1") {
+					return {
+						filename: video.material_name,
+						mime: video.mime,
+						mat_id: video.material_id,
+						post_url: video.info.preview,
+					};
+				}
+				return {
+					filename: video.material_name,
+					mime: video.mime,
+					mat_id: video.material_id,
+					url: video.upload_dir,
+				};
+			});
 
-            uploadMaterial2MediaFunc({
-                advertiser_id: "1787695788195915",
-                cpnid: "1",
-                material_info: material_info,
-            });
-        } else {
-            ElMessage.warning({
-                message: "请选择素材",
-                type: "warning",
-                duration: 2000,
-            });
-        }
-    } else {
-        emtis("handleDialogClose", 0);
-    }
-}
-
+			uploadMaterial2MediaFunc({
+				advertiser_id: "1787695788195915",
+				cpnid: "1",
+				material_info: material_info,
+			});
+		} else {
+			ElMessage.warning({
+				message: "请选择素材",
+				type: "warning",
+				duration: 2000,
+			});
+		}
+	} else {
+		emtis("handleDialogClose", 0);
+	}
+};
 
 // 素材库和
 const tabName = ref("material_library");
 
 const handletabsClick = (value: string) => {
-    console.log(value);
-}
+	console.log(value);
+};
 
 const searchParameters = reactive({
-    keyword: "",
-    search_type: 2,
-    materialType: "",
-    materialStatus: "",
-    dateValue: null,
-    cascaderValue: "",
+	keyword: "",
+	search_type: 2,
+	materialType: "",
+	materialStatus: "",
+	dateValue: null,
+	cascaderValue: "",
 });
 
 const searchSelectList = [
-    {
-        label: "素材ID",
-        value: 1,
-    },
-    {
-        label: "素材名称",
-        value: 2,
-    },
+	{
+		label: "素材ID",
+		value: 1,
+	},
+	{
+		label: "素材名称",
+		value: 2,
+	},
 ];
 
 const shortcuts = [
-    {
-        text: "今天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            return [start, end];
-        },
-    },
-    {
-        text: "昨天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
+	{
+		text: "今天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			return [start, end];
+		},
+	},
+	{
+		text: "昨天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
 
-            end.setDate(end.getDate() - 1);
-            start.setDate(start.getDate() - 1);
+			end.setDate(end.getDate() - 1);
+			start.setDate(start.getDate() - 1);
 
-            return [start, end];
-        },
-    },
-    {
-        text: "近三天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
+			return [start, end];
+		},
+	},
+	{
+		text: "近三天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
 
-            start.setDate(start.getDate() - 3);
+			start.setDate(start.getDate() - 3);
 
-            return [start, end];
-        },
-    },
-    {
-        text: "近7天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            start.setDate(start.getDate() - 7);
-            return [start, end];
-        },
-    },
-    {
-        text: "近30天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            start.setMonth(start.getMonth() - 1);
-            return [start, end];
-        },
-    },
-    {
-        text: "近60天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            start.setMonth(start.getMonth() - 2);
-            return [start, end];
-        },
-    },
-    {
-        text: "近90天",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
-            start.setMonth(start.getMonth() - 3);
-            return [start, end];
-        },
-    },
+			return [start, end];
+		},
+	},
+	{
+		text: "近7天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setDate(start.getDate() - 7);
+			return [start, end];
+		},
+	},
+	{
+		text: "近30天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setMonth(start.getMonth() - 1);
+			return [start, end];
+		},
+	},
+	{
+		text: "近60天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setMonth(start.getMonth() - 2);
+			return [start, end];
+		},
+	},
+	{
+		text: "近90天",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
+			start.setMonth(start.getMonth() - 3);
+			return [start, end];
+		},
+	},
 
-    {
-        text: "近一年",
-        value: () => {
-            const end = new Date();
-            const start = new Date();
+	{
+		text: "近一年",
+		value: () => {
+			const end = new Date();
+			const start = new Date();
 
-            start.setMonth(start.getMonth() - 12);
-            return [start, end];
-        },
-    },
+			start.setMonth(start.getMonth() - 12);
+			return [start, end];
+		},
+	},
 ];
 
 const materialTypeOptions = [
-    { label: "视频", value: 1 },
-    { label: "图片", value: 2, },
+	{ label: "视频", value: 1 },
+	{ label: "图片", value: 2 },
 ];
 
 const materialStatusOptions = [
-    { label: "停用", value: 1 },
-    { label: "启用", value: 0, },
+	{ label: "停用", value: 1 },
+	{ label: "启用", value: 0 },
 ];
 
 const placeholderText = ref("请输入素材名称");
 
 const cascaderOptions = ref();
 const cascaderProps = {
-    checkStrictly: true,
-    value: "ID",
-    label: "ANAME",
-    children: "CHILD",
+	checkStrictly: true,
+	value: "ID",
+	label: "ANAME",
+	children: "CHILD",
 };
 
-const handleSearch = () => { };
+const handleSearch = () => {};
 
 const checked1 = ref();
 
 const selectedVideos = ref([]);
 const videos = ref<any[]>([]);
 
-const handleChange = () => {
-};
-
+const handleChange = () => {};
 </script>
 
 <template>

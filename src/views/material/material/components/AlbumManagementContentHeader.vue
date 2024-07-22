@@ -280,7 +280,7 @@ const upload = async (options: UploadRequestOptions) => {
 			album_id: uploadState.form.cascaderValue[0],
 			dir_id:
 				uploadState.form.cascaderValue[
-				uploadState.form.cascaderValue.length - 1
+					uploadState.form.cascaderValue.length - 1
 				],
 			creative_id: uploadState.form.creativePerson,
 			editor_id: uploadState.form.designer,

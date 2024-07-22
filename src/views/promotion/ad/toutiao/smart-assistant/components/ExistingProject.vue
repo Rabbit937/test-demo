@@ -114,87 +114,87 @@ import Drawer from "@/components/Drawer.vue";
 import { queryProjectList } from "@/api/modules/promotion";
 
 interface IProps {
-    visible: boolean;
+	visible: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleNewProjectClose"]);
 
 const drawerOptions = reactive({
-    visible: props.visible,
-    size: 1016,
+	visible: props.visible,
+	size: 1016,
 });
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
+	drawerOptions.visible = props.visible;
 });
 
 const handleDrawerClose = (type: number) => {
-    emits("handleNewProjectClose", type);
+	emits("handleNewProjectClose", type);
 };
 
 // 投放模式
 const DeliveryModeOptions = [
-    {
-        value: "MANUAL",
-        label: "手动投放(默认值）",
-    },
-    {
-        value: "PROCEDURAL",
-        label: "自动投放",
-    },
+	{
+		value: "MANUAL",
+		label: "手动投放(默认值）",
+	},
+	{
+		value: "PROCEDURAL",
+		label: "自动投放",
+	},
 ];
 
 // 推广目的
 const PurposeOfPromotionOptions = [
-    {
-        value: "APP",
-        label: "应用推广",
-    },
-    {
-        value: "QUICK_APP",
-        label: "快应用推广",
-    },
-    {
-        value: "STORE",
-        label: "门店推广",
-    },
-    {
-        value: "AWEME",
-        label: "抖音号推广",
-    },
-    {
-        value: "LIVE",
-        label: "直播间推广",
-    },
+	{
+		value: "APP",
+		label: "应用推广",
+	},
+	{
+		value: "QUICK_APP",
+		label: "快应用推广",
+	},
+	{
+		value: "STORE",
+		label: "门店推广",
+	},
+	{
+		value: "AWEME",
+		label: "抖音号推广",
+	},
+	{
+		value: "LIVE",
+		label: "直播间推广",
+	},
 ];
 
 // 子目标
 const SubgoalsOptions = [
-    {
-        value: "DOWNLOAD",
-        label: "应用下载",
-    },
-    {
-        value: "LAUNCH",
-        label: "应用调起",
-    },
-    {
-        value: "RESERVE",
-        label: "预约下载",
-    },
+	{
+		value: "DOWNLOAD",
+		label: "应用下载",
+	},
+	{
+		value: "LAUNCH",
+		label: "应用调起",
+	},
+	{
+		value: "RESERVE",
+		label: "预约下载",
+	},
 ];
 
 // 营销场景
 const MarketingGoalOptions = [
-    {
-        value: "VIDEO_AND_IMAGE",
-        label: "短视频/图片",
-    },
-    {
-        value: "LIVE",
-        label: "直播",
-    },
+	{
+		value: "VIDEO_AND_IMAGE",
+		label: "短视频/图片",
+	},
+	{
+		value: "LIVE",
+		label: "直播",
+	},
 ];
 
 // 名称
@@ -205,55 +205,55 @@ const loading = ref(false);
 const tableData = ref();
 
 const paginationState = reactive({
-    currentPage: 1,
-    pageSize: 20,
-    total: 10,
+	currentPage: 1,
+	pageSize: 20,
+	total: 10,
 });
 
 interface IQueryProjectList {
-    advertiser_id: string;
-    delivery_mode: string;
-    landing_type: string;
-    app_promotion_type: string;
-    marketing_goal: string;
-    name: string;
+	advertiser_id: string;
+	delivery_mode: string;
+	landing_type: string;
+	app_promotion_type: string;
+	marketing_goal: string;
+	name: string;
 }
 
 const requestParams: IQueryProjectList = reactive({
-    advertiser_id: "1787695788195915",
-    delivery_mode: "",
-    landing_type: "",
-    app_promotion_type: "",
-    marketing_goal: "",
-    name: "",
+	advertiser_id: "1787695788195915",
+	delivery_mode: "",
+	landing_type: "",
+	app_promotion_type: "",
+	marketing_goal: "",
+	name: "",
 });
 
 // 已有项目列表数据请求
 const queryProjectListFunc = async () => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await queryProjectList(requestParams);
-    loading.value = true;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await queryProjectList(requestParams);
+	loading.value = true;
 
-    if (res.state === 1) {
-        tableData.value = res.data.list;
-        paginationState.currentPage = Number(res.data.page_info.cur_page);
-        paginationState.pageSize = Number(res.data.page_info.page_limit);
-        paginationState.total = Number(res.data.page_info.total);
+	if (res.state === 1) {
+		tableData.value = res.data.list;
+		paginationState.currentPage = Number(res.data.page_info.cur_page);
+		paginationState.pageSize = Number(res.data.page_info.page_limit);
+		paginationState.total = Number(res.data.page_info.total);
 
-        loading.value = false;
-    } else {
-        ElMessage({
-            showClose: true,
-            message: res.msg,
-            type: "error",
-        });
+		loading.value = false;
+	} else {
+		ElMessage({
+			showClose: true,
+			message: res.msg,
+			type: "error",
+		});
 
-        loading.value = false;
-    }
+		loading.value = false;
+	}
 };
 
 onMounted(() => {
-    queryProjectListFunc();
+	queryProjectListFunc();
 });
 </script>
 

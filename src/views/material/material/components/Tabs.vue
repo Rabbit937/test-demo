@@ -16,18 +16,17 @@ import { ref } from "vue";
 import type { TabsPaneContext } from "element-plus";
 const activeTab = ref("albumManagement");
 const tabs = ref([
-  {
-    label: "专辑管理",
-    name: "albumManagement",
-  },
-  {
-    label: "素材管理",
-    name: "materialManagement",
-  },
+	{
+		label: "专辑管理",
+		name: "albumManagement",
+	},
+	{
+		label: "素材管理",
+		name: "materialManagement",
+	},
 ]);
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-};
+const handleClick = (tab: TabsPaneContext, event: Event) => {};
 </script>
 
 <style lang="scss" scoped>

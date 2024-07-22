@@ -174,87 +174,87 @@
 import { onMounted, reactive, watchEffect, ref } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import {
-    type IQueryMonitorGroupList,
-    queryMonitorGroupList,
+	type IQueryMonitorGroupList,
+	queryMonitorGroupList,
 } from "@/api/modules/promotion";
 
 interface IProps {
-    visible: boolean;
-    size?: number;
-    type: number;
+	visible: boolean;
+	size?: number;
+	type: number;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
 const drawerOptions = reactive({
-    visible: props.visible,
-    size: props.size || 1016,
+	visible: props.visible,
+	size: props.size || 1016,
 });
 
 const title = ref("选择");
 
 watchEffect(() => {
-    drawerOptions.visible = props.visible;
-    if (props.type === 1) {
-        title.value = "选择巨量后台检测链接组";
-    } else if (props.type === 2) {
-        title.value = "选择创量导入检测活动";
-    } else {
-        title.value = "选择";
-    }
+	drawerOptions.visible = props.visible;
+	if (props.type === 1) {
+		title.value = "选择巨量后台检测链接组";
+	} else if (props.type === 2) {
+		title.value = "选择创量导入检测活动";
+	} else {
+		title.value = "选择";
+	}
 });
 
 const handleDrawerClose = (type: number) => {
-    emits("handleDrawerClose", type);
+	emits("handleDrawerClose", type);
 };
 
 const MonitorGroupList = ref();
 
 const queryMonitorGroupListFunc = async (params: IQueryMonitorGroupList) => {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const res: any = await queryMonitorGroupList(params);
-    if (res.state === 1) {
-        MonitorGroupList.value = res.data.list;
-    }
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const res: any = await queryMonitorGroupList(params);
+	if (res.state === 1) {
+		MonitorGroupList.value = res.data.list;
+	}
 };
 
 onMounted(() => {
-    queryMonitorGroupListFunc({
-        advertiser_id: "1787695788195915",
-        download_url:
-            "https://apps.bytesfield.com/download/basic/cur/c1e4f76f2c6608cf2ce4f1d00684d6be37439fc5",
-    });
+	queryMonitorGroupListFunc({
+		advertiser_id: "1787695788195915",
+		download_url:
+			"https://apps.bytesfield.com/download/basic/cur/c1e4f76f2c6608cf2ce4f1d00684d6be37439fc5",
+	});
 });
 
 const MonitorGroupSelected = ref();
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleSelectionChange = (monitorGroup: any) => {
-    if (monitorGroup.length === 1) {
-        MonitorGroupSelected.value = monitorGroup;
-    } else {
-        MonitorGroupSelected.value = false;
-    }
+	if (monitorGroup.length === 1) {
+		MonitorGroupSelected.value = monitorGroup;
+	} else {
+		MonitorGroupSelected.value = false;
+	}
 };
 
 const emptyMonitorGroupSelected = () => {
-    MonitorGroupSelected.value = false;
-    toggleSelection();
+	MonitorGroupSelected.value = false;
+	toggleSelection();
 };
 
 const multipleTableRef = ref();
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const toggleSelection = (rows?: any) => {
-    if (rows) {
-        // biome-ignore lint/complexity/noForEach: <explanation>
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        rows.forEach((row: any) => {
-            // biome-ignore lint/style/noNonNullAssertion: <explanation>
-            multipleTableRef.value!.toggleRowSelection(row, undefined);
-        });
-    } else {
-        multipleTableRef.value?.clearSelection();
-    }
+	if (rows) {
+		// biome-ignore lint/complexity/noForEach: <explanation>
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		rows.forEach((row: any) => {
+			// biome-ignore lint/style/noNonNullAssertion: <explanation>
+			multipleTableRef.value!.toggleRowSelection(row, undefined);
+		});
+	} else {
+		multipleTableRef.value?.clearSelection();
+	}
 };
 </script>

@@ -114,7 +114,6 @@ interface IOption {
 	label: string;
 }
 
-
 // 账户选择查询信息
 const mediaAccountState = reactive<{
 	mainBody: string;
@@ -201,18 +200,24 @@ const queryAccountListFunc = async (params: IQueryAccountList) => {
 	}
 };
 
-
 // 搜索媒体账户
 const handleSearchClick = () => {
-	queryAccountListFunc({ PID: "11", CPNID: mediaAccountState.mainBody, ALIAS: mediaAccountState.searchValue });
-}
+	queryAccountListFunc({
+		PID: "11",
+		CPNID: mediaAccountState.mainBody,
+		ALIAS: mediaAccountState.searchValue,
+	});
+};
 
 // 清空
 const handleClearClick = () => {
 	mediaAccountState.searchValue = "";
-	queryAccountListFunc({ PID: "11", CPNID: mediaAccountState.mainBody, ALIAS: mediaAccountState.searchValue });
-}
-
+	queryAccountListFunc({
+		PID: "11",
+		CPNID: mediaAccountState.mainBody,
+		ALIAS: mediaAccountState.searchValue,
+	});
+};
 
 interface IPaginationEvent {
 	type: string;
@@ -220,7 +225,7 @@ interface IPaginationEvent {
 	item: {
 		currentPage: number;
 		limit: number;
-	}
+	};
 }
 
 // 分页
@@ -234,17 +239,10 @@ const handlePaginationEvent = (paginationInfo: IPaginationEvent) => {
 	});
 };
 
-
-
-
-
-
 // 表格多选
 const multipleSelection = ref([]);
 
 const handleSelectionChange = (val: []) => {
 	multipleSelection.value = val;
 };
-
-
 </script>

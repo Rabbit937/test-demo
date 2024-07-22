@@ -49,7 +49,7 @@ watchEffect(() => {
 	drawerOptions.visible = props.visible;
 });
 
-const handleDrawerClose = () => { };
+const handleDrawerClose = () => {};
 
 const form: ICreatePromotion = reactive({
 	advertiser_id: "1787695788195915",

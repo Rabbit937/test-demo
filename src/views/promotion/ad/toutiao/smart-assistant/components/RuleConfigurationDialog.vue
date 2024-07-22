@@ -91,11 +91,11 @@
 
 <script setup lang="ts">
 import { ref, reactive, watchEffect } from "vue";
-import { IRuleConfiguration } from '@/api/modules/promotion'
+import type { IRuleConfiguration } from "@/api/modules/promotion";
 
 interface IProps {
-    visible: boolean;
-    infoOrNew: string;
+	visible: boolean;
+	infoOrNew: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
@@ -104,30 +104,29 @@ const visible = ref(props.visible);
 const infoOrNew = ref(props.infoOrNew);
 
 watchEffect(() => {
-    visible.value = props.visible;
-    infoOrNew.value = props.infoOrNew;
+	visible.value = props.visible;
+	infoOrNew.value = props.infoOrNew;
 });
 
 const handleDialogClose = (type: 1 | 0) => {
-    if (type === 1) {
-        emtis("handleClose", { type: 1, ruleConfiguration });
-    } else {
-        emtis("handleClose", { type: 0 });
-    }
+	if (type === 1) {
+		emtis("handleClose", { type: 1, ruleConfiguration });
+	} else {
+		emtis("handleClose", { type: 0 });
+	}
 };
 
 const aGenerationRules = ref(1);
 const allocationRuleValue = ref(1);
 
 const ruleConfiguration: IRuleConfiguration = reactive({
-    project: {
-        rule: "manual",
-        num: 1
-    },
-    promotion: {
-        rule: "auto",
-        num: 50,
-    }
-
+	project: {
+		rule: "manual",
+		num: 1,
+	},
+	promotion: {
+		rule: "auto",
+		num: 50,
+	},
 });
 </script>
