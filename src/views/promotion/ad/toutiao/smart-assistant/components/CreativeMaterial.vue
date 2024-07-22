@@ -139,13 +139,15 @@
         </div>
     </div>
 
-    <!-- <MaterialSelector :visible="MaterialSelectorState.visible" @handleDialogClose="handleMaterialSelectorDialog">
-    </MaterialSelector> -->
+    <MaterialSelector :visible="MaterialSelectorState.visible" @handleDialogClose="handleMaterialSelectorDialog">
+    </MaterialSelector>
 </template>
 
 
 <script lang="ts" setup>
 import { defineProps, defineEmits, ref, watchEffect, reactive } from "vue";
+import MaterialSelector from "./MaterialSelector.vue";
+
 
 interface IVidoeInfo {
     id: number; // 索引id
@@ -180,11 +182,10 @@ const addComponent = () => {
 };
 
 watchEffect(() => {
-    if (component.value.length === props.initialState.video) {
-        showAddComponent.value = false;
-    }
-    if (component.value.length === 0) {
+    if (component.value.length < props.initialState.video) {
         showAddComponent.value = true;
+    } else {
+        showAddComponent.value = false;
     }
 });
 
@@ -193,6 +194,7 @@ const MaterialSelectorState = reactive({
     visible: false,
 });
 
+// 调用素材选择的component
 const targetComponent = ref();
 
 const showMaterialSelector = (n: IVidoeInfo) => {
@@ -200,24 +202,24 @@ const showMaterialSelector = (n: IVidoeInfo) => {
     MaterialSelectorState.visible = true;
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-// const handleMaterialSelectorDialog = (type: number, video?: any[]) => {
-// 	if (type === 1) {
-// 		if (video?.length) {
-// 			component.value[targetComponent.value.id - 1] = {
-// 				id: targetComponent.value.id,
-// 				...video[0],
-// 			};
-// 		}
-// 		emit("updateState", {
-// 			id: props.initialState.id,
-// 			videoInfo: component.value,
-// 		});
-// 		MaterialSelectorState.visible = false;
-// 	} else {
-// 		MaterialSelectorState.visible = false;
-// 	}
-// };
+const handleMaterialSelectorDialog = (options: { type: number, form: any }) => {
+    const { type, form } = options;
+    if (type === 1) {
+        const video = form[0];
+        if (video) {
+            component.value[targetComponent.value.id - 1] = {
+                id: targetComponent.value.id,
+                ...video,
+            };
+            console.log(component.value[targetComponent.value.id - 1])
+
+        }
+        MaterialSelectorState.visible = false;
+    } else {
+        MaterialSelectorState.visible = false;
+    }
+};
+
 
 // 删除
 const deleteComponent = (video: IVidoeInfo) => {

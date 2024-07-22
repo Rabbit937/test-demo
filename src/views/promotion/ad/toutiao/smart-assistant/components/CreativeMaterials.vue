@@ -143,14 +143,14 @@ const handleUpdateState = (component: {
                             <span>创意制作</span>
                         </div>
                         <div class="font-size-12px color-[#666] ml-16px">
-                            <span>(创意组数量：0)</span>
+                            <span>(创意组数量：{{ components.length }})</span>
                         </div>
                     </div>
 
-                    <div>
+                    <!-- <div>
                         <el-button link>清空</el-button>
                         <el-button type="primary" plain>一键测新</el-button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <el-scrollbar height="500px" class="min-h-300px max-h-500px pr-16px">

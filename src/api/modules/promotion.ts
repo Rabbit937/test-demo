@@ -1093,3 +1093,51 @@ export interface ICreatePreference {
 export const createPreference = (params: ICreatePreference) => {
 	return http.post("/api/Mk_Tt_Preference/_createPreference", params);
 };
+
+
+/**
+ * @name 查询通用素材库-创建广告时
+ */
+
+export interface IQueryCommonMaterial {
+	/**
+	 * 专辑id
+	 */
+	album_id?: string;
+	/**
+	 * 素材类型1-视频2-图片
+	 */
+	category?: number;
+	/**
+	 * 创建时间
+	 */
+	create_date?: string;
+	/**
+	 * 文件夹id
+	 */
+	dir_id?: string;
+	/**
+	 * 头条拒绝次数
+	 */
+	ret_num?: number;
+	/**
+	 * 查询类别1，查id 2,查素材名称
+	 */
+	search_type?: string;
+	/**
+	 * 素材状态
+	 */
+	status?: string;
+	/**
+	 * 头条建议次数
+	 */
+	sug_num?: number;
+	/**
+	 * 素材版式1-横版2-竖版
+	 */
+	vert_hori?: number;
+}
+
+export const queryCommonMaterial = (params: IQueryCommonMaterial) => {
+	return http.get(`/api/Mk_Tt_Promotion/_queryCommonMaterial`, params)
+}
