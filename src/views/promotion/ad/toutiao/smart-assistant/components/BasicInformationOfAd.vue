@@ -88,7 +88,7 @@
                                             <el-text>已添加标签</el-text>
                                         </div>
                                         <div>
-                                            <el-button link type="primary">清空<el-icon>
+                                            <el-button link type="primary" @click="clearCallToActionList">清空<el-icon>
                                                     <RefreshRight />
                                                 </el-icon></el-button>
                                         </div>
@@ -121,7 +121,8 @@
                                             <el-text>推荐标签</el-text>
                                         </div>
                                         <div>
-                                            <el-button link type="primary">清空<el-icon>
+                                            <el-button link type="primary"
+                                                @click="clearCallToActionListRecommendList">清空<el-icon>
                                                     <RefreshRight />
                                                 </el-icon></el-button>
                                         </div>
@@ -167,14 +168,14 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="配置模式">
-                                <el-radio-group v-model="configuration_mode">
-                                    <el-radio-button :value="1"> 统一配置 </el-radio-button>
-                                    <el-radio-button :value="2"> 分帐户配置 </el-radio-button>
+                                <el-radio-group v-model="form.product_info_conf">
+                                    <el-radio-button :value="'same'"> 统一配置 </el-radio-button>
+                                    <el-radio-button :value="'ad_same'"> 分帐户配置 </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item label="产品名称">
-                                <el-input v-model="product_info_titles" style="width: 300px"
-                                    placeholder="2-40个字符，中文占两个字符" show-word-limit maxlength="40"></el-input>
+                                <el-input v-model="product_name" style="width: 300px" placeholder="2-40个字符，中文占两个字符"
+                                    show-word-limit maxlength="40"></el-input>
                             </el-form-item>
                             <el-form-item label="产品主图">
                                 <div class="flex flex-wrap">
@@ -184,7 +185,15 @@
                                         <div class="position-relative flex align-items-center align-content-center w-100% h-100% font-size-14px color-[#666] cursor-pointer bg-[#f8f8f8]"
                                             style="border:1px dashed #d6d6d6;border-radius:4px;">
                                             <el-image style="width: 100%; height: 100%" :src="item" />
-
+                                            <div class="position-absolute top-0 right-0 py-4px"
+                                                style="display: flex;align-items: center;justify-content: center;box-sizing: border-box;">
+                                                <el-button link @click="deleteProductInfoImage(item)"
+                                                    style="padding: 0px 5px;box-sizing: border-box;">
+                                                    <el-icon>
+                                                        <CloseBold />
+                                                    </el-icon>
+                                                </el-button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -205,9 +214,9 @@
 
 
                             <el-form-item label="产品卖点">
-                                <el-input placeholder="空格分隔,最多10个,每个标签不超过6个字" v-model="new_product_info_selling_point"
-                                    style="width : 244px;" @keyup.enter="addcallToAction" /><el-button type="primary"
-                                    @click="addcallToAction">添加（回车键）</el-button>
+                                <el-input placeholder="空格分隔,最多10个,每个标签不超过6个字" v-model="product_info_title"
+                                    style="width : 244px;" @keyup.enter="addProductInfoSellingPoint" /><el-button
+                                    type="primary" @click="addProductInfoSellingPoint">添加（回车键）</el-button>
                             </el-form-item>
                             <el-form-item style="margin-bottom:0px;">
                                 <div class="w-374px bg-[#fff] border-[#e8eaec] ">
@@ -216,7 +225,8 @@
                                             <el-text>已添加标签</el-text>
                                         </div>
                                         <div>
-                                            <el-button link type="primary">清空<el-icon>
+                                            <el-button link type="primary"
+                                                @click="clearProductSellingPointsListSelected">清空<el-icon>
                                                     <RefreshRight />
                                                 </el-icon></el-button>
                                         </div>
@@ -224,13 +234,14 @@
                                     <el-scrollbar height="180px">
                                         <div class="h-180px px-10px py-7px">
                                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap : 5px; ">
-                                                <div v-for="product_selling_points in product_selling_points_list"
+                                                <div v-for="product_selling_points in product_selling_points_list_selected"
                                                     class="flex w-166px h-24px line-height-24px bg-[#f4f5fc] mb-6px border-radius-6px px-8px color-[#515a6e] justify-between overflow-y-auto">
                                                     <div>
                                                         <span>{{ product_selling_points }}</span>
                                                     </div>
                                                     <div>
-                                                        <el-button link><el-icon>
+                                                        <el-button link
+                                                            @click="deleteProductSellingPointsListSelected(product_selling_points)"><el-icon>
                                                                 <CloseBold />
                                                             </el-icon></el-button>
                                                     </div>
@@ -246,7 +257,8 @@
                                             <el-text>推荐产品卖点</el-text>
                                         </div>
                                         <div>
-                                            <el-button link type="primary">清空<el-icon>
+                                            <el-button link type="primary"
+                                                @click="clearRecommendProductSellingPointsListSelected">清空<el-icon>
                                                     <RefreshRight />
                                                 </el-icon></el-button>
                                         </div>
@@ -254,7 +266,7 @@
                                     <div class="h-180px px-10px py-7px flex flex-wrap"
                                         style="justify-content: space-evenly;align-content:flex-start;">
                                         <el-scrollbar height="180px">
-                                            <el-checkbox-group v-model="product_selling_points_list"
+                                            <el-checkbox-group v-model="recommend_product_selling_points_list_selected"
                                                 style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap : 5px;">
                                                 <el-checkbox v-for="item in recommend_product_selling_points_list"
                                                     :label="item" :value="item" :key="item" class="!w-100%" />
@@ -286,9 +298,9 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="预算出价配置模式">
-                                <el-radio-group v-model="budget_bidding_configuration_mode">
-                                    <el-radio-button :value="1">统一配置</el-radio-button>
-                                    <el-radio-button>分帐户配置</el-radio-button>
+                                <el-radio-group v-model="form.promotion_aweme">
+                                    <el-radio-button :value="'same'">统一配置</el-radio-button>
+                                    <el-radio-button :value="'ad_same'">分帐户配置</el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                         </el-form>
@@ -297,7 +309,7 @@
                         <!-- <div class="h-64px p-16px text-right">
                             <el-text>全部收起</el-text>
                         </div> -->
-                        <div
+                        <!-- <div
                             class="font-size-12px color-[#999] flex justify-between p-12px bg-[#f2f2f2] border-top-[#e8eaec] border-bottom-[#e8eaec]">
                             <div>
                                 <span>竞价策略：</span>
@@ -315,7 +327,7 @@
                                 <span>付费方式：</span>
                                 <span class="font-size-14px color-[#000]">目标转化出价-按展示付费</span>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="p-16px">
                             <ul>
@@ -323,7 +335,7 @@
                                     <div
                                         class="font-size-12px  flex justify-between p-12px bg-[#f2f2f2]  border-bottom-[#e8eaec]">
                                         <div>
-                                            <span>预算出价规则1</span>
+                                            <span>预算出价规则</span>
                                         </div>
 
                                         <div>
@@ -333,12 +345,8 @@
                                     <div class="p-16px">
                                         <el-form :label-position="'left'">
                                             <el-form-item :label="'预算'" :label-width="200">
-                                                <el-input placeholder="请输入预算金额"
-                                                    style="width: 160px;margin-right: 16px;"></el-input><span>元</span>
-                                                <!-- <el-button type="primary" link class="!mx-8px">300</el-button> |
-                                                <el-button type="primary" link class="!mx-8px">500</el-button> |
-                                                <el-button type="primary" link class="!mx-8px">1000</el-button> |
-                                                <el-button type="primary" link class="!mx-8px">2000</el-button> | -->
+                                                <el-input placeholder="请输入预算金额" style="width: 160px;margin-right: 16px;"
+                                                    v-model="budget_amount"></el-input><span>元</span>
                                             </el-form-item>
                                         </el-form>
                                     </div>
@@ -372,9 +380,9 @@
                                 <el-text>+插入更多</el-text>
                             </el-form-item> -->
                             <el-form-item label="广告默认状态">
-                                <el-radio-group>
-                                    <el-radio-button>暂停</el-radio-button>
-                                    <el-radio-button>开启</el-radio-button>
+                                <el-radio-group v-model="form.promotion_operation">
+                                    <el-radio-button :value="'DISABLE'">暂停</el-radio-button>
+                                    <el-radio-button :value="'ENABLE'">开启</el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
                             <!-- 
@@ -424,6 +432,7 @@ watchEffect(() => {
 
 const handleDrawerClose = (type: number) => {
     if (type === 1) {
+        console.log(form)
         emits("handleBasicInformationOfAdClose", { type: 1, form: form });
     } else {
         emits("handleBasicInformationOfAdClose", { type: 0 });
@@ -444,8 +453,8 @@ const form = reactive<IBasicInformationOfAd>({
     pre_promotion_budget_group: [],
     product_info_conf: 'same',
     promotion_aweme: 'same',
-    promotion_name: '',
-    promotion_operation: '',
+    promotion_name: '<日期>-<时分秒>-<当日标号>',
+    promotion_operation: 'ENABLE',
     source: '',
     web_url_material_list: []
 });
@@ -530,6 +539,24 @@ const deleteCallToAction = (value: string) => {
 }
 
 
+// 清空已选的行动号召
+const clearCallToActionList = () => {
+    callToActionList.value = []
+    addCallToActionList.value = []
+    callToActionListRecommendList.value = []
+}
+
+// 清空已选推荐的行动号召
+const clearCallToActionListRecommendList = () => {
+    callToActionListRecommendList.value = []
+}
+
+
+
+// 产品名称
+const product_name = ref<string>('');
+
+// 产品主图
 const product_info_image_ids = ref<string[]>([]);
 
 const MaterialSelectorState = reactive({
@@ -541,42 +568,52 @@ const addImageIds = () => {
 }
 
 const MaterialSelectorForm = ref<IUploadMaterial2MediaResultData[]>([]);
+
 const handleMaterialSelectorDialogClose = (options: { type: number; form: any }) => {
     MaterialSelectorState.visible = false;
-
     if (options.type === 1) {
         MaterialSelectorForm.value = options.form;
     }
-
     if (MaterialSelectorForm.value.length > 0) {
         product_info_image_ids.value.push(...MaterialSelectorForm.value.map((obj => obj.post_url)))
     }
 }
 
+// 删除已选的产品主图
+const deleteProductInfoImage = (value: string) => {
+    product_info_image_ids.value = product_info_image_ids.value.filter(item => item !== value);
+}
+
+
 
 // 产品卖点
-const product_info_titles = ref();
-const product_selling_points_list_selected = ref<string[]>([]);
+// input输入内容
+const product_info_title = ref<string>('');
+// input输入内容列表
 const product_selling_points_list = ref<string[]>([]);
+// input输入内容和选择推荐的总列表
+const product_selling_points_list_selected = ref<string[]>([]);
+// 推荐产品卖点列表
 const recommend_product_selling_points_list = ["近期热卖商品"];
+// 推荐产品卖点选中列表
+const recommend_product_selling_points_list_selected = ref<string[]>([]);
 
-
-const new_product_info_selling_point = ref();
+// 添加产品函数
 const addProductInfoSellingPoint = () => {
-    if (callToAction.value) {
-        if (callToActionList.value.length < 10) {
-            if (addCallToActionList.value.includes(callToAction.value)) {
-                callToAction.value = "";
+    if (product_info_title.value) {
+        if (product_selling_points_list_selected.value.length < 10) {
+            if (product_selling_points_list.value.includes(product_info_title.value)) {
+                product_info_title.value = "";
                 ElMessage({
                     message: "请勿重复添加行动号召",
                     type: 'warning'
                 })
             } else {
-                addCallToActionList.value.push(callToAction.value);
-                callToAction.value = "";
+                product_selling_points_list.value.push(product_info_title.value);
+                product_info_title.value = "";
             }
         } else {
-            callToAction.value = "";
+            product_info_title.value = "";
             ElMessage({
                 message: "行动号召最多只能10个",
                 type: 'warning'
@@ -591,7 +628,34 @@ const addProductInfoSellingPoint = () => {
 }
 
 
+watchEffect(() => {
+    product_selling_points_list_selected.value = [...product_selling_points_list.value, ...recommend_product_selling_points_list_selected.value];
+})
 
+const deleteProductSellingPointsListSelected = (value: string) => {
+    if (product_selling_points_list.value.includes(value)) {
+        product_selling_points_list.value = product_selling_points_list.value.filter(item => item !== value);
+    }
+
+    if (recommend_product_selling_points_list_selected.value.includes(value)) {
+        recommend_product_selling_points_list_selected.value = recommend_product_selling_points_list_selected.value.filter(item => item !== value);
+    }
+}
+
+// 清空已选产品卖点
+const clearProductSellingPointsListSelected = () => {
+    product_selling_points_list_selected.value = []
+    product_selling_points_list.value = []
+    recommend_product_selling_points_list_selected.value = []
+}
+
+// 清空已选推荐的产品卖点
+const clearRecommendProductSellingPointsListSelected = () => {
+    recommend_product_selling_points_list_selected.value = []
+}
+
+// 预算出价规则-预算
+const budget_amount = ref<string>()
 
 
 
