@@ -459,8 +459,20 @@ export interface IUploadMaterial2Media {
 	}[];
 }
 
+export interface IUploadMaterial2MediaResultData {
+	filename: string;
+	id: string;
+	jy_mat_id: string;
+	material_id: number;
+	mime: string;
+	post_url: string;
+	state: number;
+}
+
+
+
 export const uploadMaterial2Media = (params: IUploadMaterial2Media) => {
-	return http.post("/api/Mk_Tt_Promotion/_uploadMaterial2Media", params);
+	return http.post<IUploadMaterial2MediaResultData>("/api/Mk_Tt_Promotion/_uploadMaterial2Media", params);
 };
 
 /**

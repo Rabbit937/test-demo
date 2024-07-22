@@ -166,5 +166,5 @@ const handleUpdateState = (component: {
 
     </Drawer>
 
-    <MaterialSelector :visible="MaterialSelectorState.visible" />
+    <!-- <MaterialSelector :visible="MaterialSelectorState.visible" /> -->
 </template>

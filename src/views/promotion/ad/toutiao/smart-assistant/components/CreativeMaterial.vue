@@ -139,8 +139,8 @@
         </div>
     </div>
 
-    <MaterialSelector :visible="MaterialSelectorState.visible" @handleDialogClose="handleMaterialSelectorDialog">
-    </MaterialSelector>
+    <!-- <MaterialSelector :visible="MaterialSelectorState.visible" @handleDialogClose="handleMaterialSelectorDialog">
+    </MaterialSelector> -->
 </template>
 
 

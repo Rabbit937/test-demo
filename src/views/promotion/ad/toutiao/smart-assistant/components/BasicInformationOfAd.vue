@@ -205,7 +205,7 @@
 
 
                             <el-form-item label="产品卖点">
-                                <el-input placeholder="空格分隔,最多10个,每个标签不超过6个字" v-model="callToAction"
+                                <el-input placeholder="空格分隔,最多10个,每个标签不超过6个字" v-model="new_product_info_selling_point"
                                     style="width : 244px;" @keyup.enter="addcallToAction" /><el-button type="primary"
                                     @click="addcallToAction">添加（回车键）</el-button>
                             </el-form-item>
@@ -239,8 +239,6 @@
                                         </div>
                                     </el-scrollbar>
                                 </div>
-
-
 
                                 <div class="w-374px bg-[#fff] border-[#e8eaec] " style="border-left: none">
                                     <div class="flex  px-16px justify-between bg-[#f8f9fd] border-bottom-[#e8eaec]">
@@ -396,7 +394,8 @@
         @handleDialogClose="selectTikTokAccountDialog" />
 
     <!-- 选择产品主图 -->
-    <MaterialSelector :visible="MaterialSelectorState.visible" />
+    <MaterialSelector :visible="MaterialSelectorState.visible"
+        @handle-dialog-close="handleMaterialSelectorDialogClose" />
 </template>
 
 <script setup lang="ts">
@@ -404,7 +403,7 @@ import { ref, reactive, watchEffect, watch } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import SelectTikTokAccount from "./SelectTikTokAccount.vue";
 import MaterialSelector from "./MaterialSelector.vue";
-import type { IBasicInformationOfAd } from "@/api/modules/promotion";
+import type { IBasicInformationOfAd, IUploadMaterial2MediaResultData } from "@/api/modules/promotion";
 import { ElMessage } from "element-plus";
 
 interface IProps {
@@ -531,37 +530,69 @@ const deleteCallToAction = (value: string) => {
 }
 
 
-
-
-
-
-
-
-
-// 产品信息
-const configuration_mode = ref(1);
-const product_selling_points_list = ref();
-const recommend_product_selling_points_list = ["近期热卖商品"];
-
-// 广告预算与出价
-const budget_bidding_configuration_mode = ref(1);
-
-const product_info_titles = ref();
 const product_info_image_ids = ref<string[]>([]);
-const product_info_selling_points = ref<string[]>();
-
 
 const MaterialSelectorState = reactive({
     visible: false,
-
 })
 
-
 const addImageIds = () => {
-    // product_info_image_ids.value.push('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimage109.360doc.com%2FDownloadImg%2F2021%2F08%2F0420%2F227651986_4_20210804085322222&refer=http%3A%2F%2Fimage109.360doc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1723885957&t=5273a063647eb9beaacfa32772f05d40')
-
     MaterialSelectorState.visible = true;
-
-
 }
+
+const MaterialSelectorForm = ref<IUploadMaterial2MediaResultData[]>([]);
+const handleMaterialSelectorDialogClose = (options: { type: number; form: any }) => {
+    MaterialSelectorState.visible = false;
+
+    if (options.type === 1) {
+        MaterialSelectorForm.value = options.form;
+    }
+
+    if (MaterialSelectorForm.value.length > 0) {
+        product_info_image_ids.value.push(...MaterialSelectorForm.value.map((obj => obj.post_url)))
+    }
+}
+
+
+// 产品卖点
+const product_info_titles = ref();
+const product_selling_points_list_selected = ref<string[]>([]);
+const product_selling_points_list = ref<string[]>([]);
+const recommend_product_selling_points_list = ["近期热卖商品"];
+
+
+const new_product_info_selling_point = ref();
+const addProductInfoSellingPoint = () => {
+    if (callToAction.value) {
+        if (callToActionList.value.length < 10) {
+            if (addCallToActionList.value.includes(callToAction.value)) {
+                callToAction.value = "";
+                ElMessage({
+                    message: "请勿重复添加行动号召",
+                    type: 'warning'
+                })
+            } else {
+                addCallToActionList.value.push(callToAction.value);
+                callToAction.value = "";
+            }
+        } else {
+            callToAction.value = "";
+            ElMessage({
+                message: "行动号召最多只能10个",
+                type: 'warning'
+            })
+        }
+    } else {
+        ElMessage({
+            message: "添加行动号召内容不能为空",
+            type: 'warning'
+        })
+    }
+}
+
+
+
+
+
+
 </script>
