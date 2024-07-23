@@ -27,7 +27,8 @@ const drawerOptions = reactive({
 const handleDrawerClose = (type: number) => {
     if (type === 1) {
         if (checkedLandingPage.value.length > 0) {
-            emits("handleDrawerClose", { type: 1, form: checkedLandingPage.value });
+            form.promotion_page_group[0].landing_page = checkedLandingPage.value.map((item) => item.siteId);
+            emits("handleDrawerClose", { type: 1, form: form });
         } else {
             ElMessage({
                 message: "请选择至少一条落地页",
@@ -52,7 +53,9 @@ const each_ad_configuration = ref<number>(1);
 const form = reactive<ILandingPage>({
     // 落地页分配方式
     landing_page_conf: 'same',
-    promotion_page_group: []
+    promotion_page_group: [{
+        landing_page: []
+    }]
 })
 
 // 落地页分配方式

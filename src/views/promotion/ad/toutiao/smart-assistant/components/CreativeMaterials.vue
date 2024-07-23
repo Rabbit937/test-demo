@@ -18,7 +18,16 @@ const drawerOptions = reactive({
 });
 
 const handleDrawerClose = (type: number) => {
-    emits("handleDrawerClose", type);
+
+    if (type === 1) {
+        console.log()
+
+
+        emits("handleDrawerClose", { type: 1, form: form });
+    } else {
+        emits("handleDrawerClose", { type: 0 });
+    }
+
 };
 
 watchEffect(() => {
