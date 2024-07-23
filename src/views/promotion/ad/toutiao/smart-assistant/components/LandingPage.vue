@@ -25,19 +25,18 @@ const drawerOptions = reactive({
 });
 
 const handleDrawerClose = (type: number) => {
-    console.log(type);
-    // if (type === 1) {
-    //     if (checkedLandingPage.value) {
-    //         emits("handleDrawerClose", type, checkedLandingPage.value);
-    //     } else {
-    //         ElMessage({
-    //             message: "Warning, this is a warning message.",
-    //             type: "warning",
-    //         });
-    //     }
-    // } else {
-    //     emits("handleDrawerClose", type);
-    // }
+    if (type === 1) {
+        if (checkedLandingPage.value.length > 0) {
+            emits("handleDrawerClose", { type: 1, form: checkedLandingPage.value });
+        } else {
+            ElMessage({
+                message: "请选择至少一条落地页",
+                type: "warning",
+            });
+        }
+    } else {
+        emits("handleDrawerClose", { type: 0 });
+    }
 };
 
 watchEffect(() => {

@@ -360,7 +360,7 @@
   <el-row class="pl-20px pr-20px mt-16px mb-24px">
     <el-col :span="24" class=" p-24px border-[#e8eaec]">
       <div class="w-100% flex justify-center">
-        <el-button type="primary" class="w-120px">生成广告预览</el-button>
+        <el-button type="primary" class="w-120px" @click="generateAdPreview">生成广告预览</el-button>
       </div>
     </el-col>
   </el-row>
@@ -409,7 +409,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Ref, ref, reactive, computed } from "vue";
+import { type Ref, ref, reactive, computed, watchEffect } from "vue";
 import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 import RuleConfigurationDialog from "./components/RuleConfigurationDialog.vue";
@@ -422,14 +422,14 @@ import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 import CreativeMaterials from "./components/CreativeMaterials.vue";
 import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
-import type { INewProject, IRuleConfiguration } from "@/api/modules/promotion";
+import type { ICreativeMaterials, ILandingPage, INewProject, IRuleConfiguration } from "@/api/modules/promotion";
 
 // 新建项目
 const NewProjectForm = ref<INewProject>();
 const NewProjectState = reactive({ visible: false });
 
 const openNewProjectDrawer = () => {
-	NewProjectState.visible = true;
+  NewProjectState.visible = true;
 };
 
 // 广告基本信息
@@ -437,111 +437,111 @@ const BasicInformationOfAdForm = ref();
 const BasicInformationOfAdState = reactive({ visible: false });
 
 const showBasicInformationOfAd = () => {
-	BasicInformationOfAdState.visible = true;
+  BasicInformationOfAdState.visible = true;
 };
 
 // 提取公共逻辑函数
 const handleDrawerClose = (
-	drawerState: { visible: boolean },
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	formRef: Ref<any>,
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	options: { type: number; form?: any },
+  drawerState: { visible: boolean },
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  formRef: Ref<any>,
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  options: { type: number; form?: any },
 ) => {
-	if (options.type === 1) {
-		formRef.value = options.form;
-		drawerState.visible = false;
-	} else {
-		ElMessageBox.confirm(
-			"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-			"提示",
-			{
-				confirmButtonText: "确认",
-				cancelButtonText: "取消",
-				type: "warning",
-			},
-		)
-			.then(() => {
-				drawerState.visible = false;
-			})
-			.catch(() => {
-				console.error("drawer component: fail");
-			});
-	}
+  if (options.type === 1) {
+    formRef.value = options.form;
+    drawerState.visible = false;
+  } else {
+    ElMessageBox.confirm(
+      "您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
+      "提示",
+      {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      },
+    )
+      .then(() => {
+        drawerState.visible = false;
+      })
+      .catch(() => {
+        console.error("drawer component: fail");
+      });
+  }
 };
 
 // 接收新建项目的返回
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleNewProjectClose = (options: { type: number; form?: any }) => {
-	handleDrawerClose(NewProjectState, NewProjectForm, options);
+  handleDrawerClose(NewProjectState, NewProjectForm, options);
 };
 
 const handleBasicInformationOfAdClose = (options: {
-	type: number;
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	form?: any;
+  type: number;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  form?: any;
 }) => {
-	handleDrawerClose(
-		BasicInformationOfAdState,
-		BasicInformationOfAdForm,
-		options,
-	);
+  handleDrawerClose(
+    BasicInformationOfAdState,
+    BasicInformationOfAdForm,
+    options,
+  );
 };
 
 // 选择媒体账户
 const SelectMediaAccountState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const handleMediaAccount = () => {
-	SelectMediaAccountState.visible = true;
+  SelectMediaAccountState.visible = true;
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const SelectMediaAccountList = ref<any[]>([]);
 
 const handleMediaAccountDialogClose = (
-	type: number,
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	multipleSelection: any,
+  type: number,
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  multipleSelection: any,
 ) => {
-	SelectMediaAccountState.visible = false;
-	if (type === 1) {
-		SelectMediaAccountList.value = multipleSelection;
-	}
+  SelectMediaAccountState.visible = false;
+  if (type === 1) {
+    SelectMediaAccountList.value = multipleSelection;
+  }
 };
 
 const SelectMediaAccountListLength = computed(() => {
-	return SelectMediaAccountList.value.length;
+  return SelectMediaAccountList.value.length;
 });
 
 // 生成ADVERTISER_ID数组
 const ADVERTISER_ID_ARRAY = computed(() => {
-	return (
-		SelectMediaAccountList.value.map((item: any) => item.ADVERTISER_ID) ?? []
-	);
+  return (
+    SelectMediaAccountList.value.map((item: any) => item.ADVERTISER_ID) ?? []
+  );
 });
 
 // 更改规则配置
 const RuleConfigurationState = reactive({
-	visible: false,
-	infoOrNew: "",
+  visible: false,
+  infoOrNew: "",
 });
 
 const handleChangeRuleConfiguration = () => {
-	RuleConfigurationState.visible = true;
-	RuleConfigurationState.infoOrNew = infoOrNew.value;
+  RuleConfigurationState.visible = true;
+  RuleConfigurationState.infoOrNew = infoOrNew.value;
 };
 
 const ruleConfiguration = ref<IRuleConfiguration>();
 const handleRuleConfigurationDialogClose = (options: {
-	type: number;
-	ruleConfiguration: IRuleConfiguration;
+  type: number;
+  ruleConfiguration: IRuleConfiguration;
 }) => {
-	RuleConfigurationState.visible = false;
-	if (options.type === 1) {
-		ruleConfiguration.value = options.ruleConfiguration;
-	}
+  RuleConfigurationState.visible = false;
+  if (options.type === 1) {
+    ruleConfiguration.value = options.ruleConfiguration;
+  }
 };
 
 // 切换项目
@@ -549,127 +549,82 @@ const infoOrNew = ref("new");
 
 // 新建项目和项目信息切换
 const handleChangeInfoOrNew = () => {
-	infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
+  infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
 };
 
 // 已有项目
 const ExistingProjectState = reactive({
-	visible: false,
+  visible: false,
 });
 
 // 选择已有项目
 const openExistingProjectDrawer = () => {
-	ExistingProjectState.visible = true;
+  ExistingProjectState.visible = true;
 };
 
 const openProjectEdit = () => {
-	if (infoOrNew.value === "new") {
-		openNewProjectDrawer();
-	} else {
-		openExistingProjectDrawer();
-	}
+  if (infoOrNew.value === "new") {
+    openNewProjectDrawer();
+  } else {
+    openExistingProjectDrawer();
+  }
 };
 
-const handleExistingProjectClose = () => {};
+const handleExistingProjectClose = () => { };
 
 // 创意素材
-
+const CreativeMaterialsForm = ref<ICreativeMaterials>()
 const CreativeMaterialsState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const showCreativeMaterialsState = () => {
-	CreativeMaterialsState.visible = true;
+  CreativeMaterialsState.visible = true;
 };
 
-const handleCreativeMaterialsStateClose = (type: number) => {
-	if (type === 1) {
-		CreativeMaterialsState.visible = false;
-	} else {
-		ElMessageBox.confirm(
-			"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-			"提示",
-			{
-				confirmButtonText: "确认",
-				cancelButtonText: "取消",
-				type: "warning",
-			},
-		)
-			.then(() => {
-				CreativeMaterialsState.visible = false;
-			})
-			.catch(() => {
-				// catch error
-				console.error("drawer component: fail");
-			});
-	}
+const handleCreativeMaterialsStateClose = (options: { type: number, form: any }) => {
+  handleDrawerClose(CreativeMaterialsState, CreativeMaterialsForm, options);
 };
 
 // 标题包
+const TitlePackForm = ref<ILandingPage>()
 const TitlePackState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const showTitlePackState = () => {
-	TitlePackState.visible = true;
+  TitlePackState.visible = true;
 };
 
-const handleTitlePackStateClose = (type: number) => {
-	if (type === 1) {
-		TitlePackState.visible = false;
-	} else {
-		ElMessageBox.confirm(
-			"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-			"提示",
-			{
-				confirmButtonText: "确认",
-				cancelButtonText: "取消",
-				type: "warning",
-			},
-		)
-			.then(() => {
-				TitlePackState.visible = false;
-			})
-			.catch(() => {
-				// catch error
-				console.error("drawer component: fail");
-			});
-	}
+const handleTitlePackStateClose = (options: { type: number, form: any }) => {
+  handleDrawerClose(TitlePackState, TitlePackForm, options);
 };
-
 
 
 // 选择落地页
+const LandingPageForm = ref<ILandingPage>();
 const LandingPageState = reactive({
-	visible: false,
+  visible: false,
 });
 
 const showLandingPageState = () => {
-	LandingPageState.visible = true;
+  LandingPageState.visible = true;
 };
 
-const handleLandingPageStateClose = (type: number) => {
-	if (type === 1) {
-		LandingPageState.visible = false;
-	} else {
-		ElMessageBox.confirm(
-			"您确定关闭这个弹窗吗？关闭之后，所编辑的内容将不会保存",
-			"提示",
-			{
-				confirmButtonText: "确认",
-				cancelButtonText: "取消",
-				type: "warning",
-			},
-		)
-			.then(() => {
-				LandingPageState.visible = false;
-			})
-			.catch(() => {
-				// catch error
-				console.error("drawer component: fail");
-			});
-	}
+const handleLandingPageStateClose = (options: { type: number, form: any }) => {
+  handleDrawerClose(LandingPageState, LandingPageForm, options);
 };
+
+
+const generateAdPreview = () => {
+  console.log(NewProjectForm.value)
+  console.log(BasicInformationOfAdForm.value)
+  console.log(CreativeMaterialsForm.value)
+  console.log(TitlePackForm.value)
+  console.log(LandingPageForm.value)
+}
+
+
 </script>
 
 <style scoped>
