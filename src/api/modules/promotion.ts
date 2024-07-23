@@ -321,7 +321,7 @@ export const syncAweme = (params: ISyncAweme) => {
  */
 
 export interface IQueryLandingPage {
-	advertiser_id: string;
+	advertiser_id?: string;
 	page_limit?: number;
 }
 
@@ -1094,8 +1094,8 @@ export interface ICreatePreference {
 	 * 媒体定向
 	 */
 	superior_popularity_type?: string;
-	[property: string]: any;
 }
+
 export const createPreference = (params: ICreatePreference) => {
 	return http.post("/api/Mk_Tt_Preference/_createPreference", params);
 };
@@ -1146,4 +1146,17 @@ export interface IQueryCommonMaterial {
 
 export const queryCommonMaterial = (params: IQueryCommonMaterial) => {
 	return http.get(`/api/Mk_Tt_Promotion/_queryCommonMaterial`, params)
+}
+
+
+/**
+ * @name 同步橙子落地页
+ */
+
+export interface ISyncLandingPage {
+	advertiser_id: string;
+}
+
+export const syncLandingPage = (params: ISyncLandingPage) => {
+	return http.get(`/api/Mk_Tt_Assets/_syncLandingPage`, params)
 }
