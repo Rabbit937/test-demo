@@ -341,6 +341,9 @@ export interface IQueryTitleBag {
 	user_id?: string;
 }
 
+
+
+
 export const queryTitleBag = (params: IQueryTitleBag) => {
 	return http.get("/api/Mk_Tt_Assets/_queryTitleBag", params);
 };
@@ -371,7 +374,10 @@ export interface ICreateTitleBag {
 	 */
 	type: string;
 
-	classification?: string;
+	/**
+	 * 标题包分类名称，新建标题包必填
+	 */
+	category?: string;
 }
 
 export const createTitleBag = (params: ICreateTitleBag) => {

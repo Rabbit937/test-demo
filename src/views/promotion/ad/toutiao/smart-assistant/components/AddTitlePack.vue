@@ -12,7 +12,7 @@
                     </template>
                 </el-input>
 
-                <el-input placeholder="请输入分类" style="width: 360px" v-model="classification">
+                <el-input placeholder="请输入分类" style="width: 360px" v-model="category">
                     <template #prepend>
                         <div>
                             <el-text>分类</el-text>
@@ -40,51 +40,69 @@
 
 
 <script setup lang="ts">
-import { ref, reactive, watchEffect } from "vue";
+import { ref, reactive, watchEffect, watch } from "vue";
 import "element-plus/es/components/message/style/css";
 import Dialog from "@/components/Dialog.vue";
 import { type ICreateTitleBag, createTitleBag } from "@/api/modules/promotion";
+import { ElMessage } from "element-plus";
 
 interface IProps {
-	visible: boolean;
-	title?: string;
+    visible: boolean;
+    title?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emtis = defineEmits(["handleDialogClose"]);
 
 const dialogState = reactive({
-	title: props.title,
-	visible: false,
-	width: 800,
+    title: props.title,
+    visible: false,
+    width: 800,
 });
 
 watchEffect(() => {
-	dialogState.visible = props.visible;
+    dialogState.visible = props.visible;
 });
 
+watch(
+    () => props.visible,
+    () => {
+        if (!props.visible) {
+            textarea.value = ''
+            title_package_name.value = ''
+            category.value = ''
+        }
+    },
+);
+
+
+const textarea = ref<string>('');
+const title_package_name = ref<string>('');
+const category = ref<string>('');
+
 const handleDialogClose = (type: number) => {
-	if (type === 1) {
-		createTitleBagFunc({
-			advertiser_id: "1787695788195915",
-			tag_name: title_package_name.value,
-			type: "1",
-			name: title_package_name.value,
-			classification: classification.value,
-		});
-	} else {
-		emtis("handleDialogClose", type);
-	}
+    if (type === 1) {
+        createTitleBagFunc({
+            advertiser_id: "1787695788195915",
+            tag_name: title_package_name.value,
+            type: "1",
+            name: textarea.value,
+            category: category.value,
+        });
+    } else {
+        emtis("handleDialogClose", { type: 0 });
+    }
 };
 
-const textarea = ref();
-const title_package_name = ref();
-const classification = ref();
-
 const createTitleBagFunc = async (params: ICreateTitleBag) => {
-	const res: any = await createTitleBag(params);
-	if (res.state === 1) {
-		emtis("handleDialogClose", 1);
-	}
+    const res: any = await createTitleBag(params);
+    if (res.state === 1) {
+        emtis("handleDialogClose", { type: 1, form: res.data });
+    } else {
+        ElMessage({
+            type: "error",
+            message: JSON.parse(res.msg),
+        })
+    }
 };
 </script>
