@@ -664,7 +664,7 @@ export interface IRuleConfiguration {
 export interface INewTargetingPackage {
 	promotion_title_group: {
 		advertiser_id?: string;
-		title_material_list: string[];
+		title_material_list: { title: string }[];
 	}[];
 
 	title_conf: "same" | "ad_same" | "agv";

@@ -9,6 +9,7 @@ import {
     staffInfo,
 } from "@/api/modules/promotion";
 import AddTitlePack from "./AddTitlePack.vue";
+import { ElMessage } from "element-plus";
 
 interface IProps {
     visible: boolean;
@@ -24,19 +25,39 @@ const drawerOptions = reactive({
 
 const handleDrawerClose = (type: number) => {
     console.log(type)
+    if (type === 1) {
+        if (multipleSelection.value.length > 0) {
+            console.log(multipleSelection.value)
+            console.log(form.promotion_title_group)
 
-    // if (type === 1) {
-    //     // if (checkedLandingPage.value) {
-    //     //     emits('handleDrawerClose', type, checkedLandingPage.value);
-    //     // } else {
-    //     //     ElMessage({
-    //     //         message: 'Warning, this is a warning message.',
-    //     //         type: 'warning',
-    //     //     })
-    //     // }
-    // } else {
-    //     emits("handleDrawerClose", type);
-    // }
+            multipleSelection.value.forEach(select => {
+                if (select.name.includes('\n')) {
+                    form.promotion_title_group.push({
+                        title_material_list: select.name.split('\n').map((item: string) => {
+                            return { title: item }
+                        })
+                    })
+                } else {
+                    form.promotion_title_group.push({
+                        title_material_list: [{
+                            title: select.name,
+                        }],
+                    })
+                }
+            })
+
+            console.log(form.promotion_title_group)
+            emits('handleDrawerClose', { type: 1, form: form })
+
+        } else {
+            ElMessage({
+                type: "warning",
+                message: "请选择至少一条标题信息",
+            })
+        }
+    } else {
+        emits("handleDrawerClose", { type: 0 });
+    }
 };
 
 watchEffect(() => {
@@ -46,14 +67,8 @@ watchEffect(() => {
 
 const form = reactive<INewTargetingPackage>({
     title_conf: 'same',
-    promotion_title_group: [{
-        title_material_list: [],
-    }]
+    promotion_title_group: []
 })
-
-
-
-
 
 // 标题来源
 const title_source = ref(1);
@@ -107,7 +122,6 @@ const tableLoading = ref(false);
 const queryTitleBagFunc = async (params: IQueryTitleBag) => {
     tableLoading.value = true;
     const res: any = await queryTitleBag(params);
-    console.log(res);
 
     if (res.state === 1) {
         title_pack_table_data.value = res.data.list;
