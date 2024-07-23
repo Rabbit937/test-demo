@@ -29,16 +29,15 @@
 
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
-import { ElMessageBox } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 
 interface Props {
-	visible: boolean;
-	size?: number;
+    visible: boolean;
+    size?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-	size: 1016,
+    size: 1016,
 });
 
 const emits = defineEmits(["handleDrawerClose"]);
@@ -46,19 +45,19 @@ const emits = defineEmits(["handleDrawerClose"]);
 const drawer = ref(props.visible);
 
 watchEffect(() => {
-	drawer.value = props.visible;
+    drawer.value = props.visible;
 });
 
 const handleClose = () => {
-	emits("handleDrawerClose", 0);
+    emits("handleDrawerClose", 0);
 };
 
 function cancelClick() {
-	emits("handleDrawerClose", 0);
+    emits("handleDrawerClose", 0);
 }
 
 function confirmClick() {
-	emits("handleDrawerClose", 1);
+    emits("handleDrawerClose", 1);
 }
 </script>
 

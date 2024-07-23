@@ -83,7 +83,7 @@ import Dialog from "@/components/Dialog.vue";
 import {
 	type IQueryAwemeList,
 	queryAwemeList,
-	type ISyncAweme,
+	// type ISyncAweme,
 	syncAweme,
 } from "@/api/modules/promotion";
 

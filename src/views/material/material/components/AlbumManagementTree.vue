@@ -4,8 +4,8 @@
       @click="handleAllClick">
       全部专辑
     </div>
-    <div class="font-size-12px" v-loading="treeState.loading">
-      <Tree :treeData="treeState.treeData" @handle-node-click="handleTreeClick"></Tree>
+    <div class="font-size-12px" v-loading="props.treeState.loading">
+      <Tree :treeData="props.treeState.treeData" @handle-node-click="handleTreeClick"></Tree>
     </div>
   </el-col>
 </template>
@@ -14,8 +14,8 @@
 import { ref } from "vue";
 
 interface Props {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	treeState: any;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  treeState: any;
 }
 
 const props = withDefaults(defineProps<Props>(), {});
@@ -28,18 +28,18 @@ let removeSelectedClass: Function;
 
 // 点击全部专辑
 const handleAllClick = () => {
-	if (removeSelectedClass) removeSelectedClass();
-	activeClass.value = true;
-	emit("handleClick");
+  if (removeSelectedClass) removeSelectedClass();
+  activeClass.value = true;
+  emit("handleClick");
 };
 
 // 点击树节点
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleTreeClick = (options: any) => {
-	activeClass.value = false;
-	removeSelectedClass = options.removeSelectedClass;
+  activeClass.value = false;
+  removeSelectedClass = options.removeSelectedClass;
 
-	emit("handleClick", options.data);
+  emit("handleClick", options.data);
 };
 </script>
 

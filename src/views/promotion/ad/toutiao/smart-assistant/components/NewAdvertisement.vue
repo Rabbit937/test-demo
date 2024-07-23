@@ -23,10 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watchEffect, ref, onMounted } from "vue";
+import { reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
-import { Search } from "@element-plus/icons-vue";
-import { zhCn } from "element-plus/es/locales.mjs";
+
 import {
 	type ICreatePromotion,
 	createPromotion,
@@ -49,7 +48,7 @@ watchEffect(() => {
 	drawerOptions.visible = props.visible;
 });
 
-const handleDrawerClose = () => {};
+const handleDrawerClose = () => { };
 
 const form: ICreatePromotion = reactive({
 	advertiser_id: "1787695788195915",
@@ -97,6 +96,10 @@ const form: ICreatePromotion = reactive({
 
 const createPromotionFunc = async (params: ICreatePromotion) => {
 	const res = await createPromotion(params);
+
+	if (res.state === 1) {
+		console.log(res.msg)
+	}
 };
 
 const handleClick = () => {

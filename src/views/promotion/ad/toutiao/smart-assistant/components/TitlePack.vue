@@ -84,7 +84,7 @@ const title_source_radio = [
     },
 ];
 
-const handleTitleSourceChange = (value: string | number | boolean) => {
+const handleTitleSourceChange = () => {
     queryTitleBagFunc({
         type: String(title_source.value),
         user_id: staffInfoSelected.value,
@@ -149,7 +149,7 @@ onMounted(() => {
     staffInfoFunc();
 });
 
-const handleStaffInfoChange = (value: any) => {
+const handleStaffInfoChange = () => {
     queryTitleBagFunc({
         type: String(title_source.value),
         user_id: staffInfoSelected.value,
@@ -264,7 +264,7 @@ const handleTitlePackDialogSelectionChange = (val: any[]) => {
                                     <el-table-column v-for="(value, key) in title_pack_table_props" :prop="key"
                                         :label="value" align="center" />
                                     <el-table-column label="操作" align="center">
-                                        <template #default="scope">
+                                        <template #default>
                                             <el-button link type="primary" @click="handleEdit()">
                                                 编辑
                                             </el-button>

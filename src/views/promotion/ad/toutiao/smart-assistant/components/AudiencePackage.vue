@@ -132,37 +132,37 @@ import Drawer from "@/components/Drawer.vue";
 import { Search } from "@element-plus/icons-vue";
 import { zhCn } from "element-plus/es/locales.mjs";
 import {
-	type IQueryPreferenceList,
-	queryPreferenceList,
+    type IQueryPreferenceList,
+    queryPreferenceList,
 } from "@/api/modules/promotion";
 import NewTargetingPackage from "./NewTargetingPackage.vue";
 
 interface IProps {
-	visible: boolean;
-	size: number;
+    visible: boolean;
+    size: number;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
 const drawerOptions = reactive({
-	visible: props.visible,
-	size: props.size || 1016,
+    visible: props.visible,
+    size: props.size || 1016,
 });
 
 watchEffect(() => {
-	drawerOptions.visible = props.visible;
+    drawerOptions.visible = props.visible;
 });
 
 const handleDrawerClose = (type: number) => {
-	if (type === 1) {
-		emits("handleDrawerClose", {
-			type: 1,
-			selectedTargetingPackage: selectedRows.value,
-		});
-	} else {
-		emits("handleDrawerClose", { type: 0 });
-	}
+    if (type === 1) {
+        emits("handleDrawerClose", {
+            type: 1,
+            selectedTargetingPackage: selectedRows.value,
+        });
+    } else {
+        emits("handleDrawerClose", { type: 0 });
+    }
 };
 
 const keyword = ref();
@@ -170,25 +170,25 @@ const keyword_type = ref("name");
 const delivery_range = ref("UNIVERSAL");
 
 const delivery_mode_options = [
-	{
-		value: "DEFAULT",
-		label: "默认",
-	},
-	{
-		value: "UNIVERSAL",
-		label: "通投智选",
-	},
-	{
-		value: "UNION",
-		label: "穿山甲",
-	},
+    {
+        value: "DEFAULT",
+        label: "默认",
+    },
+    {
+        value: "UNIVERSAL",
+        label: "通投智选",
+    },
+    {
+        value: "UNION",
+        label: "穿山甲",
+    },
 ];
 
 const tableKey = {
-	name: "定向包名称",
-	audience_package_id: "定向包ID",
-	delivery_range: "投放范围",
-	landing_type: "定向包类型",
+    name: "定向包名称",
+    audience_package_id: "定向包ID",
+    delivery_range: "投放范围",
+    landing_type: "定向包类型",
 };
 
 const tableData = ref();
@@ -200,117 +200,119 @@ const multipleTableRef = ref();
 const selectedRows = ref<any[]>([]); // 初始化时选中所有行
 
 const handleSelectionChange = (selection: any[]) => {
-	selectedRows.value = selection; // 更新 selectedRows 数组
+    selectedRows.value = selection; // 更新 selectedRows 数组
 };
 
-const canSelectRow = (row: any, index: number) => {
-	if (selectedRows.value?.length > 0) {
-		return selectedRows.value.some((selectedRow) => selectedRow.id === row.id);
-	} else {
-		return true;
-	}
+const canSelectRow = (row: any) => {
+    if (selectedRows.value?.length > 0) {
+        return selectedRows.value.some((selectedRow) => selectedRow.id === row.id);
+    } else {
+        return true;
+    }
 };
 
 const handleSizeChange = () => {
-	queryPreferenceListFunc({
-		cur_page: currentPage.value,
-	});
+    queryPreferenceListFunc({
+        cur_page: currentPage.value,
+    });
 };
 
 const handlePageChange = () => {
-	queryPreferenceListFunc({
-		page_limit: pageSize.value,
-	});
+    queryPreferenceListFunc({
+        page_limit: pageSize.value,
+    });
 };
 
 const loading = ref(false);
 
 const queryPreferenceListFunc = async (params?: IQueryPreferenceList) => {
-	loading.value = true;
-	const res: any = await queryPreferenceList(params);
-	if (res.state === 1) {
-		tableData.value = res.data.list;
-		total.value = res.data.page_info.total;
-		currentPage.value = res.data.page_info.cur_page;
-		pageSize.value = res.data.page_info.page_limit;
+    loading.value = true;
+    const res: any = await queryPreferenceList(params);
+    if (res.state === 1) {
+        tableData.value = res.data.list;
+        total.value = res.data.page_info.total;
+        currentPage.value = res.data.page_info.cur_page;
+        pageSize.value = res.data.page_info.page_limit;
 
-		loading.value = false;
-	}
+        loading.value = false;
+    }
 };
 
 // 投放范围枚举值
 const delivery_range_enum: Record<string, string> = {
-	DEFAULT: "默认",
-	UNION: "穿山甲",
-	UNIVERSAL: "通投智选",
+    DEFAULT: "默认",
+    UNION: "穿山甲",
+    UNIVERSAL: "通投智选",
 };
 
 // 定向包推广类型
 const landing_type_enum: Record<string, string> = {
-	EXTERNAL: "落地页",
-	ARTICLE: "文章推广",
-	GOODS: "商品推广",
-	DPA: "商品目录",
-	STORE: "门店推广",
-	AWEME: "抖音号推广",
-	SHOP: "店铺直投",
-	APP_ANDROID: "应用下载-安卓",
-	APP_IOS: "应用下载-IOS",
-	LIVE: "直播间推广",
-	QUICK_APP: "快应用",
-	MICRO_GAME: "小游戏推广",
+    EXTERNAL: "落地页",
+    ARTICLE: "文章推广",
+    GOODS: "商品推广",
+    DPA: "商品目录",
+    STORE: "门店推广",
+    AWEME: "抖音号推广",
+    SHOP: "店铺直投",
+    APP_ANDROID: "应用下载-安卓",
+    APP_IOS: "应用下载-IOS",
+    LIVE: "直播间推广",
+    QUICK_APP: "快应用",
+    MICRO_GAME: "小游戏推广",
 };
 
 onMounted(() => {
-	queryPreferenceListFunc({
-		delivery_range: "DEFAULT",
-	});
+    queryPreferenceListFunc({
+        delivery_range: "DEFAULT",
+    });
 });
 
 const handleDeliveryModeChange = (value: string | number) => {
-	if (value) {
-		queryPreferenceListFunc({
-			delivery_range: String(value),
-		});
-	}
+    if (value) {
+        queryPreferenceListFunc({
+            delivery_range: String(value),
+        });
+    }
 };
 
 const handleDeliveryModeClear = () => {
-	queryPreferenceListFunc();
+    queryPreferenceListFunc();
 };
 
 const handleSearchClick = () => {
-	if (keyword.value) {
-		if (keyword_type.value === "name") {
-			queryPreferenceListFunc({
-				name: keyword.value,
-			});
-		} else {
-			queryPreferenceListFunc({
-				audience_package_id: keyword.value,
-			});
-		}
-	} else {
-		queryPreferenceListFunc({
-			advertiser_id: 1787695788195915,
-		});
-	}
+    if (keyword.value) {
+        if (keyword_type.value === "name") {
+            queryPreferenceListFunc({
+                name: keyword.value,
+            });
+        } else {
+            queryPreferenceListFunc({
+                audience_package_id: keyword.value,
+            });
+        }
+    } else {
+        queryPreferenceListFunc({
+            advertiser_id: 1787695788195915,
+        });
+    }
 };
 
 // 新建头条定向包
 const NewTargetingPackageState = reactive({
-	visible: false,
+    visible: false,
 });
 
 const handleNewTargetingPackageClick = () => {
-	NewTargetingPackageState.visible = true;
+    NewTargetingPackageState.visible = true;
 };
 
 const handleNewTargetingPackageClose = (options: {
-	type: number;
-	form: any;
+    type: number;
+    form: any;
 }) => {
-	NewTargetingPackageState.visible = false;
+    if (options.type === 1) { } else {
+        NewTargetingPackageState.visible = false;
+    }
 };
 </script>
 

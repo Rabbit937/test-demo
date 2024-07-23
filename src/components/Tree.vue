@@ -1,8 +1,8 @@
 <template>
   <el-scrollbar height="640px">
     <el-tree style="max-width: 640px" :props="defaultProps" :expand-on-click-node="false" @node-click="handleNodeClick"
-      accordion empty-text="没有数据" :data="treeData">
-      <template #default="{ node, data }">
+      accordion empty-text="没有数据" :data="props.treeData">
+      <template #default="{ data }">
         <span class="custom-tree-node">
           <img v-if="Number(data.LEVEL) === 0" class="icon-zhuanji"
             src="data:image/svg+xml;base64,PHN2ZyB0PSIxNjc4MzQ0MzY0ODUyIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjEyOTIzIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTkyMiA5MTAuNUgxMDJjLTIxLjkgMC0zOS42LTE3LjctMzkuNi0zOS42VjIyNC4zYzAtMjEuOSAxNy43LTM5LjYgMzkuNi0zOS42aDgyMGMyMS45IDAgMzkuNiAxNy43IDM5LjYgMzkuNnY2NDYuNmMwIDIxLjgtMTcuOCAzOS42LTM5LjYgMzkuNnoiIGZpbGw9IiNGRkEwMDAiIHAtaWQ9IjEyOTI0Ij48L3BhdGg+PHBhdGggZD0iTTUxMiAzNTQuOUg2Mi40VjE1My4xYzAtMjEuOSAxNy43LTM5LjYgMzkuNi0zOS42aDMwNy43YzE3LjUgMCAzMi45IDExLjQgMzcuOSAyOC4yTDUxMiAzNTQuOXoiIGZpbGw9IiNGRkEwMDAiIHAtaWQ9IjEyOTI1Ij48L3BhdGg+PHBhdGggZD0iTTg1OS43IDg2MS4zSDE2NC4zYy0yMS45IDAtMzkuNi0xNy43LTM5LjYtMzkuNnYtNTM3YzAtMjEuOSAxNy43LTM5LjYgMzkuNi0zOS42aDY5NS41YzIxLjkgMCAzOS42IDE3LjcgMzkuNiAzOS42djUzN2MwIDIxLjgtMTcuOCAzOS42LTM5LjcgMzkuNnoiIGZpbGw9IiNGRkZGRkYiIHAtaWQ9IjEyOTI2Ij48L3BhdGg+PHBhdGggZD0iTTkyMiA5MTAuNUgxMDJjLTIxLjkgMC0zOS42LTE3LjctMzkuNi0zOS42VjM1OS4xYzAtMjEuOSAxNy43LTM5LjYgMzkuNi0zOS42aDgyMGMyMS45IDAgMzkuNiAxNy43IDM5LjYgMzkuNnY1MTEuOGMwIDIxLjgtMTcuOCAzOS42LTM5LjYgMzkuNnoiIGZpbGw9IiNGRkNBMjgiIHAtaWQ9IjEyOTI3Ij48L3BhdGg+PHBhdGggZD0iTTg1Mi44IDMxOS41TDYxMi40IDczOC44bC0yMDkuOC0yNzlMMTQ3IDQ3MS4zbDk3LjUgMTMwLjEtOTcuNSA0LjQgMjI4LjIgMzA0LjZIOTIyYzIxLjkgMCAzOS42LTE3LjcgMzkuNi0zOS42VjQ2My4zTDg1Mi44IDMxOS41eiIgZmlsbD0iI0ZGQjgwNiIgcC1pZD0iMTI5MjgiPjwvcGF0aD48cGF0aCBkPSJNMzgyLjggNDgzLjFIMTY1LjFjLTEwLjkgMC0xOS44LTguOS0xOS44LTE5LjhzOC45LTE5LjggMTkuOC0xOS44aDIxNy43YzEwLjkgMCAxOS44IDguOSAxOS44IDE5LjhzLTguOSAxOS44LTE5LjggMTkuOHpNMzgyLjggNjE3LjZIMTY1LjFjLTEwLjkgMC0xOS44LTguOS0xOS44LTE5LjhzOC45LTE5LjggMTkuOC0xOS44aDIxNy43YzEwLjkgMCAxOS44IDguOSAxOS44IDE5LjggMCAxMS04LjkgMTkuOC0xOS44IDE5Ljh6IiBmaWxsPSIjRkZGOEUxIiBwLWlkPSIxMjkyOSI+PC9wYXRoPjxwYXRoIGQ9Ik04MzcuNCA3NjIuOWwtMTA3LTcwLjdjLTMuMy0yLjItNy42LTIuMi0xMC45IDBsLTEwNyA3MC43Yy02LjYgNC40LTE1LjQtMC40LTE1LjQtOC4zVjMxOC4xYzAtMTAuOSA4LjUtMTkuOCAxOC45LTE5LjhoMjE3LjhjMTAuNCAwIDE4LjkgOC45IDE4LjkgMTkuOHY0MzYuNWMwLjEgNy45LTguNyAxMi43LTE1LjMgOC4zeiIgZmlsbD0iI0Y0NDMzNiIgcC1pZD0iMTI5MzAiPjwvcGF0aD48L3N2Zz4="
@@ -27,37 +27,38 @@
 import type Node from "element-plus/lib/components/tree/src/model/node.js";
 
 interface Props {
-	treeData: any;
+  treeData: any;
 }
 
 const defaultProps = {
-	children: "CHILD",
+  children: "CHILD",
 };
 
 const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(["handleNodeClick", "removeSelectedClass"]);
 
 const handleNodeClick = (data: any, node: Node) => {
-	removeSelectedClass();
+  console.log(node)
+  removeSelectedClass();
 
-	const el = document.querySelector(
-		`.el-tree-node[data-key="${data.$treeNodeId}"] > .el-tree-node__content > .custom-tree-node`,
-	);
+  const el = document.querySelector(
+    `.el-tree-node[data-key="${data.$treeNodeId}"] > .el-tree-node__content > .custom-tree-node`,
+  );
 
-	el?.classList.add("active");
-	emit("handleNodeClick", {
-		data: data,
-		removeSelectedClass,
-	});
+  el?.classList.add("active");
+  emit("handleNodeClick", {
+    data: data,
+    removeSelectedClass,
+  });
 };
 
 const removeSelectedClass = () => {
-	const selectedNodes = document.querySelectorAll(
-		".el-tree-node > .el-tree-node__content > .custom-tree-node",
-	);
-	selectedNodes.forEach((node) => {
-		node.classList.remove("active");
-	});
+  const selectedNodes = document.querySelectorAll(
+    ".el-tree-node > .el-tree-node__content > .custom-tree-node",
+  );
+  selectedNodes.forEach((node) => {
+    node.classList.remove("active");
+  });
 };
 </script>
 

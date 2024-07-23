@@ -52,7 +52,7 @@ const newLabelState = reactive({
 
 watch(
 	() => props.visable,
-	(newVisable, oldVisable) => {
+	() => {
 		newLabelState.visable = props.visable;
 	},
 );

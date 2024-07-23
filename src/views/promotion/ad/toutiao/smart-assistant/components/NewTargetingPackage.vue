@@ -74,13 +74,13 @@
                 </el-form-item> -->
 
 
-
+<!-- 
 				<el-form-item :label-width="140" label="自定义人群">
 					<el-radio-group v-model="form.custom_people">
 						<el-radio-button v-for="(item) in custom_people_options" :value="item.value"
 							:label="item.label" />
 					</el-radio-group>
-				</el-form-item>
+				</el-form-item> -->
 
 
 				<el-form-item :label-width="140" label="行为兴趣">
@@ -124,19 +124,19 @@
                     </el-radio-group>
                 </el-form-item> -->
 
-				<el-form-item :label-width="140" label="已安装用户">
+				<!-- <el-form-item :label-width="140" label="已安装用户">
 					<el-radio-group v-model="form.hide_if_exists">
 						<el-radio-button v-for="(item) in hide_if_exists_options" :value="item.value"
 							:label="item.label" />
 					</el-radio-group>
-				</el-form-item>
+				</el-form-item> -->
 
-				<el-form-item :label-width="140" label="过滤已转化用户">
-					<el-radio-group v-model="form.hide_if_converted">
+				<!-- <el-form-item :label-width="140" label="过滤已转化用户"> -->
+					<!-- <el-radio-group v-model="form.hide_if_converted">
 						<el-radio-button v-for="(item) in hide_if_converted_options" :value="item.value"
 							:label="item.label" />
-					</el-radio-group>
-				</el-form-item>
+					</el-radio-group> -->
+				<!-- </el-form-item> -->
 
 				<!-- <el-form-item :label-width="140" label="安卓版本">
                     <el-radio-group v-model="form.android_osv">
@@ -182,7 +182,6 @@ import {
 	queryAccountList,
 } from "@/api/modules/promotion";
 import { ElMessage } from "element-plus";
-import { emit } from "process";
 
 interface IProps {
 	visible: boolean;
@@ -215,7 +214,7 @@ const form = reactive<ICreatePreference>({
 	delivery_range: "DEFAULT",
 	district: "",
 	gender: "",
-	custom_people: "",
+	// custom_people: "",
 	interest_action_mode: "",
 	superior_popularity_type: "",
 	// platform: [],
@@ -379,31 +378,31 @@ const gender_options = [
 
 // const age_type = ref(0)
 
-const age_type_options = [
-	{
-		label: "不限",
-		value: 0,
-	},
-	{
-		label: "原有分段",
-		value: 1,
-	},
-	{
-		label: "更多分段",
-		value: 2,
-	},
-];
+// const age_type_options = [
+// 	{
+// 		label: "不限",
+// 		value: 0,
+// 	},
+// 	{
+// 		label: "原有分段",
+// 		value: 1,
+// 	},
+// 	{
+// 		label: "更多分段",
+// 		value: 2,
+// 	},
+// ];
 
-const custom_people_options = [
-	{
-		label: "不限",
-		value: 0,
-	},
-	{
-		label: "同时定向排除",
-		value: 1,
-	},
-];
+// const custom_people_options = [
+// 	{
+// 		label: "不限",
+// 		value: 0,
+// 	},
+// 	{
+// 		label: "同时定向排除",
+// 		value: 1,
+// 	},
+// ];
 
 const interest_action_mode_options = [
 	{
@@ -431,70 +430,70 @@ const superior_popularity_type_options = [
 	},
 ];
 
-const platform_options = [
-	{
-		value: "ANDROID",
-		label: "android",
-	},
-	{
-		value: "IOS",
-		label: "iOS",
-	},
-	{
-		value: "PC",
-		label: "PC",
-	},
-	{
-		value: "IPAD",
-		label: "ipad",
-	},
-	{
-		value: "WAP",
-		label: "wap",
-	},
-];
+// const platform_options = [
+// 	{
+// 		value: "ANDROID",
+// 		label: "android",
+// 	},
+// 	{
+// 		value: "IOS",
+// 		label: "iOS",
+// 	},
+// 	{
+// 		value: "PC",
+// 		label: "PC",
+// 	},
+// 	{
+// 		value: "IPAD",
+// 		label: "ipad",
+// 	},
+// 	{
+// 		value: "WAP",
+// 		label: "wap",
+// 	},
+// ];
 
-const device_type_options = [
-	{
-		value: "NONE",
-		label: "不限",
-	},
-	{
-		value: "MOBILE",
-		label: "智能手机",
-	},
-	{
-		value: "PAD",
-		label: "平板",
-	},
-];
+// const device_type_options = [
+// 	{
+// 		value: "NONE",
+// 		label: "不限",
+// 	},
+// 	{
+// 		value: "MOBILE",
+// 		label: "智能手机",
+// 	},
+// 	{
+// 		value: "PAD",
+// 		label: "平板",
+// 	},
+// ];
 
-const ac_options = [
-	{
-		value: "unknown",
-		label: "不限",
-	},
-	{
-		value: "WIFI",
-		label: "wifi",
-	},
-	{
-		value: "2G",
-		label: "2G",
-	},
-	{
-		value: "3G",
-		label: "3G",
-	},
-	{
-		value: "4G",
-		label: "4G",
-	},
-	{
-		value: "5G",
-		label: "5G",
-	},
-];
+// const ac_options = [
+// 	{
+// 		value: "unknown",
+// 		label: "不限",
+// 	},
+// 	{
+// 		value: "WIFI",
+// 		label: "wifi",
+// 	},
+// 	{
+// 		value: "2G",
+// 		label: "2G",
+// 	},
+// 	{
+// 		value: "3G",
+// 		label: "3G",
+// 	},
+// 	{
+// 		value: "4G",
+// 		label: "4G",
+// 	},
+// 	{
+// 		value: "5G",
+// 		label: "5G",
+// 	},
+// ];
 
 // 运营商
 /* const carrier_options = [
@@ -516,320 +515,320 @@ const ac_options = [
 	}
 ] */
 
-const hide_if_exists_options = [
-	{
-		value: 0,
-		label: "不限",
-	},
-	{
-		value: 1,
-		label: "过滤",
-	},
-	{
-		value: 2,
-		label: "定向",
-	},
-];
+// const hide_if_exists_options = [
+// 	{
+// 		value: 0,
+// 		label: "不限",
+// 	},
+// 	{
+// 		value: 1,
+// 		label: "过滤",
+// 	},
+// 	{
+// 		value: 2,
+// 		label: "定向",
+// 	},
+// ];
 
-const hide_if_converted_options = [
-	{
-		value: "NO_EXCLUDE",
-		label: "不过滤",
-	},
-	{
-		value: "AD",
-		label: "广告计划",
-	},
-	{
-		value: "CAMPAIGN",
-		label: "广告组",
-	},
-	{
-		value: "ADVERTISER",
-		label: "广告账户",
-	},
-	{
-		value: "APP",
-		label: "APP",
-	},
-	{
-		value: "CUSTOMER",
-		label: "公司账户",
-	},
-	{
-		value: "ORGANIZATION",
-		label: "组织账户",
-	},
-];
+// const hide_if_converted_options = [
+// 	{
+// 		value: "NO_EXCLUDE",
+// 		label: "不过滤",
+// 	},
+// 	{
+// 		value: "AD",
+// 		label: "广告计划",
+// 	},
+// 	{
+// 		value: "CAMPAIGN",
+// 		label: "广告组",
+// 	},
+// 	{
+// 		value: "ADVERTISER",
+// 		label: "广告账户",
+// 	},
+// 	{
+// 		value: "APP",
+// 		label: "APP",
+// 	},
+// 	{
+// 		value: "CUSTOMER",
+// 		label: "公司账户",
+// 	},
+// 	{
+// 		value: "ORGANIZATION",
+// 		label: "组织账户",
+// 	},
+// ];
 
-const android_osv_options = [
-	{
-		value: "0.0",
-		label: "不限",
-	},
-	{
-		value: "2.0",
-		label: "Android 2.0",
-	},
+// const android_osv_options = [
+// 	{
+// 		value: "0.0",
+// 		label: "不限",
+// 	},
+// 	{
+// 		value: "2.0",
+// 		label: "Android 2.0",
+// 	},
 
-	{
-		value: "2.0",
-		label: "Android 2.0",
-	},
+// 	{
+// 		value: "2.0",
+// 		label: "Android 2.0",
+// 	},
 
-	{
-		value: "2.1",
-		label: "Android 2.1",
-	},
-	{
-		value: "2.2",
-		label: "Android 2.2",
-	},
-	{
-		value: "2.3",
-		label: "Android 2.3",
-	},
-	{
-		value: "3.1",
-		label: "Android 3.1",
-	},
-	{
-		value: "3.2",
-		label: "Android 3.2",
-	},
-	{
-		value: "4.0",
-		label: "Android 4.0",
-	},
-	{
-		value: "4.1",
-		label: "Android 4.1",
-	},
-	{
-		value: "4.2",
-		label: "Android 4.2",
-	},
-	{
-		value: "4.3",
-		label: "Android 4.3",
-	},
-	{
-		value: "4.4",
-		label: "Android 4.4",
-	},
-	{
-		value: "4.5",
-		label: "Android 4.5",
-	},
-	{
-		value: "5.0",
-		label: "Android 5.0",
-	},
-	{
-		value: "5.1",
-		label: "Android 5.1",
-	},
-	{
-		value: "6.0",
-		label: "Android 6.0",
-	},
-	{
-		value: "7.0",
-		label: "Android 7.0",
-	},
-	{
-		value: "7.1",
-		label: "Android 7.1",
-	},
-	{
-		value: "8.0",
-		label: "Android 8.0",
-	},
-	{
-		value: "8.1",
-		label: "Android 8.1",
-	},
-	{
-		value: "9.0",
-		label: "Android 9.0",
-	},
-	{
-		value: "10.0",
-		label: "Android 10.0",
-	},
-	{
-		value: "10.1",
-		label: "Android 10.1",
-	},
-	{
-		value: "11.0",
-		label: "Android 11.0",
-	},
-];
+// 	{
+// 		value: "2.1",
+// 		label: "Android 2.1",
+// 	},
+// 	{
+// 		value: "2.2",
+// 		label: "Android 2.2",
+// 	},
+// 	{
+// 		value: "2.3",
+// 		label: "Android 2.3",
+// 	},
+// 	{
+// 		value: "3.1",
+// 		label: "Android 3.1",
+// 	},
+// 	{
+// 		value: "3.2",
+// 		label: "Android 3.2",
+// 	},
+// 	{
+// 		value: "4.0",
+// 		label: "Android 4.0",
+// 	},
+// 	{
+// 		value: "4.1",
+// 		label: "Android 4.1",
+// 	},
+// 	{
+// 		value: "4.2",
+// 		label: "Android 4.2",
+// 	},
+// 	{
+// 		value: "4.3",
+// 		label: "Android 4.3",
+// 	},
+// 	{
+// 		value: "4.4",
+// 		label: "Android 4.4",
+// 	},
+// 	{
+// 		value: "4.5",
+// 		label: "Android 4.5",
+// 	},
+// 	{
+// 		value: "5.0",
+// 		label: "Android 5.0",
+// 	},
+// 	{
+// 		value: "5.1",
+// 		label: "Android 5.1",
+// 	},
+// 	{
+// 		value: "6.0",
+// 		label: "Android 6.0",
+// 	},
+// 	{
+// 		value: "7.0",
+// 		label: "Android 7.0",
+// 	},
+// 	{
+// 		value: "7.1",
+// 		label: "Android 7.1",
+// 	},
+// 	{
+// 		value: "8.0",
+// 		label: "Android 8.0",
+// 	},
+// 	{
+// 		value: "8.1",
+// 		label: "Android 8.1",
+// 	},
+// 	{
+// 		value: "9.0",
+// 		label: "Android 9.0",
+// 	},
+// 	{
+// 		value: "10.0",
+// 		label: "Android 10.0",
+// 	},
+// 	{
+// 		value: "10.1",
+// 		label: "Android 10.1",
+// 	},
+// 	{
+// 		value: "11.0",
+// 		label: "Android 11.0",
+// 	},
+// ];
 
-const device_brand_options = [
-	{
-		value: "HONOR",
-		label: "荣耀",
-	},
-	{
-		value: "APPLE",
-		label: "苹果",
-	},
+// const device_brand_options = [
+// 	{
+// 		value: "HONOR",
+// 		label: "荣耀",
+// 	},
+// 	{
+// 		value: "APPLE",
+// 		label: "苹果",
+// 	},
 
-	{
-		value: "HUAWEI",
-		label: "华为",
-	},
+// 	{
+// 		value: "HUAWEI",
+// 		label: "华为",
+// 	},
 
-	{
-		value: "XIAOMI",
-		label: "小米",
-	},
+// 	{
+// 		value: "XIAOMI",
+// 		label: "小米",
+// 	},
 
-	{
-		value: "SAMSUNG",
-		label: "三星",
-	},
+// 	{
+// 		value: "SAMSUNG",
+// 		label: "三星",
+// 	},
 
-	{
-		value: "OPPO",
-		label: "OPPO",
-	},
+// 	{
+// 		value: "OPPO",
+// 		label: "OPPO",
+// 	},
 
-	{
-		value: "VIVO",
-		label: "VIVO",
-	},
+// 	{
+// 		value: "VIVO",
+// 		label: "VIVO",
+// 	},
 
-	{
-		value: "MEIZU",
-		label: "魅族",
-	},
+// 	{
+// 		value: "MEIZU",
+// 		label: "魅族",
+// 	},
 
-	{
-		value: "GIONEE",
-		label: "金立",
-	},
+// 	{
+// 		value: "GIONEE",
+// 		label: "金立",
+// 	},
 
-	{
-		value: "COOLPAD",
-		label: "酷派",
-	},
+// 	{
+// 		value: "COOLPAD",
+// 		label: "酷派",
+// 	},
 
-	{
-		value: "LENOVO",
-		label: "联想",
-	},
+// 	{
+// 		value: "LENOVO",
+// 		label: "联想",
+// 	},
 
-	{
-		value: "LETV",
-		label: "乐视",
-	},
+// 	{
+// 		value: "LETV",
+// 		label: "乐视",
+// 	},
 
-	{
-		value: "ZTE",
-		label: "中兴",
-	},
+// 	{
+// 		value: "ZTE",
+// 		label: "中兴",
+// 	},
 
-	{
-		value: "CHINAMOBILE",
-		label: "中国移动",
-	},
-	{
-		value: "HTC",
-		label: "HTC",
-	},
-	{
-		value: "PEPPER",
-		label: "小辣椒",
-	},
+// 	{
+// 		value: "CHINAMOBILE",
+// 		label: "中国移动",
+// 	},
+// 	{
+// 		value: "HTC",
+// 		label: "HTC",
+// 	},
+// 	{
+// 		value: "PEPPER",
+// 		label: "小辣椒",
+// 	},
 
-	{
-		value: "NUBIA",
-		label: "努比亚",
-	},
+// 	{
+// 		value: "NUBIA",
+// 		label: "努比亚",
+// 	},
 
-	{
-		value: "HISENSE",
-		label: "海信",
-	},
+// 	{
+// 		value: "HISENSE",
+// 		label: "海信",
+// 	},
 
-	{
-		value: "QIKU",
-		label: "奇酷",
-	},
-	{
-		value: "TCL",
-		label: "TCL",
-	},
+// 	{
+// 		value: "QIKU",
+// 		label: "奇酷",
+// 	},
+// 	{
+// 		value: "TCL",
+// 		label: "TCL",
+// 	},
 
-	{
-		value: "SONY",
-		label: "索尼",
-	},
+// 	{
+// 		value: "SONY",
+// 		label: "索尼",
+// 	},
 
-	{
-		value: "SMARTISAN",
-		label: "锤子手机",
-	},
+// 	{
+// 		value: "SMARTISAN",
+// 		label: "锤子手机",
+// 	},
 
-	{
-		value: "360",
-		label: "360手机",
-	},
+// 	{
+// 		value: "360",
+// 		label: "360手机",
+// 	},
 
-	{
-		value: "ONEPLUS",
-		label: "一加手机",
-	},
-	{
-		value: "LG",
-		label: "LG",
-	},
+// 	{
+// 		value: "ONEPLUS",
+// 		label: "一加手机",
+// 	},
+// 	{
+// 		value: "LG",
+// 		label: "LG",
+// 	},
 
-	{
-		value: "MOTO",
-		label: "摩托罗拉",
-	},
+// 	{
+// 		value: "MOTO",
+// 		label: "摩托罗拉",
+// 	},
 
-	{
-		value: "NOKIA",
-		label: "诺基亚",
-	},
+// 	{
+// 		value: "NOKIA",
+// 		label: "诺基亚",
+// 	},
 
-	{
-		value: "GOOGLE",
-		label: "谷歌",
-	},
-];
+// 	{
+// 		value: "GOOGLE",
+// 		label: "谷歌",
+// 	},
+// ];
 
-const launch_price_options = [
-	{
-		value: "NONE",
-		label: "不限",
-	},
-	{
-		value: "CUSTOM",
-		label: "自定义",
-	},
-];
+// const launch_price_options = [
+// 	{
+// 		value: "NONE",
+// 		label: "不限",
+// 	},
+// 	{
+// 		value: "CUSTOM",
+// 		label: "自定义",
+// 	},
+// ];
 
-const auto_extend_targets_options = [
-	{
-		value: "NONE",
-		label: "不启用",
-	},
-	{
-		value: "CUSTOM",
-		label: "启用",
-	},
-];
+// const auto_extend_targets_options = [
+// 	{
+// 		value: "NONE",
+// 		label: "不启用",
+// 	},
+// 	{
+// 		value: "CUSTOM",
+// 		label: "启用",
+// 	},
+// ];
 
 const createPreferenceFunc = async (params: ICreatePreference) => {
 	const res = await createPreference(params);
 	if (res.state === 1) {
-		emtis("handleClose", { type: 1, form: form.value });
+		emtis("handleClose", { type: 1, form: form });
 	} else {
 		ElMessage({
 			message: res.msg,

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { UserState } from "../interface/index.type";
-import piniaPersistConfig from "../helper/persist";
+// import piniaPersistConfig from "../helper/persist";
 
 export const useMaterialStore = defineStore({
 	id: "gg-material",

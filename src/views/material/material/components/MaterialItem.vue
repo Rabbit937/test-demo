@@ -376,21 +376,21 @@ import Dialog from "@/components/DialogGG.vue";
 import EditTags from "./EditTags.vue";
 
 import {
-	moveFolder,
-	moveMaterial,
-	updateAlbumOrFolder,
-	disableMaterial,
-	updateMaterial,
+  moveFolder,
+  moveMaterial,
+  updateAlbumOrFolder,
+  disableMaterial,
+  updateMaterial,
 } from "@/api/modules/material";
 import { ElMessage, ElMessageBox } from "element-plus";
 
 import Tree from "@/components/Tree.vue";
 
 interface Props {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	itemList: any;
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	treeState: any;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  itemList: any;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  treeState: any;
 }
 
 const props = withDefaults(defineProps<Props>(), {});
@@ -399,15 +399,15 @@ const emit = defineEmits(["handleClick"]);
 type clickType = "click" | "edit" | "delete" | "move";
 
 const handleClick = (item: any, action: clickType = "click") => {
-	if (action === "click") {
-		emit("handleClick", { item, type: "materialItem", action: action });
-	} else if (action === "edit") {
-		handleItemEdit(item);
-	} else if (action === "delete") {
-		handleItemDelete(item);
-	} else if (action === "move") {
-		handleItemMove(item);
-	}
+  if (action === "click") {
+    emit("handleClick", { item, type: "materialItem", action: action });
+  } else if (action === "edit") {
+    handleItemEdit(item);
+  } else if (action === "delete") {
+    handleItemDelete(item);
+  } else if (action === "move") {
+    handleItemMove(item);
+  }
 };
 
 // 编辑专辑
@@ -416,63 +416,63 @@ const formLabelWidth = ref("140px");
 const itemRef = ref();
 
 const editAlbumOrFolderState = reactive({
-	title: "",
-	visble: false,
-	form: {
-		al_dir_name: "",
-		note: "",
-		sort: 0,
-		al_dir_id: "",
-		type: "",
-	},
+  title: "",
+  visble: false,
+  form: {
+    al_dir_name: "",
+    note: "",
+    sort: 0,
+    al_dir_id: "",
+    type: "",
+  },
 });
 
 // item编辑
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleItemEdit = (item: any) => {
-	itemRef.value = item;
-	if (Number(item.type) === 1) {
-		editAlbumOrFolderState.title = "编辑专辑";
-		editAlbumOrFolderState.visble = true;
-		editAlbumOrFolderState.form.type = item.type;
-		editAlbumOrFolderState.form.al_dir_id = item.album.album_id;
-		editAlbumOrFolderState.form.al_dir_name = item.album.album_name;
-		editAlbumOrFolderState.form.note = item.album.note;
-		editAlbumOrFolderState.form.sort = Number(item.album.sort) ?? 0;
-	} else if (Number(item.type) === 2) {
-		editAlbumOrFolderState.title = "编辑文件夹";
-		editAlbumOrFolderState.visble = true;
-		editAlbumOrFolderState.form.type = item.type;
-		editAlbumOrFolderState.form.al_dir_id = item.dir.dir_id;
-		editAlbumOrFolderState.form.al_dir_name = item.dir.dir_name;
-		editAlbumOrFolderState.form.note = item.dir.note;
-		editAlbumOrFolderState.form.sort = Number(item.dir.sort) ?? 0;
-	}
+  itemRef.value = item;
+  if (Number(item.type) === 1) {
+    editAlbumOrFolderState.title = "编辑专辑";
+    editAlbumOrFolderState.visble = true;
+    editAlbumOrFolderState.form.type = item.type;
+    editAlbumOrFolderState.form.al_dir_id = item.album.album_id;
+    editAlbumOrFolderState.form.al_dir_name = item.album.album_name;
+    editAlbumOrFolderState.form.note = item.album.note;
+    editAlbumOrFolderState.form.sort = Number(item.album.sort) ?? 0;
+  } else if (Number(item.type) === 2) {
+    editAlbumOrFolderState.title = "编辑文件夹";
+    editAlbumOrFolderState.visble = true;
+    editAlbumOrFolderState.form.type = item.type;
+    editAlbumOrFolderState.form.al_dir_id = item.dir.dir_id;
+    editAlbumOrFolderState.form.al_dir_name = item.dir.dir_name;
+    editAlbumOrFolderState.form.note = item.dir.note;
+    editAlbumOrFolderState.form.sort = Number(item.dir.sort) ?? 0;
+  }
 };
 
 const editAlbumOrFolderFunc = async (type: string) => {
-	if (type === "confirm") {
-		editAlbumOrFolderState.visble = false;
-		await updateAlbumOrFolder({
-			al_dir_id: editAlbumOrFolderState.form.al_dir_id,
-			al_dir_name: editAlbumOrFolderState.form.al_dir_name,
-			note: editAlbumOrFolderState.form.note,
-			type: editAlbumOrFolderState.form.type,
-			sort: editAlbumOrFolderState.form.sort,
-		});
-		emit("handleClick", {
-			item: itemRef.value,
-			type: "materialItem",
-			action: "edit",
-		});
-	} else {
-		editAlbumOrFolderState.visble = false;
-		editAlbumOrFolderState.title = "";
-		editAlbumOrFolderState.visble = false;
-		editAlbumOrFolderState.form.al_dir_name = "";
-		editAlbumOrFolderState.form.note = "";
-		editAlbumOrFolderState.form.sort = 0;
-	}
+  if (type === "confirm") {
+    editAlbumOrFolderState.visble = false;
+    await updateAlbumOrFolder({
+      al_dir_id: editAlbumOrFolderState.form.al_dir_id,
+      al_dir_name: editAlbumOrFolderState.form.al_dir_name,
+      note: editAlbumOrFolderState.form.note,
+      type: editAlbumOrFolderState.form.type,
+      sort: editAlbumOrFolderState.form.sort,
+    });
+    emit("handleClick", {
+      item: itemRef.value,
+      type: "materialItem",
+      action: "edit",
+    });
+  } else {
+    editAlbumOrFolderState.visble = false;
+    editAlbumOrFolderState.title = "";
+    editAlbumOrFolderState.visble = false;
+    editAlbumOrFolderState.form.al_dir_name = "";
+    editAlbumOrFolderState.form.note = "";
+    editAlbumOrFolderState.form.sort = 0;
+  }
 };
 
 // 素材详情
@@ -481,51 +481,51 @@ const drawerState = ref();
 const tagsState = ref();
 
 const jumpToDetails = (item: any) => {
-	drawerVisible.value = true;
+  drawerVisible.value = true;
 
-	if (Number(item.type) === 3) {
-		drawerState.value = item.material;
-		tagsState.value = item.material.tagid;
-	}
+  if (Number(item.type) === 3) {
+    drawerState.value = item.material;
+    tagsState.value = item.material.tagid;
+  }
 };
 
 const updateVisible = () => {
-	drawerVisible.value = false;
+  drawerVisible.value = false;
 };
 
 // 删除
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleItemDelete = (item: any) => {
-	const tips =
-		Number(item.type) === 1
-			? "专辑"
-			: Number(item.type) === 2
-				? "文件夹"
-				: "素材";
+  const tips =
+    Number(item.type) === 1
+      ? "专辑"
+      : Number(item.type) === 2
+        ? "文件夹"
+        : "素材";
 
-	ElMessageBox.confirm(`您确认删除此${tips}吗?`, "提示", {
-		confirmButtonText: "确认",
-		cancelButtonText: "取消",
-		type: "warning",
-	})
-		.then(() => {
-			emit("handleClick", {
-				item: item,
-				type: "materialItem",
-				action: "delete",
-			});
-		})
-		.catch(() => {
-			ElMessage({
-				type: "info",
-				message: "删除取消",
-			});
-		});
+  ElMessageBox.confirm(`您确认删除此${tips}吗?`, "提示", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(() => {
+      emit("handleClick", {
+        item: item,
+        type: "materialItem",
+        action: "delete",
+      });
+    })
+    .catch(() => {
+      ElMessage({
+        type: "info",
+        message: "删除取消",
+      });
+    });
 };
 
 const moveState = reactive({
-	title: "",
-	visble: false,
+  title: "",
+  visble: false,
 });
 
 const moveItemRef = ref();
@@ -533,226 +533,231 @@ const moveItemRef = ref();
 // 移动
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleItemMove = (item: any) => {
-	moveState.visble = true;
-	moveItemRef.value = item;
-	if (Number(item.type) === 2) {
-		moveState.title = "移动文件夹";
-	} else {
-		moveState.title = "移动素材";
-	}
+  moveState.visble = true;
+  moveItemRef.value = item;
+  if (Number(item.type) === 2) {
+    moveState.title = "移动文件夹";
+  } else {
+    moveState.title = "移动素材";
+  }
 };
 
 const treeDataRef = ref();
 
 const handleTreeClick = (treeNode: any) => {
-	treeDataRef.value = treeNode.data;
+  treeDataRef.value = treeNode.data;
 };
 
 const moveVisible = () => {
-	moveState.visble = false;
+  moveState.visble = false;
 };
 
 const handleMoveCancel = () => {
-	moveState.visble = false;
+  moveState.visble = false;
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const findParentNodes = (tree: any, ID: string, parents: any[] = []): any => {
-	for (const node of tree) {
-		if (node.ID === ID) {
-			// 找到匹配的节点，将其父级节点推入数组
-			return [...parents, ID];
-		}
-		if (node.CHILD) {
-			// 递归查找子节点
-			const result = findParentNodes(node.CHILD, ID, [...parents, node.ID]);
-			if (result) {
-				return result;
-			}
-		}
-	}
-	return null; // 未找到匹配的节点
+  for (const node of tree) {
+    if (node.ID === ID) {
+      // 找到匹配的节点，将其父级节点推入数组
+      return [...parents, ID];
+    }
+    if (node.CHILD) {
+      // 递归查找子节点
+      const result = findParentNodes(node.CHILD, ID, [...parents, node.ID]);
+      if (result) {
+        return result;
+      }
+    }
+  }
+  return null; // 未找到匹配的节点
 };
 
 const handleMoveConfirm = () => {
-	if (Number(moveItemRef.value.type) === 3) {
-		if (treeDataRef.value) {
-			if (Number(treeDataRef.value.AL_ID) === 0) {
-				ElMessage.warning("请选择非专辑的文件夹，作为移动目标");
-			} else {
-				moveMaterialFunc({
-					mat_id: moveItemRef.value.material.material_id,
-					dir_id: treeDataRef.value.ID,
-					album_id: treeDataRef.value.AL_ID,
-					relative_dir_id: findParentNodes(
-						props.treeState.treeData,
-						treeDataRef.value.ID,
-					).slice(1),
-				});
+  if (Number(moveItemRef.value.type) === 3) {
+    if (treeDataRef.value) {
+      if (Number(treeDataRef.value.AL_ID) === 0) {
+        ElMessage.warning("请选择非专辑的文件夹，作为移动目标");
+      } else {
+        moveMaterialFunc({
+          mat_id: moveItemRef.value.material.material_id,
+          dir_id: treeDataRef.value.ID,
+          album_id: treeDataRef.value.AL_ID,
+          relative_dir_id: findParentNodes(
+            props.treeState.treeData,
+            treeDataRef.value.ID,
+          ).slice(1),
+        });
 
-				moveVisible();
+        moveVisible();
 
-				emit("handleClick", {
-					item: moveItemRef.value,
-					type: "materialItem",
-					action: "move",
-				});
-			}
-		} else {
-			ElMessage.warning("请选择目标移动的目录");
-		}
-	} else {
-		if (treeDataRef.value) {
-			if (Number(treeDataRef.value.AL_ID) === 0) {
-				moveFolderFunc({
-					dir_id: moveItemRef.value.dir.dir_id,
-					des_al_id: treeDataRef.value.ID,
-					dir_pid: "",
-					des_al_name: "",
-				});
-			} else {
-				moveFolderFunc({
-					dir_id: moveItemRef.value.dir.dir_id,
-					des_al_id: treeDataRef.value.AL_ID,
-					dir_pid: treeDataRef.value.ID,
-					des_al_name: "",
-				});
-			}
+        emit("handleClick", {
+          item: moveItemRef.value,
+          type: "materialItem",
+          action: "move",
+        });
+      }
+    } else {
+      ElMessage.warning("请选择目标移动的目录");
+    }
+  } else {
+    if (treeDataRef.value) {
+      if (Number(treeDataRef.value.AL_ID) === 0) {
+        moveFolderFunc({
+          dir_id: moveItemRef.value.dir.dir_id,
+          des_al_id: treeDataRef.value.ID,
+          dir_pid: "",
+          des_al_name: "",
+        });
+      } else {
+        moveFolderFunc({
+          dir_id: moveItemRef.value.dir.dir_id,
+          des_al_id: treeDataRef.value.AL_ID,
+          dir_pid: treeDataRef.value.ID,
+          des_al_name: "",
+        });
+      }
 
-			moveVisible();
+      moveVisible();
 
-			emit("handleClick", {
-				item: moveItemRef.value,
-				type: "materialItem",
-				action: "move",
-			});
-		} else {
-			ElMessage.warning("请选择目标移动的目录");
-		}
-	}
+      emit("handleClick", {
+        item: moveItemRef.value,
+        type: "materialItem",
+        action: "move",
+      });
+    } else {
+      ElMessage.warning("请选择目标移动的目录");
+    }
+  }
 };
 interface IMoveFolder {
-	dir_id: number;
-	dir_pid?: string;
-	des_al_name?: string;
-	des_al_id: number;
+  dir_id: number;
+  dir_pid?: string;
+  des_al_name?: string;
+  des_al_id: number;
 }
 
 const moveFolderFunc = async (params: IMoveFolder) => {
-	const res = await moveFolder(params);
+  const res = await moveFolder(params);
+  console.log(res)
+
+  if (res.state === 1) {
+    console.log(res.msg)
+  }
 };
 
 interface IMoveMaterial {
-	mat_id: number;
-	dir_id: number;
-	album_id: number;
-	relative_dir_id: string[];
+  mat_id: number;
+  dir_id: number;
+  album_id: number;
+  relative_dir_id: string[];
 }
 
 const moveMaterialFunc = async (params: IMoveMaterial) => {
-	await moveMaterial(params);
+  await moveMaterial(params);
 };
 
 const stateRef = ref();
 const dialogState = reactive({
-	name: {
-		title: "",
-		visable: false,
-		form: {
-			name: "",
-		},
-	},
-	note: {
-		title: "",
-		visable: false,
-		form: {
-			note: "",
-		},
-	},
+  name: {
+    title: "",
+    visable: false,
+    form: {
+      name: "",
+    },
+  },
+  note: {
+    title: "",
+    visable: false,
+    form: {
+      note: "",
+    },
+  },
 });
 
 // 编辑素材名称
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditMaterialName = (state: any) => {
-	stateRef.value = state;
-	dialogState.name.visable = true;
-	dialogState.name.title = "编辑文件名";
-	dialogState.name.form.name = state.material_name;
+  stateRef.value = state;
+  dialogState.name.visable = true;
+  dialogState.name.title = "编辑文件名";
+  dialogState.name.form.name = state.material_name;
 };
 
 const deactivateTheMaterial = (state: any, disable: string) => {
-	drawerState.value.disable = Number(disable);
+  drawerState.value.disable = Number(disable);
 
-	disableMaterial({
-		mat_id: Number(state.material_id),
-		type: Number(disable),
-	});
+  disableMaterial({
+    mat_id: Number(state.material_id),
+    type: Number(disable),
+  });
 
-	// getMaterialListFunc()
+  // getMaterialListFunc()
 };
 
 const updateMaterialNote = (state: any) => {
-	stateRef.value = state;
-	dialogState.note.visable = true;
-	dialogState.note.title = "修改素材备注";
-	dialogState.note.form.note = state.note;
+  stateRef.value = state;
+  dialogState.note.visable = true;
+  dialogState.note.title = "修改素材备注";
+  dialogState.note.form.note = state.note;
 };
 
 // 编辑素材名称，确认按钮处理函数
 const handleEditClose = (type: string) => {
-	if (type === "confirm") {
-		updateMaterial({
-			mat_id: stateRef.value.material_id,
-			mat_name: dialogState.name.form.name,
-		});
+  if (type === "confirm") {
+    updateMaterial({
+      mat_id: stateRef.value.material_id,
+      mat_name: dialogState.name.form.name,
+    });
 
-		dialogState.name.visable = false;
-		drawerState.value.material_name = dialogState.name.form.name;
-		// getMaterialListFunc()
-	} else {
-		dialogState.name.visable = false;
-		ElMessage.info("取消编辑文件名");
-	}
+    dialogState.name.visable = false;
+    drawerState.value.material_name = dialogState.name.form.name;
+    // getMaterialListFunc()
+  } else {
+    dialogState.name.visable = false;
+    ElMessage.info("取消编辑文件名");
+  }
 };
 
 const handleEditNoteClose = (type: string) => {
-	if (type === "confirm") {
-		updateMaterial({
-			mat_id: stateRef.value.material_id,
-			note: dialogState.note.form.note,
-		});
+  if (type === "confirm") {
+    updateMaterial({
+      mat_id: stateRef.value.material_id,
+      note: dialogState.note.form.note,
+    });
 
-		dialogState.note.visable = false;
-		drawerState.value.note = dialogState.note.form.note;
-		// getMaterialListFunc()
-	} else {
-		dialogState.note.visable = false;
-		ElMessage.info("取消编辑文件名");
-	}
+    dialogState.note.visable = false;
+    drawerState.value.note = dialogState.note.form.note;
+    // getMaterialListFunc()
+  } else {
+    dialogState.note.visable = false;
+    ElMessage.info("取消编辑文件名");
+  }
 };
 
 const EditTagsState = reactive({
-	visable: false,
-	materialItem: null,
+  visable: false,
+  materialItem: null,
 });
 
 // 编辑标签页
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditTags = (material: any) => {
-	itemRef.value = material;
-	EditTagsState.visable = true;
-	EditTagsState.materialItem = material;
+  itemRef.value = material;
+  EditTagsState.visable = true;
+  EditTagsState.materialItem = material;
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditTagsClose = (tagsParams: any) => {
-	EditTagsState.visable = false;
-	tagsState.value = tagsParams.tagsList;
-	emit("handleClick", {
-		item: itemRef.value,
-		type: "materialItem",
-		action: "editTags",
-	});
+  EditTagsState.visable = false;
+  tagsState.value = tagsParams.tagsList;
+  emit("handleClick", {
+    item: itemRef.value,
+    type: "materialItem",
+    action: "editTags",
+  });
 };
 </script>
 

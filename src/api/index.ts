@@ -56,7 +56,7 @@ class RequestHttp {
 		);
 		this.service.interceptors.response.use(
 			(response: AxiosResponse & { config: CustomAxiosRequestConfig }) => {
-				const { data, config } = response;
+				const { data } = response;
 
 				const userStore = useUserStore();
 				// axiosCanceler.removePending(config);
@@ -78,7 +78,7 @@ class RequestHttp {
 				return data;
 			},
 			async (error: AxiosError) => {
-				const { response } = error;
+				// const { response } = error;
 				// tryHideFullScreenLoading();
 				// 请求超时 && 网络错误单独判断，没有 response
 				if (error.message.indexOf("timeout") !== -1)

@@ -280,6 +280,9 @@ interface IDeleteMaterial {
 // 删除素材
 const deleteMaterialFunc = async (params: IDeleteMaterial) => {
 	const res = await deleteMaterial(params);
+	if (res.state === 1) {
+		console.log(res.msg)
+	}
 };
 
 // item删除
