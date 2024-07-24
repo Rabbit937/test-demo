@@ -145,7 +145,7 @@
 
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref, watchEffect, reactive } from "vue";
+import { ref, watchEffect, reactive } from "vue";
 import MaterialSelector from "./MaterialSelector.vue";
 
 
