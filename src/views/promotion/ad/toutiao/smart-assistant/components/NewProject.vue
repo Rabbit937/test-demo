@@ -557,6 +557,8 @@ import {
     getDeepOptimizeType,
     queryIosApplication,
     type IGetOptimizeGoalResultData,
+    IAutoMonitorLink,
+    autoMonitorLink,
 } from "@/api/modules/promotion";
 
 import {
@@ -673,9 +675,6 @@ const form: INewProject = reactive({
     deep_external_action: "NONE",
     deep_bid_type: "",
 
-    // 可选参数，接口不需要，界面需要
-    budget_bidding_configuration_mode: "unified_configuration",
-
     pre_budget_group: [],
     preference_group: [],
 
@@ -714,6 +713,10 @@ const queryIosApplicationFunc = async (params: IQueryIosApplication) => {
         if (res.state === 1) {
             form.app_name = res.data.appstore_name;
             form.download_url = res.data.download_url;
+
+            autoMonitorLinkFunc({
+                bundleid: res.data.bundleid
+            })
         }
     } catch (error) {
         console.error("error with queryIosApplicationFunc", error);
@@ -757,7 +760,22 @@ const handleHeadlineApplicationChange = (val: any) => {
     );
     form.app_name = filterAndroidApp[0].app_name;
     form.download_url = filterAndroidApp[0].download_url;
+
+    autoMonitorLinkFunc({
+        app_cloud_id: filterAndroidApp[0].app_id
+    })
 };
+
+
+// 自动生成监测链接
+const autoMonitorLinkFunc = async (params: IAutoMonitorLink) => {
+    const res = await autoMonitorLink(params);
+    if (res.state === 1) {
+        form.track_url_setting = res.data.track_url_setting;
+    }
+}
+
+
 
 // 项目排期与预算
 // 投放时间
@@ -916,22 +934,24 @@ const handleBoxCardItem = (id: number) => {
 
 // 应用推广类型切换方法
 const handleAppPromotionTypeChange = (value: string) => {
-    ElMessageBox.confirm(
-        "切换子目标将会清空您已填写的所有内容，是否继续切换？",
-        "提示",
-        {
-            confirmButtonText: "确认",
-            cancelButtonText: "取消",
-            type: "warning",
-            icon: markRaw(WarningFilled),
-        },
-    )
-        .then(() => {
-            form.app_promotion_type = value;
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    console.log(value);
+    // ElMessageBox.confirm(
+    //     "切换子目标将会清空您已填写的所有内容，是否继续切换？",
+    //     "提示",
+    //     {
+    //         confirmButtonText: "确认",
+    //         cancelButtonText: "取消",
+    //         type: "warning",
+    //         icon: markRaw(WarningFilled),
+    //     },
+    // )
+    //     .then(() => {
+    //         // form.app_promotion_type = value;
+    //         console.log(123213213);
+    //     })
+    //     .catch((error) => {
+    //         console.error(error);
+    //     });
 };
 
 const AudiencePackageState = reactive({
@@ -953,6 +973,11 @@ const handleAudiencePackageDrawerClose = (options: {
     if (options.type === 1) {
         AudiencePackageState.visible = false;
         selectedTargetingPackage.value = options.selectedTargetingPackage;
+        form.preference_group = selectedTargetingPackage.value.map((item: any) => {
+            return {
+                audience_package_id: item.audience_package_id
+            }
+        });
     } else {
         AudiencePackageState.visible = false;
     }

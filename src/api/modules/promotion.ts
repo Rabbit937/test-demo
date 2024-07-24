@@ -608,7 +608,10 @@ export interface INewProject {
 	start_time?: string;
 
 	subscribe_url?: string;
-	track_url_setting?: string[];
+	track_url_setting?: {
+		track_url_type: string;
+		action_track_url: string[];
+	};
 	union_video_type?: string;
 }
 
@@ -657,6 +660,7 @@ export interface IRuleConfiguration {
 		num?: number;
 	};
 	promotion: {
+		rule: "auto";
 		num?: number;
 	};
 }
@@ -1159,4 +1163,32 @@ export interface ISyncLandingPage {
 
 export const syncLandingPage = (params: ISyncLandingPage) => {
 	return http.get(`/api/Mk_Tt_Assets/_syncLandingPage`, params)
+}
+
+
+/**
+ * @name 自动生成监测链接
+ */
+
+export interface IAutoMonitorLink {
+	/**
+	 * 应用app_id 投放安卓必填
+	 */
+	app_cloud_id?: number;
+	/**
+	 * 苹果应用bundleid 投放ios必填
+	 */
+	bundleid?: string;
+}
+
+export interface IAutoMonitorLinkResultData {
+	track_url_setting: {
+		track_url_type: string;
+		action_track_url: string[];
+	}
+}
+
+
+export const autoMonitorLink = (params: IAutoMonitorLink) => {
+	return http.post<IAutoMonitorLinkResultData>(`/api/Mk_Tt_Tool/_autoMonitorLink`, params)
 }

@@ -422,7 +422,8 @@ import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 import CreativeMaterials from "./components/CreativeMaterials.vue";
 import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
-import type { ICreativeMaterials, ILandingPage, INewProject, IRuleConfiguration } from "@/api/modules/promotion";
+import { createPromotionByNewProject } from "@/api/modules/promotion";
+import type { ICreatePromotionByNewProject, ICreativeMaterials, ILandingPage, INewProject, IRuleConfiguration } from "@/api/modules/promotion";
 
 // 新建项目
 const NewProjectForm = ref<INewProject>();
@@ -616,12 +617,32 @@ const handleLandingPageStateClose = (options: { type: number, form: any }) => {
 };
 
 
+// 生成广告预览
 const generateAdPreview = () => {
+  console.log(ADVERTISER_ID_ARRAY);
+
   console.log(NewProjectForm.value)
   console.log(BasicInformationOfAdForm.value)
   console.log(CreativeMaterialsForm.value)
   console.log(TitlePackForm.value)
   console.log(LandingPageForm.value)
+
+  createPromotionByNewProjectFunc({
+    advertiser_id: ADVERTISER_ID_ARRAY.value,
+    ...ruleConfiguration.value,
+    ...NewProjectForm.value,
+    ...BasicInformationOfAdForm.value,
+    ...CreativeMaterialsForm.value,
+    ...TitlePackForm.value,
+    ...LandingPageForm.value
+  })
+
+}
+
+// 生成广告预览接口
+const createPromotionByNewProjectFunc = async (params: ICreatePromotionByNewProject) => {
+  const res = await createPromotionByNewProject(params)
+  console.log(res);
 }
 
 
