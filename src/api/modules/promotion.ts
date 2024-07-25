@@ -1208,6 +1208,11 @@ export interface IQueryPreviewPromotionInfo {
 	adv_ids: string;
 }
 
+
+export interface IQueryPreviewPromotionInfoResultData {
+	
+}
+
 export const queryPreviewPromotionInfo = (params: IQueryPreviewPromotionInfo) => {
-	return http.get(`/api/Mk_Tt_Program/_queryPreviewPromotionInfo`, params)
+	return http.get<Record<string, IQueryPreviewPromotionInfoResultData>>(`/api/Mk_Tt_Program/_queryPreviewPromotionInfo`, params)
 }

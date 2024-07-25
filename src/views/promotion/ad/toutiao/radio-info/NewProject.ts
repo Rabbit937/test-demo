@@ -271,3 +271,31 @@ export const inventory_type_radio = [
 		label: "搜索广告",
 	},
 ];
+
+
+export const deep_external_action_radio: Record<string, string> = {
+	"AD_CONVERT_TYPE_ACTIVE_REGISTER": "注册",
+	"AD_CONVERT_TYPE_NEXT_DAY_OPEN": "次留",
+	"AD_CONVERT_TYPE_PURCHASE_ROI": "付费ROI",
+	"AD_CONVERT_TYPE_GAME_ADDICTION": "关键行为",
+	"AD_CONVERT_TYPE_RETENTION_7D": "7日留存",
+	"AD_CONVERT_TYPE_RETENTION_DAYS": "留存天数",
+	"AD_CONVERT_TYPE_ARPU0": "ARPU",
+}
+
+export const external_action_radio: Record<string, string> = {
+	AD_CONVERT_TYPE_ACTIVE: "激活",
+	AD_CONVERT_TYPE_ACTIVE_REGISTER: "注册",
+	AD_CONVERT_TYPE_PAY: "付费",
+	AD_CONVERT_TYPE_GAME_ADDICTION: "关键行为",
+	AD_CONVERT_TYPE_PURCHASE_ROI: "付费ROI",
+	AD_CONVERT_TYPE_NEXT_DAY_OPEN: "次留",
+	AD_CONVERT_TYPE_RETENTION_7D: "7日留存",
+	AD_CONVERT_TYPE_PURCHASE_ROI_2D: "付费ROI-2日",
+	AD_CONVERT_TYPE_PURCHASE_ROI_7D: "付费ROI-7日",
+	AD_CONVERT_TYPE_RETENTION_DAYS: "留存天数",
+	AD_CONVERT_TYPE_CLICK_NUM: "点击量",
+	AD_CONVERT_TYPE_SHOW_OFF_NUM: "展示量",
+}
+
+

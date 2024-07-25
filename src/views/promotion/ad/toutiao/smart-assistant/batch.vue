@@ -412,35 +412,135 @@
         </div>
 
         <div>
-          <el-table :data="tableData" style="width: 100%">
-
-            <el-table-column label="">
-
+          <el-table :data="PreviewPromotionInfoTableData" style="width: 100%">
+            <el-table-column label="项目">
+              <el-table-column label="项目信息">
+                <template #default="scope">
+                  <div>
+                    <span>
+                      {{ scope.row.project_name }}
+                    </span>
+                  </div>
+                  <div>
+                    <span>
+                      {{ budget_mode_radio.filter(inventory_type => inventory_type.value ===
+                        scope.row.delivery_setting.budget_mode)[0].label }}
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="转化目标">
+                <template #default="scope">
+                  <div>
+                    <span>
+                      {{ deep_external_action_radio[scope.row.optimize_goal.deep_external_action] ?? '无' }}
+                    </span>
+                  </div>
+                  <div>
+                    <span>
+                      {{ external_action_radio[String(scope.row.optimize_goal.external_action)] }}
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="广告位置">
+                <template #default="scope">
+                  <div v-if="scope.row.delivery_range.inventory_catalog === 'MANUAL'">
+                    <span v-for="item in scope.row.delivery_range.inventory_type">
+                      {{ inventory_type_radio.filter(inventory_type => inventory_type.value === item)[0].label }} &nbsp;
+                    </span>
+                  </div>
+                  <div v-else>
+                    <span>
+                      {{ scope.row.delivery_range.inventory_catalog }}
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="定向包">
+                <template #default="scope">
+                  <div>
+                    <span>
+                      名称： {{ scope.row.audience }}
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
             </el-table-column>
+            <el-table-column label="广告">
+              <el-table-column type="selection" width="55" />
+              <el-table-column label="广告名称">
+                <template #default="scope">
+                  <div>
+                    <span>
+                      名称： {{ scope.row.promotion_conf.promotion_name }}
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="预算与出价" prop="conversionGoal">
+                <template #default="scope">
+                  <div>
+                    <span>
+                      预算：{{ scope.row.promotion_conf.budget }}
+                    </span>
+                  </div>
+                  <div>
+                    <span>
+                      预算模式： {{ scope.row.promotion_conf.budget_mode }}
+                    </span>
+                  </div>
+                  <div>
+                    <span>
+                      转化出价： {{ scope.row.promotion_conf.cpa_bid }}
+                    </span>
+                  </div>
 
-            <!-- <el-table-column label="项目信息">
-              <template #default="scope">
-                <div>
-                  <div>{{ scope.row.projectName }}</div>
-                  <div>预算：{{ scope.row.budget }}元</div>
-                </div>
-              </template>
+                  <div>
+                    <span>
+                      深度优化出价：{{ scope.row.promotion_conf.deep_cpabid === "0.00" ? "无" :
+                        scope.row.promotion_conf.deep_cpabid }}
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="创意素材">
+                <template #default="scope">
+                  <div>
+                    <span>
+                      创意素材数量：{{ scope.row.promotion_conf.promotion_materials.video_material_list.length }}
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="标题包">
+                <template #default="scope">
+                  <div v-for="item in scope.row.promotion_conf.promotion_materials.title_material_list">
+                    <span>
+                      标题名称：{{ item.title }}
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="广告资产">
+                <template #default="scope">
+                  <div>
+                    <span>
+                      落地页数量：{{ scope.row.promotion_conf.promotion_materials.external_url_material_list.length }}
+                    </span>
+                  </div>
+
+                  <div>
+                    <span>
+                      抖音号：{{ scope.row.promotion_conf.native_setting.aweme_id }}
+                    </span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="提交状态">
+                <span>待提交</span>
+              </el-table-column>
             </el-table-column>
-
-            <el-table-column label="转化目标" prop="conversionGoal"></el-table-column>
-            <el-table-column label="广告位置" prop="adPosition"></el-table-column>
-            <el-table-column label="定向包" prop="targetPackage"></el-table-column>
-            <el-table-column label="广告名称">
-              <template #default="scope">
-                <el-checkbox v-model="scope.row.adSelected">{{ scope.row.adName }}</el-checkbox>
-              </template>
-            </el-table-column>
-
-            <el-table-column label="预算与出价" prop="budgetAndBid"></el-table-column>
-            <el-table-column label="创意素材" prop="creativeMaterial"></el-table-column>
-            <el-table-column label="标题包" prop="titlePackage"></el-table-column>
-            <el-table-column label="广告资产" prop="adAssets"></el-table-column>
-            <el-table-column label="提交状态" prop="submitStatus"></el-table-column> -->
           </el-table>
         </div>
       </div>
@@ -450,10 +550,10 @@
         <template #description>
           <span class="font-size-48px line-height-67px color-[#e0e3e7]">预览区</span>
         </template>
-        <template #default>
+              <template #default>
           <span class="font-size-14px line-height-20px color-[#808695]">请先完成相应模块配置后，再预览内容</span>
         </template>
-      </el-empty> -->
+              </el-empty> -->
     </el-col>
   </el-row>
 
@@ -503,6 +603,8 @@ import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
 import { createPromotionByNewProject, queryPreviewPromotionInfo } from "@/api/modules/promotion";
 import type { ICreatePromotionByNewProject, ICreativeMaterials, ILandingPage, INewProject, IQueryPreviewPromotionInfo, IRuleConfiguration } from "@/api/modules/promotion";
+import { inventory_type_radio, external_action_radio, deep_external_action_radio, budget_mode_radio } from '../radio-info/NewProject'
+
 
 // 新建项目
 const NewProjectForm = ref<INewProject>();
@@ -698,27 +800,27 @@ const handleLandingPageStateClose = (options: { type: number, form: any }) => {
 
 // 生成广告预览
 const generateAdPreview = () => {
-  console.log(ADVERTISER_ID_ARRAY);
-  console.log(ruleConfiguration.value);
-  console.log(NewProjectForm.value)
-  console.log(BasicInformationOfAdForm.value)
-  console.log(CreativeMaterialsForm.value)
-  console.log(TitlePackForm.value)
-  console.log(LandingPageForm.value)
+  // console.log(ADVERTISER_ID_ARRAY);
+  // console.log(ruleConfiguration.value);
+  // console.log(NewProjectForm.value)
+  // console.log(BasicInformationOfAdForm.value)
+  // console.log(CreativeMaterialsForm.value)
+  // console.log(TitlePackForm.value)
+  // console.log(LandingPageForm.value)
 
-  createPromotionByNewProjectFunc({
-    advertiser_id: ADVERTISER_ID_ARRAY.value,
-    ...ruleConfiguration.value,
-    ...NewProjectForm.value,
-    ...BasicInformationOfAdForm.value,
-    ...CreativeMaterialsForm.value,
-    ...TitlePackForm.value,
-    ...LandingPageForm.value
-  })
-
-  // queryPreviewPromotionInfoFunc({
-  //   adv_ids: "6"
+  // createPromotionByNewProjectFunc({
+  //   advertiser_id: ADVERTISER_ID_ARRAY.value,
+  //   ...ruleConfiguration.value,
+  //   ...NewProjectForm.value,
+  //   ...BasicInformationOfAdForm.value,
+  //   ...CreativeMaterialsForm.value,
+  //   ...TitlePackForm.value,
+  //   ...LandingPageForm.value
   // })
+
+  queryPreviewPromotionInfoFunc({
+    adv_ids: "56,57,58,59,60"
+  })
 
 }
 
@@ -728,44 +830,22 @@ const createPromotionByNewProjectFunc = async (params: ICreatePromotionByNewProj
   console.log(res);
 }
 
+
+const PreviewPromotionInfoTableData = ref()
 // 查询广告预览接口
 const queryPreviewPromotionInfoFunc = async (params: IQueryPreviewPromotionInfo) => {
   const res = await queryPreviewPromotionInfo(params);
-  console.log(res);
-}
 
-
-const tableData = ref([
-  {
-    projectName: '项目名称：0725-111717-1',
-    budget: 500,
-    conversionGoal: '应用SDK回传',
-    adPosition: '通投智选',
-    targetPackage: 'HY-安卓-不限',
-    adName: '0725-111717-1',
-    adSelected: false,
-    budgetAndBid: '预算：100',
-    creativeMaterial: '已选：1个素材',
-    titlePackage: '标题包：hy小游戏2',
-    adAssets: '落地页1：忍界大战-1101',
-    submitStatus: '待提交'
-  },
-  {
-    projectName: '项目名称：0725-111717-2',
-    budget: 500,
-    conversionGoal: '应用SDK回传',
-    adPosition: '通投智选',
-    targetPackage: 'HY-安卓-不限',
-    adName: '0725-111717-2',
-    adSelected: false,
-    budgetAndBid: '预算：100',
-    creativeMaterial: '已选：1个素材',
-    titlePackage: '标题包：hy小游戏2',
-    adAssets: '落地页1：忍界大战-1101',
-    submitStatus: '待提交'
+  if (res.state === 1) {
+    for (const [key, value] of Object.entries(res.data)) {
+      console.log(key, value)
+      for (const [k, v] of Object.entries(value)) {
+        PreviewPromotionInfoTableData.value = v;
+      }
+    }
   }
-])
 
+}
 
 
 </script>

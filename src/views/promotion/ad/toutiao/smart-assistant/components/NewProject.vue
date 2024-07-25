@@ -216,7 +216,7 @@
                                 <el-text>通投智选下，广告会投到信息流和搜索场景，提升单计划跑量与效果稳定性</el-text>
                             </el-form-item>
 
-                            <el-form-item label="首选媒体" style="margin-bottom:0px;">
+                            <el-form-item label="首选媒体" style="margin-bottom:0px;" v-if="form.inventory_catalog === 'MANUAL'">
                                 <el-select v-model="form.inventory_type" multiple clearable collapse-tags
                                     placeholder="请选择首选媒体" popper-class="custom-header" :max-collapse-tags="1"
                                     style="width: 240px">
