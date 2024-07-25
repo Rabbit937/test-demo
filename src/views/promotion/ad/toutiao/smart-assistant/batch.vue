@@ -367,52 +367,54 @@
   <!-- 预览区 -->
   <el-row class="pl-20px pr-20px mt-16px mb-24px pb-20px">
     <el-col class="h-686px flex grid-justify-center border-[#e8eaec]">
-      <div class="panel-header flex">
-        <div>
+      <div class="panel-header flex justify-between px-24px h-48px align-items-center">
+        <div class="font-size-16px font-700 color-[#333]">
           <span>预览区</span>
         </div>
-        <div>
-          <div>
+        <div class="flex align-items-center">
+          <div class="mr-16px font-size-12px color-[#515a6e]">
             <span>预计生成<b>4</b>个广告</span>
           </div>
-          <el-button>
+          <el-button type="primary">
             <span>全部提交审核</span>
           </el-button>
         </div>
       </div>
 
       <div>
-        <div class="preview-tabs">
-          <div data-v-0a39ff5d="" class="preview-tab preview-tab--active">
-            <div data-v-0a39ff5d="" class="preview-tab__inner"><span data-v-0a39ff5d=""
-                class="el-tooltip preview-tab__cell preview-tab__label ellipsis" aria-describedby="el-tooltip-4474"
-                tabindex="0"> 加速星期二-天拓-4(1787695788195915) <i data-v-0a39ff5d="" class="mg-icon-info"></i></span><!---->
+        <!-- <div class="preview-tabs">
+          <div class="preview-tab preview-tab--active">
+            <div class="preview-tab__inner">
+              <span>
+                加速星期二-天拓-4(1787695788195915)
+              </span>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div>
+        <div class="flex justify-between bg-[#fff] align-items-center"
+          style="box-sizing:border-box;height: 56px;padding: 14px 24px 18px 32px;">
           <div>
-            <el-checkbox label="全选" />
+            <el-checkbox size="small" label="全选" />
           </div>
-          <div>
-            <div>
-              <span>项目数量：<span>4</span></span>
-              <span>广告数量：<span>4</span></span>
-              <span>已有项目：<span>4</span></span>
-              <span>当日新建广告数：<span>4</span></span>
-              <span>所有广告配额：<span>4</span></span>
+          <div class="flex align-items-center">
+            <div class="font-size-12px font-400 color-[#666]">
+              <span class="mr-16px">项目数量：<span class="pr-3px font-700 color-[#333]">4</span></span>
+              <span class="mr-16px">广告数量：<span class="pr-3px font-700 color-[#333]">4</span></span>
+              <span class="mr-16px">已有项目：<span class="pr-3px font-700 color-[#333]">4</span></span>
+              <span class="mr-16px">当日新建广告数：<span class="pr-3px font-700 color-[#333]">4</span></span>
+              <span class="mr-16px">所有广告配额：<span class="pr-3px font-700 color-[#333]">4</span></span>
             </div>
-            <div>
-              <!-- <el-select>
+            <!-- <div class="w-120px">
+              <el-select placeholder="批量操作">
                 <el-option>删除</el-option>
-              </el-select> -->
-            </div>
+              </el-select>
+            </div> -->
           </div>
         </div>
 
         <div>
-          <el-table :data="PreviewPromotionInfoTableData" style="width: 100%">
+          <el-table :data="PreviewPromotionInfoTableData" style="width: 100%" empty-text="没有数据">
             <el-table-column label="项目">
               <el-table-column label="项目信息">
                 <template #default="scope">
@@ -800,13 +802,13 @@ const handleLandingPageStateClose = (options: { type: number, form: any }) => {
 
 // 生成广告预览
 const generateAdPreview = () => {
-  console.log(ADVERTISER_ID_ARRAY);
-  console.log(ruleConfiguration.value);
-  console.log(NewProjectForm.value)
-  console.log(BasicInformationOfAdForm.value)
-  console.log(CreativeMaterialsForm.value)
-  console.log(TitlePackForm.value)
-  console.log(LandingPageForm.value)
+  // console.log(ADVERTISER_ID_ARRAY);
+  // console.log(ruleConfiguration.value);
+  // console.log(NewProjectForm.value)
+  // console.log(BasicInformationOfAdForm.value)
+  // console.log(CreativeMaterialsForm.value)
+  // console.log(TitlePackForm.value)
+  // console.log(LandingPageForm.value)
 
   createPromotionByNewProjectFunc({
     advertiser_id: ADVERTISER_ID_ARRAY.value,
@@ -818,9 +820,7 @@ const generateAdPreview = () => {
     ...LandingPageForm.value
   })
 
-  queryPreviewPromotionInfoFunc({
-    adv_ids: "56,57,58,59,60"
-  })
+
 
 }
 
@@ -828,6 +828,13 @@ const generateAdPreview = () => {
 const createPromotionByNewProjectFunc = async (params: ICreatePromotionByNewProject) => {
   const res = await createPromotionByNewProject(params)
   console.log(res);
+
+  return false;
+  if (res.state === 1) {
+    queryPreviewPromotionInfoFunc({
+      adv_ids: "56,57,58,59,60"
+    })
+  }
 }
 
 
