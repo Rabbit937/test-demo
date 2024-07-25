@@ -211,8 +211,6 @@
                                     </div>
                                 </div>
                             </el-form-item>
-
-
                             <el-form-item label="产品卖点">
                                 <el-input placeholder="空格分隔,最多10个,每个标签不超过6个字" v-model="product_info_title"
                                     style="width : 244px;" @keyup.enter="addProductInfoSellingPoint" /><el-button
@@ -435,7 +433,11 @@ watchEffect(() => {
 
 const handleDrawerClose = (type: number) => {
     if (type === 1) {
-        console.log(form);
+        form.product_info_group[0].product_info.titles.push(product_name.value)
+        form.product_info_group[0].product_info.selling_points = (product_selling_points_list_selected.value)
+        form.pre_promotion_budget_group[0].budget = budget_amount.value
+        form.call_to_action_buttons = callToActionList.value
+
         emits("handleBasicInformationOfAdClose", { type: 1, form: form });
     } else {
         emits("handleBasicInformationOfAdClose", { type: 0 });
@@ -446,14 +448,26 @@ const form = reactive<IBasicInformationOfAd>({
     ad_download_status: "",
     anchor_related_type: "OFF",
     aweme_info_group: [],
-    product_info_group: [],
+    product_info_group: [
+        {
+            product_info: {
+                titles: [],
+                image_ids: [],
+                selling_points: []
+            }
+        }
+    ],
     call_to_action_buttons: [],
     intelligent_generation: "",
     is_comment_disable: "",
     keywords: [],
     mini_program_info: "",
     playable_url_material_list: [],
-    pre_promotion_budget_group: [],
+    pre_promotion_budget_group: [
+        {
+            budget: "0"
+        }
+    ],
     product_info_conf: "same",
     promotion_aweme: "same",
     promotion_name: "<日期>-<时分秒>-<当日标号>",
@@ -478,7 +492,9 @@ const selectTikTokAccountDialog = (options: {
 }) => {
     SelectTikTokAccountState.visible = false;
     if (options.type === 1) {
-        form.aweme_info_group = options.AwemeList;
+        form.aweme_info_group?.push({
+            aweme_id: options.AwemeList[0]
+        })
     }
 };
 
@@ -589,6 +605,10 @@ const handleMaterialSelectorDialogClose = (options: {
     if (MaterialSelectorForm.value.length > 0) {
         product_info_image_ids.value.push(
             ...MaterialSelectorForm.value.map((obj) => obj.post_url),
+        );
+
+        form.product_info_group[0].product_info.image_ids.push(
+            ...MaterialSelectorForm.value.map((obj) => obj.id),
         );
     }
 };

@@ -645,6 +645,10 @@ const createPromotionByNewProjectFunc = async (params: ICreatePromotionByNewProj
   console.log(res);
 }
 
+// 查询广告预览接口
+const queryPreviewPromotionInfoFunc = (params) => {
+
+}
 
 </script>
 

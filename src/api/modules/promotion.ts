@@ -634,8 +634,8 @@ export interface ICreativeMaterials {
 			jy_mat_id: string;
 			material_id: string;
 			video_cover_id: string;
-			item_id: string;
-			video_hp_visibility: string;
+			item_id?: string;
+			video_hp_visibility?: string;
 		}[];
 		image_material_list: {
 			image_mode: string;
@@ -1191,4 +1191,20 @@ export interface IAutoMonitorLinkResultData {
 
 export const autoMonitorLink = (params: IAutoMonitorLink) => {
 	return http.post<IAutoMonitorLinkResultData>(`/api/Mk_Tt_Tool/_autoMonitorLink`, params)
+}
+
+
+/**
+ * @name 查询广告预览信息
+ */
+
+export interface IQueryPreviewPromotionInfo {
+	/**
+	 * 生成的广告id，多个用逗号隔开
+	 */
+	adv_ids: string;
+}
+
+export const queryPreviewPromotionInfo = (params: IQueryPreviewPromotionInfo) => {
+	return http.get(`/api/Mk_Tt_Program/_queryPreviewPromotionInfo`, params)
 }

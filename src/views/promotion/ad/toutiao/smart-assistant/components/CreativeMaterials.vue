@@ -18,11 +18,8 @@ const drawerOptions = reactive({
 });
 
 const handleDrawerClose = (type: number) => {
-
+    console.log(form.promotion_material_group)
     if (type === 1) {
-        console.log()
-
-
         emits("handleDrawerClose", { type: 1, form: form });
     } else {
         emits("handleDrawerClose", { type: 0 });
@@ -64,6 +61,7 @@ interface IVidoeInfo {
     state?: number;
     video_id?: number; // 视频ID
     video_cover_id?: number;
+    image_mode?: string;
 }
 
 interface ComponentState {
@@ -97,14 +95,26 @@ const addComponent = () => {
 // 处理更新状态的函数
 const handleUpdateState = (component: {
     id: number;
-    videoInfo: IVidoeInfo;
+    videoInfo: IVidoeInfo[];
 }) => {
-    console.log(component)
-    // components.value.forEach((item) => {
-    //     if (item.id === component.id) {
-    //         item.videoInfo = component.videoInfo;
-    //     }
-    // });
+    // 找到对应的组件
+    components.value.forEach(element => {
+        if (element.id === component.id) {
+            element.videoInfo = component.videoInfo;
+        }
+    });
+
+    const video_material_list_temp = component.videoInfo.map(video => {
+        return {
+            image_mode: video.image_mode,
+            video_id: video.video_id,
+            jy_mat_id: video.jy_mat_id,
+            material_id: video.material_id,
+            video_cover_id: video.video_cover_id,
+        }
+    })
+
+    form.promotion_material_group[0].video_material_list = video_material_list_temp as any;
 };
 </script>
 

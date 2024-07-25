@@ -69,6 +69,7 @@ const handleDialogClose = (type: number) => {
                         mat_id: video.material_id,
                         post_url: video.info.preview,
                         url: video.upload_dir,
+                        vert_hori: video.vert_hori
                     };
                 }
                 return {
@@ -76,12 +77,13 @@ const handleDialogClose = (type: number) => {
                     mime: video.mime,
                     mat_id: video.material_id,
                     url: video.upload_dir,
+                    vert_hori: video.vert_hori
                 };
             });
 
             uploadMaterial2MediaFunc({
                 advertiser_id: "1787695788195915",
-                cpnid: "1",
+                cpnid: "3",
                 material_info: material_info,
             });
         } else {
@@ -396,7 +398,7 @@ const handleChange = () => { };
                                                     }}</span>
                                                 <span class="ml-4px flex-shrink-0">{{
                                                     video.info.size
-                                                    }}</span>
+                                                }}</span>
                                             </div>
 
                                             <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
@@ -444,7 +446,7 @@ const handleChange = () => { };
                                                     }}</span>
                                                 <span class="ml-4px flex-shrink-0">{{
                                                     video.info.size
-                                                    }}</span>
+                                                }}</span>
                                             </div>
 
                                             <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>

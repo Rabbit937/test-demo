@@ -43,8 +43,8 @@
                             <div class="px-16px py-2px">
                                 <el-checkbox-group v-model="checkList">
                                     <el-checkbox v-for="item in AwemeList"
-                                        :label="`${item.aweme_name}(${item.aweme_id})`"
-                                        :value="`${item.aweme_name}-${item.aweme_id}`" class="!w-100%" />
+                                        :label="`${item.aweme_name}(${item.aweme_id})`" :value="`${item.aweme_id}`"
+                                        class="!w-100%" />
                                 </el-checkbox-group>
                             </div>
                         </div>
@@ -81,69 +81,69 @@ import { ref, onMounted, reactive, watchEffect } from "vue";
 import "element-plus/es/components/message/style/css";
 import Dialog from "@/components/Dialog.vue";
 import {
-	type IQueryAwemeList,
-	queryAwemeList,
-	// type ISyncAweme,
-	syncAweme,
+    type IQueryAwemeList,
+    queryAwemeList,
+    // type ISyncAweme,
+    syncAweme,
 } from "@/api/modules/promotion";
 
 interface IProps {
-	visible: boolean;
-	title?: string;
+    visible: boolean;
+    title?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emtis = defineEmits(["handleDialogClose"]);
 
 const dialogState = reactive({
-	title: props.title,
-	visible: false,
+    title: props.title,
+    visible: false,
 });
 
 watchEffect(() => {
-	dialogState.visible = props.visible;
+    dialogState.visible = props.visible;
 });
 
 const handleDialogClose = (type: number) => {
-	emtis("handleDialogClose", type);
+    emtis("handleDialogClose", type);
 
-	if (type === 1) {
-		emtis("handleDialogClose", { type: 1, AwemeList: checkList.value });
-	} else {
-		emtis("handleDialogClose", { type: 0 });
-	}
+    if (type === 1) {
+        emtis("handleDialogClose", { type: 1, AwemeList: checkList.value });
+    } else {
+        emtis("handleDialogClose", { type: 0 });
+    }
 };
 
 const AwemeList = ref();
 const checkList = ref<string[]>([]);
 
 const queryAwemeListFunc = async (params: IQueryAwemeList) => {
-	const res: any = await queryAwemeList(params);
+    const res: any = await queryAwemeList(params);
 
-	if (res.state === 1) {
-		AwemeList.value = res.data.list;
-	}
+    if (res.state === 1) {
+        AwemeList.value = res.data.list;
+    }
 };
 
 onMounted(() => {
-	queryAwemeListFunc({
-		advertiser_id: ["1787695788195915"],
-	});
+    queryAwemeListFunc({
+        advertiser_id: ["1787695788195915"],
+    });
 });
 
 // 同步抖音号
 const syncAwemeFunc = async () => {
-	try {
-		const res = await syncAweme({
-			advertiser_id: ["1787695788195915"],
-		});
-		if (res.state === 1) {
-			queryAwemeListFunc({
-				advertiser_id: ["1787695788195915"],
-			});
-		}
-	} catch (error) {
-		console.error("同步抖音号失败", error);
-	}
+    try {
+        const res = await syncAweme({
+            advertiser_id: ["1787695788195915"],
+        });
+        if (res.state === 1) {
+            queryAwemeListFunc({
+                advertiser_id: ["1787695788195915"],
+            });
+        }
+    } catch (error) {
+        console.error("同步抖音号失败", error);
+    }
 };
 </script>

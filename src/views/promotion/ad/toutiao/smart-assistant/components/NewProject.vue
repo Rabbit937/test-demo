@@ -272,7 +272,7 @@
                                     </div>
                                 </template>
                             </el-table-column>
-                            <el-table-column label="状态" width="auto">
+                            <el-table-column label="定向包" width="auto">
                                 <template #default="scope">
                                     <div>
                                         <span>

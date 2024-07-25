@@ -212,6 +212,11 @@ const handleMaterialSelectorDialog = (options: { type: number, form: any }) => {
                 ...video,
             };
             console.log(component.value[targetComponent.value.id - 1])
+
+            emit("updateState", {
+                id: props.initialState.id,
+                videoInfo: component.value,
+            });
         }
         MaterialSelectorState.visible = false;
     } else {
