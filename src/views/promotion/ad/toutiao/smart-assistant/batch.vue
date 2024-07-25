@@ -800,23 +800,23 @@ const handleLandingPageStateClose = (options: { type: number, form: any }) => {
 
 // 生成广告预览
 const generateAdPreview = () => {
-  // console.log(ADVERTISER_ID_ARRAY);
-  // console.log(ruleConfiguration.value);
-  // console.log(NewProjectForm.value)
-  // console.log(BasicInformationOfAdForm.value)
-  // console.log(CreativeMaterialsForm.value)
-  // console.log(TitlePackForm.value)
-  // console.log(LandingPageForm.value)
+  console.log(ADVERTISER_ID_ARRAY);
+  console.log(ruleConfiguration.value);
+  console.log(NewProjectForm.value)
+  console.log(BasicInformationOfAdForm.value)
+  console.log(CreativeMaterialsForm.value)
+  console.log(TitlePackForm.value)
+  console.log(LandingPageForm.value)
 
-  // createPromotionByNewProjectFunc({
-  //   advertiser_id: ADVERTISER_ID_ARRAY.value,
-  //   ...ruleConfiguration.value,
-  //   ...NewProjectForm.value,
-  //   ...BasicInformationOfAdForm.value,
-  //   ...CreativeMaterialsForm.value,
-  //   ...TitlePackForm.value,
-  //   ...LandingPageForm.value
-  // })
+  createPromotionByNewProjectFunc({
+    advertiser_id: ADVERTISER_ID_ARRAY.value,
+    ...ruleConfiguration.value,
+    ...NewProjectForm.value,
+    ...BasicInformationOfAdForm.value,
+    ...CreativeMaterialsForm.value,
+    ...TitlePackForm.value,
+    ...LandingPageForm.value
+  })
 
   queryPreviewPromotionInfoFunc({
     adv_ids: "56,57,58,59,60"
