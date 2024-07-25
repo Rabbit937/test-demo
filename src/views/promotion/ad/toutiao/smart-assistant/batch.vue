@@ -365,16 +365,95 @@
     </el-col>
   </el-row>
   <!-- 预览区 -->
-  <el-row class="pl-20px pr-20px mt-16px mb-24px pb-20px border-[#e8eaec]">
-    <el-col class="h-686px flex grid-justify-center">
-      <el-empty image="https://cl.mobgi.com/img/mobgi_ic_addata_nodata.28d42792.png">
+  <el-row class="pl-20px pr-20px mt-16px mb-24px pb-20px">
+    <el-col class="h-686px flex grid-justify-center border-[#e8eaec]">
+      <div class="panel-header flex">
+        <div>
+          <span>预览区</span>
+        </div>
+        <div>
+          <div>
+            <span>预计生成<b>4</b>个广告</span>
+          </div>
+          <el-button>
+            <span>全部提交审核</span>
+          </el-button>
+        </div>
+      </div>
+
+      <div>
+        <div class="preview-tabs">
+          <div data-v-0a39ff5d="" class="preview-tab preview-tab--active">
+            <div data-v-0a39ff5d="" class="preview-tab__inner"><span data-v-0a39ff5d=""
+                class="el-tooltip preview-tab__cell preview-tab__label ellipsis" aria-describedby="el-tooltip-4474"
+                tabindex="0"> 加速星期二-天拓-4(1787695788195915) <i data-v-0a39ff5d="" class="mg-icon-info"></i></span><!---->
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <el-checkbox label="全选" />
+          </div>
+          <div>
+            <div>
+              <span>项目数量：<span>4</span></span>
+              <span>广告数量：<span>4</span></span>
+              <span>已有项目：<span>4</span></span>
+              <span>当日新建广告数：<span>4</span></span>
+              <span>所有广告配额：<span>4</span></span>
+            </div>
+            <div>
+              <el-select>
+                <el-option>删除</el-option>
+              </el-select>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <el-table :data="tableData" style="width: 100%">
+
+            <el-table-column label="">
+
+            </el-table-column>
+
+            <el-table-column label="项目信息">
+              <template #default="scope">
+                <div>
+                  <div>{{ scope.row.projectName }}</div>
+                  <div>预算：{{ scope.row.budget }}元</div>
+                </div>
+              </template>
+            </el-table-column>
+
+            <el-table-column label="转化目标" prop="conversionGoal"></el-table-column>
+            <el-table-column label="广告位置" prop="adPosition"></el-table-column>
+            <el-table-column label="定向包" prop="targetPackage"></el-table-column>
+            <el-table-column label="广告名称">
+              <template #default="scope">
+                <el-checkbox v-model="scope.row.adSelected">{{ scope.row.adName }}</el-checkbox>
+              </template>
+            </el-table-column>
+
+            <el-table-column label="预算与出价" prop="budgetAndBid"></el-table-column>
+            <el-table-column label="创意素材" prop="creativeMaterial"></el-table-column>
+            <el-table-column label="标题包" prop="titlePackage"></el-table-column>
+            <el-table-column label="广告资产" prop="adAssets"></el-table-column>
+            <el-table-column label="提交状态" prop="submitStatus"></el-table-column>
+          </el-table>
+        </div>
+      </div>
+
+
+      <!-- <el-empty image="https://cl.mobgi.com/img/mobgi_ic_addata_nodata.28d42792.png">
         <template #description>
           <span class="font-size-48px line-height-67px color-[#e0e3e7]">预览区</span>
         </template>
         <template #default>
           <span class="font-size-14px line-height-20px color-[#808695]">请先完成相应模块配置后，再预览内容</span>
         </template>
-      </el-empty>
+      </el-empty> -->
     </el-col>
   </el-row>
 
@@ -422,8 +501,8 @@ import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 import CreativeMaterials from "./components/CreativeMaterials.vue";
 import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
-import { createPromotionByNewProject } from "@/api/modules/promotion";
-import type { ICreatePromotionByNewProject, ICreativeMaterials, ILandingPage, INewProject, IRuleConfiguration } from "@/api/modules/promotion";
+import { createPromotionByNewProject, queryPreviewPromotionInfo } from "@/api/modules/promotion";
+import type { ICreatePromotionByNewProject, ICreativeMaterials, ILandingPage, INewProject, IQueryPreviewPromotionInfo, IRuleConfiguration } from "@/api/modules/promotion";
 
 // 新建项目
 const NewProjectForm = ref<INewProject>();
@@ -620,7 +699,7 @@ const handleLandingPageStateClose = (options: { type: number, form: any }) => {
 // 生成广告预览
 const generateAdPreview = () => {
   console.log(ADVERTISER_ID_ARRAY);
-
+  console.log(ruleConfiguration.value);
   console.log(NewProjectForm.value)
   console.log(BasicInformationOfAdForm.value)
   console.log(CreativeMaterialsForm.value)
@@ -637,6 +716,10 @@ const generateAdPreview = () => {
     ...LandingPageForm.value
   })
 
+  // queryPreviewPromotionInfoFunc({
+  //   adv_ids: "6"
+  // })
+
 }
 
 // 生成广告预览接口
@@ -646,9 +729,44 @@ const createPromotionByNewProjectFunc = async (params: ICreatePromotionByNewProj
 }
 
 // 查询广告预览接口
-const queryPreviewPromotionInfoFunc = (params) => {
-
+const queryPreviewPromotionInfoFunc = async (params: IQueryPreviewPromotionInfo) => {
+  const res = await queryPreviewPromotionInfo(params);
+  console.log(res);
 }
+
+
+const tableData = ref([
+  {
+    projectName: '项目名称：0725-111717-1',
+    budget: 500,
+    conversionGoal: '应用SDK回传',
+    adPosition: '通投智选',
+    targetPackage: 'HY-安卓-不限',
+    adName: '0725-111717-1',
+    adSelected: false,
+    budgetAndBid: '预算：100',
+    creativeMaterial: '已选：1个素材',
+    titlePackage: '标题包：hy小游戏2',
+    adAssets: '落地页1：忍界大战-1101',
+    submitStatus: '待提交'
+  },
+  {
+    projectName: '项目名称：0725-111717-2',
+    budget: 500,
+    conversionGoal: '应用SDK回传',
+    adPosition: '通投智选',
+    targetPackage: 'HY-安卓-不限',
+    adName: '0725-111717-2',
+    adSelected: false,
+    budgetAndBid: '预算：100',
+    creativeMaterial: '已选：1个素材',
+    titlePackage: '标题包：hy小游戏2',
+    adAssets: '落地页1：忍界大战-1101',
+    submitStatus: '待提交'
+  }
+])
+
+
 
 </script>
 

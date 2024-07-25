@@ -296,7 +296,7 @@
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="预算出价配置模式">
-                                <el-radio-group v-model="form.promotion_aweme">
+                                <el-radio-group v-model="form.promotion_budget">
                                     <el-radio-button :value="'same'">统一配置</el-radio-button>
                                     <el-radio-button :value="'ad_same'">分帐户配置</el-radio-button>
                                 </el-radio-group>
@@ -470,6 +470,7 @@ const form = reactive<IBasicInformationOfAd>({
     ],
     product_info_conf: "same",
     promotion_aweme: "same",
+    promotion_budget: "same",
     promotion_name: "<日期>-<时分秒>-<当日标号>",
     promotion_operation: "ENABLE",
     source: "",

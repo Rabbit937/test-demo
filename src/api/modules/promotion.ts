@@ -551,6 +551,7 @@ export interface IBasicInformationOfAd {
 	promotion_operation: string;
 	source?: string;
 	web_url_material_list?: string[];
+	promotion_budget: "same" | "ad_same";
 }
 
 export interface INewProject {
