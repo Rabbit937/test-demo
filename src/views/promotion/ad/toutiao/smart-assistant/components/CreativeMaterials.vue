@@ -100,6 +100,13 @@ const addComponent = () => {
         graphics: graphics.value,
         videoInfo: [],
     });
+
+
+    form.promotion_material_group.push({
+        video_material_list: [],
+        image_material_list: [],
+        carousel_material_list: [],
+    })
 };
 
 // 处理更新状态的函数
