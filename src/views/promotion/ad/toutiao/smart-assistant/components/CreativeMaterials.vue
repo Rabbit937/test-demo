@@ -18,8 +18,18 @@ const drawerOptions = reactive({
 });
 
 const handleDrawerClose = (type: number) => {
-    console.log(form.promotion_material_group)
     if (type === 1) {
+        components.value.forEach((element, index) => {
+            form.promotion_material_group[index].video_material_list = element.videoInfo.map(video => {
+                return {
+                    image_mode: video.image_mode,
+                    video_id: video.video_id,
+                    jy_mat_id: video.jy_mat_id,
+                    material_id: video.material_id,
+                    video_cover_id: video.video_cover_id,
+                }
+            })
+        });
         emits("handleDrawerClose", { type: 1, form: form });
     } else {
         emits("handleDrawerClose", { type: 0 });
@@ -54,13 +64,13 @@ const graphics = ref(5);
 interface IVidoeInfo {
     id: number; // 索引id
     filename?: string; // 名称
-    jy_mat_id?: number; // 头条素材id
-    material_id?: number; // 素材ID
+    jy_mat_id?: string; // 头条素材id
+    material_id: string; // 素材ID
     mime?: number; // 1 视频 2 图片 3 图文
     post_url?: string; // 视频预览图片地址
     state?: number;
-    video_id?: number; // 视频ID
-    video_cover_id?: number;
+    video_id?: string; // 视频ID
+    video_cover_id?: string;
     image_mode?: string;
 }
 
@@ -69,7 +79,7 @@ interface ComponentState {
     video: number;
     image: number;
     graphics: number;
-    videoInfo?: IVidoeInfo[];
+    videoInfo: IVidoeInfo[];
 }
 
 const components = ref<ComponentState[]>([
@@ -97,24 +107,12 @@ const handleUpdateState = (component: {
     id: number;
     videoInfo: IVidoeInfo[];
 }) => {
-    // 找到对应的组件
+    // 找到对应的并且更新组件状态
     components.value.forEach(element => {
         if (element.id === component.id) {
             element.videoInfo = component.videoInfo;
         }
     });
-
-    const video_material_list_temp = component.videoInfo.map(video => {
-        return {
-            image_mode: video.image_mode,
-            video_id: video.video_id,
-            jy_mat_id: video.jy_mat_id,
-            material_id: video.material_id,
-            video_cover_id: video.video_cover_id,
-        }
-    })
-
-    form.promotion_material_group[0].video_material_list = video_material_list_temp as any;
 };
 </script>
 

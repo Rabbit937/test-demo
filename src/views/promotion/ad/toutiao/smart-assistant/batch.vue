@@ -404,9 +404,9 @@
               <span>所有广告配额：<span>4</span></span>
             </div>
             <div>
-              <el-select>
+              <!-- <el-select>
                 <el-option>删除</el-option>
-              </el-select>
+              </el-select> -->
             </div>
           </div>
         </div>
@@ -418,7 +418,7 @@
 
             </el-table-column>
 
-            <el-table-column label="项目信息">
+            <!-- <el-table-column label="项目信息">
               <template #default="scope">
                 <div>
                   <div>{{ scope.row.projectName }}</div>
@@ -440,7 +440,7 @@
             <el-table-column label="创意素材" prop="creativeMaterial"></el-table-column>
             <el-table-column label="标题包" prop="titlePackage"></el-table-column>
             <el-table-column label="广告资产" prop="adAssets"></el-table-column>
-            <el-table-column label="提交状态" prop="submitStatus"></el-table-column>
+            <el-table-column label="提交状态" prop="submitStatus"></el-table-column> -->
           </el-table>
         </div>
       </div>

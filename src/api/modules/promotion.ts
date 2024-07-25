@@ -630,13 +630,15 @@ export interface ICreativeMaterials {
 	promotion_material_group: {
 		advertiser_id?: string;
 		video_material_list: {
-			image_mode: string;
-			video_id: string;
-			jy_mat_id: string;
-			material_id: string;
-			video_cover_id: string;
-			item_id?: string;
-			video_hp_visibility?: string;
+			filename?: string; // 名称
+			jy_mat_id?: string; // 头条素材id
+			material_id: string; // 素材ID
+			mime?: number; // 1 视频 2 图片 3 图文
+			post_url?: string; // 视频预览图片地址
+			state?: number;
+			video_id?: string; // 视频ID
+			video_cover_id?: string;
+			image_mode?: string;
 		}[];
 		image_material_list: {
 			image_mode: string;

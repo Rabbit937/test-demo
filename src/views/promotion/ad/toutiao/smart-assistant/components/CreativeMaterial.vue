@@ -149,17 +149,20 @@ import { ref, watchEffect, reactive } from "vue";
 import MaterialSelector from "./MaterialSelector.vue";
 
 
+// 创意组
 interface IVidoeInfo {
     id: number; // 索引id
     filename?: string; // 名称
-    jy_mat_id?: number; // 头条素材id
-    material_id?: number; // 素材ID
+    jy_mat_id?: string; // 头条素材id
+    material_id?: string; // 素材ID
     mime?: number; // 1 视频 2 图片 3 图文
     post_url?: string; // 视频预览图片地址
     state?: number;
-    video_id?: number; // 视频ID
-    video_cover_id?: number;
+    video_id?: string; // 视频ID
+    video_cover_id?: string;
+    image_mode?: string;
 }
+
 
 const props = defineProps<{
     initialState: {
