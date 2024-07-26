@@ -172,9 +172,16 @@ const syncLandingPageFunc = async (params: ISyncLandingPage) => {
 
 // 调用同步接口
 const handleAccountListRefresh = () => {
-    syncLandingPageFunc({
-        advertiser_id: accountSelected.value,
-    })
+    if (accountSelected.value) {
+        syncLandingPageFunc({
+            advertiser_id: accountSelected.value,
+        })
+    } else {
+        ElMessage({
+            type: "warning",
+            message: "请选择一个帐号之后，在进行同步"
+        })
+    }
 };
 
 </script>
@@ -221,7 +228,7 @@ const handleAccountListRefresh = () => {
                                 @change="handleAccountListChange">
                                 <el-option v-for="item in accountList" :label="item.text" :value="item.id"></el-option>
                             </el-select>
-                            <el-button link type="primary" @click="handleAccountListRefresh">刷新</el-button>
+                            <el-button link type="primary" @click="handleAccountListRefresh">同步</el-button>
                         </div>
                     </el-col>
 

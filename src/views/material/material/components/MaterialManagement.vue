@@ -16,7 +16,7 @@
             </div>
 
             <div v-else class="pic-box pointer" style="position: relative">
-              <video :src="item.upload_dir" style="width: 100%"></video>
+              <video :src="item.upload_dir" style="width: 100%;height: 100%;"></video>
               <el-icon size="40" color="white"
                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
                 <VideoPlay />
@@ -254,123 +254,123 @@ import Dialog from "@/components/DialogGG.vue";
 import EditTags from "./EditTags.vue";
 
 import {
-	disableMaterial,
-	getMaterialList,
-	updateMaterial,
+  disableMaterial,
+  getMaterialList,
+  updateMaterial,
 } from "@/api/modules/material";
 import { ElMessage } from "element-plus";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const materialState: any = reactive({
-	loading: false,
-	materialItemList: [],
-	currentPage: 1,
-	pageSize: 0,
-	total: 0,
+  loading: false,
+  materialItemList: [],
+  currentPage: 1,
+  pageSize: 0,
+  total: 0,
 });
 
 interface IMaterialListParams {
-	search_type?: string;
-	keyword?: string;
-	create_date?: string;
-	dir_id?: string;
-	album_id?: string;
-	status?: number; // 是否停用
-	category?: number; // 1. 视频 2. 图片
-	page_no?: string;
-	page_limit?: string;
+  search_type?: string;
+  keyword?: string;
+  create_date?: string;
+  dir_id?: string;
+  album_id?: string;
+  status?: number; // 是否停用
+  category?: number; // 1. 视频 2. 图片
+  page_no?: string;
+  page_limit?: string;
 }
 
 const getMaterialListFunc = async (params?: IMaterialListParams) => {
-	materialState.loading = true;
+  materialState.loading = true;
 
-	const { data } = (await getMaterialList({
-		search_type: params?.search_type,
-		keyword: params?.keyword,
-		create_date: params?.create_date,
-		dir_id: params?.dir_id,
-		album_id: params?.album_id,
-		status: params?.status,
-		category: params?.category,
-		page_no: params?.page_no,
-		page_limit: params?.page_limit,
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	})) as any;
+  const { data } = (await getMaterialList({
+    search_type: params?.search_type,
+    keyword: params?.keyword,
+    create_date: params?.create_date,
+    dir_id: params?.dir_id,
+    album_id: params?.album_id,
+    status: params?.status,
+    category: params?.category,
+    page_no: params?.page_no,
+    page_limit: params?.page_limit,
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  })) as any;
 
-	materialState.materialItemList = data.list;
-	materialState.currentPage = Number(data.page_info.cur_page);
-	materialState.pageSize = Number(data.page_info.page_limit);
-	materialState.total = Number(data.page_info.total);
+  materialState.materialItemList = data.list;
+  materialState.currentPage = Number(data.page_info.cur_page);
+  materialState.pageSize = Number(data.page_info.page_limit);
+  materialState.total = Number(data.page_info.total);
 
-	materialState.loading = false;
+  materialState.loading = false;
 };
 
 onMounted(() => {
-	getMaterialListFunc();
+  getMaterialListFunc();
 });
 
 const searchParamsRef = ref();
 // 点击事件
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleClick = (params: { type: string; action: string; item: any }) => {
-	const { type, item } = params;
-	// 分页
-	if (type === "pagination") {
-		handlePaginationFunc(item);
-	} else if (type === "search") {
-		searchParamsRef.value = item;
-		handleSearchFunc(item);
-	}
+  const { type, item } = params;
+  // 分页
+  if (type === "pagination") {
+    handlePaginationFunc(item);
+  } else if (type === "search") {
+    searchParamsRef.value = item;
+    handleSearchFunc(item);
+  }
 };
 
 // 分页
 const handlePaginationFunc = (options: {
-	currentPage: number;
-	limit: number;
+  currentPage: number;
+  limit: number;
 }) => {
-	getMaterialListFunc({
-		page_limit: String(options.limit),
-		page_no: String(options.currentPage),
-	});
+  getMaterialListFunc({
+    page_limit: String(options.limit),
+    page_no: String(options.currentPage),
+  });
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleSearchFunc = (item: any) => {
-	let dir_id = "";
-	let album_id = "";
-	if (item?.cascaderValue) {
-		if (item.cascaderValue.length > 1) {
-			dir_id = item.cascaderValue[item.cascaderValue.length - 1];
-		}
+  let dir_id = "";
+  let album_id = "";
+  if (item?.cascaderValue) {
+    if (item.cascaderValue.length > 1) {
+      dir_id = item.cascaderValue[item.cascaderValue.length - 1];
+    }
 
-		album_id = item.cascaderValue[0];
-	}
+    album_id = item.cascaderValue[0];
+  }
 
-	getMaterialListFunc({
-		search_type: String(item?.search_type),
-		keyword: item?.keyword,
-		create_date: item?.dateValue
-			? formatCreateDate(item?.dateValue).join(" - ")
-			: "",
-		dir_id: dir_id,
-		album_id: album_id,
-		status: item?.materialStatus,
-		category: item?.materialType,
-	});
+  getMaterialListFunc({
+    search_type: String(item?.search_type),
+    keyword: item?.keyword,
+    create_date: item?.dateValue
+      ? formatCreateDate(item?.dateValue).join(" - ")
+      : "",
+    dir_id: dir_id,
+    album_id: album_id,
+    status: item?.materialStatus,
+    category: item?.materialType,
+  });
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function formatCreateDate(date: any) {
-	const [start, end] = date;
-	return [formatDate(start), formatDate(end)];
+  const [start, end] = date;
+  return [formatDate(start), formatDate(end)];
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function formatDate(date: any) {
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, "0");
-	const day = String(date.getDate()).padStart(2, "0");
-	return `${year}-${month}-${day}`;
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 // 素材详情
@@ -379,32 +379,32 @@ const drawerState = ref();
 const tagsState = ref();
 
 const updateVisible = () => {
-	drawerVisible.value = false;
+  drawerVisible.value = false;
 };
 
 // 点击item
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleItemClick = (item: any) => {
-	drawerVisible.value = true;
-	drawerState.value = item;
-	tagsState.value = item.tagid;
+  drawerVisible.value = true;
+  drawerState.value = item;
+  tagsState.value = item.tagid;
 };
 
 const dialogState = reactive({
-	name: {
-		title: "",
-		visable: false,
-		form: {
-			name: "",
-		},
-	},
-	note: {
-		title: "",
-		visable: false,
-		form: {
-			note: "",
-		},
-	},
+  name: {
+    title: "",
+    visable: false,
+    form: {
+      name: "",
+    },
+  },
+  note: {
+    title: "",
+    visable: false,
+    form: {
+      note: "",
+    },
+  },
 });
 
 const stateRef = ref();
@@ -412,27 +412,27 @@ const stateRef = ref();
 // 编辑素材名称
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditMaterialName = (state: any) => {
-	stateRef.value = state;
-	dialogState.name.visable = true;
-	dialogState.name.title = "编辑文件名";
-	dialogState.name.form.name = state.material_name;
+  stateRef.value = state;
+  dialogState.name.visable = true;
+  dialogState.name.title = "编辑文件名";
+  dialogState.name.form.name = state.material_name;
 };
 
 // 编辑素材名称，确认按钮处理函数
 const handleEditClose = (type: string) => {
-	if (type === "confirm") {
-		updateMaterial({
-			mat_id: stateRef.value.material_id,
-			mat_name: dialogState.name.form.name,
-		});
+  if (type === "confirm") {
+    updateMaterial({
+      mat_id: stateRef.value.material_id,
+      mat_name: dialogState.name.form.name,
+    });
 
-		dialogState.name.visable = false;
-		drawerState.value.material_name = dialogState.name.form.name;
-		getMaterialListFunc();
-	} else {
-		dialogState.name.visable = false;
-		ElMessage.info("取消编辑文件名");
-	}
+    dialogState.name.visable = false;
+    drawerState.value.material_name = dialogState.name.form.name;
+    getMaterialListFunc();
+  } else {
+    dialogState.name.visable = false;
+    ElMessage.info("取消编辑文件名");
+  }
 };
 
 // interface IUpdateMaterial {
@@ -445,42 +445,42 @@ const handleEditClose = (type: string) => {
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const updateMaterialNote = (state: any) => {
-	stateRef.value = state;
-	dialogState.note.visable = true;
-	dialogState.note.title = "修改素材备注";
-	dialogState.note.form.note = state.note;
+  stateRef.value = state;
+  dialogState.note.visable = true;
+  dialogState.note.title = "修改素材备注";
+  dialogState.note.form.note = state.note;
 };
 
 const handleEditNoteClose = (type: string) => {
-	if (type === "confirm") {
-		updateMaterial({
-			mat_id: stateRef.value.material_id,
-			note: dialogState.note.form.note,
-		});
+  if (type === "confirm") {
+    updateMaterial({
+      mat_id: stateRef.value.material_id,
+      note: dialogState.note.form.note,
+    });
 
-		dialogState.note.visable = false;
-		drawerState.value.note = dialogState.note.form.note;
-		getMaterialListFunc();
-	} else {
-		dialogState.note.visable = false;
-		ElMessage.info("取消编辑文件名");
-	}
+    dialogState.note.visable = false;
+    drawerState.value.note = dialogState.note.form.note;
+    getMaterialListFunc();
+  } else {
+    dialogState.note.visable = false;
+    ElMessage.info("取消编辑文件名");
+  }
 };
 
 const deactivateTheMaterial = (state: any, disable: string) => {
-	drawerState.value.disable = Number(disable);
+  drawerState.value.disable = Number(disable);
 
-	disableMaterial({
-		mat_id: Number(state.material_id),
-		type: Number(disable),
-	});
+  disableMaterial({
+    mat_id: Number(state.material_id),
+    type: Number(disable),
+  });
 
-	getMaterialListFunc();
+  getMaterialListFunc();
 };
 
 const EditTagsState = reactive({
-	visable: false,
-	materialItem: null,
+  visable: false,
+  materialItem: null,
 });
 
 const materialRef = ref();
@@ -488,17 +488,17 @@ const materialRef = ref();
 // 编辑标签页
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditTags = (material: any) => {
-	EditTagsState.visable = true;
-	EditTagsState.materialItem = material;
-	materialRef.value = material;
+  EditTagsState.visable = true;
+  EditTagsState.materialItem = material;
+  materialRef.value = material;
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const handleEditTagsClose = (tagsParams: any) => {
-	EditTagsState.visable = false;
-	tagsState.value = tagsParams.tagsList;
+  EditTagsState.visable = false;
+  tagsState.value = tagsParams.tagsList;
 
-	handleSearchFunc(searchParamsRef.value);
+  handleSearchFunc(searchParamsRef.value);
 };
 </script>
 

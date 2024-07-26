@@ -301,3 +301,17 @@ export const external_action_radio: Record<string, string> = {
 }
 
 
+export const union_video_type_radio = [
+	{
+		value: "ORIGINAL_VIDEO",
+		label: '原生视频'
+	},
+	{
+		value: "REWARDED_VIDEO",
+		label: '激励视频'
+	},
+	{
+		value: "SPLASH_VIDEO",
+		label: '开屏视频'
+	},
+]

@@ -92,28 +92,45 @@
                 ">投放内容与目标</el-col>
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
-                            <el-form-item label="平台类型">
-                                <el-radio-group v-model="form.app_type" @change="handleAppTypeChange">
-                                    <el-radio-button v-for="(item) in platform_type_radio" :value="item.value"
-                                        :key="item.value">
-                                        {{ item.label }}
-                                    </el-radio-button>
-                                </el-radio-group>
-                            </el-form-item>
-                            <el-form-item label="头条应用" v-if="form.app_type === 'APP_ANDROID'">
-                                <el-select-v2 v-model="headline_application_value"
-                                    @change="handleHeadlineApplicationChange" :options="headline_application_options"
-                                    placeholder="请选择" style="width: 300px" />
-                            </el-form-item>
+                            <template v-if="form.landing_type === 'MICRO_GAME'">
+                                <el-form-item label="投放内容">
+                                    <el-radio-group v-model="form.micro_promotion_type">
+                                        <el-radio-button :value="'WECHAT_GAME'" :key="1">
+                                            微信小游戏
+                                        </el-radio-button>
+                                        <el-radio-button :value="'BYTE_GAME'" :key="2">
+                                            字节小游戏
+                                        </el-radio-button>
+                                    </el-radio-group>
+                                </el-form-item>
+                            </template>
+                            <template v-else>
+                                <el-form-item label="平台类型">
+                                    <el-radio-group v-model="form.app_type" @change="handleAppTypeChange">
+                                        <el-radio-button v-for="(item) in platform_type_radio" :value="item.value"
+                                            :key="item.value">
+                                            {{ item.label }}
+                                        </el-radio-button>
+                                    </el-radio-group>
+                                </el-form-item>
+                                <el-form-item label="头条应用" v-if="form.app_type === 'APP_ANDROID'">
+                                    <el-select-v2 v-model="headline_application_value"
+                                        @change="handleHeadlineApplicationChange"
+                                        :options="headline_application_options" placeholder="请选择"
+                                        style="width: 300px" />
+                                </el-form-item>
 
-                            <el-form-item label="iTunes ID" v-if="form.app_type === 'APP_IOS'">
-                                <el-input style="width: 300px" placeholder="请输入iTunes ID" v-model="ITunesID" />
-                                <el-button class="ml-16px" @click="handleQueryIosApplication(ITunesID)">查询</el-button>
-                            </el-form-item>
+                                <el-form-item label="iTunes ID" v-if="form.app_type === 'APP_IOS'">
+                                    <el-input style="width: 300px" placeholder="请输入iTunes ID" v-model="ITunesID" />
+                                    <el-button class="ml-16px"
+                                        @click="handleQueryIosApplication(ITunesID)">查询</el-button>
+                                </el-form-item>
 
-                            <el-form-item label="应用名称">
-                                <el-input style="width: 300px" placeholder="请输入应用名称" v-model="form.app_name" />
-                            </el-form-item>
+                                <el-form-item label="应用名称">
+                                    <el-input style="width: 300px" placeholder="请输入应用名称" v-model="form.app_name" />
+                                </el-form-item>
+                            </template>
+
                             <!-- <el-form-item label="数据跟踪方式">
                                 <el-radio-group v-model="data_tracking_method">
                                     <el-radio-button :value="1"> 应用分包+监测活动 </el-radio-button>
@@ -216,8 +233,7 @@
                                 <el-text>通投智选下，广告会投到信息流和搜索场景，提升单计划跑量与效果稳定性</el-text>
                             </el-form-item>
 
-                            <el-form-item label="首选媒体" style="margin-bottom:0px;"
-                                v-if="form.inventory_catalog === 'MANUAL'">
+                            <el-form-item label="首选媒体" v-if="form.inventory_catalog === 'MANUAL'">
                                 <el-select v-model="form.inventory_type" multiple clearable collapse-tags
                                     placeholder="请选择首选媒体" popper-class="custom-header" :max-collapse-tags="1"
                                     style="width: 240px">
@@ -230,6 +246,17 @@
                                     <el-option v-for="item in inventory_type_radio" :key="item.value"
                                         :label="item.label" :value="item.value" />
                                 </el-select>
+                            </el-form-item>
+
+
+                            <el-form-item label="投放方式"
+                                v-if="form.inventory_type?.length === 1 && form.inventory_type.includes('INVENTORY_UNION_SLOT')">
+                                <el-radio-group v-model="form.union_video_type">
+                                    <el-radio-button v-for="(item) in union_video_type_radio" :value="item.value"
+                                        :key="item.value">
+                                        {{ item.label }}
+                                    </el-radio-button>
+                                </el-radio-group>
                             </el-form-item>
                         </el-form>
                     </el-col>
@@ -577,6 +604,7 @@ import {
     operation_radio,
     deep_bid_type_radio,
     inventory_type_radio,
+    union_video_type_radio
 } from "../../radio-info/NewProject";
 
 interface IProps {
@@ -681,6 +709,7 @@ const form: INewProject = reactive({
 
     project_budget: "same",
     project_preference: "same",
+    micro_promotion_type: "",
 });
 
 // 投放内容与目标

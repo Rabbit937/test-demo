@@ -12,12 +12,12 @@
         </el-col>
 
         <el-col :span="1.5">
-            <el-button @click="OpenBatch">
+            <el-button @click="OpenBatch" class="mr-12px">
                 批量新建
             </el-button>
-            <el-button class="mr-12px">
+            <!-- <el-button class="mr-12px">
                 使用已有策略新建
-            </el-button>
+            </el-button> -->
             <DatePicker v-model:date-value="dateValue" />
         </el-col>
     </el-row>
@@ -35,45 +35,45 @@ import DatePicker from "@/components/DatePicker.vue";
 import { useRouter } from "vue-router";
 
 const navList = ref<INav[]>([
-	{
-		path: "account",
-		title: "账户",
-	},
-	{
-		path: "project",
-		title: "项目",
-	},
-	{
-		path: "advertising",
-		title: "广告",
-	},
+    {
+        path: "account",
+        title: "账户",
+    },
+    {
+        path: "project",
+        title: "项目",
+    },
+    {
+        path: "advertising",
+        title: "广告",
+    },
 ]);
 
 type Key = "account" | "project" | "advertising";
 
 const componentList: Record<Key, ComponentCustomOptions> = {
-	account: AccountVue,
-	project: ProjectVue,
-	advertising: AdvertisingVue,
+    account: AccountVue,
+    project: ProjectVue,
+    advertising: AdvertisingVue,
 };
 
 const activeIndex = ref<Key>("account");
 const activeComponent = shallowRef();
 
 onMounted(() => {
-	activeComponent.value = componentList[activeIndex.value];
+    activeComponent.value = componentList[activeIndex.value];
 });
 
 const selectMenu = (key: Key) => {
-	const component = componentList[key];
-	activeComponent.value = component;
+    const component = componentList[key];
+    activeComponent.value = component;
 };
 
 const dateValue = ref([new Date(), new Date()]);
 const router = useRouter();
 const OpenBatch = () => {
-	const routeData = router.resolve({ path: "/batch" });
-	window.open(routeData.href, "_blank");
+    const routeData = router.resolve({ path: "/batch" });
+    window.open(routeData.href, "_blank");
 };
 </script>
 
