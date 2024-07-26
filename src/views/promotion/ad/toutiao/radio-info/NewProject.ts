@@ -65,10 +65,12 @@ export const delivery_type_radio = [
 // 平台类型
 export const platform_type_radio = [
 	{
-		value: "Android",
+		value: "APP_ANDROID",
+		label: "安卓"
 	},
 	{
-		value: "IOS",
+		value: "APP_IOS",
+		label: "IOS"
 	},
 ];
 

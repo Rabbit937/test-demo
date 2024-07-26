@@ -96,17 +96,17 @@
                                 <el-radio-group v-model="form.app_type" @change="handleAppTypeChange">
                                     <el-radio-button v-for="(item) in platform_type_radio" :value="item.value"
                                         :key="item.value">
-                                        {{ item.value }}
+                                        {{ item.label }}
                                     </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
-                            <el-form-item label="头条应用" v-if="form.app_type === 'Android'">
+                            <el-form-item label="头条应用" v-if="form.app_type === 'APP_ANDROID'">
                                 <el-select-v2 v-model="headline_application_value"
                                     @change="handleHeadlineApplicationChange" :options="headline_application_options"
                                     placeholder="请选择" style="width: 300px" />
                             </el-form-item>
 
-                            <el-form-item label="iTunes ID" v-if="form.app_type === 'IOS'">
+                            <el-form-item label="iTunes ID" v-if="form.app_type === 'APP_IOS'">
                                 <el-input style="width: 300px" placeholder="请输入iTunes ID" v-model="ITunesID" />
                                 <el-button class="ml-16px" @click="handleQueryIosApplication(ITunesID)">查询</el-button>
                             </el-form-item>
@@ -216,7 +216,8 @@
                                 <el-text>通投智选下，广告会投到信息流和搜索场景，提升单计划跑量与效果稳定性</el-text>
                             </el-form-item>
 
-                            <el-form-item label="首选媒体" style="margin-bottom:0px;" v-if="form.inventory_catalog === 'MANUAL'">
+                            <el-form-item label="首选媒体" style="margin-bottom:0px;"
+                                v-if="form.inventory_catalog === 'MANUAL'">
                                 <el-select v-model="form.inventory_type" multiple clearable collapse-tags
                                     placeholder="请选择首选媒体" popper-class="custom-header" :max-collapse-tags="1"
                                     style="width: 240px">

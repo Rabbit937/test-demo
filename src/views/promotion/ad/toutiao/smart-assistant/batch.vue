@@ -375,7 +375,7 @@
           <div class="mr-16px font-size-12px color-[#515a6e]">
             <span>预计生成<b>4</b>个广告</span>
           </div>
-          <el-button type="primary">
+          <el-button type="primary" @click="commitTaskFunc({ adv_ids: adv_ids.value })">
             <span>全部提交审核</span>
           </el-button>
         </div>
@@ -591,7 +591,7 @@
 
 <script setup lang="ts">
 import { type Ref, ref, reactive, computed, watchEffect } from "vue";
-import { ElMessageBox } from "element-plus";
+import { ElMessageBox, ElMessage } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 import RuleConfigurationDialog from "./components/RuleConfigurationDialog.vue";
 import NewProject from "./components/NewProject.vue";
@@ -603,7 +603,7 @@ import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 import CreativeMaterials from "./components/CreativeMaterials.vue";
 import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
-import { createPromotionByNewProject, queryPreviewPromotionInfo } from "@/api/modules/promotion";
+import { createPromotionByNewProject, queryPreviewPromotionInfo, commitTask } from "@/api/modules/promotion";
 import type { ICreatePromotionByNewProject, ICreativeMaterials, ILandingPage, INewProject, IQueryPreviewPromotionInfo, IRuleConfiguration } from "@/api/modules/promotion";
 import { inventory_type_radio, external_action_radio, deep_external_action_radio, budget_mode_radio } from '../radio-info/NewProject'
 
@@ -819,16 +819,18 @@ const generateAdPreview = () => {
     ...TitlePackForm.value,
     ...LandingPageForm.value
   })
-
-
-
 }
+
+
+const adv_ids = ref();
+
 
 // 生成广告预览接口
 const createPromotionByNewProjectFunc = async (params: ICreatePromotionByNewProject) => {
   const res = await createPromotionByNewProject(params)
   console.log(res);
   if (res.state === 1) {
+    adv_ids.value = res.data.adv_ids;
     queryPreviewPromotionInfoFunc({
       adv_ids: res.data.adv_ids.toString()
     })
@@ -849,7 +851,24 @@ const queryPreviewPromotionInfoFunc = async (params: IQueryPreviewPromotionInfo)
       }
     }
   }
+}
 
+
+const commitTaskFunc = async (params: IQueryPreviewPromotionInfo) => {
+  try {
+    const res = await commitTask(params);
+    console.log(res);
+
+    if (res.state === 1) {
+      ElMessage({
+        message: '提交成功，请前往任务列表查看',
+        type: 'success',
+      })
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 

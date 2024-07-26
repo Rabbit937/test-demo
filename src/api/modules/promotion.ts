@@ -1215,9 +1215,17 @@ export interface IQueryPreviewPromotionInfo {
 
 
 export interface IQueryPreviewPromotionInfoResultData {
-
 }
 
 export const queryPreviewPromotionInfo = (params: IQueryPreviewPromotionInfo) => {
 	return http.get<Record<string, IQueryPreviewPromotionInfoResultData>>(`/api/Mk_Tt_Program/_queryPreviewPromotionInfo`, params)
+}
+
+
+/**
+ * @name 提交创建任务
+ */
+
+export const commitTask = (params: IQueryPreviewPromotionInfo) => {
+	return http.post<Record<string, string>>(`/api/Mk_Tt_Program/_commitTask`, params)
 }
