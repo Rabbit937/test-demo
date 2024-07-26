@@ -437,9 +437,6 @@ const handleDrawerClose = (type: number) => {
         form.product_info_group[0].product_info.selling_points = (product_selling_points_list_selected.value)
         form.pre_promotion_budget_group[0].budget = budget_amount.value
         form.call_to_action_buttons = callToActionList.value
-        form.product_info_group[0].product_info.image_ids = product_info_image_ids.value;
-
-
         emits("handleBasicInformationOfAdClose", { type: 1, form: form });
     } else {
         emits("handleBasicInformationOfAdClose", { type: 0 });
@@ -610,6 +607,9 @@ const handleMaterialSelectorDialogClose = (options: {
             ...MaterialSelectorForm.value.map((obj) => obj.post_url),
         );
 
+        form.product_info_group[0].product_info.image_ids.push(
+            ...MaterialSelectorForm.value.map((obj) => obj.id),
+        );
     }
 };
 
