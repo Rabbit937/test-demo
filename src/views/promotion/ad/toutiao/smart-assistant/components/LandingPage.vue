@@ -224,8 +224,8 @@ const handleAccountListRefresh = () => {
                     </el-col>
                     <el-col class="p-16px w-100% border-[#e8eaec]" style="border-bottom: none;">
                         <div>
-                            <el-select class="!w-480px mr-16px" clearable placeholder="所有账户" v-model="accountSelected"
-                                @change="handleAccountListChange">
+                            <el-select filterable class="!w-480px mr-16px" clearable placeholder="所有账户"
+                                v-model="accountSelected" @change="handleAccountListChange">
                                 <el-option v-for="item in accountList" :label="item.text" :value="item.id"></el-option>
                             </el-select>
                             <el-button link type="primary" @click="handleAccountListRefresh">同步</el-button>

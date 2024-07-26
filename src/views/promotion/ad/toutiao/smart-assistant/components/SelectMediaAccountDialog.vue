@@ -31,14 +31,14 @@
 					</el-text>
 				</el-col>
 			</el-row>
-			<el-row class="mb-8px">
+			<!-- <el-row class="mb-8px">
 				<el-col>
 					<el-text size="small">
 						已选<el-text size="small" type="primary" class="!mr-4px !ml-4px">0</el-text>个账户
 					</el-text>
 					<el-text size="small" type="primary" class="!ml-8px"> 清空已选 </el-text>
 				</el-col>
-			</el-row>
+			</el-row> -->
 			<el-row class="mb-8px">
 				<el-col>
 					<el-table v-loading="loading" :data="tableData" :border="true" style="width: 100%; height: 300px"

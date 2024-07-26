@@ -70,12 +70,16 @@
                             <el-form-item label="投放类型">
                                 <el-radio-group v-model="form.delivery_type">
                                     <el-radio-button :value="'NORMAL'"> 常规投放 </el-radio-button>
-                                    <el-popover placement="right-start" :width="200" trigger="hover"
-                                        content="媒体API暂不支持通投广告搭建周期稳投">
-                                        <template #reference>
-                                            <el-radio-button :value="'DURATION'" disabled> 周期稳投 </el-radio-button>
-                                        </template>
-                                    </el-popover>
+                                    <el-radio-button v-if="form.ad_type === 'SEARCH'" :value="'DURATION'"> 周期稳投
+                                    </el-radio-button>
+                                    <template v-else>
+                                        <el-popover placement="right-start" :width="200" trigger="hover"
+                                            content="媒体API暂不支持通投广告搭建周期稳投">
+                                            <template #reference>
+                                                <el-radio-button :value="'DURATION'" disabled> 周期稳投 </el-radio-button>
+                                            </template>
+                                        </el-popover>
+                                    </template>
                                 </el-radio-group>
                             </el-form-item>
                         </el-form>

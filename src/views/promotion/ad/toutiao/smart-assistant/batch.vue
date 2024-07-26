@@ -78,11 +78,11 @@
           <SelectAccountVue :prefix-title="'规则配置'" @handle-change="handleChangeRuleConfiguration">
             <span class="inline-block w-110px">
               <label class="color-[#c6c6c6]">项目规则:</label>
-              指定数量
+              {{ ruleConfiguration?.project.rule === 'creative' ? '创意组' : '指定数量' }}
             </span>
-            <span class="inline-block w-110px">
-              <label class="color-[#c6c6c6]">项目规则:</label>
-              指定数量
+            <span class="inline-block w-110px" v-if="ruleConfiguration?.project.rule !== 'creative'">
+              <label class="color-[#c6c6c6]">广告规则:</label>
+              {{ ruleConfiguration?.promotion.rule ? '自动生成' : '' }}
             </span>
           </SelectAccountVue>
         </el-col>
@@ -106,9 +106,9 @@
                 <div class="color-[#999]">
                   <el-text size="small" v-if="infoOrNew === 'info'">从新项目创建</el-text>
                   <el-text size="small" v-else>从已有项目创建</el-text>
-                  <el-button link size="small" type="primary" class="ml-8px" @click="handleChangeInfoOrNew">
+                  <!-- <el-button link size="small" type="primary" class="ml-8px" @click="handleChangeInfoOrNew">
                     切换
-                  </el-button>
+                  </el-button> -->
                 </div>
               </div>
             </th>
