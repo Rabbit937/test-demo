@@ -6,7 +6,7 @@
       <el-text class="text-black font-size-14px font-700">程序化批量/巨量广告</el-text>
     </el-col>
     <el-col :span="1.5" class="flex flex-items-center mr-16px">
-      <el-button text class="font-size-12px font-600" type="primary">
+      <el-button text class="font-size-12px font-600" type="primary" @click="OpenTaskView">
         <img
           src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCI+PHBhdGggZmlsbD0iIzE5N2FmYiIgZD0iTTgzMS44MjUgNjMuOTRIMTkxLjk0Yy03MC42OTIgMC0xMjggNTcuMzA4LTEyOCAxMjh2NjM5Ljg4NWMwIDcwLjY5MiA1Ny4zMDggMTI4IDEyOCAxMjhoNjM5Ljg4NWM3MC42OTIgMCAxMjgtNTcuMzA4IDEyOC0xMjhWMTkxLjk0YzAtNzAuNjkyLTU3LjMwOC0xMjgtMTI4LTEyOHpNODk1Ljg4NSA4MzJhNjMuODM1IDYzLjgzNSAwIDAgMS02My45NzMgNjMuODg2SDE5Mi4wODhjLTE3LjExMiAwLTMzLjI3LTYuNTc1LTQ1LjM3Mi0xOC42NzZzLTE4LjgzNi0yOC4wOTgtMTguODM2LTQ1LjIxVjE5MmE2NC4yMzYgNjQuMjM2IDAgMCAxIDY0LjIwOC02NC4xMmg2MzkuODI0QTY0LjAzOCA2NC4wMzggMCAwIDEgODk1Ljg4NSAxOTJWODMyeiIvPjxwYXRoIGZpbGw9IiMxOTdhZmIiIGQ9Ik03OTEuOTk4IDM1MS44NTJINTM2YTMxLjk3IDMxLjk3IDAgMCAwIDAgNjMuOTRoMjU2YTMxLjk3IDMxLjk3IDAgMCAwIDAtNjMuOTR6bTAgMjU2LjEyMUg1MzZhMzEuOTcgMzEuOTcgMCAwIDAgMCA2My45NGgyNTZhMzEuOTcgMzEuOTcgMCAwIDAgMC02My45NHptLTQ0Ny45OTYtNzkuOTc1Yy02MS44NTYgMC0xMTEuOTg2IDUwLjE0NC0xMTEuOTg2IDExMS45ODVTMjgyLjE2IDc1MS45NyAzNDQuMDAyIDc1MS45N3MxMTEuOTg1LTUwLjE0NCAxMTEuOTg1LTExMS45ODYtNTAuMTMtMTExLjk4NS0xMTEuOTg1LTExMS45ODV6bTMzLjk4MiAxNDUuOTgyYTQ4LjA0NSA0OC4wNDUgMCAxIDEgMTQuMDg4LTMzLjk4MiA0Ny43NDYgNDcuNzQ2IDAgMCAxLTE0LjA4OCAzMy45ODZ6bTM5LjQxMi0zNzYuNTg2TDMxMS45OTkgNDAyLjc4N2wtNDEuMzkxLTQxLjM5NWEzMS45NyAzMS45NyAwIDEgMC00NS4yMTMgNDUuMjEzbDYzLjk5NyA2NC4wMDJhMzEuOTcgMzEuOTcgMCAwIDAgNDUuMjE0IDBsMTI4LTEyOGEzMS45NyAzMS45NyAwIDAgMC00NS4yMS00NS4yMTN6Ii8+PC9zdmc+"
           class="w-18px h-18px mr-8px" />
@@ -606,6 +606,7 @@ import LandingPage from "./components/LandingPage.vue";
 import { createPromotionByNewProject, queryPreviewPromotionInfo, commitTask } from "@/api/modules/promotion";
 import type { ICreatePromotionByNewProject, ICreativeMaterials, ILandingPage, INewProject, IQueryPreviewPromotionInfo, IRuleConfiguration } from "@/api/modules/promotion";
 import { inventory_type_radio, external_action_radio, deep_external_action_radio, budget_mode_radio } from '../radio-info/NewProject'
+import { useRouter } from "vue-router";
 
 
 // 新建项目
@@ -872,6 +873,12 @@ const commitTaskFunc = async (params: IQueryPreviewPromotionInfo) => {
 }
 
 
+const router = useRouter();
+// 打开任务管理
+const OpenTaskView = () => {
+  const routeData = router.resolve({ path: "/task" });
+  window.open(routeData.href, "_blank");
+};
 </script>
 
 <style scoped>
