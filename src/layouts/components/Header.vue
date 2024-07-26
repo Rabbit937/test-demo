@@ -31,6 +31,10 @@ const navList = ref<INav[]>([
 		path: "/material",
 		title: "素材",
 	},
+	{
+		path: "/task",
+		title: "任务",
+	}
 ]);
 
 const activeIndex = computed(() =>

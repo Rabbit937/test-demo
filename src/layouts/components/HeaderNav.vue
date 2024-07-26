@@ -10,8 +10,8 @@
 import type { INav } from "../interface/header.type";
 
 interface Props {
-	navList: INav[];
-	activeIndex: string;
+    navList: INav[];
+    activeIndex: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {});

@@ -4,6 +4,7 @@ import homeRoute from "./routes/homeRoute";
 import promotionRoute from "./routes/promotionRoute";
 import materialRoute from "./routes/materialRoute";
 import batchRoute from "./routes/batchRoute";
+import taskRoute from "./routes/taskRoute";
 import { useUserStore } from "@/stores/modules/user";
 import NProgress from "@/config/nprogress";
 
@@ -26,6 +27,7 @@ const router = createRouter({
 				...[promotionRoute],
 				...[materialRoute],
 				...[batchRoute],
+				...[taskRoute]
 			],
 		},
 	],
