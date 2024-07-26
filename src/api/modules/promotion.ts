@@ -994,10 +994,15 @@ export interface ICreatePromotionByNewProject {
 	web_url_material_list?: string[];
 }
 
+
+export interface ICreatePromotionByNewProjectResultData {
+	adv_ids: string[];
+}
+
 export const createPromotionByNewProject = (
 	params: ICreatePromotionByNewProject,
 ) => {
-	return http.post("/api/Mk_Tt_Program/_createPromotionByNewProject", params);
+	return http.post<ICreatePromotionByNewProjectResultData>("/api/Mk_Tt_Program/_createPromotionByNewProject", params);
 };
 
 /**
@@ -1210,7 +1215,7 @@ export interface IQueryPreviewPromotionInfo {
 
 
 export interface IQueryPreviewPromotionInfoResultData {
-	
+
 }
 
 export const queryPreviewPromotionInfo = (params: IQueryPreviewPromotionInfo) => {

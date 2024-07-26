@@ -828,11 +828,9 @@ const generateAdPreview = () => {
 const createPromotionByNewProjectFunc = async (params: ICreatePromotionByNewProject) => {
   const res = await createPromotionByNewProject(params)
   console.log(res);
-
-  return false;
   if (res.state === 1) {
     queryPreviewPromotionInfoFunc({
-      adv_ids: "56,57,58,59,60"
+      adv_ids: res.data.adv_ids.toString()
     })
   }
 }
