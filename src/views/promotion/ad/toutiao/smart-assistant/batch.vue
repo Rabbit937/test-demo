@@ -895,11 +895,11 @@ const selectionRef = ref<any[]>([])
 
 // 预览全选
 const handlePreviewPromotionInfoSelectAll = (selection: any[]) => {
-  selectionRef.value = selection;
+  selectionRef.value = selection.map(select => select.promotion_conf.adv_id);
 }
 
 const handlePreviewPromotionInfoSelectionChange = (newSelection: any[]) => {
-  selectionRef.value = newSelection;
+  selectionRef.value = newSelection.map(selection => selection.promotion_conf.adv_id);
 }
 
 
