@@ -4,82 +4,93 @@
     </section>
 
     <section class="px-16px py-12px flex flex-wrap align-items-center bg-[#fff] ">
-        <div class="w-180px mr-12px mb-12px">
+        <!-- <div class="w-180px mr-12px mb-12px">
             <el-input v-model="searchParams.name" style="width: 180px" placeholder="搜索任务" class="input-with-select">
                 <template #append>
                     <el-button :icon="Search" />
                 </template>
-            </el-input>
-        </div>
+</el-input>
+</div>
 
 
-        <div class="w-200px mr-12px mb-12px">
-            <el-select clearable placeholder="全部">
-                <template #prefix>
+<div class="w-200px mr-12px mb-12px">
+    <el-select clearable placeholder="全部">
+        <template #prefix>
                     <span>创建项目:</span>
                 </template>
-            </el-select>
-        </div>
+    </el-select>
+</div>
 
-        <div class="w-200px mr-12px mb-12px">
-            <el-select clearable placeholder="请选择推广目的">
-                <template #prefix>
+<div class="w-200px mr-12px mb-12px">
+    <el-select clearable placeholder="请选择推广目的">
+        <template #prefix>
                     <span>推广目的:</span>
                 </template>
-            </el-select>
-        </div>
+    </el-select>
+</div>
 
 
-        <div class="w-200px mr-12px mb-12px">
-            <el-select clearable placeholder="请选择投放模式">
-                <template #prefix>
+<div class="w-200px mr-12px mb-12px">
+    <el-select clearable placeholder="请选择投放模式">
+        <template #prefix>
                     <span>投放模式:</span>
                 </template>
-            </el-select>
-        </div>
+    </el-select>
+</div>
 
-        <div class="w-200px mr-12px mb-12px">
-            <el-select clearable placeholder="请选择营销场景">
-                <template #prefix>
+<div class="w-200px mr-12px mb-12px">
+    <el-select clearable placeholder="请选择营销场景">
+        <template #prefix>
                     <span>营销场景:</span>
                 </template>
-            </el-select>
-        </div>
+    </el-select>
+</div>
 
-        <div class="w-200px mr-12px mb-12px">
-            <el-select clearable placeholder="请选择广告类型">
-                <template #prefix>
+<div class="w-200px mr-12px mb-12px">
+    <el-select clearable placeholder="请选择广告类型">
+        <template #prefix>
                     <span>广告类型:</span>
                 </template>
-            </el-select>
-        </div>
+    </el-select>
+</div>
 
-        <div class="w-200px mr-12px mb-12px">
-            <el-select clearable placeholder="请选择投放类型">
-                <template #prefix>
+<div class="w-200px mr-12px mb-12px">
+    <el-select clearable placeholder="请选择投放类型">
+        <template #prefix>
                     <span>投放类型:</span>
                 </template>
-            </el-select>
-        </div>
+    </el-select>
+</div>
 
-        <div class="w-200px mr-12px mb-12px">
-            <el-select clearable>
-                <template #prefix>
+<div class="w-200px mr-12px mb-12px">
+    <el-select clearable>
+        <template #prefix>
                     <span>提交状态:</span>
                 </template>
-            </el-select>
-        </div>
+    </el-select>
+</div>
 
-        <div class="w-200px mr-12px mb-12px">
-            <el-select clearable>
-                <template #prefix>
+<div class="w-200px mr-12px mb-12px">
+    <el-select clearable>
+        <template #prefix>
                     <span>提交规则:</span>
                 </template>
+    </el-select>
+</div>
+<div class="mr-12px mb-12px">
+    <el-date-picker v-model="searchParams.datePicker" type="daterange" start-placeholder="开始日期"
+        end-placeholder="结束日期" />
+</div> -->
+
+
+        <div class="w-200px mr-12px mb-12px">
+            <el-select clearable placeholder="请选择用户" v-model="searchParams.user_id"
+                @change="handleMaterialDesignChange">
+                <template #prefix>
+                    <span>用户名称:</span>
+                </template>
+                <el-option v-for="item in materialDesignList" :key="item.id" :label="item.text" :value="item.id" />
             </el-select>
-        </div>
-        <div class="mr-12px mb-12px">
-            <el-date-picker v-model="searchParams.datePicker" type="daterange" start-placeholder="开始日期"
-                end-placeholder="结束日期" />
         </div>
 
         <div class=" mr-12px mb-12px">
@@ -95,6 +106,10 @@
         </div>
     </section>
 
+
+    <section class="px-16px py-12px flex flex-wrap align-items-center bg-[#fff] ">
+
+    </section>
 
     <section class="p-16px">
         <div class="bg-[#fff6ee] py-6px px-16px mb-8px" style="border:1px solid #ffddc1;">
@@ -137,12 +152,14 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from "vue";
-import { Search } from "@element-plus/icons-vue"
+// import { Search } from "@element-plus/icons-vue"
+import { getMaterialDesignList } from "@/api/modules/material";
 import { type IQueryTaskProgress, queryTaskProgress } from "@/api/modules/promotion";
 
 const searchParams = reactive({
     name: "",
-    datePicker: ""
+    datePicker: "",
+    user_id: ''
 })
 
 const taskProgressTableData = ref();
@@ -156,9 +173,32 @@ const queryTaskProgressFunc = async (params: IQueryTaskProgress) => {
     }
 }
 
+const materialDesignList = ref();
+
+// 获取用户列表接口
+const getMaterialDesignListFunc = async () => {
+    try {
+        const res = await getMaterialDesignList();
+        console.log(res);
+        if (res.state === 1) {
+            materialDesignList.value = res.data;
+        }
+    } catch (error) {
+        console.error("getMaterialDesignListFunc---->", error)
+    }
+
+};
+
+const handleMaterialDesignChange = (value: string) => {
+    queryTaskProgressFunc({
+        user_id: searchParams.user_id
+    })
+}
+
 
 onMounted(() => {
     queryTaskProgressFunc({});
+    getMaterialDesignListFunc();
 })
 
 </script>

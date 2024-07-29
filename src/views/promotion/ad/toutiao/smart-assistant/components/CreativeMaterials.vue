@@ -134,7 +134,7 @@ const handleUpdateState = (component: {
                 <el-form :label-position="'left'" :label-width="'160'">
                     <el-form-item label="多账户分配规则">
                         <el-radio-group v-model="form.material">
-                            <el-radio-button label="全账户服用" :value="'same'" />
+                            <el-radio-button label="全账户复用" :value="'same'" />
                             <el-radio-button label="平均分配" :value="'agv'" />
                             <el-radio-button label="分帐户选择" :value="'ad_same'" />
                         </el-radio-group>
