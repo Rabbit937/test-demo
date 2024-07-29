@@ -528,7 +528,7 @@
                 <template #default="scope">
                   <div>
                     <span>
-                      落地页数量：{{ scope.row.promotion_conf.promotion_materials.external_url_material_list.length }}
+                      落地页数量：{{ scope.row.promotion_conf.promotion_materials.web_url_material_list.length }}
                     </span>
                   </div>
 
