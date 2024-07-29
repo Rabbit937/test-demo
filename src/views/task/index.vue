@@ -129,13 +129,25 @@
         </div>
         <div>
             <el-table :data="taskProgressTableData" empty-text="没有数据">
-                <el-table-column label="任务名称"></el-table-column>
-                <el-table-column label="操作"></el-table-column>
-                <el-table-column label="推广目的"></el-table-column>
-                <el-table-column label="投放模式"></el-table-column>
-                <el-table-column label="营销场景"></el-table-column>
-                <el-table-column label="广告类型"></el-table-column>
-                <el-table-column label="投放类型"></el-table-column>
+                <el-table-column label="任务名称" prop="name"></el-table-column>
+                <el-table-column label="操作">
+
+                </el-table-column>
+                <el-table-column label="推广目的" prop="landing_type">
+                    <template #default="scope">
+{{                        delivery_type_radio.filter(delivery_type => delivery_type.value ===
+                        scope.row.delivery_type)[0].label }}
+                    </template>
+                </el-table-column>
+                <el-table-column label="投放模式" prop="delivery_type">
+                    <template #default="scope">
+{{                        delivery_type_radio.filter(delivery_type => delivery_type.value ===
+                        scope.row.delivery_type)[0].label }}
+                    </template>
+                </el-table-column>
+                <el-table-column label="营销目标" prop="marketing_goal"></el-table-column>
+                <el-table-column label="广告类型" prop="ad_type"></el-table-column>
+                <el-table-column label="投放类型" prop=""></el-table-column>
                 <el-table-column label="媒体账户"></el-table-column>
                 <el-table-column label="提交规则"></el-table-column>
                 <el-table-column label="创建时间"></el-table-column>
@@ -155,6 +167,8 @@ import { onMounted, reactive, ref } from "vue";
 // import { Search } from "@element-plus/icons-vue"
 import { getMaterialDesignList } from "@/api/modules/material";
 import { type IQueryTaskProgress, queryTaskProgress } from "@/api/modules/promotion";
+import { delivery_type_radio } from "../promotion/ad/toutiao/radio-info/NewProject";
+
 
 const searchParams = reactive({
     name: "",
@@ -168,6 +182,7 @@ const queryTaskProgressFunc = async (params: IQueryTaskProgress) => {
     try {
         const res = await queryTaskProgress(params);
         console.log(res);
+        taskProgressTableData.value = res.data.list;
     } catch (error) {
         console.log(error);
     }
@@ -189,7 +204,7 @@ const getMaterialDesignListFunc = async () => {
 
 };
 
-const handleMaterialDesignChange = (value: string) => {
+const handleMaterialDesignChange = () => {
     queryTaskProgressFunc({
         user_id: searchParams.user_id
     })

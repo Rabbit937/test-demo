@@ -106,9 +106,9 @@
                 <div class="color-[#999]">
                   <el-text size="small" v-if="infoOrNew === 'info'">从新项目创建</el-text>
                   <el-text size="small" v-else>从已有项目创建</el-text>
-                  <!-- <el-button link size="small" type="primary" class="ml-8px" @click="handleChangeInfoOrNew">
+                  <el-button link size="small" type="primary" class="ml-8px" @click="handleChangeInfoOrNew">
                     切换
-                  </el-button> -->
+                  </el-button>
                 </div>
               </div>
             </th>
@@ -590,7 +590,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Ref, ref, reactive, computed, watchEffect } from "vue";
+import { type Ref, ref, reactive, computed } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import "element-plus/es/components/message-box/style/css";
 import RuleConfigurationDialog from "./components/RuleConfigurationDialog.vue";
@@ -847,7 +847,7 @@ const queryPreviewPromotionInfoFunc = async (params: IQueryPreviewPromotionInfo)
   if (res.state === 1) {
     for (const [key, value] of Object.entries(res.data)) {
       console.log(key, value)
-      for (const [k, v] of Object.entries(value)) {
+      for (const [_k, v] of Object.entries(value)) {
         PreviewPromotionInfoTableData.value = v;
       }
     }
