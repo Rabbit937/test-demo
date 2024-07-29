@@ -567,7 +567,7 @@
 
                   <div>
                     <span>
-                      抖音号：{{ scope.row.promotion_conf.native_setting.aweme_id }}
+                      抖音号：{{ scope.row?.promotion_conf?.native_setting?.aweme_id ?? "无" }}
                     </span>
                   </div>
                 </template>
