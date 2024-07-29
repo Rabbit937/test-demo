@@ -265,7 +265,8 @@
                 <div class="flex">
                   <div class="flex line-height-24px">
                     <label>广告预算：</label>
-                    <p class="p-0px m-0px">{{ BasicInformationOfAdForm?.pre_promotion_budget_group[0].budget ?? '无'}}</p>
+                    <p class="p-0px m-0px">{{ BasicInformationOfAdForm?.pre_promotion_budget_group[0].budget ?? '无' }}
+                    </p>
                   </div>
                 </div>
                 <div class="flex">
@@ -277,7 +278,9 @@
                 <div class="flex">
                   <div class="flex line-height-24px">
                     <label>产品名称：</label>
-                    <p class="p-0px m-0px">{{ BasicInformationOfAdForm?.product_info_group[0].product_info.titles[0] ?? '无' }}
+                    <p class="p-0px m-0px">{{ BasicInformationOfAdForm?.product_info_group[0].product_info.titles[0] ??
+                      '无'
+                      }}
                     </p>
                   </div>
                 </div>
@@ -393,16 +396,17 @@
   </el-row>
   <!-- 预览区 -->
   <el-row class="pl-20px pr-20px mt-16px mb-24px pb-20px">
-    <el-col class="h-686px flex grid-justify-center border-[#e8eaec]">
-      <div class="panel-header flex justify-between px-24px h-48px align-items-center">
+    <el-col class=" flex grid-justify-center ">
+      <div class="panel-header flex justify-between px-24px h-48px align-items-center border-[#e8eaec]"
+        style="border-bottom: 0px;">
         <div class="font-size-16px font-700 color-[#333]">
           <span>预览区</span>
         </div>
         <div class="flex align-items-center">
-          <div class="mr-16px font-size-12px color-[#515a6e]">
-            <span>预计生成<b>4</b>个广告</span>
-          </div>
-          <el-button type="primary" @click="commitTaskFunc({ adv_ids: adv_ids.value })">
+          <!-- <div class="mr-16px font-size-12px color-[#515a6e]"> -->
+          <!-- <span>预计生成<b>4</b>个广告</span> -->
+          <!-- </div> -->
+          <el-button type="primary" @click="commitTaskFunc()">
             <span>全部提交审核</span>
           </el-button>
         </div>
@@ -419,7 +423,7 @@
           </div>
         </div> -->
 
-        <div class="flex justify-between bg-[#fff] align-items-center"
+        <div v-if="false" class="flex justify-between bg-[#fff] align-items-center"
           style="box-sizing:border-box;height: 56px;padding: 14px 24px 18px 32px;">
           <div>
             <el-checkbox size="small" label="全选" />
@@ -441,7 +445,9 @@
         </div>
 
         <div>
-          <el-table :data="PreviewPromotionInfoTableData" style="width: 100%" empty-text="没有数据">
+          <el-table :data="PreviewPromotionInfoTableData" style="width: 100%" empty-text="没有数据"
+            @select-all="handlePreviewPromotionInfoSelectAll"
+            @selection-change="handlePreviewPromotionInfoSelectionChange" max-height="300">
             <el-table-column label="项目">
               <el-table-column label="项目信息">
                 <template #default="scope">
@@ -854,8 +860,6 @@ const generateAdPreview = () => {
 
 
 const adv_ids = ref();
-
-
 // 生成广告预览接口
 const createPromotionByNewProjectFunc = async (params: ICreatePromotionByNewProject) => {
   const res = await createPromotionByNewProject(params)
@@ -877,7 +881,8 @@ const queryPreviewPromotionInfoFunc = async (params: IQueryPreviewPromotionInfo)
   if (res.state === 1) {
     for (const [key, value] of Object.entries(res.data)) {
       console.log(key, value)
-      for (const [_k, v] of Object.entries(value)) {
+      for (const [k, v] of Object.entries(value)) {
+        console.log(k);
         PreviewPromotionInfoTableData.value = v;
       }
     }
@@ -885,9 +890,24 @@ const queryPreviewPromotionInfoFunc = async (params: IQueryPreviewPromotionInfo)
 }
 
 
-const commitTaskFunc = async (params: IQueryPreviewPromotionInfo) => {
+
+const selectionRef = ref<any[]>([])
+
+// 预览全选
+const handlePreviewPromotionInfoSelectAll = (selection: any[]) => {
+  selectionRef.value = selection;
+}
+
+const handlePreviewPromotionInfoSelectionChange = (newSelection: any[]) => {
+  selectionRef.value = newSelection;
+}
+
+
+const commitTaskFunc = async () => {
   try {
-    const res = await commitTask(params);
+    const res = await commitTask({
+      adv_ids: selectionRef.value.join(',')
+    });
     console.log(res);
 
     if (res.state === 1) {

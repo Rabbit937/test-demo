@@ -156,6 +156,13 @@
                 </el-table-column>
                 <el-table-column label="媒体账户" prop="advertiser_id"></el-table-column>
                 <el-table-column label="创建时间" prop="atime"></el-table-column>
+                <el-table-column label="错误信息" prop="err_msg">
+                    <template #default="scope">
+                        <el-text size="small" type="danger">
+                            {{ scope.row.err_msg }}
+                        </el-text>
+                    </template>
+                </el-table-column>
                 <el-table-column label="执行状态" prop="task_desc"></el-table-column>
                 <el-table-column label="操作">
                     <template #default="scope">
