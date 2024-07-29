@@ -1232,17 +1232,6 @@ export const commitTask = (params: IQueryPreviewPromotionInfo) => {
 
 
 
-/**
- * @name 查询广告创建任务进度
- */
-export interface IQueryTaskProgress {
-	advertiesr_id?: string;
-	user_id?: string;
-}
 
-
-export const queryTaskProgress = (params: IQueryTaskProgress) => {
-	return http.get<Record<string, string>>(`/api/Mk_Tt_Program/_queryTaskProgress`, params)
-}
 
 

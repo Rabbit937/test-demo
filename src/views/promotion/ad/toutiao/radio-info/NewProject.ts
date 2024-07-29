@@ -316,4 +316,7 @@ export const union_video_type_radio = [
 	},
 ]
 
-// export const 
+export const landing_type_radio: Record<string, string> = {
+	MICRO_GAME: "小游戏推广",
+	APP: "应用推广"
+}
