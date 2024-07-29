@@ -168,25 +168,40 @@
                   <span>项目名称：{{ NewProjectForm.name }}</span>
                 </div>
                 <div class="line-height-24px">
-                  <span>项目预算：{{ NewProjectForm.budget_mode }}</span>
+                  <span>项目预算：{{ budget_mode_radio.filter(budget_mode => budget_mode.value
+                    === NewProjectForm?.budget_mode)[0].label }}</span>
                 </div>
                 <div class="line-height-24px">
-                  <span>推广目的：{{ NewProjectForm.landing_type }}</span>
+                  <span>推广目的：{{ landing_type_radio[NewProjectForm.landing_type] }}</span>
                 </div>
                 <div class="line-height-24px">
-                  <span>子目标：{{ NewProjectForm.app_promotion_type }}</span>
+                  <span>子目标： {{ app_promotion_type_radio.filter(app_promotion_type => app_promotion_type.value
+                    === NewProjectForm?.app_promotion_type)[0].label }}
+                  </span>
                 </div>
                 <div class="line-height-24px">
-                  <span>营销场景：{{ NewProjectForm.marketing_goal }}</span>
+                  <span>营销场景：
+                    {{ marketing_goal_radio.filter(marketing_goal => marketing_goal.value
+                      === NewProjectForm?.marketing_goal)[0].label }}
+                  </span>
                 </div>
                 <div class="line-height-24px">
-                  <span>投放模式：{{ NewProjectForm.delivery_mode }}</span>
+                  <span>投放模式：
+                    {{ delivery_mode_radio.filter(delivery_mode => delivery_mode.value
+                      === NewProjectForm?.delivery_mode)[0].label }}
+                  </span>
                 </div>
                 <div class="line-height-24px">
-                  <span>广告类型：{{ NewProjectForm.ad_type }}</span>
+                  <span>广告类型： {{ ad_type_radio.filter(ad_type => ad_type.value
+                    === NewProjectForm?.ad_type)[0].label }}
+                  </span>
                 </div>
                 <div class="line-height-24px">
-                  <span>投放类型：{{ NewProjectForm.delivery_type }}</span>
+                  <span>投放类型：
+
+                    {{ delivery_type_radio.filter(delivery_type => delivery_type.value
+                      === NewProjectForm?.delivery_type)[0].label }}
+                  </span>
                 </div>
                 <div class="line-height-24px">
                   <span>优化目标：{{ NewProjectForm.external_action }}</span>
@@ -605,7 +620,7 @@ import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
 import { createPromotionByNewProject, queryPreviewPromotionInfo, commitTask } from "@/api/modules/promotion";
 import type { ICreatePromotionByNewProject, ICreativeMaterials, ILandingPage, INewProject, IQueryPreviewPromotionInfo, IRuleConfiguration } from "@/api/modules/promotion";
-import { inventory_type_radio, external_action_radio, deep_external_action_radio, budget_mode_radio } from '../radio-info/NewProject'
+import { delivery_type_radio, ad_type_radio, inventory_type_radio, external_action_radio, deep_external_action_radio, budget_mode_radio, landing_type_radio, app_promotion_type_radio, marketing_goal_radio, delivery_mode_radio } from '../radio-info/NewProject'
 import { useRouter } from "vue-router";
 
 

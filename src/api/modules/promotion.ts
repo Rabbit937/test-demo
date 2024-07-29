@@ -1182,7 +1182,7 @@ export interface IAutoMonitorLink {
 	/**
 	 * 应用app_id 投放安卓必填
 	 */
-	app_cloud_id?: number;
+	package_name?: string;
 	/**
 	 * 苹果应用bundleid 投放ios必填
 	 */

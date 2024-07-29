@@ -796,7 +796,7 @@ const handleHeadlineApplicationChange = (val: any) => {
     form.download_url = filterAndroidApp[0].download_url;
 
     autoMonitorLinkFunc({
-        app_cloud_id: filterAndroidApp[0].app_id
+        package_name: filterAndroidApp[0].package_name
     })
 };
 

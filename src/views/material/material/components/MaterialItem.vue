@@ -92,7 +92,7 @@
       </div>
 
       <div v-else class="pic-box pointer" style="position: relative" @click="jumpToDetails(item)">
-        <video :src="item.material.upload_dir" style="width: 100%"></video>
+        <video :src="item.material.upload_dir" style="width: 100%;height:100%;"></video>
         <el-icon size="40" color="white"
           style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">
           <VideoPlay />
