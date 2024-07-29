@@ -4,7 +4,7 @@
     <template v-if="Number(item.type) === 1">
       <div class="pic-box pointer" style="
           background-image: url(https://tos.mobgi.com/tos_beijing/video_cover/material_4/12000013178/12000018728/b4f5048f9fa775a6b8e257aa028ddda3937959.jpg);
-          background-size: cover;
+          background-size: contain
         "></div>
       <div class="name-box">
         <p :title="item.album.album_name" class="nowrap">{{ item.album.album_name }}</p>
@@ -43,7 +43,7 @@
     <template v-else-if="Number(item.type) === 2">
       <div class="pic-box pointer" style="
           background-image: url(https://tos.mobgi.com/tos_beijing/video_cover/material_4/12000013178/12000018728/b4f5048f9fa775a6b8e257aa028ddda3937959.jpg);
-          background-size: cover;
+          background-size: contain;
         ">
         <!---->
       </div>
@@ -84,7 +84,7 @@
     <template v-else-if="Number(item.type) === 3">
       <div class="pic-box pointer" :style="{
         'background-image': `url(${item.material.upload_dir})`,
-        'background-size': 'cover'
+        'background-size': 'contain'
       }" @click="jumpToDetails(item)" v-if="Number(item.material.mime) === 2">
         <img v-if="Number(item.material.disable) !== 0"
           src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNjkxNzM1MDk2NTQzIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE1MDgiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTAgMG0xNDYuMjg1NzE0IDBsNzMxLjQyODU3MiAwcTE0Ni4yODU3MTQgMCAxNDYuMjg1NzE0IDE0Ni4yODU3MTRsMCA3MzEuNDI4NTcycTAgMTQ2LjI4NTcxNC0xNDYuMjg1NzE0IDE0Ni4yODU3MTRsLTczMS40Mjg1NzIgMHEtMTQ2LjI4NTcxNCAwLTE0Ni4yODU3MTQtMTQ2LjI4NTcxNGwwLTczMS40Mjg1NzJxMC0xNDYuMjg1NzE0IDE0Ni4yODU3MTQtMTQ2LjI4NTcxNFoiIGZpbGw9IiNFQTY0NTciIHAtaWQ9IjE1MDkiPjwvcGF0aD48cGF0aCBkPSJNMjk0Ljc2NTcxNCAzMTUuMDk5NDI5YTI5My4yMjk3MTQgMjkzLjIyOTcxNCAwIDAgMCAzNTcuMjI5NzE1IDQ1NC42NTZ6IG01NC45MzAyODYtNDcuMzk2NTcybDM2MS4yNTI1NzEgNDU5Ljc3NmEyOTMuMjI5NzE0IDI5My4yMjk3MTQgMCAwIDAtMzYxLjI1MjU3MS00NTkuNzc2ek01MTIgODc3LjcxNDI4NmEzNjUuNzE0Mjg2IDM2NS43MTQyODYgMCAxIDEgMzY1LjcxNDI4Ni0zNjUuNzE0Mjg2IDM2NS43MTQyODYgMzY1LjcxNDI4NiAwIDAgMS0zNjUuNzE0Mjg2IDM2NS43MTQyODZ6IG0wIDAiIGZpbGw9IiNGRkZGRkYiIHAtaWQ9IjE1MTAiPjwvcGF0aD48L3N2Zz4="
