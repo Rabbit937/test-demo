@@ -1,7 +1,7 @@
 <template>
 	<el-row class="h-100%">
-		<el-col :span="2" class="flex self-center">
-			<img src="@/assets/images/logo.png" alt="logo" class="w-100%" />
+		<el-col :span="2" class="h-100% flex self-center">
+			<el-image style="width:100%; height:100%;" :src="logo" :fit="'contain'" />
 		</el-col>
 		<el-col :span="20">
 			<HeaderNav :nav-list="navList" :active-index="activeIndex"></HeaderNav>
@@ -13,6 +13,7 @@
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import HeaderNav from "./HeaderNav.vue";
+import logo from '@/assets/images/logo.png'
 
 import type { INav } from "../interface/header.type";
 

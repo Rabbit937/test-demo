@@ -108,11 +108,11 @@
     </section>
 
     <section class="p-16px">
-        <div class="bg-[#fff6ee] py-6px px-16px mb-8px" style="border:1px solid #ffddc1;">
+        <!-- <div class="bg-[#fff6ee] py-6px px-16px mb-8px" style="border:1px solid #ffddc1;">
             <el-text type="warning"> <el-icon>
                     <WarningFilled />
                 </el-icon>默认展示近30天任务记录，通过账户筛选仅支持查询近10天任务；超过10天的任务执行状态可能存在异常</el-text>
-        </div>
+        </div> -->
 
         <div
             class="flex align-items-center justify-between h-50px px-16px py-8px bg-[#fff] border-[#e8eaec] !border-b-0px">

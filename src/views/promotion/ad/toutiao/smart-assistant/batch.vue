@@ -204,27 +204,35 @@
                   </span>
                 </div>
                 <div class="line-height-24px">
-                  <span>优化目标：{{ NewProjectForm.external_action }}</span>
+                  <span>优化目标：{{ external_action_radio[String(NewProjectForm.external_action)] }}</span>
                 </div>
                 <div class="line-height-24px">
-                  <span>深度优化目标：{{ NewProjectForm.deep_external_action }}</span>
+                  <span>深度优化目标：{{ deep_external_action_radio[String(NewProjectForm.deep_external_action)] }}</span>
                 </div>
 
-                <div class="line-height-24px">
+                <!-- <div class="line-height-24px">
                   <span>深度优化方式：{{}}</span>
-                </div>
+                </div> -->
 
                 <div class="line-height-24px">
-                  <span>广告位置：{{ NewProjectForm.inventory_catalog }}</span>
+                  <span>广告位置：
+
+                    {{ inventory_catalog_radio.filter(inventory_catalog => inventory_catalog.value
+                      === NewProjectForm?.inventory_catalog)[0].label }}
+
+                  </span>
                 </div>
 
-                <div class="line-height-24px">
+                <!-- <div class="line-height-24px">
                   <span>事件回传方式：{{}}</span>
-                </div>
+                </div> -->
 
 
                 <div class="line-height-24px">
-                  <span>投放时间：{{ NewProjectForm.schedule_type }}</span>
+                  <span>投放时间：
+                    {{ schedule_type_radio.filter(schedule_type => schedule_type.value
+                      === NewProjectForm?.schedule_type)[0].label }}
+                  </span>
                 </div>
 
 
@@ -239,7 +247,10 @@
 
 
                 <div class="line-height-24px">
-                  <span>竞价策略：{{ NewProjectForm.bid_type }}</span>
+                  <span>竞价策略：
+                    {{ bid_type_radio.filter(bid_type => bid_type.value
+                      === NewProjectForm?.bid_type)[0].label }}
+                  </span>
                 </div>
               </el-scrollbar>
             </td>
@@ -254,7 +265,7 @@
                 <div class="flex">
                   <div class="flex line-height-24px">
                     <label>广告预算：</label>
-                    <p class="p-0px m-0px">无</p>
+                    <p class="p-0px m-0px">{{ BasicInformationOfAdForm?.pre_promotion_budget_group[0].budget ?? '无'}}</p>
                   </div>
                 </div>
                 <div class="flex">
@@ -266,7 +277,8 @@
                 <div class="flex">
                   <div class="flex line-height-24px">
                     <label>产品名称：</label>
-                    <p class="p-0px m-0px">无</p>
+                    <p class="p-0px m-0px">{{ BasicInformationOfAdForm?.product_info_group[0].product_info.titles[0] ?? '无' }}
+                    </p>
                   </div>
                 </div>
                 <div class="flex">
@@ -620,7 +632,7 @@ import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
 import { createPromotionByNewProject, queryPreviewPromotionInfo, commitTask } from "@/api/modules/promotion";
 import type { ICreatePromotionByNewProject, ICreativeMaterials, ILandingPage, INewProject, IQueryPreviewPromotionInfo, IRuleConfiguration } from "@/api/modules/promotion";
-import { delivery_type_radio, ad_type_radio, inventory_type_radio, external_action_radio, deep_external_action_radio, budget_mode_radio, landing_type_radio, app_promotion_type_radio, marketing_goal_radio, delivery_mode_radio } from '../radio-info/NewProject'
+import { bid_type_radio, schedule_type_radio, inventory_catalog_radio, delivery_type_radio, ad_type_radio, inventory_type_radio, external_action_radio, deep_external_action_radio, budget_mode_radio, landing_type_radio, app_promotion_type_radio, marketing_goal_radio, delivery_mode_radio } from '../radio-info/NewProject'
 import { useRouter } from "vue-router";
 
 
@@ -681,6 +693,9 @@ const handleBasicInformationOfAdClose = (options: {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   form?: any;
 }) => {
+
+  console.log(options);
+
   handleDrawerClose(
     BasicInformationOfAdState,
     BasicInformationOfAdForm,
