@@ -296,14 +296,30 @@
               <div class="h-300px"></div>
             </td>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
-              <div class="h-300px">
-                <el-scrollbar height="300px">
-                  <p v-for="item in 20" :key="item" class="flex ">{{ item }}</p>
+              <div class="h-300px p-8px overflow-hidden">
+                <el-scrollbar height="284px">
+                  <div v-if="TitlePackData.length > 0" v-for="(TitlePack) in TitlePackData"
+                    class="flex align-items-center justify-between h-32px px-8px mb-4px font-400 color-[#666] cursor-pointer bg-[#fafafa] border-radius-4px">
+                    <span>{{ TitlePack.tag_name }}</span>
+                    <!-- <el-icon>
+                      <CloseBold />
+                    </el-icon> -->
+                  </div>
                 </el-scrollbar>
               </div>
             </td>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
-              <div class="h-300px"></div>
+              <div class="h-300px p-8px overflow-hidden">
+                <el-scrollbar height="284px">
+                  <div v-if="checkedLandingPage.length > 0" v-for="(landingPage) in checkedLandingPage"
+                    class="flex align-items-center justify-between h-32px px-8px mb-4px font-400 color-[#666] cursor-pointer bg-[#fafafa] border-radius-4px">
+                    <span>{{ landingPage.name }}</span>
+                    <!-- <el-icon>
+                      <CloseBold />
+                    </el-icon> -->
+                  </div>
+                </el-scrollbar>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -812,18 +828,23 @@ const handleCreativeMaterialsStateClose = (options: { type: number, form: any })
 };
 
 // 标题包
+// 用户接口调教数据
 const TitlePackForm = ref<ILandingPage>()
+// 控制组件显示
 const TitlePackState = reactive({
   visible: false,
 });
+const TitlePackData = ref<any[]>([]);
 
 const showTitlePackState = () => {
   TitlePackState.visible = true;
 };
 
-const handleTitlePackStateClose = (options: { type: number, form: any }) => {
+const handleTitlePackStateClose = (options: { type: number, form: any, titlePackData: any }) => {
   handleDrawerClose(TitlePackState, TitlePackForm, options);
-  console.log(TitlePackForm.value)
+  if (options.type === 1) {
+    TitlePackData.value = options.titlePackData;
+  }
 };
 
 
@@ -832,13 +853,18 @@ const LandingPageForm = ref<ILandingPage>();
 const LandingPageState = reactive({
   visible: false,
 });
+const checkedLandingPage = ref<any[]>([]);
 
 const showLandingPageState = () => {
   LandingPageState.visible = true;
 };
 
-const handleLandingPageStateClose = (options: { type: number, form: any }) => {
+const handleLandingPageStateClose = (options: { type: number, form: any, checkedLandingPage: any }) => {
   handleDrawerClose(LandingPageState, LandingPageForm, options);
+
+  if (options.type === 1) {
+    checkedLandingPage.value = options.checkedLandingPage;
+  }
 };
 
 

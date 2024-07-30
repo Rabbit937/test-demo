@@ -1,6 +1,6 @@
 <template>
     <el-drawer :model-value="drawer" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false"
-        :with-header="false" class="!bg-[#F0F2F5]" :size="size" @before-close="handleClose">
+        :with-header="false" class="!bg-[#F0F2F5]" :size="size" @before-close="handleClose" :destroy-on-close="true">
         <header
             class="bg-[#fff] px-16px border-bottom-[#e8eaec] flex align-content-center align-items-center justify-between">
             <slot name="header">

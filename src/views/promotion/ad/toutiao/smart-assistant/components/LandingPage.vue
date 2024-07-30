@@ -28,7 +28,7 @@ const handleDrawerClose = (type: number) => {
     if (type === 1) {
         if (checkedLandingPage.value.length > 0) {
             form.promotion_page_group[0].landing_page = checkedLandingPage.value.map((item) => item.siteId);
-            emits("handleDrawerClose", { type: 1, form: form });
+            emits("handleDrawerClose", { type: 1, form: form, checkedLandingPage: checkedLandingPage.value });
         } else {
             ElMessage({
                 message: "请选择至少一条落地页",
@@ -113,8 +113,6 @@ const handleAccountListChange = () => {
         page_limit: 1000
     });
 };
-
-
 
 
 // 落地页列表

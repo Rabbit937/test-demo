@@ -27,9 +27,7 @@ const handleDrawerClose = (type: number) => {
     console.log(type)
     if (type === 1) {
         if (multipleSelection.value.length > 0) {
-            console.log(multipleSelection.value)
-            console.log(form.promotion_title_group)
-
+            form.promotion_title_group = [];
             multipleSelection.value.forEach(select => {
                 if (select.name.includes('\n')) {
                     form.promotion_title_group.push({
@@ -45,9 +43,9 @@ const handleDrawerClose = (type: number) => {
                     })
                 }
             })
-
-            console.log(form.promotion_title_group)
-            emits('handleDrawerClose', { type: 1, form: form })
+            // console.log("multipleSelection", multipleSelection.value)
+            // console.log("promotion_title_group", form.promotion_title_group)
+            emits('handleDrawerClose', { type: 1, form: form, titlePackData: multipleSelection.value, })
 
         } else {
             ElMessage({
