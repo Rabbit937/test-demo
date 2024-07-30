@@ -41,7 +41,7 @@
                                                 <template v-else>
                                                     <div
                                                         class="h-110px bg-[#fafafa] w-100% text-center position-relative">
-                                                        <img class=" h-100%" style="vertical-align: middle;"
+                                                        <img class="h-100%" style="vertical-align: middle;"
                                                             :src="n.post_url" alt="图片预览">
                                                         <div class="position-absolute top-0 right-0 bottom-0 left-0 pr-20px pl-20px bg-[#00000080] flex align-items-center justify-center opacity-0 hover:opacity-100"
                                                             style="transition: opacity .3s;">
@@ -71,7 +71,7 @@
                                                 <template v-else>
                                                     <div
                                                         class="h-110px bg-[#fafafa] w-100% text-center position-relative">
-                                                        <img class="w-100% h-100%" style="vertical-align: middle;"
+                                                        <img class=" h-100%" style="vertical-align: middle;"
                                                             :src="n.post_url" alt="图片预览">
                                                         <div class="position-absolute top-0 right-0 bottom-0 left-0 pr-20px pl-20px bg-[#00000080] flex align-items-center justify-center opacity-0 hover:opacity-100"
                                                             style="transition: opacity .3s;">

@@ -47,8 +47,10 @@ const form = reactive<ICreativeMaterials>({
         video_material_list: [],
         image_material_list: [],
         carousel_material_list: [],
-    }]
+    }],
 })
+
+// const 
 
 // 每个创意组配置
 const video = ref(5);

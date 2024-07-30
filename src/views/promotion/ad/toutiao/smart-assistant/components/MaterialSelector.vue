@@ -368,14 +368,11 @@ const handleChange = () => { };
                                     v-for="video in videos" :key="video.id">
                                     <!-- 图片 -->
                                     <template v-if="Number(video.mime) === 2">
-                                        <div class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden"
-                                            style="background:no-repeat 50%; background-image: url(&quot;https://tos.mobgi.com/tos_beijing/material_cover/material_1/12000013178/12000021420/26b28268e71e53808c37978d030e9d0c253753.jpg&quot;);background-size: contain;border-top-left-radius: 3px;border-top-right-radius: 3px;">
+                                        <div
+                                            class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden text-center">
                                             <el-checkbox :value="video"
                                                 class="!position-absolute  !left-8px"></el-checkbox>
-                                            <img :src="video.upload_dir" :poster="video.info.preview" controls
-                                                controlslist="nodownload noremoteplayback"
-                                                class="w-100% h-100% outline-none bg-[#e8eaec]">
-                                            />
+                                            <img :src="video.upload_dir" class=" h-100% outline-none bg-[#e8eaec]" />
                                             <div class="position-absolute right-8px bottom-8px left-8px text-center">
                                                 <div class="flex justify-between">
                                                     <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"

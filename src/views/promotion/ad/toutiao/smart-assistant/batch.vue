@@ -296,7 +296,11 @@
               <div class="h-300px"></div>
             </td>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
-              <div class="h-300px"></div>
+              <div class="h-300px">
+                <el-scrollbar height="300px">
+                  <p v-for="item in 20" :key="item" class="flex ">{{ item }}</p>
+                </el-scrollbar>
+              </div>
             </td>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
               <div class="h-300px"></div>
@@ -819,6 +823,7 @@ const showTitlePackState = () => {
 
 const handleTitlePackStateClose = (options: { type: number, form: any }) => {
   handleDrawerClose(TitlePackState, TitlePackForm, options);
+  console.log(TitlePackForm.value)
 };
 
 
