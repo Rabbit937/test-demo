@@ -74,7 +74,7 @@
                 </el-form-item> -->
 
 
-<!-- 
+				<!-- 
 				<el-form-item :label-width="140" label="自定义人群">
 					<el-radio-group v-model="form.custom_people">
 						<el-radio-button v-for="(item) in custom_people_options" :value="item.value"
@@ -132,7 +132,7 @@
 				</el-form-item> -->
 
 				<!-- <el-form-item :label-width="140" label="过滤已转化用户"> -->
-					<!-- <el-radio-group v-model="form.hide_if_converted">
+				<!-- <el-radio-group v-model="form.hide_if_converted">
 						<el-radio-button v-for="(item) in hide_if_converted_options" :value="item.value"
 							:label="item.label" />
 					</el-radio-group> -->
@@ -233,7 +233,7 @@ const account_list_options = ref();
 
 // 查询账户媒体
 const queryAccountListFunc = async () => {
-	const res: any = await queryAccountList({ PID: "11" });
+	const res: any = await queryAccountList({ PID: "11", page_limit: 1000 });
 	if (res.state === 1) {
 		account_list_options.value = res.data.list;
 	}

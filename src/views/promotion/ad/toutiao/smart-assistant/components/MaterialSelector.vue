@@ -29,7 +29,7 @@ const dialogState = reactive({
 // 查询素材列表
 const matListFunc = async (param: IQueryCommonMaterial) => {
     const res: any = await queryCommonMaterial(param);
-    // console.log("matListFunc----->", res);
+    console.log("matListFunc----->", res);
 
     if (res.state === 1) {
         videos.value = res.data.list;
@@ -228,12 +228,15 @@ const cascaderProps = {
 
 const handleSearch = () => { };
 
-const checked1 = ref();
-
 const selectedVideos = ref([]);
 const videos = ref<any[]>([]);
 
 const handleChange = () => { };
+
+
+
+
+
 </script>
 
 <template>
@@ -244,80 +247,78 @@ const handleChange = () => { };
         </div>
         <el-tabs v-model="tabName" class="demo-tabs" @tab-click="handletabsClick">
             <el-tab-pane label="素材库" name="material_library">
-                <template v-if="videos.length > 0">
-                    <div class="max-h-200px px-24px py-12px overflow-hidden border-bottom-[#e8eaec] flex"
-                        style="transition: max-height .3s;">
-                        <div class="flex" style="flex : 1">
-                            <el-form class="flex flex-wrap" style="background-color: #fff">
-                                <el-form-item label="名称或ID:">
-                                    <el-input v-model="searchParameters.keyword" :placeholder="placeholderText"
-                                        class="input-with-select" style="width: 300px">
+                <div class="max-h-200px px-24px py-12px overflow-hidden border-bottom-[#e8eaec] flex"
+                    style="transition: max-height .3s;">
+                    <div class="flex" style="flex : 1">
+                        <el-form class="flex flex-wrap" style="background-color: #fff">
+                            <el-form-item label="名称或ID:">
+                                <el-input v-model="searchParameters.keyword" :placeholder="placeholderText"
+                                    class="input-with-select" style="width: 300px">
+                                    <template #prepend>
+                                        <el-select v-model="searchParameters.search_type" style="width: 110px">
+                                            <el-option v-for="(item, index) in searchSelectList" :label="item.label"
+                                                :value="item.value" :key="index"></el-option>
+                                        </el-select>
+                                    </template>
+                                    <template #append>
+                                        <el-button :icon="Search" @click="handleSearch" />
+                                    </template>
+                                </el-input>
+                            </el-form-item>
+
+                            <el-form-item label="类型:" class="pl-16px">
+                                <el-config-provider :locale="zhCn">
+                                    <el-date-picker v-model="searchParameters.dateValue" type="daterange"
+                                        :shortcuts="shortcuts" range-separator="~" start-placeholder="开始日期"
+                                        end-placeholder="结束日期" style="width: 200px">
                                         <template #prepend>
                                             <el-select v-model="searchParameters.search_type" style="width: 110px">
                                                 <el-option v-for="(item, index) in searchSelectList" :label="item.label"
                                                     :value="item.value" :key="index"></el-option>
                                             </el-select>
                                         </template>
-                                        <template #append>
-                                            <el-button :icon="Search" @click="handleSearch" />
-                                        </template>
-                                    </el-input>
-                                </el-form-item>
+                                    </el-date-picker>
+                                </el-config-provider>
+                            </el-form-item>
 
-                                <el-form-item label="类型:" class="pl-16px">
-                                    <el-config-provider :locale="zhCn">
-                                        <el-date-picker v-model="searchParameters.dateValue" type="daterange"
-                                            :shortcuts="shortcuts" range-separator="~" start-placeholder="开始日期"
-                                            end-placeholder="结束日期" style="width: 200px">
-                                            <template #prepend>
-                                                <el-select v-model="searchParameters.search_type" style="width: 110px">
-                                                    <el-option v-for="(item, index) in searchSelectList"
-                                                        :label="item.label" :value="item.value"
-                                                        :key="index"></el-option>
-                                                </el-select>
-                                            </template>
-                                        </el-date-picker>
-                                    </el-config-provider>
-                                </el-form-item>
+                            <el-form-item label="素材目录:" class="pl-16px">
+                                <el-cascader v-model="searchParameters.cascaderValue" placeholder="全选"
+                                    :options="cascaderOptions" :props="cascaderProps" clearable />
+                            </el-form-item>
 
-                                <el-form-item label="素材目录:" class="pl-16px">
-                                    <el-cascader v-model="searchParameters.cascaderValue" placeholder="全选"
-                                        :options="cascaderOptions" :props="cascaderProps" clearable />
-                                </el-form-item>
+                            <el-form-item label="类型:" class="pl-16px">
+                                <el-select v-model="searchParameters.materialType" placeholder="请选择素材类型"
+                                    style="width: 240px" clearable>
+                                    <el-option v-for="item in materialTypeOptions" :key="item.value" :label="item.label"
+                                        :value="item.value" />
+                                </el-select>
+                            </el-form-item>
 
-                                <el-form-item label="类型:" class="pl-16px">
-                                    <el-select v-model="searchParameters.materialType" placeholder="请选择素材类型"
-                                        style="width: 240px" clearable>
-                                        <el-option v-for="item in materialTypeOptions" :key="item.value"
-                                            :label="item.label" :value="item.value" />
-                                    </el-select>
-                                </el-form-item>
+                            <el-form-item label="素材状态:" class="pl-16px">
+                                <el-select v-model="searchParameters.materialStatus" placeholder="请选择素材状态"
+                                    style="width: 240px" clearable>
+                                    <el-option v-for="item in materialStatusOptions" :key="item.value"
+                                        :label="item.label" :value="item.value" />
+                                </el-select>
+                            </el-form-item>
 
-                                <el-form-item label="素材状态:" class="pl-16px">
-                                    <el-select v-model="searchParameters.materialStatus" placeholder="请选择素材状态"
-                                        style="width: 240px" clearable>
-                                        <el-option v-for="item in materialStatusOptions" :key="item.value"
-                                            :label="item.label" :value="item.value" />
-                                    </el-select>
-                                </el-form-item>
-
-                                <el-form-item label="版式:" class="pl-16px">
-                                    <el-select v-model="searchParameters.materialStatus" placeholder="请选择素材状态"
-                                        style="width: 240px" clearable>
-                                        <el-option v-for="item in materialStatusOptions" :key="item.value"
-                                            :label="item.label" :value="item.value" />
-                                    </el-select>
-                                </el-form-item>
-                            </el-form>
-                        </div>
-                        <div>
-                            <el-button link>清空</el-button>
-                        </div>
-                        <div>
-                            <el-button link>收起</el-button>
-                        </div>
+                            <el-form-item label="版式:" class="pl-16px">
+                                <el-select v-model="searchParameters.materialStatus" placeholder="请选择素材状态"
+                                    style="width: 240px" clearable>
+                                    <el-option v-for="item in materialStatusOptions" :key="item.value"
+                                        :label="item.label" :value="item.value" />
+                                </el-select>
+                            </el-form-item>
+                        </el-form>
                     </div>
-                    <div class="h-50px flex justify-between align-content-center align-items-center">
+                    <div>
+                        <el-button link>清空</el-button>
+                    </div>
+                    <div>
+                        <el-button link>收起</el-button>
+                    </div>
+                </div>
+                <!-- <div class="h-50px flex justify-between align-content-center align-items-center">
                         <div class="flex px-24px">
                             <div class="mr-24px">
                                 <el-radio-group>
@@ -360,118 +361,117 @@ const handleChange = () => { };
                         <div>
                             <el-button type="primary" link>刷新</el-button>
                         </div>
-                    </div>
-                    <el-scrollbar height="320px" class="!bg-[#f0f2f5] p-16px">
-                        <el-checkbox-group v-model="selectedVideos" @change="handleChange">
-                            <div class=" bg-[#f0f2f5] min-h-150px  flex flex-wrap p-2px">
-                                <div class="w-216px position-relative mb-8px mr-8px font-size-12px cursor-pointer bg-[#fff] border-radius-3px checkbox-item"
-                                    v-for="video in videos" :key="video.id">
-                                    <!-- 图片 -->
-                                    <template v-if="Number(video.mime) === 2">
-                                        <div
-                                            class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden text-center">
-                                            <el-checkbox :value="video"
-                                                class="!position-absolute  !left-8px"></el-checkbox>
-                                            <img :src="video.upload_dir" class=" h-100% outline-none bg-[#e8eaec]" />
-                                            <div class="position-absolute right-8px bottom-8px left-8px text-center">
-                                                <div class="flex justify-between">
-                                                    <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
-                                                        style="border-radius: 2px">
-                                                        <span>{{ video.info.dimension }}</span>
-                                                    </div>
-                                                    <!-- <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
+                    </div> -->
+                <el-scrollbar height="320px" class="!bg-[#f0f2f5] p-16px">
+                    <el-checkbox-group v-if="videos.length > 0" v-model="selectedVideos" @change="handleChange">
+                        <div class=" bg-[#f0f2f5] min-h-150px  flex flex-wrap p-2px">
+                            <div class="w-216px position-relative mb-8px mr-8px font-size-12px cursor-pointer bg-[#fff] border-radius-3px checkbox-item"
+                                v-for="video in videos" :key="video.id">
+                                <!-- 图片 -->
+                                <template v-if="Number(video.mime) === 2">
+                                    <div
+                                        class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden text-center">
+                                        <el-checkbox :value="video" class="!position-absolute  !left-8px"></el-checkbox>
+                                        <img :src="video.upload_dir" class=" h-100% outline-none bg-[#e8eaec]" />
+                                        <div class="position-absolute right-8px bottom-8px left-8px text-center">
+                                            <div class="flex justify-between">
+                                                <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
+                                                    style="border-radius: 2px">
+                                                    <span>{{ video.info.dimension }}</span>
+                                                </div>
+                                                <!-- <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
                                                         style="border-radius: 2px">
                                                         <span>{{ video.info.duration }}</span>
                                                     </div> -->
-                                                </div>
                                             </div>
                                         </div>
-                                        <div class="flex flex-col justify-around px-8px pt-8px pb-10px font-size-12px line-height-20px"
-                                            style="border: 1px solid #dcdee2;border-top: 0px;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;">
-                                            <div class="flex justify-between">
-                                                <span :title="video.material_name"
-                                                    class="h-20px overflow-hidden font-600 color-[#333] ellipsis">{{
-                                                        video.material_name
-                                                    }}</span>
-                                                <span class="ml-4px flex-shrink-0">{{
-                                                    video.info.size
-                                                    }}</span>
-                                            </div>
+                                    </div>
+                                    <div class="flex flex-col justify-around px-8px pt-8px pb-10px font-size-12px line-height-20px"
+                                        style="border: 1px solid #dcdee2;border-top: 0px;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;">
+                                        <div class="flex justify-between">
+                                            <span :title="video.material_name"
+                                                class="h-20px overflow-hidden font-600 color-[#333] ellipsis">{{
+                                                    video.material_name
+                                                }}</span>
+                                            <span class="ml-4px flex-shrink-0">{{
+                                                video.info.size
+                                            }}</span>
+                                        </div>
 
-                                            <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
-                                            <div class="font-400 color-[#666]"> 累计关联广告数<span>：0</span></div>
+                                        <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
+                                        <div class="font-400 color-[#666]"> 累计关联广告数<span>：0</span></div>
 
-                                            <div class="flex flex-row w-100%">
-                                                <div class="flex flex-wrap" style="height: 48px;">
-                                                    <!-- <div class="font-400 color-[#666]">
+                                        <div class="flex flex-row w-100%">
+                                            <div class="flex flex-wrap" style="height: 48px;">
+                                                <!-- 标签 -->
+                                                <!-- <div class="font-400 color-[#666]">
                                                         <span class="px-8px mt-2px mb-6px font-size-12px ellipsis"
                                                             style="border-style: solid;border-width: 1px;border-radius:3px;"
                                                             :style="{ borderColor: '#a5a5a5', color: '#a5a5a5' }">未使用</span>
                                                     </div> -->
-                                                </div>
                                             </div>
                                         </div>
-                                    </template>
-                                    <template v-else>
-                                        <div class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden"
-                                            style="background:no-repeat 50%; background-image: url(&quot;https://tos.mobgi.com/tos_beijing/material_cover/material_1/12000013178/12000021420/26b28268e71e53808c37978d030e9d0c253753.jpg&quot;);background-size: contain;border-top-left-radius: 3px;border-top-right-radius: 3px;">
-                                            <el-checkbox :value="video"
-                                                class="!position-absolute  !left-8px"></el-checkbox>
-                                            <video :src="video.upload_dir" :poster="video.info.preview" controls
-                                                controlslist="nodownload noremoteplayback"
-                                                class="w-100% h-100% outline-none bg-[#e8eaec]">
-                                            </video>
-                                            <div class="position-absolute right-8px bottom-8px left-8px text-center">
-                                                <div class="flex justify-between">
-                                                    <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
-                                                        style="border-radius: 2px">
-                                                        <span>{{ video.info.dimension }}</span>
-                                                    </div>
-                                                    <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
-                                                        style="border-radius: 2px">
-                                                        <span>{{ video.info.duration }}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col justify-around px-8px pt-8px pb-10px font-size-12px line-height-20px"
-                                            style="border: 1px solid #dcdee2;border-top: 0px;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;">
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="w-100% position-relative h-120px bg-[#e8eaec] overflow-hidden"
+                                        style="background:no-repeat 50%; background-image: url(&quot;https://tos.mobgi.com/tos_beijing/material_cover/material_1/12000013178/12000021420/26b28268e71e53808c37978d030e9d0c253753.jpg&quot;);background-size: contain;border-top-left-radius: 3px;border-top-right-radius: 3px;">
+                                        <el-checkbox :value="video" class="!position-absolute  !left-8px"></el-checkbox>
+                                        <video :src="video.upload_dir" :poster="video.info.preview" controls
+                                            controlslist="nodownload noremoteplayback"
+                                            class="w-100% h-100% outline-none bg-[#e8eaec]">
+                                        </video>
+                                        <div class="position-absolute right-8px bottom-8px left-8px text-center">
                                             <div class="flex justify-between">
-                                                <span :title="video.material_name"
-                                                    class="h-20px overflow-hidden font-600 color-[#333] ellipsis">{{
-                                                        video.material_name
-                                                    }}</span>
-                                                <span class="ml-4px flex-shrink-0">{{
-                                                    video.info.size
-                                                    }}</span>
+                                                <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
+                                                    style="border-radius: 2px">
+                                                    <span>{{ video.info.dimension }}</span>
+                                                </div>
+                                                <div class="w-80px line-height-16px color-[#fff] bg-[#00000080]"
+                                                    style="border-radius: 2px">
+                                                    <span>{{ video.info.duration }}</span>
+                                                </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col justify-around px-8px pt-8px pb-10px font-size-12px line-height-20px"
+                                        style="border: 1px solid #dcdee2;border-top: 0px;border-bottom-right-radius: 3px;border-bottom-left-radius: 3px;">
+                                        <div class="flex justify-between">
+                                            <span :title="video.material_name"
+                                                class="h-20px overflow-hidden font-600 color-[#333] ellipsis">{{
+                                                    video.material_name
+                                                }}</span>
+                                            <span class="ml-4px flex-shrink-0">{{
+                                                video.info.size
+                                            }}</span>
+                                        </div>
 
-                                            <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
-                                            <div class="font-400 color-[#666]"> 累计关联广告数<span>：0</span></div>
+                                        <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
+                                        <div class="font-400 color-[#666]"> 累计关联广告数<span>：0</span></div>
 
-                                            <div class="flex flex-row w-100%">
-                                                <div class="flex flex-wrap" style="height: 48px;">
-                                                    <!-- <div class="font-400 color-[#666]">
+                                        <div class="flex flex-row w-100%">
+                                            <div class="flex flex-wrap" style="height: 48px;">
+                                                <!-- 标签 -->
+                                                <!-- <div class="font-400 color-[#666]">
                                                         <span class="px-8px mt-2px mb-6px font-size-12px ellipsis"
                                                             style="border-style: solid;border-width: 1px;border-radius:3px;"
                                                             :style="{ borderColor: '#a5a5a5', color: '#a5a5a5' }">未使用</span>
                                                     </div> -->
-                                                </div>
                                             </div>
                                         </div>
-                                    </template>
-                                </div>
+                                    </div>
+                                </template>
                             </div>
-                        </el-checkbox-group>
-                    </el-scrollbar>
-                </template>
-                <el-empty v-else description="没有数据" />
+                        </div>
+                    </el-checkbox-group>
+                    <el-empty v-else description="没有数据" />
+                </el-scrollbar>
             </el-tab-pane>
-            <el-tab-pane label="媒体素材" name="media_material">
+            <!-- <el-tab-pane label="媒体素材" name="media_material">
                 <span>
                     媒体素材
                 </span>
-            </el-tab-pane>
+            </el-tab-pane> -->
         </el-tabs>
 
         <template #footer>
