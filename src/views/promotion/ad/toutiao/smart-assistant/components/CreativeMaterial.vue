@@ -214,8 +214,6 @@ const handleMaterialSelectorDialog = (options: { type: number, form: any }) => {
                 id: targetComponent.value.id,
                 ...video,
             };
-            console.log(component.value[targetComponent.value.id - 1])
-
             emit("updateState", {
                 id: props.initialState.id,
                 videoInfo: component.value,

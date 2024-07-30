@@ -30,7 +30,7 @@ const handleDrawerClose = (type: number) => {
                 }
             })
         });
-        emits("handleDrawerClose", { type: 1, form: form });
+        emits("handleDrawerClose", { type: 1, form: form, components: components.value });
     } else {
         emits("handleDrawerClose", { type: 0 });
     }

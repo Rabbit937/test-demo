@@ -29,7 +29,7 @@ const dialogState = reactive({
 // 查询素材列表
 const matListFunc = async (param: IQueryCommonMaterial) => {
     const res: any = await queryCommonMaterial(param);
-    console.log("matListFunc----->", res);
+    // console.log("matListFunc----->", res);
 
     if (res.state === 1) {
         videos.value = res.data.list;
@@ -395,7 +395,7 @@ const handleChange = () => { };
                                                     }}</span>
                                                 <span class="ml-4px flex-shrink-0">{{
                                                     video.info.size
-                                                }}</span>
+                                                    }}</span>
                                             </div>
 
                                             <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
@@ -443,7 +443,7 @@ const handleChange = () => { };
                                                     }}</span>
                                                 <span class="ml-4px flex-shrink-0">{{
                                                     video.info.size
-                                                }}</span>
+                                                    }}</span>
                                             </div>
 
                                             <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>

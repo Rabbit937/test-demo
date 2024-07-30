@@ -293,7 +293,13 @@
               </div>
             </td>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
-              <div class="h-300px"></div>
+              <div class="h-300px p-8px">
+                <div v-for="(item, index) in CreativeMaterialsData" :key="index" class="mb-8px">
+                  <div v-for="(video, vidIndex) in item.videoInfo" :key="vidIndex" class="mb-8px">
+                    <img class="w-88px h-50px" :src="video.post_url" alt="素材图片">
+                  </div>
+                </div>
+              </div>
             </td>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
               <div class="h-300px p-8px overflow-hidden">
@@ -818,13 +824,19 @@ const CreativeMaterialsForm = ref<ICreativeMaterials>()
 const CreativeMaterialsState = reactive({
   visible: false,
 });
+const CreativeMaterialsData = ref<any[]>([])
 
 const showCreativeMaterialsState = () => {
   CreativeMaterialsState.visible = true;
 };
 
-const handleCreativeMaterialsStateClose = (options: { type: number, form: any }) => {
+const handleCreativeMaterialsStateClose = (options: { type: number, form: any, components: any }) => {
   handleDrawerClose(CreativeMaterialsState, CreativeMaterialsForm, options);
+
+  if (options.type === 1) {
+    CreativeMaterialsData.value = options.components;
+    console.log("CreativeMaterialsData------>", CreativeMaterialsData.value);
+  }
 };
 
 // 标题包
