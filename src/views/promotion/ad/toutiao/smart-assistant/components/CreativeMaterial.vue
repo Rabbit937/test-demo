@@ -139,7 +139,8 @@
         </div>
     </div>
 
-    <MaterialSelector :visible="MaterialSelectorState.visible" @handleDialogClose="handleMaterialSelectorDialog">
+    <MaterialSelector :visible="MaterialSelectorState.visible" :category="MaterialSelectorState.category"
+        @handleDialogClose="handleMaterialSelectorDialog">
     </MaterialSelector>
 </template>
 
@@ -195,6 +196,7 @@ watchEffect(() => {
 // 素材选择状态
 const MaterialSelectorState = reactive({
     visible: false,
+    category: 1
 });
 
 // 调用素材选择的component

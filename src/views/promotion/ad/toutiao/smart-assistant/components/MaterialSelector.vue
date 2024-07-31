@@ -26,9 +26,9 @@
 
                         <el-form-item label="创建日期:" class="pl-16px">
                             <el-config-provider :locale="zhCn">
-                                <el-date-picker v-model="searchParames.create_date" type="daterange"
-                                    :shortcuts="shortcuts" range-separator="~" start-placeholder="开始日期"
-                                    end-placeholder="结束日期" style="width: 300px">
+                                <el-date-picker v-model="dataPicker" @change="handleDatePickerChange"
+                                    value-format="YYYYMMDD" type="daterange" :shortcuts="shortcuts" range-separator="~"
+                                    start-placeholder="开始日期" end-placeholder="结束日期" style="width: 300px">
                                 </el-date-picker>
                             </el-config-provider>
                         </el-form-item>
@@ -39,23 +39,23 @@
                             </el-form-item> -->
 
                         <el-form-item label="类型:" class="pl-16px">
-                            <el-select v-model="searchParames.category" placeholder="请选择素材类型" style="width: 300px"
-                                clearable>
+                            <el-select v-model="searchParames.category" @change="handleMaterialTypeOrStatusChange"
+                                placeholder="请选择素材类型" style="width: 300px" clearable>
                                 <el-option v-for="item in materialTypeOptions" :key="item.value" :label="item.label"
                                     :value="item.value" />
                             </el-select>
                         </el-form-item>
 
                         <el-form-item label="素材状态:">
-                            <el-select v-model="searchParames.status" placeholder="请选择素材状态" style="width: 300px"
-                                clearable>
+                            <el-select v-model="searchParames.status" @change="handleMaterialTypeOrStatusChange"
+                                placeholder="请选择素材状态" style="width: 300px" clearable>
                                 <el-option v-for="item in materialStatusOptions" :key="item.value" :label="item.label"
                                     :value="item.value" />
                             </el-select>
                         </el-form-item>
 
                         <el-form-item class="pl-16px">
-                            <el-button link type="primary">清空</el-button>
+                            <el-button link type="primary" @click="clearSearchParames">清空</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -104,7 +104,7 @@
                         </div>
                     </div> -->
                 <el-scrollbar height="320px" class="!bg-[#f0f2f5] p-16px">
-                    <el-checkbox-group v-if="videos.length > 0" v-model="selectedVideos" @change="handleChange">
+                    <el-checkbox-group v-if="videos.length > 0" v-model="selectedVideos" v-loading="loading" :max="1">
                         <div class=" bg-[#f0f2f5] min-h-150px  flex flex-wrap p-2px">
                             <div class="w-216px position-relative mb-8px mr-8px font-size-12px cursor-pointer bg-[#fff] border-radius-3px checkbox-item"
                                 v-for="video in videos" :key="video.id">
@@ -136,7 +136,7 @@
                                                 }}</span>
                                             <span class="ml-4px flex-shrink-0">{{
                                                 video.info.size
-                                                }}</span>
+                                            }}</span>
                                         </div>
 
                                         <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
@@ -184,7 +184,7 @@
                                                 }}</span>
                                             <span class="ml-4px flex-shrink-0">{{
                                                 video.info.size
-                                                }}</span>
+                                            }}</span>
                                         </div>
 
                                         <div class="font-400 color-[#666]"> 上传时间：{{ video.create_time }}</div>
@@ -243,7 +243,7 @@ import { ElMessage } from "element-plus";
 interface IProps {
     visible: boolean;
     title?: string;
-
+    category: number;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
@@ -255,37 +255,7 @@ const dialogState = reactive({
     width: 1200,
 });
 
-// 查询素材列表
-const matListFunc = async (param: IQueryCommonMaterial) => {
-    const res: any = await queryCommonMaterial(param);
-    console.log("matListFunc----->", res);
 
-    if (res.state === 1) {
-        videos.value = res.data.list;
-    }
-};
-
-// 确认之后上传到媒体接口
-const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
-    const res = await uploadMaterial2Media(params);
-    if (res.state === 1) {
-        selectedVideos.value = [];
-        emtis("handleDialogClose", { type: 1, form: res.data });
-    }
-};
-
-watchEffect(() => {
-    dialogState.visible = props.visible;
-});
-
-watch(
-    () => dialogState.visible,
-    () => {
-        if (dialogState.visible === true) {
-            matListFunc({});
-        }
-    },
-);
 
 const handleDialogClose = (type: number) => {
     if (type === 1) {
@@ -338,10 +308,21 @@ const handletabsClick = (value: string) => {
 const searchParames = reactive<IQueryCommonMaterial>({
     keyword: "",
     search_type: 2,
-    category: 0,
-    status: "",
+    category: undefined,
+    status: undefined,
     create_date: "",
 });
+
+const searchSelectList = [
+    {
+        label: "素材ID",
+        value: 1,
+    },
+    {
+        label: "素材名称",
+        value: 2,
+    },
+];
 
 const placeholderText = ref("请输入素材名称");
 
@@ -357,28 +338,8 @@ const handleAccountOrIdChange = () => {
 const handleSearch = () => {
     console.log(searchParames.keyword)
     console.log(searchParames.search_type)
-    matListFunc({
-        keyword: searchParames.keyword,
-        search_type: searchParames.search_type,
-        category: searchParames.category,
-        status: searchParames.status,
-        create_date: searchParames.create_date,
-    });
+    matListFunc();
 };
-
-
-
-
-const searchSelectList = [
-    {
-        label: "素材ID",
-        value: 1,
-    },
-    {
-        label: "素材名称",
-        value: 2,
-    },
-];
 
 const shortcuts = [
     {
@@ -461,41 +422,90 @@ const shortcuts = [
     },
 ];
 
+const dataPicker = ref();
+
+const handleDatePickerChange = () => {
+    searchParames.create_date = dataPicker.value.join(" - ");
+    matListFunc();
+}
+
+
 const materialTypeOptions = [
-    { label: "全部", value: 0 },
     { label: "视频", value: 1 },
     { label: "图片", value: 2 },
 ];
 
 const materialStatusOptions = [
-    { label: "全部", value: "" },
     { label: "停用", value: "1" },
     { label: "启用", value: "0" },
 ];
 
-// const cascaderOptions = ref();
-// const cascaderProps = {
-//     checkStrictly: true,
-//     value: "ID",
-//     label: "ANAME",
-//     children: "CHILD",
-// };
+const handleMaterialTypeOrStatusChange = () => {
+    matListFunc();
+}
 
 
-
-
-
-
+// 清空
+const clearSearchParames = () => {
+    searchParames.keyword = "";
+    searchParames.search_type = 2;
+    searchParames.category = undefined;
+    searchParames.status = undefined;
+    searchParames.create_date = "";
+    matListFunc();
+}
 
 const selectedVideos = ref([]);
 const videos = ref<any[]>([]);
+const loading = ref(false)
 
-const handleChange = () => { };
+// 查询素材列表
+const matListFunc = async () => {
+    loading.value = true;
+    const param = {
+        keyword: searchParames.keyword,
+        search_type: searchParames.search_type,
+        category: searchParames.category,
+        status: searchParames.status,
+        create_date: searchParames.create_date,
+    }
+    try {
+        const res: any = await queryCommonMaterial(param);
+        console.log("matListFunc----->", res);
+
+        if (res.state === 1) {
+            videos.value = res.data.list;
+        }
+    } catch (error) {
+        console.error("matListFunc error----->", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+// 确认之后上传到媒体接口
+const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
+    const res = await uploadMaterial2Media(params);
+    if (res.state === 1) {
+        selectedVideos.value = [];
+        emtis("handleDialogClose", { type: 1, form: res.data });
+    }
+};
 
 
+watchEffect(() => {
+    dialogState.visible = props.visible;
+    searchParames.category = props.category;
+});
 
-
-
+watch(
+    () => dialogState.visible,
+    () => {
+        if (dialogState.visible === true) {
+            matListFunc();
+        }
+    },
+);
 </script>
 
 

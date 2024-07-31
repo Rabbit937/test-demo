@@ -400,8 +400,8 @@
         @handleDialogClose="selectTikTokAccountDialog" />
 
     <!-- 选择产品主图 -->
-    <MaterialSelector :visible="MaterialSelectorState.visible"
-        @handle-dialog-close="handleMaterialSelectorDialogClose" />
+    <MaterialSelector :visible="MaterialSelectorState.visible" @handle-dialog-close="handleMaterialSelectorDialogClose"
+        :category="MaterialSelectorState.category" />
 </template>
 
 <script setup lang="ts">
@@ -586,6 +586,7 @@ const product_info_image_ids = ref<string[]>([]);
 
 const MaterialSelectorState = reactive({
     visible: false,
+    category: 2
 });
 
 const addImageIds = () => {
