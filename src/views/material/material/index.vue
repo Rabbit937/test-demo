@@ -1,17 +1,18 @@
 <template>
-  <el-row class="flex grid-justify-between flex-items-center pl-12px pr-12px"
-    style="background-color: #fff;border-bottom: 1px solid #dcdfe6;">
-    <el-col :span="6">
-      <el-menu :default-active="activeIndex" mode="horizontal" style="border-bottom: 0 !important;"
-        @select="selectMenu">
-        <el-menu-item :index="item.path" v-for="(item, index) in navList" :key="index" :disabled="item.disabled">
-          {{ item.title }}
-        </el-menu-item>
-      </el-menu>
-    </el-col>
-  </el-row>
+	<el-row class="flex grid-justify-between flex-items-center pl-12px pr-12px"
+		style="background-color: #fff;border-bottom: 1px solid #dcdfe6;">
+		<el-col :span="6">
+			<el-menu :default-active="activeIndex" mode="horizontal" style="border-bottom: 0 !important;"
+				@select="selectMenu">
+				<el-menu-item :index="item.path" v-for="(item, index) in navList" :key="index"
+					:disabled="item.disabled">
+					{{ item.title }}
+				</el-menu-item>
+			</el-menu>
+		</el-col>
+	</el-row>
 
-  <component :is="activeComponent"></component>
+	<component :is="activeComponent"></component>
 
 </template>
 

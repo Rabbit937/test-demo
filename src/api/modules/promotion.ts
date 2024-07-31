@@ -1135,13 +1135,17 @@ export interface IQueryCommonMaterial {
 	 */
 	dir_id?: string;
 	/**
+	 * 查询关键词
+	 */
+	keyword?: string;
+	/**
 	 * 头条拒绝次数
 	 */
 	ret_num?: number;
 	/**
 	 * 查询类别1，查id 2,查素材名称
 	 */
-	search_type?: string;
+	search_type?: number;
 	/**
 	 * 素材状态
 	 */
