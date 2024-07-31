@@ -614,6 +614,7 @@ export interface INewProject {
 		action_track_url: string[];
 	};
 	union_video_type?: string;
+	download_type?: string;
 }
 
 export interface ILandingPage {
@@ -1236,6 +1237,18 @@ export const commitTask = (params: IQueryPreviewPromotionInfo) => {
 
 
 
+/**
+ * @name 同步安卓应用
+ */
+export interface ISyncAndroidApp {
+	/**
+	 * 多个用逗号,隔开
+	 */
+	advertiser_id: string;
+}
 
+export const syncAndroidApp = (params: ISyncAndroidApp) => {
+	return http.get(`/api/Mk_Tt_Assets/_syncAndroidApp`, params)
+}
 
 

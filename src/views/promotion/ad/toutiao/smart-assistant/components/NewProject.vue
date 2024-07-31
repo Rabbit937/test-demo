@@ -46,13 +46,20 @@
 
                     <el-col class="pl-16px pr-16px">
                         <el-form :label-width="144" label-position="left">
-                            <el-form-item label="投放模式">
+                            <el-form-item label="投放模式"
+                                :style="{ marginBottom: form.delivery_mode === 'PROCEDURAL' ? '0px' : '16px' }">
                                 <el-radio-group v-model="form.delivery_mode">
                                     <el-radio-button v-for="(item) in delivery_mode_radio" :value="item.value">
                                         {{ item.label }}
                                     </el-radio-button>
                                 </el-radio-group>
                             </el-form-item>
+                            <el-form-item v-if="form.delivery_mode === 'PROCEDURAL'">
+                                <el-text><el-icon class="mr-4px" color="#e6a23c">
+                                        <WarningFilled />
+                                    </el-icon>需要向媒体申请账号自动投放的权限</el-text>
+                            </el-form-item>
+
                             <el-form-item label="营销场景">
                                 <el-radio-group v-model="form.marketing_goal">
                                     <el-radio-button v-for="(item) in marketing_goal_radio" :value="item.value">
@@ -62,7 +69,8 @@
                             </el-form-item>
                             <el-form-item label="广告类型">
                                 <el-radio-group v-model="form.ad_type">
-                                    <el-radio-button v-for="(item) in ad_type_radio" :value="item.value">
+                                    <el-radio-button v-for="(item) in ad_type_radio" :value="item.value"
+                                        :disabled="form.delivery_mode === 'PROCEDURAL' && item.value === 'SEARCH'">
                                         {{ item.label }}
                                     </el-radio-button>
                                 </el-radio-group>
@@ -122,6 +130,8 @@
                                         @change="handleHeadlineApplicationChange"
                                         :options="headline_application_options" placeholder="请选择"
                                         style="width: 300px" />
+                                    <el-button class="ml-16px"
+                                        @click="handleAndroidApplicationListRefresh">刷新</el-button>
                                 </el-form-item>
 
                                 <el-form-item label="iTunes ID" v-if="form.app_type === 'APP_IOS'">
@@ -132,6 +142,15 @@
 
                                 <el-form-item label="应用名称">
                                     <el-input style="width: 300px" placeholder="请输入应用名称" v-model="form.app_name" />
+                                </el-form-item>
+
+                                <el-form-item v-if="form.landing_type === 'APP'" label="下载方式">
+                                    <el-radio-group v-model="form.download_type">
+                                        <el-radio-button v-for="(item) in download_type_radio" :value="item.value"
+                                            :key="item.value">
+                                            {{ item.label }}
+                                        </el-radio-button>
+                                    </el-radio-group>
                                 </el-form-item>
                             </template>
 
@@ -155,14 +174,7 @@
                                     @click="selectConnectionGroup">选择链接组</el-button>
                             </el-form-item> -->
 
-                            <!-- <el-form-item label="下载方式">
-                                <el-radio-group v-model="form.download_type">
-                                    <el-radio-button v-for="(item) in download_type_radio" :value="item.value"
-                                        :key="item.value">
-                                        {{ item.label }}
-                                    </el-radio-button>
-                                </el-radio-group>
-                            </el-form-item> -->
+
                             <!-- <el-form-item label="优先应用商店下载">
                                 <el-radio-group v-model="form.download_mode">
                                     <el-radio-button value="APP_STORE_DELIVERY">启用</el-radio-button>
@@ -591,6 +603,8 @@ import {
     type IGetOptimizeGoalResultData,
     IAutoMonitorLink,
     autoMonitorLink,
+    type ISyncAndroidApp,
+    syncAndroidApp,
 } from "@/api/modules/promotion";
 
 import {
@@ -599,7 +613,7 @@ import {
     marketing_goal_radio,
     ad_type_radio,
     platform_type_radio,
-    // download_type_radio,
+    download_type_radio,
     inventory_catalog_radio,
     schedule_type_radio,
     bid_type_radio,
@@ -651,7 +665,7 @@ const form: INewProject = reactive({
     // 检测链接来源
     detect_link_source: 1,
     // 下载方式
-    download_type: "",
+    download_type: "DOWNLOAD_URL",
     download_mode: "DEFAULT",
     data_docking_mode: "EVENT",
 
@@ -799,6 +813,39 @@ const handleHeadlineApplicationChange = (val: any) => {
         package_name: filterAndroidApp[0].package_name
     })
 };
+
+
+// 同步
+const handleAndroidApplicationListRefresh = () => {
+    console.log('同步')
+    syncAndroidAppFunc({
+        advertiser_id: drawerOptions.advertiser_id_array.join(',')
+    })
+}
+
+const syncAndroidAppFunc = async (params: ISyncAndroidApp) => {
+    try {
+        const res = await syncAndroidApp(params);
+        console.log(res);
+
+        if (res.state === 1) {
+
+            ElMessage({
+                type: "success",
+                message: res.msg
+            })
+
+            queryAndroidAppListFunc({
+                advertiser_id: drawerOptions.advertiser_id_array[0] ?? "1787695788195915",
+                page_limit: 1000,
+            });
+        }
+    } catch (error) {
+        console.error("error with syncAndroidAppFunc", error);
+    }
+}
+
+
 
 
 // 自动生成监测链接
