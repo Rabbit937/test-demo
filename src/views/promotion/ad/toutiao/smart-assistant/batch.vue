@@ -808,6 +808,7 @@ const infoOrNew = ref("new");
 // 新建项目和项目信息切换
 const handleChangeInfoOrNew = () => {
   infoOrNew.value = infoOrNew.value === "new" ? "info" : "new";
+  NewProjectForm.value = undefined;
 };
 
 // 已有项目
