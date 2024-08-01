@@ -240,7 +240,8 @@
                             <el-form-item label="广告位置" style="margin-bottom:0px;">
                                 <el-radio-group v-model="form.inventory_catalog">
                                     <el-radio-button v-for="(item) in inventory_catalog_radio" :value="item.value"
-                                        :key="item.value">
+                                        :key="item.value"
+                                        :disabled="form.delivery_mode === 'PROCEDURAL' && item.value === 'MANUAL'">
                                         {{ item.label }}
                                     </el-radio-button>
                                 </el-radio-group>
@@ -396,7 +397,8 @@
                                 </el-radio-group>
                             </el-form-item>
 
-                            <el-form-item label="预算择优分配" v-if="form.budget_mode !== 'BUDGET_MODE_INFINITE'">
+                            <el-form-item label="预算择优分配"
+                                v-if="form.budget_mode === 'BUDGET_MODE_DAY' && form.bid_type === 'NO_BID'">
                                 <el-radio-group v-model="form.budget_optimize_switch">
                                     <el-radio-button :value="'ON'"> 开启 </el-radio-button>
                                     <el-radio-button :value="'OFF'"> 不开启 </el-radio-button>
