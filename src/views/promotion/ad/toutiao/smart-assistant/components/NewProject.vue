@@ -48,7 +48,7 @@
                         <el-form :label-width="144" label-position="left">
                             <el-form-item label="投放模式"
                                 :style="{ marginBottom: form.delivery_mode === 'PROCEDURAL' ? '0px' : '16px' }">
-                                <el-radio-group v-model="form.delivery_mode">
+                                <el-radio-group v-model="form.delivery_mode" @change="handleDeliveryModeChange">
                                     <el-radio-button v-for="(item) in delivery_mode_radio" :value="item.value">
                                         {{ item.label }}
                                     </el-radio-button>
@@ -385,7 +385,8 @@
                             <el-form-item label="项目预算">
                                 <el-radio-group v-model="form.budget_mode">
                                     <el-radio-button v-for="(item) in budget_mode_radio" :value="item.value"
-                                        :key="item.value">
+                                        :key="item.value"
+                                        :disabled="form.delivery_mode === 'PROCEDURAL' && item.value === 'BUDGET_MODE_INFINITE'">
                                         {{ item.label }}
                                     </el-radio-button>
                                 </el-radio-group>
@@ -468,6 +469,36 @@
                                                     @click="handleBudgetChange(2000)"> 2000
                                                 </el-button>
                                             </el-form-item>
+
+
+                                            <template
+                                                v-if="form.delivery_mode === 'PROCEDURAL' && form.bid_type === 'CUSTOM'">
+                                                <el-form-item :label="'出价'" :label-width="200">
+                                                    <el-input v-model="form.cpa_bid" placeholder="请输入出价"
+                                                        style="width: 160px" />
+                                                    <el-text class="!ml-8px">元</el-text>
+                                                </el-form-item>
+                                            </template>
+
+
+                                            <template
+                                                v-if="form.delivery_mode === 'PROCEDURAL' && form.bid_type === 'CUSTOM' && ['DEEP_BID_MIN', 'AUTO_MIN_SECOND_STAGE'].includes(String(form.deep_bid_type))">
+                                                <el-form-item :label="'深度出价'" :label-width="200">
+                                                    <el-input v-model="form.deep_cpabid" style="width: 160px" />
+                                                    <el-text class="!ml-8px">元</el-text>
+                                                </el-form-item>
+                                            </template>
+
+
+                                            <!-- ROI系数 -->
+                                            <template
+                                                v-if="form.delivery_mode === 'PROCEDURAL' && form.bid_type === 'CUSTOM' && ['ROI_COEFFICIENT',].includes(String(form.deep_bid_type))">
+                                                <el-form-item :label="'ROI系数'" :label-width="200">
+                                                    <el-input v-model="form.roi_goal" style="width: 160px" />
+                                                    <el-text class="!ml-8px">元</el-text>
+                                                </el-form-item>
+                                            </template>
+
                                         </el-form>
                                     </div>
                                 </li>
@@ -730,6 +761,17 @@ const form: INewProject = reactive({
     project_budget: "same",
     project_preference: "same",
     micro_promotion_type: "",
+
+
+    // 出价
+    cpa_bid: "",
+
+    // 深度出价
+    deep_cpabid: "",
+
+    // ROI系数
+    roi_goal: ""
+
 });
 
 // 投放内容与目标
@@ -908,7 +950,15 @@ const selectOptimizeGoal = (val: string) => {
     const deep_goals_map = optimizeGoal.value.filter(
         (item) => item.external_action === val,
     )[0];
+
     if (deep_goals_map.deep_goals) {
+        deepOptimizeGoal.value = [
+            {
+                deep_external_action: "NONE",
+                optimization_name: "无",
+            },
+        ];
+
         if (deep_goals_map.deep_goals.length > 0) {
             deepOptimizeGoal.value.push(...deep_goals_map.deep_goals);
         }
@@ -1090,4 +1140,19 @@ const handleCheckAll = (val: any) => {
         form.inventory_type = [];
     }
 };
+
+
+
+// 选择自动投放
+const handleDeliveryModeChange = (value: string) => {
+    console.log(value);
+
+    if (value === 'PROCEDURAL') {
+        form.budget_mode = 'BUDGET_MODE_DAY'
+    }
+}
+
+
+
+
 </script>

@@ -615,6 +615,10 @@ export interface INewProject {
 	};
 	union_video_type?: string;
 	download_type?: string;
+
+	roi_goal?: string;
+	cpa_bid?: string;
+	deep_cpabid?: string;
 }
 
 export interface ILandingPage {
