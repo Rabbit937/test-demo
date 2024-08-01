@@ -286,7 +286,8 @@
                 </el-row>
 
                 <!-- 广告预算与出价 -->
-                <el-row class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
+                <el-row v-if="drawerOptions.deliveryMode !== 'PROCEDURAL'" class="mb-16px"
+                    style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
                     <el-col class="h-48px pl-16px font-700 line-height-48px color-[#333]" style="
                   background-color: #fbfcfd;
                   border-bottom: 1px solid #e8eaec;
@@ -417,6 +418,7 @@ import { ElMessage } from "element-plus";
 
 interface IProps {
     visible: boolean;
+    deliveryMode: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
@@ -425,10 +427,12 @@ const emits = defineEmits(["handleBasicInformationOfAdClose"]);
 const drawerOptions = reactive({
     visible: props.visible ?? false,
     size: 1016,
+    deliveryMode: ''
 });
 
 watchEffect(() => {
     drawerOptions.visible = props.visible;
+    drawerOptions.deliveryMode = props.deliveryMode
 });
 
 const handleDrawerClose = (type: number) => {

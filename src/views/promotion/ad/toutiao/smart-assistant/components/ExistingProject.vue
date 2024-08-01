@@ -6,78 +6,23 @@
         </template>
         <el-scrollbar style="height: calc(100vh - 90px)">
             <main class="m-16px pl-16px pr-16px pb-16px" style="background-color: #fff;">
-                <div class="p-16px flex flex-wrap">
-                    <div
-                        class="flex grid-items-center font-size-12px b-1px b-[#e8eaec] border-style-solid w-280px mb-10px">
-                        <label class="w-75px color-[#333] line-height-30px text-center"
-                            style="border-right: 1px solid #e8eaec;">投放模式</label>
-                        <div class="flex flex-nowrap grid-items-center min-w-200px max-w-280px h-100% cursor-pointer">
-                            <el-select style="width: 225px;"></el-select>
-                        </div>
-                    </div>
+                <!-- <div class="p-16px flex flex-wrap">
+                    <el-input class="select-with-select mr-8px" style="width: 360px">
+                        <template #prepend>
+                            <div>
+                                <el-text>创建用户</el-text>
+                            </div>
+                        </template>
+                        <template #append>
+                            <el-select placeholder="请选择创建用户" style="width: 260px" clearable>
+                                <el-option v-for="staffInfo in staffInfoList" :label="staffInfo.text"
+                                    :value="staffInfo.id"></el-option>
 
-                    <div
-                        class="flex grid-items-center font-size-12px b-1px b-[#e8eaec] border-style-solid w-280px ml-10px mb-10px">
-                        <label class="w-75px color-[#333] line-height-30px text-center"
-                            style="border-right: 1px solid #e8eaec;">推广目的</label>
-                        <div class="flex flex-nowrap grid-items-center min-w-200px max-w-280px h-100%  cursor-pointer">
-                            <el-select style="width: 225px;"></el-select>
-                        </div>
-                    </div>
-
-                    <div
-                        class="flex grid-items-center font-size-12px b-1px b-[#e8eaec] border-style-solid w-280px ml-10px mb-10px">
-                        <label class="w-75px color-[#333] line-height-30px text-center"
-                            style="border-right: 1px solid #e8eaec;">推广子目的</label>
-                        <div class="flex flex-nowrap grid-items-center min-w-200px max-w-280px h-100%  cursor-pointer">
-                            <el-select style="width: 225px;"></el-select>
-                        </div>
-                    </div>
-
-                    <div
-                        class="flex grid-items-center font-size-12px b-1px b-[#e8eaec] border-style-solid w-280px ml-10px mb-10px">
-                        <label class="w-75px color-[#333] line-height-30px text-center"
-                            style="border-right: 1px solid #e8eaec;">营销场景</label>
-                        <div class="flex flex-nowrap grid-items-center min-w-200px max-w-280px h-100%  cursor-pointer">
-                            <el-select style="width: 225px;"></el-select>
-                        </div>
-                    </div>
-
-
-                    <div
-                        class="flex grid-items-center font-size-12px b-1px b-[#e8eaec] border-style-solid w-280px ml-10px mb-10px">
-                        <label class="w-75px color-[#333] line-height-30px text-center"
-                            style="border-right: 1px solid #e8eaec;">推广子目的</label>
-                        <div class="flex flex-nowrap grid-items-center min-w-200px max-w-280px h-100%  cursor-pointer">
-                            <el-select style="width: 225px;"></el-select>
-                        </div>
-                    </div>
-
-                    <div
-                        class="flex grid-items-center font-size-12px b-1px b-[#e8eaec] border-style-solid w-280px ml-10px ">
-                        <label class="w-75px color-[#333] line-height-30px text-center"
-                            style="border-right: 1px solid #e8eaec;">推广子目的</label>
-                        <div class="flex flex-nowrap grid-items-center min-w-200px max-w-280px h-100%  cursor-pointer">
-                            <el-select style="width: 225px;"></el-select>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-10px">
-                    <div>
-                        <span>当前项目:</span>
-                    </div>
-
-                    <div>
-                        <span>暂时未选择项目:</span>
-                    </div>
+                            </el-select>
+                        </template>
+                    </el-input>
                 </div>
                 <div class="flex ">
-                    <div style="border: 1px solid #ebeef5;flex : 1;border-right:none;">
-                        <ul class="w-200px">
-                            <li>疯狂星期一-天拓-17...</li>
-                        </ul>
-                    </div>
-
                     <div style="flex : 7;">
                         <el-row>
                             <el-col>
@@ -100,7 +45,7 @@
                             </el-col>
                         </el-row>
                     </div>
-                </div>
+                </div> -->
             </main>
         </el-scrollbar>
     </Drawer>
@@ -133,69 +78,6 @@ const handleDrawerClose = (type: number) => {
     emits("handleNewProjectClose", type);
 };
 
-// 投放模式
-// const DeliveryModeOptions = [
-//     {
-//         value: "MANUAL",
-//         label: "手动投放(默认值）",
-//     },
-//     {
-//         value: "PROCEDURAL",
-//         label: "自动投放",
-//     },
-// ];
-
-// 推广目的
-// const PurposeOfPromotionOptions = [
-//     {
-//         value: "APP",
-//         label: "应用推广",
-//     },
-//     {
-//         value: "QUICK_APP",
-//         label: "快应用推广",
-//     },
-//     {
-//         value: "STORE",
-//         label: "门店推广",
-//     },
-//     {
-//         value: "AWEME",
-//         label: "抖音号推广",
-//     },
-//     {
-//         value: "LIVE",
-//         label: "直播间推广",
-//     },
-// ];
-
-// 子目标
-// const SubgoalsOptions = [
-//     {
-//         value: "DOWNLOAD",
-//         label: "应用下载",
-//     },
-//     {
-//         value: "LAUNCH",
-//         label: "应用调起",
-//     },
-//     {
-//         value: "RESERVE",
-//         label: "预约下载",
-//     },
-// ];
-
-// 营销场景
-// const MarketingGoalOptions = [
-//     {
-//         value: "VIDEO_AND_IMAGE",
-//         label: "短视频/图片",
-//     },
-//     {
-//         value: "LIVE",
-//         label: "直播",
-//     },
-// ];
 
 
 const loading = ref(false);
@@ -256,10 +138,22 @@ onMounted(() => {
 </script>
 
 
-<style scoped>
-/* 移除 el-select 的边框 */
-.el-select .el-select__wrapper {
-    border: none;
-    box-shadow: none;
+<style>
+.select-with-select .el-input-group__prepend {
+    background-color: var(--el-fill-color-blank);
+    box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color)) inset;
+}
+
+.select-with-select .el-input__wrapper {
+    display: none;
+}
+
+.select-with-select .el-input-group__append {
+    background-color: var(--el-fill-color-blank);
+}
+
+
+.input-with-select .el-input-group__append {
+    background-color: var(--el-fill-color-blank);
 }
 </style>

@@ -425,15 +425,23 @@
                             class="font-size-12px color-[#999] flex justify-between p-12px bg-[#f2f2f2] border-top-[#e8eaec] border-bottom-[#e8eaec]">
                             <div>
                                 <span>竞价策略：</span>
-                                <span class="font-size-14px color-[#000]">最大转化</span>
+                                <span class="font-size-14px color-[#000]">
+                                    {{ bid_type_radio.filter(bid_type => bid_type.value
+                                        === form.bid_type)[0].label }}
+                                </span>
                             </div>
                             <div>
                                 <span>优化目标：</span>
-                                <span class="font-size-14px color-[#000]">付费/无</span>
+                                <span class="font-size-14px color-[#000]"> {{
+                                    external_action_radio[String(form.external_action)] }}
+                                </span>
                             </div>
                             <div>
                                 <span>深度优化方式：</span>
-                                <span class="font-size-14px color-[#000]">首次付费</span>
+                                <span class="font-size-14px color-[#000]">
+                                    {{ deep_bid_type_radio.filter(deep_bid_type => deep_bid_type.value
+                                        === form.deep_bid_type)[0].label }}
+                                </span>
                             </div>
                             <div>
                                 <span>付费方式：</span>
@@ -655,7 +663,8 @@ import {
     operation_radio,
     deep_bid_type_radio,
     inventory_type_radio,
-    union_video_type_radio
+    union_video_type_radio,
+    external_action_radio
 } from "../../radio-info/NewProject";
 
 interface IProps {

@@ -413,7 +413,7 @@
                 </template>
                 <template #reference>
                   <el-button link size="small" type="primary" @click="showLandingPageState"
-                    :disabled="ADVERTISER_ID_ARRAY.length === 0">编辑</el-button>
+                    :disabled="(ADVERTISER_ID_ARRAY.length === 0) || NewProjectForm?.app_type === 'APP_IOS'">编辑</el-button>
                 </template>
               </el-popover>
             </td>
@@ -647,6 +647,7 @@
 
   <!-- 广告基本信息 -->
   <BasicInformationOfAd :visible="BasicInformationOfAdState.visible"
+    :deliveryMode="String(NewProjectForm?.delivery_mode)"
     @handleBasicInformationOfAdClose="handleBasicInformationOfAdClose" />
 
   <!-- 创意素材 -->
