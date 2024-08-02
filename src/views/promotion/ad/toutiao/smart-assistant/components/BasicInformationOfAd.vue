@@ -287,7 +287,7 @@
 
                 <!-- 广告预算与出价 -->
                 <el-row
-                    v-if="drawerOptions.deliveryMode !== 'PROCEDURAL' || NewProjectForm?.budget_optimize_switch === 'ON'"
+                    v-if="!(NewProjectForm?.deliveryMode === 'MAUNAL' && NewProjectForm?.budget_optimize_switch === 'ON' && NewProjectForm?.bid_type === 'NO_BID') || NewProjectForm?.deliveryMode === 'PROCEDURAL'"
                     class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
                     <el-col class="h-48px pl-16px font-700 line-height-48px color-[#333]" style="
                   background-color: #fbfcfd;
@@ -356,7 +356,7 @@
                                             </el-form-item>
 
                                             <template
-                                                v-if="NewProjectForm?.delivery_mode === 'PROCEDURAL' && NewProjectForm?.bid_type === 'CUSTOM'">
+                                                v-if="NewProjectForm?.delivery_mode !== 'PROCEDURAL' && NewProjectForm?.bid_type === 'CUSTOM'">
                                                 <el-form-item :label="'出价'" :label-width="200">
                                                     <el-input v-model="cpa_bid" placeholder="请输入出价"
                                                         style="width: 160px" />
@@ -366,7 +366,7 @@
 
 
                                             <template
-                                                v-if="NewProjectForm?.delivery_mode === 'PROCEDURAL' && NewProjectForm?.bid_type === 'CUSTOM' && ['DEEP_BID_MIN', 'AUTO_MIN_SECOND_STAGE'].includes(String(NewProjectForm?.deep_bid_type))">
+                                                v-if="NewProjectForm?.delivery_mode !== 'PROCEDURAL' && NewProjectForm?.bid_type === 'CUSTOM' && ['DEEP_BID_MIN', 'AUTO_MIN_SECOND_STAGE'].includes(String(NewProjectForm?.deep_bid_type))">
                                                 <el-form-item :label="'深度出价'" :label-width="200">
                                                     <el-input v-model="deep_cpabid" style="width: 160px" />
                                                     <el-text class="!ml-8px">元</el-text>
@@ -376,15 +376,12 @@
 
                                             <!-- ROI系数 -->
                                             <template
-                                                v-if="NewProjectForm?.delivery_mode === 'PROCEDURAL' && NewProjectForm?.bid_type === 'CUSTOM' && ['ROI_COEFFICIENT',].includes(String(NewProjectForm?.deep_bid_type))">
+                                                v-if="NewProjectForm?.delivery_mode !== 'PROCEDURAL' && NewProjectForm?.bid_type === 'CUSTOM' && ['ROI_COEFFICIENT',].includes(String(NewProjectForm?.deep_bid_type))">
                                                 <el-form-item :label="'ROI系数'" :label-width="200">
                                                     <el-input v-model="roi_goal" style="width: 160px" />
                                                     <el-text class="!ml-8px">元</el-text>
                                                 </el-form-item>
                                             </template>
-
-
-
 
                                         </el-form>
                                     </div>
