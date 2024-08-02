@@ -160,99 +160,113 @@
         <tbody>
           <tr>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
-              <el-scrollbar height="300px" class="p-8px" v-if="NewProjectForm">
-                <div class="color-[#333] font-size-14px mb-8px font-bold">
-                  <span>基本信息</span>
-                </div>
-                <div class="line-height-24px">
-                  <span>项目名称：{{ NewProjectForm.name }}</span>
-                </div>
-                <div class="line-height-24px">
-                  <span>项目预算：{{ budget_mode_radio.filter(budget_mode => budget_mode.value
-                    === NewProjectForm?.budget_mode)[0].label }}</span>
-                </div>
-                <div class="line-height-24px">
-                  <span>推广目的：{{ landing_type_radio[NewProjectForm.landing_type] }}</span>
-                </div>
-                <div class="line-height-24px">
-                  <span>子目标： {{ app_promotion_type_radio.filter(app_promotion_type => app_promotion_type.value
-                    === NewProjectForm?.app_promotion_type)[0].label }}
-                  </span>
-                </div>
-                <div class="line-height-24px">
-                  <span>营销场景：
-                    {{ marketing_goal_radio.filter(marketing_goal => marketing_goal.value
-                      === NewProjectForm?.marketing_goal)[0].label }}
-                  </span>
-                </div>
-                <div class="line-height-24px">
-                  <span>投放模式：
-                    {{ delivery_mode_radio.filter(delivery_mode => delivery_mode.value
-                      === NewProjectForm?.delivery_mode)[0].label }}
-                  </span>
-                </div>
-                <div class="line-height-24px">
-                  <span>广告类型： {{ ad_type_radio.filter(ad_type => ad_type.value
-                    === NewProjectForm?.ad_type)[0].label }}
-                  </span>
-                </div>
-                <div class="line-height-24px">
-                  <span>投放类型：
+              <template v-if="infoOrNew === 'new'">
 
-                    {{ delivery_type_radio.filter(delivery_type => delivery_type.value
-                      === NewProjectForm?.delivery_type)[0].label }}
-                  </span>
-                </div>
-                <div class="line-height-24px">
-                  <span>优化目标：{{ external_action_radio[String(NewProjectForm.external_action)] }}</span>
-                </div>
-                <div class="line-height-24px">
-                  <span>深度优化目标：{{ deep_external_action_radio[String(NewProjectForm.deep_external_action)] }}</span>
-                </div>
+                <el-scrollbar height="300px" class="p-8px" v-if="NewProjectForm">
+                  <div class="color-[#333] font-size-14px mb-8px font-bold">
+                    <span>基本信息</span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>项目名称：{{ NewProjectForm.name }}</span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>项目预算：{{ budget_mode_radio.filter(budget_mode => budget_mode.value
+                      === NewProjectForm?.budget_mode)[0].label }}</span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>推广目的：{{ landing_type_radio[NewProjectForm.landing_type] }}</span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>子目标： {{ app_promotion_type_radio.filter(app_promotion_type => app_promotion_type.value
+                      === NewProjectForm?.app_promotion_type)[0].label }}
+                    </span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>营销场景：
+                      {{ marketing_goal_radio.filter(marketing_goal => marketing_goal.value
+                        === NewProjectForm?.marketing_goal)[0].label }}
+                    </span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>投放模式：
+                      {{ delivery_mode_radio.filter(delivery_mode => delivery_mode.value
+                        === NewProjectForm?.delivery_mode)[0].label }}
+                    </span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>广告类型： {{ ad_type_radio.filter(ad_type => ad_type.value
+                      === NewProjectForm?.ad_type)[0].label }}
+                    </span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>投放类型：
 
-                <!-- <div class="line-height-24px">
+                      {{ delivery_type_radio.filter(delivery_type => delivery_type.value
+                        === NewProjectForm?.delivery_type)[0].label }}
+                    </span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>优化目标：{{ external_action_radio[String(NewProjectForm.external_action)] }}</span>
+                  </div>
+                  <div class="line-height-24px">
+                    <span>深度优化目标：{{ deep_external_action_radio[String(NewProjectForm.deep_external_action)] }}</span>
+                  </div>
+
+                  <!-- <div class="line-height-24px">
                   <span>深度优化方式：{{}}</span>
                 </div> -->
 
-                <div class="line-height-24px">
-                  <span>广告位置：
+                  <div class="line-height-24px">
+                    <span>广告位置：
 
-                    {{ inventory_catalog_radio.filter(inventory_catalog => inventory_catalog.value
-                      === NewProjectForm?.inventory_catalog)[0].label }}
+                      {{ inventory_catalog_radio.filter(inventory_catalog => inventory_catalog.value
+                        === NewProjectForm?.inventory_catalog)[0].label }}
 
-                  </span>
-                </div>
+                    </span>
+                  </div>
 
-                <!-- <div class="line-height-24px">
+                  <!-- <div class="line-height-24px">
                   <span>事件回传方式：{{}}</span>
                 </div> -->
 
 
-                <div class="line-height-24px">
-                  <span>投放时间：
-                    {{ schedule_type_radio.filter(schedule_type => schedule_type.value
-                      === NewProjectForm?.schedule_type)[0].label }}
-                  </span>
-                </div>
+                  <div class="line-height-24px">
+                    <span>投放时间：
+                      {{ schedule_type_radio.filter(schedule_type => schedule_type.value
+                        === NewProjectForm?.schedule_type)[0].label }}
+                    </span>
+                  </div>
 
 
-                <div class="line-height-24px">
-                  <span>投放时段：{{}}</span>
-                </div>
+                  <div class="line-height-24px">
+                    <span>投放时段：{{}}</span>
+                  </div>
 
 
-                <div class="line-height-24px">
-                  <span>搜索快投：{{}}</span>
-                </div>
+                  <div class="line-height-24px">
+                    <span>搜索快投：{{}}</span>
+                  </div>
 
 
-                <div class="line-height-24px">
-                  <span>竞价策略：
-                    {{ bid_type_radio.filter(bid_type => bid_type.value
-                      === NewProjectForm?.bid_type)[0].label }}
-                  </span>
-                </div>
-              </el-scrollbar>
+                  <div class="line-height-24px">
+                    <span>竞价策略：
+                      {{ bid_type_radio.filter(bid_type => bid_type.value
+                        === NewProjectForm?.bid_type)[0].label }}
+                    </span>
+                  </div>
+                </el-scrollbar>
+
+              </template>
+              <template v-else>
+                <el-scrollbar height="300px" class="p-8px" v-if="ExistingProjectForm">
+                  <div v-for="ExistingProject in ExistingProjectForm">
+                    <span>{{ ExistingProject.name }}</span>
+                  </div>
+                </el-scrollbar>
+              </template>
+
+
+
             </td>
             <td style="border-right: 1px solid #ebeef5; border-bottom: 1px solid #ebeef5" class="color-[#606266]">
               <div class="h-300px p-8px">
@@ -643,7 +657,8 @@
   <NewProject :visible="NewProjectState.visible" @handleNewProjectClose="handleNewProjectClose"
     :advertiser_id_array="ADVERTISER_ID_ARRAY" />
 
-  <ExistingProject :visible="ExistingProjectState.visible" @handleExistingProjectClose="handleExistingProjectClose" />
+  <ExistingProject :visible="ExistingProjectState.visible" :advertiser_id_array="ADVERTISER_ID_ARRAY"
+    @handleDrawerClose="handleExistingProjectClose" />
 
   <!-- 广告基本信息 -->
   <BasicInformationOfAd :visible="BasicInformationOfAdState.visible"
@@ -674,7 +689,7 @@ import BasicInformationOfAd from "./components/BasicInformationOfAd.vue";
 import CreativeMaterials from "./components/CreativeMaterials.vue";
 import TitlePack from "./components/TitlePack.vue";
 import LandingPage from "./components/LandingPage.vue";
-import { createPromotionByNewProject, queryPreviewPromotionInfo, commitTask } from "@/api/modules/promotion";
+import { createPromotionByNewProject, queryPreviewPromotionInfo, commitTask, createPromotionByExistProject } from "@/api/modules/promotion";
 import type { ICreatePromotionByNewProject, ICreativeMaterials, ILandingPage, INewProject, IQueryPreviewPromotionInfo, IRuleConfiguration } from "@/api/modules/promotion";
 import { bid_type_radio, schedule_type_radio, inventory_catalog_radio, delivery_type_radio, ad_type_radio, inventory_type_radio, external_action_radio, deep_external_action_radio, budget_mode_radio, landing_type_radio, app_promotion_type_radio, marketing_goal_radio, delivery_mode_radio } from '../radio-info/NewProject'
 import { useRouter } from "vue-router";
@@ -817,6 +832,8 @@ const ExistingProjectState = reactive({
   visible: false,
 });
 
+const ExistingProjectForm = ref();
+
 // 选择已有项目
 const openExistingProjectDrawer = () => {
   ExistingProjectState.visible = true;
@@ -830,7 +847,9 @@ const openProjectEdit = () => {
   }
 };
 
-const handleExistingProjectClose = () => { };
+const handleExistingProjectClose = (options: { type: number; form?: any }) => {
+  handleDrawerClose(ExistingProjectState, ExistingProjectForm, options);
+};
 
 // 创意素材
 const CreativeMaterialsForm = ref<ICreativeMaterials>()
@@ -903,15 +922,45 @@ const generateAdPreview = () => {
   // console.log(TitlePackForm.value)
   // console.log(LandingPageForm.value)
 
-  createPromotionByNewProjectFunc({
-    advertiser_id: ADVERTISER_ID_ARRAY.value,
-    ...ruleConfiguration.value,
-    ...NewProjectForm.value,
-    ...BasicInformationOfAdForm.value,
-    ...CreativeMaterialsForm.value,
-    ...TitlePackForm.value,
-    ...LandingPageForm.value
-  })
+
+  if (infoOrNew.value === 'new') {
+    createPromotionByNewProjectFunc({
+      advertiser_id: ADVERTISER_ID_ARRAY.value,
+      ...ruleConfiguration.value,
+      ...NewProjectForm.value,
+      ...BasicInformationOfAdForm.value,
+      ...CreativeMaterialsForm.value,
+      ...TitlePackForm.value,
+      ...LandingPageForm.value
+    })
+  } else {
+
+    const project_info_group = ExistingProjectForm.value?.map((item: any) => {
+      return {
+        advertiser_id: item.advertiser_id,
+        foreign_project_id: item.id,
+        project_id: item.project_id,
+        name: item.name
+      }
+    });
+
+    createPromotionByExistProjectFunc({
+      advertiser_id: ADVERTISER_ID_ARRAY.value,
+      ...ruleConfiguration.value,
+      ...BasicInformationOfAdForm.value,
+      ...CreativeMaterialsForm.value,
+      ...TitlePackForm.value,
+      ...LandingPageForm.value,
+      project_info_group
+    })
+  }
+
+
+
+
+
+
+
 }
 
 
@@ -977,6 +1026,18 @@ const commitTaskFunc = async () => {
     console.log(error);
   }
 }
+
+
+
+const createPromotionByExistProjectFunc = (params: any) => {
+  try {
+    const res = await createPromotionByExistProject(params)
+    console.log(res);
+  } catch (error) {
+    console.error("createPromotionByExistProjectFunc", error);
+  }
+}
+
 
 
 const router = useRouter();

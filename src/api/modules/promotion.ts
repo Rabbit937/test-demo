@@ -79,13 +79,13 @@ export const queryAccountList = (params: IQueryAccountList) => {
  * @name 查询已创建项目
  */
 
-interface IQueryProjectList {
+export interface IQueryProjectList {
 	advertiser_id: string;
-	delivery_mode: string;
-	landing_type: string;
-	app_promotion_type: string;
-	marketing_goal: string;
-	name: string;
+	delivery_mode?: string;
+	landing_type?: string;
+	app_promotion_type?: string;
+	marketing_goal?: string;
+	name?: string;
 	page_no?: number;
 	page_limit?: number;
 }
@@ -1256,3 +1256,6 @@ export const syncAndroidApp = (params: ISyncAndroidApp) => {
 }
 
 
+export const createPromotionByExistProject = (params: any) => {
+	return http.post(`/api/Mk_Tt_Program/_createPromotionByExistProject`, params)
+}
