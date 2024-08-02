@@ -1029,7 +1029,7 @@ const commitTaskFunc = async () => {
 
 
 
-const createPromotionByExistProjectFunc = (params: any) => {
+const createPromotionByExistProjectFunc = async (params: any) => {
   try {
     const res = await createPromotionByExistProject(params)
     console.log(res);
