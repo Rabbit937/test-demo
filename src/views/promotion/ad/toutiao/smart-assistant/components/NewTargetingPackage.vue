@@ -347,18 +347,18 @@ const district_options = [
 		value: "NONE",
 		label: "不限",
 	},
-	{
-		value: "BUSINESS_DISTRICT",
-		label: "商圈",
-	},
+	// {
+	// 	value: "BUSINESS_DISTRICT",
+	// 	label: "商圈",
+	// },	
 	{
 		value: "REGION",
 		label: "行政区域",
 	},
-	{
-		value: "OVERSEA",
-		label: "海外区域",
-	},
+	// {
+	// 	value: "OVERSEA",
+	// 	label: "海外区域",
+	// },
 ];
 
 // 性别
