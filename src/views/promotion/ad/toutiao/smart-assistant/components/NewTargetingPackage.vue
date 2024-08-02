@@ -3,7 +3,8 @@
 		<el-scrollbar height="400px">
 			<el-form :model="form" :label-position="'left'">
 				<el-form-item :label-width="140" label="媒体账户">
-					<el-select v-model="form.advertiser_id" placeholder="请选择媒体账户">
+					<el-select filterable v-model="form.advertiser_id" placeholder="请选择媒体账户" empty-text="没有数据"
+						no-match-text="没有匹配数据">
 						<el-option v-for="(item) in account_list_options" :key="item.ADVERTISER_ID"
 							:value="item.ADVERTISER_ID" :label="`${item.ALIAS}(${item.ADVERTISER_ID})`">
 						</el-option>

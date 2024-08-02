@@ -19,6 +19,9 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
+
+
+
 const drawerOptions = reactive({
     visible: props.visible ?? false,
     size: 1016,
@@ -27,7 +30,7 @@ const drawerOptions = reactive({
 const handleDrawerClose = (type: number) => {
     if (type === 1) {
         if (checkedLandingPage.value.length > 0) {
-            form.promotion_page_group[0].landing_page = checkedLandingPage.value.map((item) => item.siteId);
+            form.promotion_page_group[0].landing_page = checkedLandingPage.value.map((item) => `${item.siteId}?name=${item.name}`);
             emits("handleDrawerClose", { type: 1, form: form, checkedLandingPage: checkedLandingPage.value });
         } else {
             ElMessage({
