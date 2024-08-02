@@ -286,8 +286,9 @@
                 </el-row>
 
                 <!-- 广告预算与出价 -->
-                <el-row v-if="drawerOptions.deliveryMode !== 'PROCEDURAL'" class="mb-16px"
-                    style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
+                <el-row
+                    v-if="drawerOptions.deliveryMode !== 'PROCEDURAL' || NewProjectForm?.budget_optimize_switch === 'ON'"
+                    class="mb-16px" style="background-color: #fff; border: 1px solid #e8eaec; border-radius: 6px">
                     <el-col class="h-48px pl-16px font-700 line-height-48px color-[#333]" style="
                   background-color: #fbfcfd;
                   border-bottom: 1px solid #e8eaec;
@@ -305,28 +306,34 @@
                         </el-form>
                     </el-col>
                     <el-col :span="1.5" class="w-100% m-16px border-[#e8eaec]">
-                        <!-- <div class="h-64px p-16px text-right">
-                            <el-text>全部收起</el-text>
-                        </div> -->
-                        <!-- <div
+                        <div
                             class="font-size-12px color-[#999] flex justify-between p-12px bg-[#f2f2f2] border-top-[#e8eaec] border-bottom-[#e8eaec]">
                             <div>
                                 <span>竞价策略：</span>
-                                <span class="font-size-14px color-[#000]">最大转化</span>
+                                <span class="font-size-14px color-[#000]">
+                                    {{ NewProjectForm?.bid_type ? bid_type_radio.filter(bid_type => bid_type.value
+                                        === NewProjectForm?.bid_type)[0].label : '' }}
+                                </span>
                             </div>
                             <div>
                                 <span>优化目标：</span>
-                                <span class="font-size-14px color-[#000]">付费/无</span>
+                                <span class="font-size-14px color-[#000]"> {{ NewProjectForm?.external_action ?
+                                    external_action_radio[String(NewProjectForm?.external_action)] : "" }}
+                                </span>
                             </div>
                             <div>
                                 <span>深度优化方式：</span>
-                                <span class="font-size-14px color-[#000]">首次付费</span>
+                                <span class="font-size-14px color-[#000]">
+                                    {{ NewProjectForm?.deep_bid_type ? deep_bid_type_radio.filter(deep_bid_type =>
+                                        deep_bid_type.value
+                                        === NewProjectForm?.deep_bid_type)[0].label : "" }}
+                                </span>
                             </div>
                             <div>
                                 <span>付费方式：</span>
                                 <span class="font-size-14px color-[#000]">目标转化出价-按展示付费</span>
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="p-16px">
                             <ul>
@@ -347,6 +354,38 @@
                                                 <el-input placeholder="请输入预算金额" style="width: 160px;margin-right: 16px;"
                                                     v-model="budget_amount"></el-input><span>元</span>
                                             </el-form-item>
+
+                                            <template
+                                                v-if="NewProjectForm?.delivery_mode === 'PROCEDURAL' && NewProjectForm?.bid_type === 'CUSTOM'">
+                                                <el-form-item :label="'出价'" :label-width="200">
+                                                    <el-input v-model="cpa_bid" placeholder="请输入出价"
+                                                        style="width: 160px" />
+                                                    <el-text class="!ml-8px">元</el-text>
+                                                </el-form-item>
+                                            </template>
+
+
+                                            <template
+                                                v-if="NewProjectForm?.delivery_mode === 'PROCEDURAL' && NewProjectForm?.bid_type === 'CUSTOM' && ['DEEP_BID_MIN', 'AUTO_MIN_SECOND_STAGE'].includes(String(NewProjectForm?.deep_bid_type))">
+                                                <el-form-item :label="'深度出价'" :label-width="200">
+                                                    <el-input v-model="deep_cpabid" style="width: 160px" />
+                                                    <el-text class="!ml-8px">元</el-text>
+                                                </el-form-item>
+                                            </template>
+
+
+                                            <!-- ROI系数 -->
+                                            <template
+                                                v-if="NewProjectForm?.delivery_mode === 'PROCEDURAL' && NewProjectForm?.bid_type === 'CUSTOM' && ['ROI_COEFFICIENT',].includes(String(NewProjectForm?.deep_bid_type))">
+                                                <el-form-item :label="'ROI系数'" :label-width="200">
+                                                    <el-input v-model="roi_goal" style="width: 160px" />
+                                                    <el-text class="!ml-8px">元</el-text>
+                                                </el-form-item>
+                                            </template>
+
+
+
+
                                         </el-form>
                                     </div>
                                 </li>
@@ -367,6 +406,12 @@
                 ">广告名称</el-col>
                     <el-col class="p-16px">
                         <el-form :label-width="144" label-position="left">
+
+                            <el-form-item v-if="NewProjectForm?.landing_type === 'MICRO_GAME'" label="来源">
+                                <el-input v-model="form.source" style="width: 360px;" :maxlength="20"
+                                    show-word-limit></el-input>
+                            </el-form-item>
+
                             <el-form-item label="广告名称">
                                 <el-input v-model="form.promotion_name" style="width: 360px;" :maxlength="100"
                                     show-word-limit></el-input>
@@ -416,9 +461,16 @@ import type {
 } from "@/api/modules/promotion";
 import { ElMessage } from "element-plus";
 
+
+import {
+    bid_type_radio,
+    deep_bid_type_radio,
+    external_action_radio
+} from "../../radio-info/NewProject";
+
 interface IProps {
     visible: boolean;
-    deliveryMode: string;
+    NewProjectForm: any;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
@@ -432,7 +484,7 @@ const drawerOptions = reactive({
 
 watchEffect(() => {
     drawerOptions.visible = props.visible;
-    drawerOptions.deliveryMode = props.deliveryMode
+    drawerOptions.deliveryMode = props.NewProjectForm?.deliveryMode
 });
 
 const handleDrawerClose = (type: number) => {
@@ -467,9 +519,7 @@ const form = reactive<IBasicInformationOfAd>({
     mini_program_info: "",
     playable_url_material_list: [],
     pre_promotion_budget_group: [
-        {
-            budget: "0"
-        }
+
     ],
     product_info_conf: "same",
     promotion_aweme: "same",
@@ -479,6 +529,21 @@ const form = reactive<IBasicInformationOfAd>({
     source: "",
     web_url_material_list: [],
 });
+
+const budget = ref();
+const cpa_bid = ref();
+const deep_cpabid = ref();
+const roi_goal = ref();
+
+watchEffect(() => {
+    form.pre_promotion_budget_group = [{
+        budget: budget.value,
+        cpa_bid: cpa_bid.value,
+        deep_cpabid: deep_cpabid.value,
+        roi_goal: roi_goal.value,
+    }];
+});
+
 
 const promotional_identity = ref(1);
 

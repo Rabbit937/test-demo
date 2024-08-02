@@ -439,8 +439,9 @@
                             <div>
                                 <span>深度优化方式：</span>
                                 <span class="font-size-14px color-[#000]">
-                                    {{ deep_bid_type_radio.filter(deep_bid_type => deep_bid_type.value
-                                        === form.deep_bid_type)[0].label }}
+                                    {{ form.deep_bid_type ? deep_bid_type_radio.filter(deep_bid_type =>
+                                        deep_bid_type.value
+                                        === form.deep_bid_type)[0].label : "" }}
                                 </span>
                             </div>
                             <div>
@@ -1015,13 +1016,17 @@ const schedule_time_type = ref(1);
 const search_bid_ratio_type = ref(1);
 
 const budget = ref();
+const cpa_bid = ref();
+const deep_cpabid = ref();
+const roi_goal = ref();
 
 watchEffect(() => {
-    if (budget.value) {
-        form.pre_budget_group = [{
-            budget: budget.value,
-        }];
-    }
+    form.pre_budget_group = [{
+        budget: budget.value,
+        cpa_bid: cpa_bid.value,
+        deep_cpabid: deep_cpabid.value,
+        roi_goal: roi_goal.value,
+    }];
 });
 
 const handleBudgetChange = (val: number) => {

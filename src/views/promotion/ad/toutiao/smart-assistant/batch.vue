@@ -662,7 +662,7 @@
 
   <!-- 广告基本信息 -->
   <BasicInformationOfAd :visible="BasicInformationOfAdState.visible"
-    :deliveryMode="String(NewProjectForm?.delivery_mode)"
+    :NewProjectForm="NewProjectForm"
     @handleBasicInformationOfAdClose="handleBasicInformationOfAdClose" />
 
   <!-- 创意素材 -->
