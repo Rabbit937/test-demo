@@ -1018,9 +1018,9 @@ const budget = ref();
 
 watchEffect(() => {
     if (budget.value) {
-        form.pre_budget_group.push({
+        form.pre_budget_group = [{
             budget: budget.value,
-        });
+        }];
     }
 });
 

@@ -121,12 +121,12 @@
               <div class="flex grid-justify-between !font-normal p-[5px_16px]">
                 <div class="font-size-14px color-[#333]">
                   <span>创意素材</span>
-                  <span class="font-size-12px color-[#999] ml-8px">已选创意组: 0/ 200</span>
+                  <!-- <span class="font-size-12px color-[#999] ml-8px">已选创意组: 0/ 200</span> -->
                 </div>
                 <div>
-                  <el-button icon="RefreshRight" size="small" link type="primary" class="ml-8px">
+                  <!-- <el-button icon="RefreshRight" size="small" link type="primary" class="ml-8px">
                     清空
-                  </el-button>
+                  </el-button> -->
                 </div>
               </div>
             </th>
@@ -134,12 +134,12 @@
               <div class="flex grid-justify-between !font-normal p-[5px_16px]">
                 <div class="font-size-14px color-[#333]">
                   <span>标题包</span>
-                  <span class="font-size-12px color-[#999] ml-8px">0/ 50</span>
+                  <!-- <span class="font-size-12px color-[#999] ml-8px">0/ 50</span> -->
                 </div>
                 <div>
-                  <el-button icon="RefreshRight" size="small" link type="primary" class="ml-8px">
+                  <!-- <el-button icon="RefreshRight" size="small" link type="primary" class="ml-8px">
                     清空
-                  </el-button>
+                  </el-button> -->
                 </div>
               </div>
             </th>
@@ -149,9 +149,9 @@
                   <span>落地页</span>
                 </div>
                 <div>
-                  <el-button icon="RefreshRight" size="small" link type="primary" class="ml-8px">
+                  <!-- <el-button icon="RefreshRight" size="small" link type="primary" class="ml-8px">
                     清空
-                  </el-button>
+                  </el-button> -->
                 </div>
               </div>
             </th>
