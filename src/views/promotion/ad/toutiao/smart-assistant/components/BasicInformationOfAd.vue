@@ -486,7 +486,7 @@ watchEffect(() => {
 
 const handleDrawerClose = (type: number) => {
     if (type === 1) {
-        form.product_info_group[0].product_info.titles.push(product_name.value)
+        form.product_info_group[0].product_info.titles = [product_name.value]
         form.product_info_group[0].product_info.selling_points = (product_selling_points_list_selected.value)
         form.pre_promotion_budget_group[0].budget = budget_amount.value
         form.call_to_action_buttons = callToActionList.value
