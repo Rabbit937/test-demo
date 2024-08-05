@@ -621,7 +621,8 @@
     <!-- <ConnectionGroup :visible="ConnectionGroupState.visible" :type="ConnectionGroupState.type" /> -->
     <!-- 定向包 -->
     <AudiencePackage :visible="AudiencePackageState.visible" :size="AudiencePackageState.size"
-        @handleDrawerClose="handleAudiencePackageDrawerClose" />
+        @handleDrawerClose="handleAudiencePackageDrawerClose"
+        :advertiser_id_array="drawerOptions.advertiser_id_array" />
 </template>
 
 <script setup lang="ts">
@@ -691,7 +692,6 @@ watchEffect(() => {
 
 watch(() => drawerOptions.visible, () => {
     if (drawerOptions.visible) {
-        console.log('321321331queryAndroidAppListFunc')
         queryAndroidAppListFunc({
             advertiser_id: drawerOptions.advertiser_id_array[0],
             page_limit: 1000,

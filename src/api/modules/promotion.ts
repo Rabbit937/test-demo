@@ -189,7 +189,7 @@ export interface IQueryPreferenceList {
 	 * 广告类型
 	 */
 	ad_type?: string;
-	advertiser_id?: number;
+	advertiser_id?: string;
 	/**
 	 * 定向包id
 	 */
@@ -1259,3 +1259,18 @@ export const syncAndroidApp = (params: ISyncAndroidApp) => {
 export const createPromotionByExistProject = (params: any) => {
 	return http.post(`/api/Mk_Tt_Program/_createPromotionByExistProject`, params)
 }
+
+
+
+/**
+ * @name 同步定向包
+ */
+
+export interface ISyncPreference {
+	advertiser_id: string;
+}
+
+export const syncPreference = (params: ISyncPreference) => {
+	return http.get(`/api/Mk_Tt_Preference/_syncPreference`, params)
+}
+

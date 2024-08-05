@@ -35,7 +35,8 @@
                                 </el-text>
                             </el-col>
                             <el-col :span="1.5">
-                                <el-button>
+                                <el-button :loading="MultipleAccountRefreshLoading"
+                                    @click="handleMultipleAccountRefreshClick">
                                     多账户刷新
                                 </el-button>
                             </el-col>
@@ -127,32 +128,46 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watchEffect, ref, onMounted } from "vue";
+import { reactive, watchEffect, ref, onMounted, watch } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import { Search } from "@element-plus/icons-vue";
 import { zhCn } from "element-plus/es/locales.mjs";
 import {
     type IQueryPreferenceList,
+    ISyncPreference,
     queryPreferenceList,
+    syncPreference,
 } from "@/api/modules/promotion";
 import NewTargetingPackage from "./NewTargetingPackage.vue";
 
 interface IProps {
     visible: boolean;
     size: number;
+    advertiser_id_array: string[];
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
-const drawerOptions = reactive({
+const drawerOptions = reactive<IProps>({
     visible: props.visible,
     size: props.size || 1016,
+    advertiser_id_array: [],
 });
 
 watchEffect(() => {
     drawerOptions.visible = props.visible;
+    drawerOptions.advertiser_id_array = props.advertiser_id_array;
 });
+
+watch(() => drawerOptions.visible, () => {
+    if (drawerOptions.visible) {
+        queryPreferenceListFunc({
+            advertiser_id: drawerOptions.advertiser_id_array[0],
+            page_limit: 1000,
+        });
+    }
+})
 
 const handleDrawerClose = (type: number) => {
     if (type === 1) {
@@ -213,12 +228,14 @@ const canSelectRow = (row: any) => {
 
 const handleSizeChange = () => {
     queryPreferenceListFunc({
+        advertiser_id: drawerOptions.advertiser_id_array[0],
         cur_page: currentPage.value,
     });
 };
 
 const handlePageChange = () => {
     queryPreferenceListFunc({
+        advertiser_id: drawerOptions.advertiser_id_array[0],
         page_limit: pageSize.value,
     });
 };
@@ -261,41 +278,76 @@ const landing_type_enum: Record<string, string> = {
     MICRO_GAME: "小游戏推广",
 };
 
-onMounted(() => {
-    queryPreferenceListFunc({
-        delivery_range: "DEFAULT",
-    });
-});
+// onMounted(() => {
+//     queryPreferenceListFunc({
+//         delivery_range: "DEFAULT",
+//     });
+// });
 
 const handleDeliveryModeChange = (value: string | number) => {
     if (value) {
         queryPreferenceListFunc({
+            advertiser_id: drawerOptions.advertiser_id_array[0],
             delivery_range: String(value),
         });
     }
 };
 
 const handleDeliveryModeClear = () => {
-    queryPreferenceListFunc();
+    queryPreferenceListFunc({
+        advertiser_id: drawerOptions.advertiser_id_array[0],
+    });
 };
 
 const handleSearchClick = () => {
     if (keyword.value) {
         if (keyword_type.value === "name") {
             queryPreferenceListFunc({
+                advertiser_id: drawerOptions.advertiser_id_array[0],
                 name: keyword.value,
             });
         } else {
             queryPreferenceListFunc({
+                advertiser_id: drawerOptions.advertiser_id_array[0],
                 audience_package_id: keyword.value,
             });
         }
     } else {
         queryPreferenceListFunc({
-            advertiser_id: 1787695788195915,
+            // advertiser_id: 1787695788195915,
+            advertiser_id: drawerOptions.advertiser_id_array[0],
         });
     }
 };
+
+const MultipleAccountRefreshLoading = ref(false);
+// 多账户刷新
+const syncPreferenceFunc = async (params: ISyncPreference) => {
+    MultipleAccountRefreshLoading.value = true;
+    try {
+        const res = await syncPreference(params)
+        console.log(res);
+
+        if (res.state === 1) {
+            queryPreferenceListFunc({
+                // advertiser_id: 1787695788195915,
+                advertiser_id: drawerOptions.advertiser_id_array[0],
+            });
+        }
+
+    } catch (error) {
+        console.error("syncPreferenceFunc------->", error);
+    } finally {
+        MultipleAccountRefreshLoading.value = false;
+    }
+}
+
+const handleMultipleAccountRefreshClick = () => {
+    syncPreferenceFunc({
+        advertiser_id: drawerOptions.advertiser_id_array.join(","),
+    })
+}
+
 
 // 新建头条定向包
 const NewTargetingPackageState = reactive({
@@ -314,6 +366,8 @@ const handleNewTargetingPackageClose = (options: {
         NewTargetingPackageState.visible = false;
     }
 };
+
+
 </script>
 
 
