@@ -625,7 +625,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, markRaw, watchEffect, onMounted } from "vue";
+import { ref, reactive, markRaw, watchEffect, onMounted, watch } from "vue";
 
 import Drawer from "@/components/Drawer.vue";
 import AudiencePackage from "./AudiencePackage.vue";
@@ -687,6 +687,18 @@ watchEffect(() => {
     drawerOptions.visible = props.visible;
     drawerOptions.advertiser_id_array = props.advertiser_id_array;
 });
+
+
+watch(() => drawerOptions.visible, () => {
+    if (drawerOptions.visible) {
+        console.log('321321331queryAndroidAppListFunc')
+        queryAndroidAppListFunc({
+            advertiser_id: drawerOptions.advertiser_id_array[0],
+            page_limit: 1000,
+        });
+    }
+})
+
 
 const handleDrawerClose = (type: number) => {
     if (type === 1) {
@@ -844,12 +856,12 @@ const queryAndroidAppListFunc = async (params: IQueryAndroidAppList) => {
     }));
 };
 
-onMounted(() => {
-    queryAndroidAppListFunc({
-        advertiser_id: drawerOptions.advertiser_id_array[0] ?? "1787695788195915",
-        page_limit: 1000,
-    });
-});
+// onMounted(() => {
+//     queryAndroidAppListFunc({
+//         advertiser_id: drawerOptions.advertiser_id_array[0],
+//         page_limit: 1000,
+//     });
+// });
 
 const headline_application_value = ref();
 
@@ -890,7 +902,7 @@ const syncAndroidAppFunc = async (params: ISyncAndroidApp) => {
             })
 
             queryAndroidAppListFunc({
-                advertiser_id: drawerOptions.advertiser_id_array[0] ?? "1787695788195915",
+                advertiser_id: drawerOptions.advertiser_id_array[0],
                 page_limit: 1000,
             });
         }
