@@ -187,7 +187,7 @@
 
 
 <script setup lang="ts">
-import { ref, reactive, watchEffect, onMounted, watch, } from "vue";
+import { ref, reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import { IQueryProjectList, queryProjectList } from "@/api/modules/promotion";
 import { delivery_mode_radio, landing_type_radio, app_promotion_type_radio, marketing_goal_radio, ad_type_radio, delivery_type_radio } from "../../radio-info/NewProject";

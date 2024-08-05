@@ -128,7 +128,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watchEffect, ref, onMounted, watch } from "vue";
+import { reactive, watchEffect, ref, watch } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import { Search } from "@element-plus/icons-vue";
 import { zhCn } from "element-plus/es/locales.mjs";

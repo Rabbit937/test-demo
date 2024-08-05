@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watchEffect, onMounted, watch } from "vue";
+import { ref, reactive, watchEffect, watch } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import {
     type IQueryLandingPage,
