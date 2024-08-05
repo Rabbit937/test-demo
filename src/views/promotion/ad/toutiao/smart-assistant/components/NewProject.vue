@@ -128,8 +128,8 @@
                                 <el-form-item label="头条应用" v-if="form.app_type === 'APP_ANDROID'">
                                     <el-select-v2 v-model="headline_application_value"
                                         @change="handleHeadlineApplicationChange"
-                                        :options="headline_application_options" placeholder="请选择"
-                                        style="width: 300px" />
+                                        :options="headline_application_options" placeholder="请选择" style="width: 300px"
+                                        no-data-text="没有数据" />
                                     <el-button class="ml-16px"
                                         @click="handleAndroidApplicationListRefresh">刷新</el-button>
                                 </el-form-item>
