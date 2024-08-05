@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watchEffect, onMounted } from "vue";
+import { ref, reactive, watchEffect, onMounted, watch } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import {
     type IQueryLandingPage,
@@ -14,17 +14,16 @@ import { ElMessage } from "element-plus";
 
 interface IProps {
     visible: boolean;
+    size?: number;
+    advertiser_id_array: string[]
 }
-
 const props = withDefaults(defineProps<IProps>(), {});
 const emits = defineEmits(["handleDrawerClose"]);
 
-
-
-
-const drawerOptions = reactive({
+const drawerOptions = reactive<IProps>({
     visible: props.visible ?? false,
     size: 1016,
+    advertiser_id_array: []
 });
 
 const handleDrawerClose = (type: number) => {
@@ -45,8 +44,22 @@ const handleDrawerClose = (type: number) => {
 
 watchEffect(() => {
     drawerOptions.visible = props.visible;
+    drawerOptions.advertiser_id_array = props.advertiser_id_array;
 });
 
+watch(() => drawerOptions.visible, () => {
+    if (drawerOptions.visible) {
+        queryAccountKvListFunc({
+            PID: "11",
+            ADVERTISER_ID: drawerOptions.advertiser_id_array[0]
+        });
+
+        queryLandingPageFunc({
+            advertiser_id: drawerOptions.advertiser_id_array.join(','),
+            page_limit: 1000
+        });
+    }
+})
 
 
 // 每个广告配置
@@ -101,20 +114,27 @@ const queryAccountKvListFunc = async (params: IQueryAccountKvList) => {
 };
 
 
-onMounted(() => {
-    queryAccountKvListFunc({
-        PID: "11",
-    });
-});
+// onMounted(() => {
+//     queryAccountKvListFunc({
+//         PID: "11",
+//     });
+// });
 
 // 帐号列表切换
 const handleAccountListChange = () => {
-    console.log(12313213);
-    console.log('账号切换');
-    queryLandingPageFunc({
-        advertiser_id: accountSelected.value,
-        page_limit: 1000
-    });
+
+    if (accountSelected.value) {
+        queryLandingPageFunc({
+            advertiser_id: accountSelected.value,
+            page_limit: 1000
+        });
+    } else {
+        queryLandingPageFunc({
+            advertiser_id: drawerOptions.advertiser_id_array.join(','),
+            page_limit: 1000
+        });
+    }
+
 };
 
 
@@ -142,11 +162,11 @@ const handleCheckedLandingDelete = (value: string) => {
     checkedLandingPage.value = checkedLandingPage.value.filter((item) => item.name !== value);
 }
 
-onMounted(() => {
-    queryLandingPageFunc({
-        page_limit: 1000
-    });
-})
+// onMounted(() => {
+//     queryLandingPageFunc({
+//         page_limit: 1000
+//     });
+// })
 
 // 同步橙子落地页
 const syncLandingPageFunc = async (params: ISyncLandingPage) => {

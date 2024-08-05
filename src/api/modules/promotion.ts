@@ -489,6 +489,7 @@ export interface IQueryAccountKvList {
 	 * 必填
 	 */
 	PID: string;
+	ADVERTISER_ID: string;
 }
 
 export const queryAccountKvList = (params: IQueryAccountKvList) => {

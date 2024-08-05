@@ -661,8 +661,7 @@
     @handleDrawerClose="handleExistingProjectClose" />
 
   <!-- 广告基本信息 -->
-  <BasicInformationOfAd :visible="BasicInformationOfAdState.visible"
-    :NewProjectForm="NewProjectForm"
+  <BasicInformationOfAd :visible="BasicInformationOfAdState.visible" :NewProjectForm="NewProjectForm"
     @handleBasicInformationOfAdClose="handleBasicInformationOfAdClose" />
 
   <!-- 创意素材 -->
@@ -672,7 +671,8 @@
   <TitlePack :visible="TitlePackState.visible" @handleDrawerClose="handleTitlePackStateClose" />
 
   <!-- 落地页 -->
-  <LandingPage :visible="LandingPageState.visible" @handleDrawerClose="handleLandingPageStateClose" />
+  <LandingPage :visible="LandingPageState.visible" :advertiser_id_array="ADVERTISER_ID_ARRAY"
+    @handleDrawerClose="handleLandingPageStateClose" />
 </template>
 
 <script setup lang="ts">
