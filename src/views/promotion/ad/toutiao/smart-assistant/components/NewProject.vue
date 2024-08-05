@@ -483,7 +483,7 @@
                                             <template
                                                 v-if="form.delivery_mode === 'PROCEDURAL' && form.bid_type === 'CUSTOM'">
                                                 <el-form-item :label="'出价'" :label-width="200">
-                                                    <el-input v-model="form.cpa_bid" placeholder="请输入出价"
+                                                    <el-input v-model="cpa_bid" placeholder="请输入出价"
                                                         style="width: 160px" />
                                                     <el-text class="!ml-8px">元</el-text>
                                                 </el-form-item>
@@ -493,7 +493,7 @@
                                             <template
                                                 v-if="form.delivery_mode === 'PROCEDURAL' && form.bid_type === 'CUSTOM' && ['DEEP_BID_MIN', 'AUTO_MIN_SECOND_STAGE'].includes(String(form.deep_bid_type))">
                                                 <el-form-item :label="'深度出价'" :label-width="200">
-                                                    <el-input v-model="form.deep_cpabid" style="width: 160px" />
+                                                    <el-input v-model="deep_cpabid" style="width: 160px" />
                                                     <el-text class="!ml-8px">元</el-text>
                                                 </el-form-item>
                                             </template>
@@ -503,7 +503,7 @@
                                             <template
                                                 v-if="form.delivery_mode === 'PROCEDURAL' && form.bid_type === 'CUSTOM' && ['ROI_COEFFICIENT',].includes(String(form.deep_bid_type))">
                                                 <el-form-item :label="'ROI系数'" :label-width="200">
-                                                    <el-input v-model="form.roi_goal" style="width: 160px" />
+                                                    <el-input v-model="roi_goal" style="width: 160px" />
                                                     <el-text class="!ml-8px">元</el-text>
                                                 </el-form-item>
                                             </template>
