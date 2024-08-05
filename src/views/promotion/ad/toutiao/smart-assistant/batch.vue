@@ -361,10 +361,6 @@
                     :disabled="ADVERTISER_ID_ARRAY.length === 0">编辑</el-button>
                 </template>
               </el-popover>
-
-
-
-
             </td>
             <td style="border-right: 1px solid #ebeef5" class="text-center pt-15px pb-15px">
               <!-- 广告信息 -->
@@ -390,7 +386,8 @@
                 <template #default>
                   <div class="flex">
                     <el-text>请选择媒体账户</el-text>
-                    <el-button link size="small" type="primary" class="ml-8px"> 编辑</el-button>
+                    <el-button link size="small" type="primary" class="ml-8px" @click="handleMediaAccount">
+                      编辑</el-button>
                   </div>
                 </template>
                 <template #reference>

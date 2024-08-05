@@ -1,11 +1,12 @@
 <template>
-    <div class="creative-content min-h-400px max-h-600px pr-16px overflow-auto mb-16px">
+    <div class="creative-content min-h-400px max-h-600px overflow-auto mb-16px">
         <div class="creative-material position-relative max-w-916px">
             <div class="creative-group">
                 <div class="creative-group-header flex">
                     <span class="creative-group-name">
                         创意组 <i class="el-icon-edit-outline"></i>
                     </span><i class="el-icon-caret el-icon-caret-bottom"></i>
+
                 </div>
                 <div class="creative-group-body">
                     <!-- <div class="button-wrap btn-batch-add">
@@ -132,10 +133,9 @@
                     </el-tabs>
                 </div>
             </div>
-            <!-- <div class="operate-group">
-                <div title="复制创意组" class="mg-icon-copy-wrap"><i class="el-icon-document-copy"></i></div>
-                <div title="删除创意组" class="mg-icon-delete-wrap"><i class="mg-icon-mobgi_ic_app_unchecked"></i></div>
-            </div> -->
+            <div class="position-absolute" style="top:0;right: -34px;">
+                <el-button title="删除创意组" style="width: 28px;height: 28px;" :icon="Delete" @click="handleDeleteClick" />
+            </div>
         </div>
     </div>
 
@@ -147,8 +147,8 @@
 
 <script lang="ts" setup>
 import { ref, watchEffect, reactive } from "vue";
+import { Delete } from '@element-plus/icons-vue'
 import MaterialSelector from "./MaterialSelector.vue";
-
 
 // 创意组
 interface IVidoeInfo {
@@ -228,7 +228,7 @@ const handleMaterialSelectorDialog = (options: { type: number, form: any }) => {
 };
 
 
-// 删除
+// 删除组件
 const deleteComponent = (video: IVidoeInfo) => {
     console.log(video)
     component.value.splice(component.value.length - 1, 1);
@@ -237,6 +237,14 @@ const deleteComponent = (video: IVidoeInfo) => {
         videoInfo: component.value,
     });
 }
+
+
+// 删除创意组
+const handleDeleteClick = () => {
+    console.log('delete')
+}
+
+
 </script>
 
 <style lang="scss" scoped>

@@ -179,7 +179,7 @@ const handleUpdateState = (component: {
                     </div> -->
                 </div>
 
-                <el-scrollbar height="500px" class="min-h-300px max-h-500px pr-16px">
+                <el-scrollbar height="500px" class="min-h-300px max-h-500px">
                     <div v-for="(component, index) in components" :key="index">
                         <CreateMaterial :initialState="component" @updateState="handleUpdateState" />
                     </div>
