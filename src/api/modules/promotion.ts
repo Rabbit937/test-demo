@@ -1166,8 +1166,18 @@ export interface IQueryCommonMaterial {
 	vert_hori?: number;
 }
 
+export interface IQueryCommonMaterialResultData {
+	list: [];
+	page_info: {
+		total: number;
+		cur_page: number;
+		page_limit: number;
+		total_page: number;
+	};
+}
+
 export const queryCommonMaterial = (params: IQueryCommonMaterial) => {
-	return http.get(`/api/Mk_Tt_Promotion/_queryCommonMaterial`, params)
+	return http.get<IQueryCommonMaterialResultData>(`/api/Mk_Tt_Promotion/_queryCommonMaterial`, params)
 }
 
 

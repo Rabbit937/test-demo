@@ -123,6 +123,13 @@ const handleUpdateState = (component: {
         }
     });
 };
+
+
+// 批量创建
+const batchCreation = () => {
+    console.log('创建项目')
+}
+
 </script>
 
 <template>
@@ -173,10 +180,16 @@ const handleUpdateState = (component: {
                         </div>
                     </div>
 
-                    <!-- <div>
+                    <div>
                         <el-button link>清空</el-button>
                         <el-button type="primary" plain>一键测新</el-button>
-                    </div> -->
+                        <el-popover placement="bottom" title="Title" :width="200" trigger="hover">
+                            <template #reference>
+                                <el-button @click="batchCreation" class="m-2">批量创建</el-button>
+                            </template>
+
+                        </el-popover>
+                    </div>
                 </div>
 
                 <el-scrollbar height="500px" class="min-h-300px max-h-500px">

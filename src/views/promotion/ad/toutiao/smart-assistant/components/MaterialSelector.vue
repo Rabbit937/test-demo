@@ -207,12 +207,18 @@
                     </el-checkbox-group>
                     <el-empty v-else description="没有数据" />
                 </el-scrollbar>
-            </el-tab-pane>
-            <!-- <el-tab-pane label="媒体素材" name="media_material">
+
+                <!-- 分页 -->
+                <el-config-provider :locale="zhCn">
+                    <el-pagination class="mt-8px" v-model:current-page="currentPage" v-model:page-size="pageSize"
+                        :page-sizes="[10, 20, 50, 100]" layout="total, sizes, prev, pager, next, jumper" :total="total"
+                        @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+                </el-config-provider>
+                <!-- <el-tab-pane label="媒体素材" name="media_material">
                 <span>
                     媒体素材
-                </span>
-            </el-tab-pane> -->
+                </span> -->
+            </el-tab-pane>
         </el-tabs>
 
         <template #footer>
@@ -468,13 +474,18 @@ const matListFunc = async () => {
         category: searchParames.category,
         status: searchParames.status,
         create_date: searchParames.create_date,
+        page_no: currentPage.value,
+        page_limit: pageSize.value,
     }
     try {
-        const res: any = await queryCommonMaterial(param);
+        const res = await queryCommonMaterial(param);
         console.log("matListFunc----->", res);
 
         if (res.state === 1) {
             videos.value = res.data.list;
+            currentPage.value = Number(res.data.page_info.cur_page);
+            pageSize.value = Number(res.data.page_info.page_limit);
+            total.value = Number(res.data.page_info.total);
         }
     } catch (error) {
         console.error("matListFunc error----->", error);
@@ -491,6 +502,23 @@ const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
         emtis("handleDialogClose", { type: 1, form: res.data });
     }
 };
+
+// 分页
+const currentPage = ref(1);
+const pageSize = ref(20);
+const total = ref(0);
+
+const handleSizeChange = () => {
+    console.log(pageSize.value)
+    matListFunc();
+}
+
+const handleCurrentChange = () => {
+    console.log(currentPage.value);
+    matListFunc();
+}
+
+
 
 
 watchEffect(() => {
