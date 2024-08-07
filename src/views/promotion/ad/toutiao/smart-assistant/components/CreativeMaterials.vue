@@ -3,7 +3,7 @@ import { ref, reactive, watchEffect } from "vue";
 import Drawer from "@/components/Drawer.vue";
 import CreateMaterial from "./CreativeMaterial.vue";
 import { ICreativeMaterials } from "@/api/modules/promotion";
-// import MaterialSelector from "./MaterialSelector.vue";
+import MaterialSelector from "./MaterialSelector.vue";
 
 interface IProps {
     visible: boolean;
@@ -125,9 +125,57 @@ const handleUpdateState = (component: {
 };
 
 
-// 批量创建
-const batchCreation = () => {
-    console.log('创建项目')
+// 选择素材组件
+const MaterialSelectorState = reactive({
+    visible: false,
+    category: 1,
+    multiple: true
+})
+
+const handleMaterialSelectorDialogShow = () => {
+    MaterialSelectorState.visible = true;
+}
+
+
+
+function chunkArray<T>(array: T[], chunkSize: number): T[][] {
+    const chunks: T[][] = [];
+
+    for (let i = 0; i < array.length; i += chunkSize) {
+        chunks.push(array.slice(i, i + chunkSize));
+    }
+
+    return chunks;
+}
+
+
+
+const handleMaterialSelectorDialog = (options: {
+    type: number,
+    form: any
+}) => {
+
+    console.log(options)
+
+    const chunkComponent = chunkArray<string>(options.form, video.value)
+    const CreateMaterialLength = chunkComponent.length;
+    console.log(CreateMaterialLength)
+
+    // 清空默认值
+    components.value = [];
+    chunkComponent.forEach((item: any, index) => {
+        components.value.push(
+            {
+                id: index + 1,
+                video: video.value,
+                image: image.value,
+                graphics: graphics.value,
+                videoInfo: item,
+            }
+        )
+    })
+
+    MaterialSelectorState.visible = false;
 }
 
 </script>
@@ -183,12 +231,17 @@ const batchCreation = () => {
                     <div>
                         <el-button link>清空</el-button>
                         <el-button type="primary" plain>一键测新</el-button>
-                        <el-popover placement="bottom" title="Title" :width="200" trigger="hover">
-                            <template #reference>
-                                <el-button @click="batchCreation" class="m-2">批量创建</el-button>
+                        <el-dropdown class="ml-8px">
+                            <el-button @click="handleMaterialSelectorDialogShow" type="primary">
+                                批量添加素材<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                            </el-button>
+                            <template #dropdown>
+                                <el-dropdown-menu>
+                                    <el-dropdown-item
+                                        @click="handleMaterialSelectorDialogShow">添加本地素材</el-dropdown-item>
+                                </el-dropdown-menu>
                             </template>
-
-                        </el-popover>
+                        </el-dropdown>
                     </div>
                 </div>
 
@@ -211,4 +264,8 @@ const batchCreation = () => {
             </el-scrollbar>
         </main>
     </Drawer>
+
+    <MaterialSelector :visible="MaterialSelectorState.visible" :category="MaterialSelectorState.category"
+        :multiple="MaterialSelectorState.multiple" @handleDialogClose="handleMaterialSelectorDialog">
+    </MaterialSelector>
 </template>

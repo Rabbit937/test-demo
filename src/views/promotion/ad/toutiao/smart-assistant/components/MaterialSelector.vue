@@ -104,7 +104,8 @@
                         </div>
                     </div> -->
                 <el-scrollbar height="320px" class="!bg-[#f0f2f5] p-16px">
-                    <el-checkbox-group v-if="videos.length > 0" v-model="selectedVideos" v-loading="loading" :max="1">
+                    <el-checkbox-group v-if="videos.length > 0" v-model="selectedVideos" v-loading="loading"
+                        :max="dialogState.multiple ? 10000 : 1">
                         <div class=" bg-[#f0f2f5] min-h-150px  flex flex-wrap p-2px">
                             <div class="w-216px position-relative mb-8px mr-8px font-size-12px cursor-pointer bg-[#fff] border-radius-3px checkbox-item"
                                 v-for="video in videos" :key="video.id">
@@ -224,7 +225,7 @@
         <template #footer>
             <div class="dialog-footer">
                 <el-button class="w-120px" @click="handleDialogClose(0)">取消</el-button>
-                <el-button type="primary" @click="handleDialogClose(1)" class="w-120px">
+                <el-button :loading="confirmLoading" type="primary" @click="handleDialogClose(1)" class="w-120px">
                     确认
                 </el-button>
             </div>
@@ -249,16 +250,20 @@ import { ElMessage } from "element-plus";
 interface IProps {
     visible: boolean;
     title?: string;
+    width?: number;
     category: number;
+    multiple?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {});
 const emtis = defineEmits(["handleDialogClose"]);
 
-const dialogState = reactive({
+const dialogState = reactive<IProps>({
     title: props.title,
     visible: false,
     width: 1200,
+    multiple: false,
+    category: 1
 });
 
 
@@ -494,12 +499,16 @@ const matListFunc = async () => {
     }
 };
 
+const confirmLoading = ref(false)
+
 // 确认之后上传到媒体接口
 const uploadMaterial2MediaFunc = async (params: IUploadMaterial2Media) => {
+    confirmLoading.value = true;
     const res = await uploadMaterial2Media(params);
     if (res.state === 1) {
         selectedVideos.value = [];
         emtis("handleDialogClose", { type: 1, form: res.data });
+        confirmLoading.value = false;
     }
 };
 
@@ -523,6 +532,7 @@ const handleCurrentChange = () => {
 
 watchEffect(() => {
     dialogState.visible = props.visible;
+    dialogState.multiple = props.multiple;
     searchParames.category = props.category;
 });
 
